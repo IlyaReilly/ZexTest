@@ -1,0 +1,23 @@
+{
+  "name": "automationtesting",
+  "version": "1.0.0",
+  "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/zextras/automationtesting.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://bitbucket.org/zextras/automationtesting/issues"
+  },
+  "homepage": "https://bitbucket.org/zextras/automationtesting#readme",
+  "dependencies": {
+    "cypress": "^9.5.0"
+  }
+}
