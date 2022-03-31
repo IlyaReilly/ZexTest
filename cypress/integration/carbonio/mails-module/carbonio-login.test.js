@@ -1,4 +1,4 @@
-const { baseUrl, username, password } = Cypress.env();
+const { baseUrl } = Cypress.env();
 const {
     mailSelector,
     calendarSelector,
@@ -12,57 +12,97 @@ const {
     draftSelector
 } = require('../../../fixtures/dexters/selectors');
 
-describe('VMs test', () => {
-    beforeEach(() => {
-        cy.visit('/static/login').as('getLoginPage');
-        cy.get('#input-0').type(username);
-        cy.get('#password-0').type(password);
-        cy.get('[role=button]').click();
+describe('Carbonio tests', () => {
+    before(() => {
+        cy.dexterLogin();
+        cy.visit('/carbonio/');
     });
 
-    describe('app view', () => {
-        it('log in successfully', () => {
+    beforeEach(() => {
+        Cypress.Cookies.preserveOnce('ZM_AUTH_TOKEN')
+    });
+
+    describe('it renders app correctly', () => {
+        it('it renders default route', () => {
             cy.url().should('contain', '/carbonio');
             cy.url().should('eq', `${baseUrl}/carbonio/mails/folder/2`);
-        })
-        describe('it renders primary bar', () => {
-            it('renders all the Dexter apps', () => {
-                cy.get(mailSelector).should('be.visible')
-                cy.get(calendarSelector).should('be.visible')
-                cy.get(contactsSelector).should('be.visible')
-                cy.get(searchSelector).should('be.visible')
-                cy.get(settingsSelector).should('be.visible')
-            })
-            it('mail module is selected', () => {
-                cy.get(mailSelector)
+        });
+
+        it('it renders apps in primary bar', () => {
+            cy.get(mailSelector)
+                .should('have.attr', 'data-isselected', 'true')
                 .should('be.visible')
                 .should('exist')
-                .should('have.css', 'cursor', 'pointer').should('have.css', 'width', '24px')
+                .should('have.css', 'cursor', 'pointer')
+                .should('have.css', 'width', '24px')
                 .should('have.css', 'height', '24px')
-                .should('have.css', 'display', 'block')
-                .should('have.css', 'color', 'rgb(43, 115, 210)')
-            })
-            it('all other modules are not selected', () => {
-                cy.get(calendarSelector).should('be.visible').should('have.css', 'color', 'rgb(51, 51, 51)')
-                cy.get(contactsSelector).should('be.visible').should('have.css', 'color', 'rgb(51, 51, 51)')
-                cy.get(searchSelector).should('be.visible').should('have.css', 'color', 'rgb(51, 51, 51)')
-                cy.get(settingsSelector).should('be.visible').should('have.css', 'color', 'rgb(51, 51, 51)')
+
+            cy.get(calendarSelector)
+                .should('have.attr', 'data-isselected', 'false')
+                .should('be.visible')
+                .should('exist')
+                .should('have.css', 'cursor', 'pointer')
+                .should('have.css', 'width', '24px')
+                .should('have.css', 'height', '24px')
+
+            cy.get(contactsSelector)
+                .should('have.attr', 'data-isselected', 'false')
+                .should('be.visible')
+                .should('exist')
+                .should('have.css', 'cursor', 'pointer')
+                .should('have.css', 'width', '24px')
+                .should('have.css', 'height', '24px')
+
+            cy.get(searchSelector).should('be.visible')
+                .should('have.attr', 'data-isselected', 'false')
+                .should('be.visible')
+                .should('exist')
+                .should('have.css', 'cursor', 'pointer')
+                .should('have.css', 'width', '24px')
+                .should('have.css', 'height', '24px')
+
+            cy.get(settingsSelector)
+                .should('have.attr', 'data-isselected', 'false')
+                .should('be.visible')
+                .should('exist')
+                .should('have.css', 'cursor', 'pointer')
+                .should('have.css', 'width', '24px')
+                .should('have.css', 'height', '24px')
+        });
+
+        it('it renders secondary bar with standard folders', () => {
+            cy.get(inboxSelector).should('be.visible').should('exist');
+            cy.get(trashSelector).should('be.visible').should('exist');
+            cy.get(spamSelector).should('be.visible').should('exist');
+            cy.get(sentSelector).should('be.visible').should('exist');
+            cy.get(draftSelector).should('be.visible').should('exist');
+            cy.get('[data-testid="share-label"]').should('exist');
+            cy.get('[data-testid="find-shares-button"]').should('exist');
+            cy.get('[data-testid="find-shares-button"]').should('not.be.visible');
+        });
+
+        it('it renders the inbox conversation or message list', () => {
+            cy.get('[data-testid="list-wrapper"]').then((res) => {
+                if (res.find('[data-testid="conversation-list-2"]').length > 0) {
+                    cy.get('[data-testid="conversation-list-2"]')
+                        .should('be.visible')
+                        .should('exist')
+                }
+                else {
+                    cy.get('[data-testid="message-list-2"]')
+                        .should('be.visible')
+                        .should('exist')
+                }
             })
         });
 
-        describe('it renders secondary bar', () => {
-            it('renders all the system folders', () => {
-                expect(cy.get(inboxSelector)).to.exist;
-                expect(cy.get(trashSelector)).to.exist;
-                expect(cy.get(spamSelector)).to.exist;
-                expect(cy.get(sentSelector)).to.exist;
-                expect(cy.get(draftSelector)).to.exist;
-                expect(cy.get('[data-testid="share-label"]')).to.exist;
-                expect(cy.get('[data-testid="find-shares-button"]')).to.exist;
-                cy.get('[data-testid="find-shares-button"]').should('not.be.visible')
-            })
+        it('it renders the third panel with selection interactive', () => {
+            cy.get('[data-testid="third-panel"]')
+                .should('be.visible')
+                .should('exist')
+            cy.get('[data-testid="selection-interactive')
+                .should('be.visible')
+                .should('exist')
         });
     });
-
-
-})
+});

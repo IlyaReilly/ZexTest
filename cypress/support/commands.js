@@ -23,3 +23,9 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('dexterLogin', () => {
+    cy.visit('/static/login').as('getLoginPage');
+    cy.get('#input-0').type(Cypress.env('username'));
+    cy.get('#password-0').type(Cypress.env('password'));
+    cy.get('[role=button]').click();
+});
