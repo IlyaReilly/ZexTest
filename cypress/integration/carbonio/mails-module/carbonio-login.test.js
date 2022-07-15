@@ -12,6 +12,7 @@ const {
     draftSelector
 } = require('../../../fixtures/dexters/selectors');
 
+// Test
 describe('Carbonio tests', () => {
     before(() => {
         cy.dexterLogin();
