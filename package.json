@@ -1,23 +1,23 @@
 {
-  "name": "automationtesting",
+  "name": "ttro_playwright",
   "version": "1.0.0",
-  "description": "**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx cypress open"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/zextras/automationtesting.git"
+    "test": "npx playwright test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://bitbucket.org/zextras/automationtesting/issues"
+  "devDependencies": {
+    "@playwright/test": "^1.22.2",
+    "@types/node": "^18.0.3",
+    "allure-playwright": "^2.0.0-beta.17",
+    "lighthouse": "^9.6.3",
+    "playwright": "^1.23.1",
+    "playwright-lighthouse": "^2.2.2"
   },
-  "homepage": "https://bitbucket.org/zextras/automationtesting#readme",
   "dependencies": {
-    "cypress": "^9.5.0"
+    "twitter-api-sdk": "^1.1.0"
   }
 }

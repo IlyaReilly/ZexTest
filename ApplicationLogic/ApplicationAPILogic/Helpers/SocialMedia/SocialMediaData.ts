@@ -1,0 +1,1 @@
+export const socialMediaData = JSON.parse(JSON.stringify(require('../../../../TestData/SocialMediaData.json')));
