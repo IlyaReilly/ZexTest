@@ -1,0 +1,20 @@
+{
+    "baseURL": 
+    {
+        "QA":"https://tse-m01b.demo.zextras.io/"
+    },
+    "users":
+    {
+        "andrei1":
+        {
+            "login": "andrei1@demo.zextras.io",
+            "password": "assext1"
+        },
+        "andrei2":
+        {
+            "login": "andrei2@demo.zextras.io",
+            "password": "assext2"
+        }
+    },
+    "storageState": "./storageState.json"
+}

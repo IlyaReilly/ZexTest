@@ -35,7 +35,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   
   // Use global setup for single login
-  globalSetup: require.resolve('./global-setup'),
+  //globalSetup: require.resolve('./global-setup'),
   use: {
     // Allpy storageState
     //storageState: './storageState.json',
@@ -58,69 +58,68 @@ const config: PlaywrightTestConfig<MyCredentials> = {
       use: {
         ...devices['Desktop Chrome'],
         // We can change enviroments via running special project
-        baseURL: playwrightProjectsData.baseURL.UAT,
+        baseURL: playwrightProjectsData.baseURL.QA,
         // Ability to add variables to tests
-        login: playwrightProjectsData.users.bobTesting01.login,
-        password: playwrightProjectsData.users.bobTesting01.password,
-        loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
+        login: playwrightProjectsData.users.andrei1.login,
+        password: playwrightProjectsData.users.andrei1.password,
         storageState: playwrightProjectsData.storageState,
       },
-    },
-    {
-      name: 'Mobile Safari',
-      use: {
-        ...devices['iPad Pro 11'],
-        baseURL: playwrightProjectsData.baseURL.UAT,
-        login: playwrightProjectsData.users.bobTesting01.login,
-        password: playwrightProjectsData.users.bobTesting01.password,
-        loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-        storageState: playwrightProjectsData.storageState,
-      },
-    },
-    {
-      name: 'Mobile Safari',
-      use: {
-        ...devices['iPhone 11'],
-        baseURL: playwrightProjectsData.baseURL.UAT,
-        login: playwrightProjectsData.users.bobTesting01.login,
-        password: playwrightProjectsData.users.bobTesting01.password,
-        loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-        storageState: playwrightProjectsData.storageState,
-      },
-    },
-    {
-      name: 'Mobile Chrome',
-      use: {
-        ...devices['Galaxy S9+'],
-        baseURL: playwrightProjectsData.baseURL.UAT,
-        login: playwrightProjectsData.users.bobTesting01.login,
-        password: playwrightProjectsData.users.bobTesting01.password,
-        loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-        storageState: playwrightProjectsData.storageState,
-      },
-    },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        baseURL: playwrightProjectsData.baseURL.UAT,
-        login: playwrightProjectsData.users.bobTesting01.login,
-        password: playwrightProjectsData.users.bobTesting01.password,
-        loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-        storageState: playwrightProjectsData.storageState,
-      },
-    },
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-        baseURL: playwrightProjectsData.baseURL.UAT,
-        login: playwrightProjectsData.users.bobTesting01.login,
-        password: playwrightProjectsData.users.bobTesting01.password,
-        loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-        storageState: playwrightProjectsData.storageState,
-      },
-    },
+     },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: {
+    //     ...devices['iPad Pro 11'],
+    //     baseURL: playwrightProjectsData.baseURL.UAT,
+    //     login: playwrightProjectsData.users.bobTesting01.login,
+    //     password: playwrightProjectsData.users.bobTesting01.password,
+    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
+    //     storageState: playwrightProjectsData.storageState,
+    //   },
+    // },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: {
+    //     ...devices['iPhone 11'],
+    //     baseURL: playwrightProjectsData.baseURL.UAT,
+    //     login: playwrightProjectsData.users.bobTesting01.login,
+    //     password: playwrightProjectsData.users.bobTesting01.password,
+    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
+    //     storageState: playwrightProjectsData.storageState,
+    //   },
+    // },
+    // {
+    //   name: 'Mobile Chrome',
+    //   use: {
+    //     ...devices['Galaxy S9+'],
+    //     baseURL: playwrightProjectsData.baseURL.UAT,
+    //     login: playwrightProjectsData.users.bobTesting01.login,
+    //     password: playwrightProjectsData.users.bobTesting01.password,
+    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
+    //     storageState: playwrightProjectsData.storageState,
+    //   },
+    // },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     baseURL: playwrightProjectsData.baseURL.UAT,
+    //     login: playwrightProjectsData.users.bobTesting01.login,
+    //     password: playwrightProjectsData.users.bobTesting01.password,
+    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
+    //     storageState: playwrightProjectsData.storageState,
+    //   },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //     baseURL: playwrightProjectsData.baseURL.UAT,
+    //     login: playwrightProjectsData.users.bobTesting01.login,
+    //     password: playwrightProjectsData.users.bobTesting01.password,
+    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
+    //     storageState: playwrightProjectsData.storageState,
+    //   },
+    // },
 
     /* Test against mobile viewports. */
     // {
