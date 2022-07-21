@@ -14,7 +14,7 @@ import { MyCredentials, playwrightProjectsData} from './TestsLogic/UITests/BaseT
 const config: PlaywrightTestConfig<MyCredentials> = {
   testDir: './TestsLogic',
   /* Maximum time one test can run for. */
-  timeout: 100 * 1000,
+  timeout: 50 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -35,7 +35,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   
   // Use global setup for single login
-  //globalSetup: require.resolve('./global-setup'),
+  globalSetup: require.resolve('./global-setup'),
   use: {
     // Allpy storageState
     //storageState: './storageState.json',
@@ -60,8 +60,8 @@ const config: PlaywrightTestConfig<MyCredentials> = {
         // We can change enviroments via running special project
         baseURL: playwrightProjectsData.baseURL.QA,
         // Ability to add variables to tests
-        login: playwrightProjectsData.users.andrei1.login,
-        password: playwrightProjectsData.users.andrei1.password,
+        login: playwrightProjectsData.users.test0.login,
+        password: playwrightProjectsData.users.test0.password,
         storageState: playwrightProjectsData.storageState,
       },
      },

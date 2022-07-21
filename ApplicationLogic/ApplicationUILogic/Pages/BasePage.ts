@@ -1,5 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
+
+export const sideSecondaryDefaultBarLocator = '.fvPkpI';
 
 export class BasePage {
     readonly page: Page;
