@@ -6,7 +6,8 @@ export class MailsList extends BasePage {
     };
 
     Elements = {
-        Mail: this.Containers.MainContainer.locator('.bfkNFy')
+        Mail: this.Containers.MainContainer.locator('.bfkNFy'),
+        Header: this.Containers.MainContainer.locator('.hsyKgr'),
     };
 
     constructor(page){

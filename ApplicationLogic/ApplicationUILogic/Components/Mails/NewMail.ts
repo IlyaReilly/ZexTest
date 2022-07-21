@@ -1,8 +1,10 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class NewMail extends BasePage {
+    MainContainerLocator = '.gOhlMI';
+
     Containers = {
-        MainContainer: this.page.locator('.gOhlMI'),
+        MainContainer: this.page.locator(this.MainContainerLocator),
     };
 
     mailBodyIframe = this.page.frameLocator('.tox-edit-area__iframe');
@@ -23,6 +25,7 @@ export class NewMail extends BasePage {
     }
 
     async SendMail(to, subject, body){
+        await this.TextBox.To.click();
         await this.TextBox.To.type(to);
         await this.TextBox.Subject.click();
         await this.TextBox.Subject.type(subject);

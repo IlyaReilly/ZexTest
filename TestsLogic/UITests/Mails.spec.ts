@@ -45,6 +45,8 @@ test.describe('Mails tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.NewEmail);
     await newMail.SendMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
+    const elementHandle = await page.$(newMail.MainContainerLocator);
+    await elementHandle?.waitForElementState("hidden");
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
     await expect(mailsList.Elements.Mail.locator(`"${mailSubject}"`)).toBeVisible();
   });

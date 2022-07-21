@@ -14,7 +14,7 @@ import { MyCredentials, playwrightProjectsData} from './TestsLogic/UITests/BaseT
 const config: PlaywrightTestConfig<MyCredentials> = {
   testDir: './TestsLogic',
   /* Maximum time one test can run for. */
-  timeout: 50 * 1000,
+  timeout: 30 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
