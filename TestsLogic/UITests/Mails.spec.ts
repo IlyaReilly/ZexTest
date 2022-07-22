@@ -1,5 +1,6 @@
 import { expect, Page } from '@playwright/test';
-import { test, pageManager, playwrightProjectsData } from './BaseTest';
+import { test, pageManager, playwrightProjectsData,  } from './BaseTest';
+import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Mails tests', async () => {
 
@@ -45,7 +46,7 @@ test.describe('Mails tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.NewEmail);
     await newMail.SendMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
-    const elementHandle = await page.$(newMail.MainContainerLocator);
+    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState("hidden");
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
     await expect(mailsList.Elements.Mail.locator(`"${mailSubject}"`)).toBeVisible();

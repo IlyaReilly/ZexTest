@@ -1,8 +1,8 @@
-import {BasePage, sideSecondaryDefaultBarLocator} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class SideSecondaryMailMenu extends BasePage {
     Containers = {
-        MainContainer: this.page.locator(sideSecondaryDefaultBarLocator),
+        MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     };
 
     Buttons = {
@@ -22,7 +22,7 @@ export class SideSecondaryMailMenu extends BasePage {
     }
 
     async OpenMailFolder(folder){
-        if (!(await this.page.isVisible(`${sideSecondaryDefaultBarLocator} >> text=Inbox`)))
+        if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`)))
         { 
             await this.Buttons.OpenHideMailFolders.click();
         }

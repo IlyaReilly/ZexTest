@@ -1,7 +1,12 @@
 import { expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
-export const sideSecondaryDefaultBarLocator = '.fvPkpI';
+export const InheritedFields = {
+  SideSecondaryDefaultBarLocator: '.fvPkpI',
+  NewItemDefaultContainerLocator: '.gOhlMI',
+  NewItemBodyIframeLocator: '.tox-edit-area__iframe',
+  NewItemBodyLocator: '.mce-content-body'
+}
 
 export class BasePage {
     readonly page: Page;

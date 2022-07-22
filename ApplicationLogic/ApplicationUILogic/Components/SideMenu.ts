@@ -10,7 +10,7 @@ export class SideMenu extends BasePage {
 
     SideMenuTabs = {
         Mail: this.Containers.MainContainer.locator('div > [data-testid*="MailModOutline"]'),
-        Calendar: this.Containers.MainContainer.locator('div > data-testid*="CalendarModOutline"]'),
+        Calendar: this.Containers.MainContainer.locator('div > [data-testid*="CalendarModOutline"]'),
         Contacts: this.Containers.MainContainer.locator('div > [data-testid*="ContactsModOutline"]'),
         Chats: this.Containers.MainContainer.locator('div > [data-testid*="TeamOutline"]'),
         Files: this.Containers.MainContainer.locator('div > [data-testid*="DriveOutline"]'),

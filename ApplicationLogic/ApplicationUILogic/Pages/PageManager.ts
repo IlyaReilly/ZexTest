@@ -1,8 +1,10 @@
 import {LoginPage} from './LoginPage';
 import { HeaderMenu } from '../Components/HeaderMenu';
 import { NewMail } from '../Components/Mails/NewMail';
+import { NewAppointment } from '../Components/Calendars/NewAppointment';
 import { SideMenu } from '../Components/SideMenu';
 import { SideSecondaryMailMenu } from '../Components/Mails/SideSecondaryMailMenu';
+import { SideSecondaryCalendarMenu } from '../Components/Calendars/SideSecondaryCalendarMenu';
 import { MailsList } from '../Components/Mails/MailsList';
 
 export class PageManager {
@@ -19,12 +21,21 @@ export class PageManager {
         return await new NewMail(page);
     }
 
+    async getNewAppointmentComponent(page){
+        return await new NewAppointment(page);
+    }
+
+
     async getSideMenuComponent(page){
         return await new SideMenu(page);
     }
 
     async getSideSecondaryMailMenuComponent(page){
         return await new SideSecondaryMailMenu(page);
+    }
+
+    async getSideSecondaryCalendarMenuComponent(page){
+        return await new SideSecondaryCalendarMenu(page);
     }
 
     async getMailsListComponent(page){

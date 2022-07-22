@@ -1,6 +1,6 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
-export class NewMail extends BasePage {
+export class NewAppointment extends BasePage {
     Containers = {
         MainContainer: this.page.locator(InheritedFields.NewItemDefaultContainerLocator),
     };
@@ -13,8 +13,9 @@ export class NewMail extends BasePage {
     };
 
     TextBox = {
-        To: this.Containers.MainContainer.locator('.jgQFDI'),
-        Subject: this.Containers.MainContainer.locator('.ewHyMN'),
+        EventTitle: this.Containers.MainContainer.locator('[name="Event title"]'),
+        Location: this.Containers.MainContainer.locator('[name="Location"]'),
+        Attendees: this.Containers.MainContainer.locator('div:text("Attendees")'),
         Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
     };
 
@@ -22,13 +23,10 @@ export class NewMail extends BasePage {
         super(page);
     }
 
-    async SendMail(to, subject, body){
-        await this.TextBox.To.click();
-        await this.TextBox.To.type(to);
-        await this.TextBox.To.locator(`"${to}"`).waitFor();
-        await this.TextBox.Subject.click();
-        await this.TextBox.Subject.type(subject);
-        await this.Containers.MainContainer.locator(`"${subject}"`).waitFor();
+    async SendAppointment(title, body){
+        await this.TextBox.EventTitle.fill(title);
+        await this.TextBox.Attendees.click();
+        await this.TextBox.Attendees.type('2');
         await this.TextBox.Body.click();
         await this.TextBox.Body.type(body);
         await this.TextBox.Body.locator(`"${body}"`).waitFor();

@@ -10,6 +10,7 @@ export class HeaderMenu extends BasePage {
     Buttons = {
         UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
         NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
+        NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
     };
 
     UserMenu = {
