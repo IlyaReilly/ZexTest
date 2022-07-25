@@ -43,13 +43,45 @@ test.describe('Mails tests', async () => {
     await expect(sideSecondaryMailMenu.Containers.MainContainer.locator(`"${playwrightProjectsData.users.test0.login}"`)).toBeVisible();
   });
 
-  test('Send mail. Mail appears in the sent chapter.', async ({request}) => {
+  test('Send mail. Mail appears in the sent chapter.', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await headerMenu.Buttons.NewItem.click();
-    await newMail.SendMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
+    await newMail.CreateNewMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
+    await newMail.SendMail();
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState("hidden");
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
     await expect(mailsList.Elements.Mail.locator(`"${mailSubject}"`)).toBeVisible();
   });
+
+  test('Draft mail. Mail appears in the draft chapter.', async ({}) => {
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
+    await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.NewEmail);
+    await newMail.CreateNewMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
+    await newMail.SaveMail();
+    await newMail.CloseNewMail();
+    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    await elementHandle?.waitForElementState("hidden");
+    await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
+    await newMail.OpenDraftMail();
+    await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+  });
+
+  test('Trash mail. Mail appears in the trash chapter', async ({}) => {
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
+    await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.NewEmail);
+    await newMail.CreateNewMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
+    await newMail.SaveMail();
+    await newMail.CloseNewMail();
+    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    await elementHandle?.waitForElementState("hidden");
+    await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
+    await newMail.OpenDraftMail();
+    await newMail.DeleteDraft();
+    await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Trash);
+    await newMail.OpenTrashMail();
+    await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+    
+  });
+
 });

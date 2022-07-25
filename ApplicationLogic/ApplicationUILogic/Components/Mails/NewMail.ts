@@ -10,7 +10,8 @@ export class NewMail extends BasePage {
     Buttons = {
         Send: this.Containers.MainContainer.locator('"SEND"'),
         Save: this.Containers.MainContainer.locator('"SAVE"'),
-        CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])')
+        CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
+        DeleteIcon: this.page.locator('.gbqcnY:has([data-testid="icon: Trash2Outline"])'),
     };
 
     TextBox = {
@@ -19,11 +20,16 @@ export class NewMail extends BasePage {
         Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
     };
 
+    Mail = {
+        Draft: this.page.locator('//div[@data-testid="message-list-6"]/div[@tabindex="0"]'),
+        Trash: this.page.locator('//div[@data-testid="conversation-list-3"]/div[@tabindex="0"]'),
+    }
+
     constructor(page){
         super(page);
     }
 
-    async SendMail(to, subject, body){
+    async CreateNewMail(to, subject, body) {
         await this.TextBox.To.click();
         await this.TextBox.To.type(to);
         await this.TextBox.To.locator(`"${to}"`).waitFor();
@@ -33,6 +39,31 @@ export class NewMail extends BasePage {
         await this.TextBox.Body.click();
         await this.TextBox.Body.type(body);
         await this.TextBox.Body.locator(`"${body}"`).waitFor();
+    }
+
+    async SendMail() {
         await this.Buttons.Send.click();
     }
+
+    async SaveMail() {        
+        await this.Buttons.Save.click();
+    }
+
+    async CloseNewMail() {
+        await this.Buttons.CloseCross.click();
+    }
+
+    async OpenDraftMail() {
+        await this.Mail.Draft.click();
+    }
+
+    async DeleteDraft() {
+        await this.Buttons.DeleteIcon.click();
+    }
+
+    async OpenTrashMail() {
+        await this.Mail.Trash.click();
+    }
+
+
 }
