@@ -37,6 +37,10 @@ const config: PlaywrightTestConfig<MyCredentials> = {
   // Use global setup for single login
   globalSetup: require.resolve('./global-setup'),
   use: {
+    extraHTTPHeaders: {
+      // We set this header per GitHub guidelines.
+      'content-type': 'application/json',
+    },
     // Allpy storageState
     //storageState: './storageState.json',
     headless: process.env.CI ? true : false, 

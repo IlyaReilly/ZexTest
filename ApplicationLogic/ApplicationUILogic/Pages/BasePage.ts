@@ -1,5 +1,4 @@
-import { expect } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export const InheritedFields = {
   SideSecondaryDefaultBarLocator: '.fvPkpI',
@@ -18,4 +17,4 @@ export class BasePage {
         if(!!pageLocator)
         expect(this.page.isVisible(this.pageLocator)).toBeTruthy;
       }
-    }
+}

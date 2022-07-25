@@ -10,6 +10,7 @@ export class NewMail extends BasePage {
     Buttons = {
         Send: this.Containers.MainContainer.locator('"SEND"'),
         Save: this.Containers.MainContainer.locator('"SAVE"'),
+        CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])')
     };
 
     TextBox = {

@@ -1,6 +1,7 @@
 import { expect, Page } from '@playwright/test';
 import { test, pageManager, playwrightProjectsData,  } from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
+import {GetAccessToken} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
 
 test.describe('Mails tests', async () => {
 
@@ -42,9 +43,9 @@ test.describe('Mails tests', async () => {
     await expect(sideSecondaryMailMenu.Containers.MainContainer.locator(`"${playwrightProjectsData.users.test0.login}"`)).toBeVisible();
   });
 
-  test('Send mail. Mail appears in the sent chapter.', async ({}) => {
+  test('Send mail. Mail appears in the sent chapter.', async ({request}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
-    await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.NewEmail);
+    await headerMenu.Buttons.NewItem.click();
     await newMail.SendMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState("hidden");

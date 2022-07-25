@@ -1,5 +1,6 @@
 import { expect, Page } from '@playwright/test';
 import { test, pageManager, playwrightProjectsData } from './BaseTest';
+import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Calendars tests', async () => {
 
@@ -13,6 +14,7 @@ test.describe('Calendars tests', async () => {
   let sideMenu;
   let sideSecondaryCalendarMenu;
   let newAppointment;
+  let calendar;
 
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
@@ -20,6 +22,7 @@ test.describe('Calendars tests', async () => {
     headerMenu = await pageManager.getHeaderMenuComponent(page);
     sideMenu = await pageManager.getSideMenuComponent(page);
     newAppointment = await pageManager.getNewAppointmentComponent(page);
+    calendar = await pageManager.getCalendarComponent(page);
     sideSecondaryCalendarMenu = await pageManager.getSideSecondaryCalendarMenuComponent(page);
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
@@ -47,9 +50,8 @@ test.describe('Calendars tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Calendar);
     await headerMenu.Buttons.NewItem.click();
     await newAppointment.SendAppointment(appointmentTitle, appointmentBody);
-    // const elementHandle = await page.$(newMail.MainContainerLocator);
-    // await elementHandle?.waitForElementState("hidden");
-    // await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
-    // await expect(mailsList.Elements.Mail.locator(`"${mailSubject}"`)).toBeVisible();
+    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    await elementHandle?.waitForElementState("hidden");
+    await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toBeVisible();
   });
 });

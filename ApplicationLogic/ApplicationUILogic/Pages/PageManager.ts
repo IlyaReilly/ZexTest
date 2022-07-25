@@ -6,6 +6,7 @@ import { SideMenu } from '../Components/SideMenu';
 import { SideSecondaryMailMenu } from '../Components/Mails/SideSecondaryMailMenu';
 import { SideSecondaryCalendarMenu } from '../Components/Calendars/SideSecondaryCalendarMenu';
 import { MailsList } from '../Components/Mails/MailsList';
+import { Calendar } from '../Components/Calendars/Calendar';
 
 export class PageManager {
 
@@ -40,5 +41,9 @@ export class PageManager {
 
     async getMailsListComponent(page){
         return await new MailsList(page);
+    }
+
+    async getCalendarComponent(page){
+        return await new Calendar(page);
     }
 }
