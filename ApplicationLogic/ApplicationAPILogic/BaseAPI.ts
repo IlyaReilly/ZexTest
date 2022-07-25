@@ -5,7 +5,7 @@ export class BaseAPI {
     readonly request: Request;
     readonly pageLocator: string;
 
-    constructor(request : Request, pageLocator: string = '') {
+    constructor(request : Request) {
         this.request = request;
       }
 
@@ -17,15 +17,7 @@ export class BaseAPI {
         return cookies;
     }
 
-    // async GetAccessToken() {
-    //     if(!!accessToken){
-    //         var Request = await this.page.request.newContext();
-    //         accessToken = await this.page.post('zx/auth/v2/login', {
-    //         data: {
-    //                 body: '{"auth_method":"password","user":"test0@testautomation.local","password":"assext0"}',
-    //             }
-    //             });
-    //     }
-    //     return accessToken;
-    // }
+    async SetAccessCookies() {
+        this.request.headers()
+    }
 }

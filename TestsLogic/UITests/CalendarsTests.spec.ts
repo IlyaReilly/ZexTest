@@ -46,12 +46,12 @@ test.describe('Calendars tests', async () => {
     await expect(sideSecondaryCalendarMenu.Tabs.SharedCalendars, 'Shared Calendars tab should be presented').toBeVisible();
   });
 
-  test('Send mail. Mail appears in the sent chapter.', async ({}) => {
+  test('Create new appointment. New appoinrment is presented in calendar.', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Calendar);
     await headerMenu.Buttons.NewItem.click();
     await newAppointment.SendAppointment(appointmentTitle, appointmentBody);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState("hidden");
-    await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toBeVisible();
+    await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 });

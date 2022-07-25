@@ -43,11 +43,16 @@ test.describe('Mails tests', async () => {
     await expect(sideSecondaryMailMenu.Containers.MainContainer.locator(`"${playwrightProjectsData.users.test0.login}"`)).toBeVisible();
   });
 
-  test('Send mail. Mail appears in the sent chapter.', async ({}) => {
+  test('Send mail. Mail appears in the sent chapter.', async ({request}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
+<<<<<<< HEAD
     await headerMenu.Buttons.NewItem.click();
+    await newMail.SendMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
+=======
+    await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.NewEmail);
     await newMail.CreateNewMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
     await newMail.SendMail();
+>>>>>>> origin/testsForMail
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState("hidden");
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
@@ -56,7 +61,7 @@ test.describe('Mails tests', async () => {
 
   test('Draft mail. Mail appears in the draft chapter.', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
-    await headerMenu.Buttons.NewItem.click();
+    await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.NewEmail);
     await newMail.CreateNewMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
     await newMail.SaveMail();
     await newMail.CloseNewMail();
@@ -69,7 +74,7 @@ test.describe('Mails tests', async () => {
 
   test('Trash mail. Mail appears in the trash chapter', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
-    await headerMenu.Buttons.NewItem.click();
+    await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.NewEmail);
     await newMail.CreateNewMail(playwrightProjectsData.users.test1.login, mailSubject, mailBody);
     await newMail.SaveMail();
     await newMail.CloseNewMail();
