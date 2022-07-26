@@ -1,5 +1,6 @@
 import { test as base } from '@playwright/test';
-import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager'
+import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
+import {APIManager} from '../../ApplicationLogic/ApplicationAPILogic/APIManager';
 
 // Declare your options to type-check your configuration.
 export type MyCredentials = {
@@ -11,6 +12,8 @@ export type MyCredentials = {
 export const playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
 
 export const pageManager = new PageManager();
+
+export const apiManager = new APIManager();
 
 export const test = base.extend<MyCredentials>({
   // Define an option and provide a default value.
