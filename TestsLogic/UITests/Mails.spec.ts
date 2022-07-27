@@ -1,7 +1,6 @@
 import { expect, Page } from '@playwright/test';
-import { test, pageManager, playwrightProjectsData,  } from './BaseTest';
+import { test, pageManager, playwrightProjectsData, apiManager} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
-import {GetAccessToken} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
 
 test.describe('Mails tests', async () => {
 
@@ -15,7 +14,8 @@ test.describe('Mails tests', async () => {
   let sideMenu;
   let sideSecondaryMailMenu;
   let newMail;
-  let mailsList
+  let mailsList;
+  let mailsAPI;
 
   // Functions
   async function SendLetter() {
@@ -40,6 +40,7 @@ test.describe('Mails tests', async () => {
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
     await page.goto('/');
+    mailsAPI = await apiManager.getMailsAPI(page);
     headerMenu = await pageManager.getHeaderMenuComponent(page);
     sideMenu = await pageManager.getSideMenuComponent(page);
     newMail = await pageManager.getNewMailComponent(page);
@@ -72,7 +73,8 @@ test.describe('Mails tests', async () => {
   })
 
   test('Junk mail. Mail appears in the junk chapter', async({}) => {
-    await SendLetter();
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
+    await mailsAPI.SendMsgRequest(mailSubject, playwrightProjectsData.users.test0.login, playwrightProjectsData.users.test1.login, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Inbox);
     await newMail.RefreshPage();
     await newMail.OpenInboxMail();
@@ -83,7 +85,8 @@ test.describe('Mails tests', async () => {
   })
 
   test('Send mail. Mail appears in the sent chapter.', async ({}) => {
-    await SendLetter();
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
+    await mailsAPI.SendMsgRequest(mailSubject, playwrightProjectsData.users.test0.login, playwrightProjectsData.users.test1.login, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
     await expect(mailsList.Elements.Mail.locator(`"${mailSubject}"`)).toBeVisible();
   });
@@ -96,7 +99,8 @@ test.describe('Mails tests', async () => {
   });
 
   test('Trash mail. Mail appears in the trash chapter', async ({}) => {
-    await MakeDraft();
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
+    await mailsAPI.SaveDraftRequest(mailSubject, playwrightProjectsData.users.test0.login, playwrightProjectsData.users.test1.login, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
     await newMail.OpenDraftMail();
     await newMail.DeleteDraft();

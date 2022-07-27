@@ -1,12 +1,17 @@
-import { expect, Request } from '@playwright/test';
+import { Page } from '@playwright/test';
 
 export class BaseAPI {
-    readonly accessToken;
-    readonly request: Request;
-    readonly pageLocator: string;
+    readonly page: Page;
+    readonly soapServiceUrl = 'service/soap/';
 
-    constructor(request : Request) {
-        this.request = request;
+    // Endpoints
+    readonly searchRequest = 'SearchRequest';
+    readonly convActionRequest = 'ConvActionRequest';
+    readonly saveDraftRequest = 'SaveDraftRequest';
+    readonly sendMsgRequest = 'SendMsgRequest';
+
+    constructor(page : Page) {
+        this.page = page;
       }
 
       async GetAccessCookies() {
@@ -15,9 +20,5 @@ export class BaseAPI {
         + storageState.cookies[1].name + "=" + storageState.cookies[1].value + '; ' 
         + storageState.cookies[2].name + "=" + storageState.cookies[2].value + ';';
         return cookies;
-    }
-
-    async SetAccessCookies() {
-        this.request.headers()
     }
 }

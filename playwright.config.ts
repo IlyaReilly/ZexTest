@@ -39,7 +39,6 @@ const config: PlaywrightTestConfig<MyCredentials> = {
   use: {
     extraHTTPHeaders: {
       // We set this header per GitHub guidelines.
-      'content-type': 'application/json',
     },
     // Allpy storageState
     //storageState: './storageState.json',
