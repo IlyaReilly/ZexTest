@@ -9,6 +9,7 @@ export class MailsList extends BasePage {
         Mail: this.Containers.MainContainer.locator('.bfkNFy'),
         Header: this.Containers.MainContainer.locator('.hsyKgr'),
         LetterSubject: this.page.locator('.jalknq '),
+        NotificationBlock: this.page.locator('.bcBnwD '),
     };
 
     constructor(page){

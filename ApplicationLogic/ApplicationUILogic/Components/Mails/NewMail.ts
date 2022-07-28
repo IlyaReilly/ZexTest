@@ -12,6 +12,8 @@ export class NewMail extends BasePage {
         Save: this.Containers.MainContainer.locator('"SAVE"'),
         CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
         DeleteIcon: this.page.locator('.gbqcnY:has([data-testid="icon: Trash2Outline"])'),
+        SpreadOptions: this.page.locator('.JzynG:has([data-testid="icon: MoreVertical"])'),
+        Spam: this.page.locator('"Mark as spam"'),
     };
 
     TextBox = {
@@ -21,6 +23,8 @@ export class NewMail extends BasePage {
     };
 
     Mail = {
+        Inbox: this.page.locator('//div[@data-testid="conversation-list-2"]/div[@tabindex="0"]'),
+        Junk: this.page.locator('//div[@data-testid="conversation-list-4"]/div[@tabindex="0"]'),
         Draft: this.page.locator('//div[@data-testid="message-list-6"]/div[@tabindex="0"]'),
         Trash: this.page.locator('//div[@data-testid="conversation-list-3"]/div[@tabindex="0"]'),
     }
@@ -65,5 +69,21 @@ export class NewMail extends BasePage {
         await this.Mail.Trash.click();
     }
 
+    async OpenInboxMail() {
+        await this.Mail.Inbox.click();
+    }
+
+    async RefreshPage() {
+        await this.page.reload({timeout :3000});
+    }
+
+    async MarkAsSpam() {
+        await this.Buttons.SpreadOptions.click();
+        await this.Buttons.Spam.click();
+    }
+
+    async OpenJunkMail() {
+        await this.Mail.Junk.click();
+    }
 
 }
