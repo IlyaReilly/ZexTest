@@ -8,6 +8,7 @@ test.describe('Calendars tests', async () => {
   let dateTimePrefix;
   let appointmentTitle;
   let appointmentBody;
+  let runtimeAppoinmentId = '';
 
   // Components
   let headerMenu;
@@ -15,7 +16,6 @@ test.describe('Calendars tests', async () => {
   let sideSecondaryCalendarMenu;
   let newAppointment;
   let calendar;
-  let user = playwrightProjectsData.users.test0.login;
   let calendarAPI;
 
   test.beforeAll(async ({ browser }) => {
@@ -36,9 +36,10 @@ test.describe('Calendars tests', async () => {
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
   });
 
-  test.afterEach(async() => {
-    var id = await calendarAPI.CalendarSearchQuery(appointmentTitle, user);
-    await calendarAPI.ItemActionRequest(calendarAPI.ActionRequestTypes.delete, id, user);
+  test.afterEach(async({login}) => {
+    await calendarAPI.ItemActionRequest(calendarAPI.ActionRequestTypes.delete, runtimeAppoinmentId, login);
+    var id = await calendarAPI.CalendarSearchQuery(appointmentTitle, login);
+    await calendarAPI.ItemActionRequest(calendarAPI.ActionRequestTypes.delete, id, login);
   });
   
   test.afterAll(async () => {
@@ -63,11 +64,13 @@ test.describe('Calendars tests', async () => {
     await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
-  test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({}) => {
-    await calendarAPI.CreateAppointmentRequest(
-      appointmentTitle, user, "3", appointmentBody);
+  test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({login}) => {
+    runtimeAppoinmentId = await calendarAPI.CreateAppointmentRequest(appointmentTitle, login, "3", appointmentBody);
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Calendar);
+    await sideSecondaryCalendarMenu.CalendarSelecting.Select();
     await calendar.MoveAppointmentToTrash(appointmentTitle);
+    await sideSecondaryCalendarMenu.CalendarSelecting.Unselect();
+    await sideSecondaryCalendarMenu.TrashSelecting.Select();
     await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 });

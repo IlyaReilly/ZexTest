@@ -1,8 +1,10 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class SideSecondaryCalendarMenu extends BasePage {
+    readonly sideSecondaryDefaultBarLocator = InheritedFields.SideSecondaryDefaultBarLocator;
+
     Containers = {
-        MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
+        MainContainer: this.page.locator(this.sideSecondaryDefaultBarLocator),
     };
 
     Tabs = {
@@ -13,8 +15,41 @@ export class SideSecondaryCalendarMenu extends BasePage {
         SharedCalendars: this.Containers.MainContainer.locator('"Shared Calendars"'),
     };
 
+    Icons = {
+        CalendarUnchecked: this.Containers.MainContainer.locator('[data-name="calendar"]'),
+        TrashUnchecked: this.Containers.MainContainer.locator('[data-name="trash-2"]')
+    };
+
+    Locators = {
+        CalendarUnchecked: '[data-name="calendar"]',
+        TrashUnchecked: '[data-name="trash-2"]'
+    }
+
     constructor(page){
         super(page);
+    }
+
+
+    TrashSelecting = {
+        Select: async () => {
+            if(await this.page.$(this.sideSecondaryDefaultBarLocator + ' ' + this.Locators.TrashUnchecked))
+            await this.Tabs.Trash.click();
+        },
+        Unselect: async () => {
+            if(!(await this.page.$(this.sideSecondaryDefaultBarLocator + ' ' + this.Locators.TrashUnchecked)))
+            await this.Tabs.Trash.click();
+        },
+    }
+
+    CalendarSelecting = {
+        Select: async () => {
+            if(await this.page.$(this.sideSecondaryDefaultBarLocator + ' ' + this.Locators.CalendarUnchecked))
+            await this.Tabs.Calendar.click();
+        },
+        Unselect: async () => {
+            if(!(await this.page.$(this.sideSecondaryDefaultBarLocator + ' ' + this.Locators.CalendarUnchecked)))
+            await this.Tabs.Calendar.click();
+        },
     }
 
     async OpenAllCalendars(){
@@ -23,10 +58,6 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
     async OpenCalendar(){
         await this.Tabs.Calendar.click();
-    }
-
-    async OpenTrash(){
-        await this.Tabs.Trash.click();
     }
 
     async OpenTags(){
