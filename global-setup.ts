@@ -1,4 +1,4 @@
-import { chromium, FullConfig, expect } from '@playwright/test';
+import { chromium, FullConfig } from '@playwright/test';
 import { pageManager } from './TestsLogic/UITests/BaseTest';
 
 async function globalSetup(config: FullConfig) {

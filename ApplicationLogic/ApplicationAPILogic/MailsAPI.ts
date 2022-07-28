@@ -1,4 +1,3 @@
-import { Page } from '@playwright/test';
 import { BaseAPI } from './BaseAPI'; 
 
 export class MailsAPI extends BaseAPI {
@@ -7,10 +6,17 @@ export class MailsAPI extends BaseAPI {
         super(page);
     }
 
-    async GetMailIdBySearchQuery(query: string) {
+    async MailSearchQuery(query: string, user: string) {
         var response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
             data: {
-              Body:{"SearchRequest":{"fullConversation":1,"limit":100,"query":query,"offset":0,"sortBy":"dateDesc","types":"conversation","_jsns":"urn:zimbraMail"}},"Header":{"context":{"_jsns":"urn:zimbra","notify":{"seq":10},"session":{"id":"1797","_content":"1797"},"account":{"by":"name","_content":"test0@testautomation.local"},"userAgent":{"name":"CarbonioWebClient - Chrome 103.0.0.0 (Windows)","version":"22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}}
+              Body:{"SearchRequest":{"fullConversation":1,"limit":100,
+              "query":query,"offset":0,"sortBy":"dateDesc","types":"conversation",
+              "_jsns":"urn:zimbraMail"}},
+              "Header":{"context":{"_jsns":"urn:zimbra","notify":{"seq":10},
+              "session":{"id":"1797","_content":"1797"},
+              "account":{"by":"name","_content":user},
+              "userAgent":{"name":"CarbonioWebClient - Chrome 103.0.0.0 (Windows)",
+              "version":"22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}}
             }
           })
           var body = JSON.parse((await response.body()).toString());
@@ -21,7 +27,13 @@ export class MailsAPI extends BaseAPI {
     async MoveToTrashById(id: string) {
         await this.page.request.post(`${this.soapServiceUrl}${this.convActionRequest}`, {
             data: {
-              Body:{"ConvActionRequest":{"_jsns":"urn:zimbraMail","action":{"id":id,"op":"trash"}}},"Header":{"context":{"_jsns":"urn:zimbra","notify":{"seq":4},"session":{"id":"1971","_content":"1971"},"account":{"by":"name","_content":"test0@testautomation.local"},"userAgent":{"name":"CarbonioWebClient - Chrome 103.0.0.0 (Windows)","version":"22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}}
+              Body:{"ConvActionRequest":{"_jsns":"urn:zimbraMail",
+              "action":{"id":id,"op":"trash"}}},
+              "Header":{"context":{"_jsns":"urn:zimbra","notify":{"seq":4},
+              "session":{"id":"1971","_content":"1971"},
+              "account":{"by":"name","_content":"test0@testautomation.local"},
+              "userAgent":{"name":"CarbonioWebClient - Chrome 103.0.0.0 (Windows)",
+              "version":"22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}}
             }
           })
     }

@@ -14,6 +14,11 @@
         {
             "login": "test1@testautomation.local",
             "password": "assext1"
+        },
+        "test2":
+        {
+            "login": "test2@testautomation.local",
+            "password": "assext2"
         }
     },
     "storageState": "./storageState.json"

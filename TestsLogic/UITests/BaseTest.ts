@@ -6,7 +6,6 @@ import {APIManager} from '../../ApplicationLogic/ApplicationAPILogic/APIManager'
 export type MyCredentials = {
   login: string;
   password: string;
-  loginWelcomMessage: string;
 };
 
 export const playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
@@ -20,7 +19,6 @@ export const test = base.extend<MyCredentials>({
   // We can later override it in the config.
   login: ['Login', { option: true }],
   password: ['Password', { option: true }],
-  loginWelcomMessage: ['LoginWelcomMessage', { option: true }],
 
     page: async ({ page }, use) => {
         await page.goto('/');

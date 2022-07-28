@@ -15,6 +15,7 @@ test.describe('Mails tests', async () => {
   let sideSecondaryMailMenu;
   let newMail;
   let mailsList;
+
   let mailsAPI;
 
   test.beforeAll(async ({ browser }) => {
@@ -26,13 +27,13 @@ test.describe('Mails tests', async () => {
     newMail = await pageManager.getNewMailComponent(page);
     sideSecondaryMailMenu = await pageManager.getSideSecondaryMailMenuComponent(page);
     mailsList = await pageManager.getMailsListComponent(page);
-    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    mailSubject = dateTimePrefix + ' Autotest Mail Subject';
-    mailBody = dateTimePrefix + ' Autotest Mail Body';
   });
 
   test.beforeEach(async () => {
     await page.reload();
+    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
+    mailSubject = dateTimePrefix + ' Autotest Mail Subject';
+    mailBody = dateTimePrefix + ' Autotest Mail Body';
   });
   
   test.afterAll(async () => {

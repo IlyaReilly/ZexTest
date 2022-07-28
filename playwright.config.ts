@@ -63,8 +63,8 @@ const config: PlaywrightTestConfig<MyCredentials> = {
         // We can change enviroments via running special project
         baseURL: playwrightProjectsData.baseURL.QA,
         // Ability to add variables to tests
-        login: playwrightProjectsData.users.test0.login,
-        password: playwrightProjectsData.users.test0.password,
+        login: playwrightProjectsData.users.test2.login,
+        password: playwrightProjectsData.users.test2.password,
         storageState: playwrightProjectsData.storageState,
       },
      },
