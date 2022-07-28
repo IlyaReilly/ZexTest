@@ -7,6 +7,7 @@ export class MailsAPI extends BaseAPI {
     }
 
     async MailSearchQuery(query: string, user: string) {
+        var id = '';
         var response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
             data: {
               Body:{"SearchRequest":{"fullConversation":1,"limit":100,
@@ -20,7 +21,9 @@ export class MailsAPI extends BaseAPI {
             }
           })
           var body = JSON.parse((await response.body()).toString());
-          var id = body.Body.SearchResponse.c[0].id;
+        if(body.Body.SearchResponse.c){
+          id = body.Body.SearchResponse.c[0].id;
+        }
           return id;
     }
 

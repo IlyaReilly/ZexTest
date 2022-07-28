@@ -15,7 +15,7 @@ test.describe('Calendars tests', async () => {
   let sideSecondaryCalendarMenu;
   let newAppointment;
   let calendar;
-  let user = playwrightProjectsData.users.test2.login;
+  let user = playwrightProjectsData.users.test0.login;
   let calendarAPI;
 
   test.beforeAll(async ({ browser }) => {
