@@ -15,4 +15,8 @@ export class SideSecondaryContactsMenu extends BasePage {
     constructor(page) {
         super(page);
     }
+
+    async OpenContactsFolder(folder) {
+        await folder.click();
+    }
 }

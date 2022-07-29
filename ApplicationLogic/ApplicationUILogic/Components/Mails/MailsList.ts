@@ -34,22 +34,6 @@ export class MailsList extends BasePage {
         await letter.click();
     }
 
-    // async OpenDraftMail() {
-    //     await this.CurrentMail.Draft.click();
-    // }
-
-    // async OpenTrashMail() {
-    //     await this.CurrentMail.Trash.click();
-    // }
-
-    // async OpenInboxMail() {
-    //     await this.CurrentMail.Inbox.click();
-    // }
-
-    // async OpenJunkMail() {
-    //     await this.CurrentMail.Junk.click();
-    // }
-
     async DeleteDraft() {
         await this.EditMail.DeleteMail.click();
     }
@@ -58,6 +42,5 @@ export class MailsList extends BasePage {
         await this.EditMail.SpreadOptions.click();
         await this.EditMail.MarkAsSpam.click();
     }
-
 
 }
