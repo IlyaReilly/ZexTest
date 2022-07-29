@@ -68,7 +68,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
         storageState: playwrightProjectsData.storageState,
       },
      },
-    // {
+    //{
     //   name: 'Mobile Safari',
     //   use: {
     //     ...devices['iPad Pro 11'],
@@ -105,10 +105,8 @@ const config: PlaywrightTestConfig<MyCredentials> = {
     //   name: 'firefox',
     //   use: {
     //     ...devices['Desktop Firefox'],
-    //     baseURL: playwrightProjectsData.baseURL.UAT,
-    //     login: playwrightProjectsData.users.bobTesting01.login,
-    //     password: playwrightProjectsData.users.bobTesting01.password,
-    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
+    //     login: playwrightProjectsData.users.test0.login,
+    //     password: playwrightProjectsData.users.test0.password,
     //     storageState: playwrightProjectsData.storageState,
     //   },
     // },
