@@ -77,22 +77,22 @@ test.describe('Mails tests', async () => {
   test('Inbox mail. Mail appears in the inbox chapter', async ({}) => {
     await SendLetter();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Inbox);
-    await newMail.RefreshPage();
-    await newMail.OpenInboxMail();
+    await page.reload({timeout: 3000});
+    await mailsList.OpenLetter(mailsList.CurrentMail.Inbox);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();    
-  })
+  });
 
   test('Junk mail. Mail appears in the junk chapter', async({login}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SendMsgRequest(mailSubject, login, user2, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Inbox);
-    await newMail.RefreshPage();
-    await newMail.OpenInboxMail();
-    await newMail.MarkAsSpam();
+    await page.reload({timeout: 3000});
+    await mailsList.OpenLetter(mailsList.CurrentMail.Inbox);
+    await mailsList.MarkAsSpam();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Junk);
-    await newMail.OpenJunkMail();
+    await mailsList.OpenLetter(mailsList.CurrentMail.Junk);
     await expect(mailsList.Elements.NotificationBlock.locator(':has-text("You’ve marked this e-mail as Spam")')).toBeVisible(); 
-  })
+  });
 
   test('Send mail. Mail appears in the sent chapter.', async ({login}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
@@ -104,7 +104,7 @@ test.describe('Mails tests', async () => {
   test('Draft mail. Mail appears in the draft chapter.', async ({}) => {
     await MakeDraft();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
-    await newMail.OpenDraftMail();
+    await mailsList.OpenLetter(mailsList.CurrentMail.Draft);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
@@ -112,10 +112,10 @@ test.describe('Mails tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SaveDraftRequest(mailSubject, login, user2, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
-    await newMail.OpenDraftMail();
-    await newMail.DeleteDraft();
+    await mailsList.OpenLetter(mailsList.CurrentMail.Draft);
+    await mailsList.DeleteDraft();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Trash);
-    await newMail.OpenTrashMail();
+    await mailsList.OpenLetter(mailsList.CurrentMail.Trash);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
     
   });

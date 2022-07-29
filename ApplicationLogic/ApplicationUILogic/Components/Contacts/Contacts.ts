@@ -2,9 +2,12 @@ import { BasePage, InheritedFields  } from "../../Pages/BasePage";
 
 export class Contacts extends BasePage {
     Containers = {
-        Main: this.page.locator('.cPoMlt'),
-        Contacts: this.page.locator('.bXqaIg'),
+        MainContainer: this.page.locator('.cPoMlt'),
+        // ContactsContainer: this.page.locator('.bXqaIg'),
+        ContactsContainer: this.page.locator('.knclQe'),
     };
+
+
 
     constructor(page) {
         super(page);

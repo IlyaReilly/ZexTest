@@ -14,10 +14,11 @@ test.describe('Contacts tests', async () => {
   let newContact;
   let contacts;
 
-  function randomName() {
+
+  
+  let randomName = function () {
     return Math.random().toString(36).replace(/[^a-z]+/g, '');
   }
-
 
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
@@ -51,7 +52,18 @@ test.describe('Contacts tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Contacts);
     await headerMenu.Buttons.NewItem.click();
     await newContact.CreateNewContact(firstName, lastName, email);
-    await expect(contacts.Containers.Contacts.locator(`"${email}"`)).toBeVisible();
+    await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
+
+  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({}) => {
+    await 
+  })
+
+  test.only('Delete contact. Contact appears in trash chapter', async ({}) => {
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Contacts);
+    await headerMenu.Buttons.NewItem.click();
+    await newContact.CreateNewContact(firstName, lastName, email);
+    await page.click(contacts.Containers.ContactsContainer.locator(`"${email}"`));
+  })
 
 });
