@@ -52,6 +52,16 @@ export class SideSecondaryCalendarMenu extends BasePage {
         },
     }
 
+    async SelectOnlyTrash(){
+        await this.CalendarSelecting.Unselect();
+        await this.TrashSelecting.Select();
+    }
+    
+    async SelectOnlyCalendar(){
+        await this.TrashSelecting.Unselect();
+        await this.CalendarSelecting.Select();
+    }
+
     async OpenAllCalendars(){
         await this.Tabs.AllCalendars.click();
     }
