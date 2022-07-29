@@ -1,6 +1,8 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
-import { devices } from '@playwright/test';
-import { MyCredentials, playwrightProjectsData} from './TestsLogic/UITests/BaseTest';
+/* eslint eqeqeq: "off", curly: "error" */
+
+import type {PlaywrightTestConfig} from '@playwright/test';
+import {devices} from '@playwright/test';
+import {MyCredentials, playwrightProjectsData} from './TestsLogic/UITests/BaseTest';
 
 /**
  * Read environment variables from file.
@@ -20,7 +22,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 10000
+    timeout: 10000,
   },
   /* Run tests in files in parallel */
   fullyParallel: false,
@@ -33,7 +35,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  
+
   // Use global setup for single login
   globalSetup: require.resolve('./global-setup'),
   use: {
@@ -41,16 +43,16 @@ const config: PlaywrightTestConfig<MyCredentials> = {
       // We set this header per GitHub guidelines.
     },
     // Allpy storageState
-    //storageState: './storageState.json',
-    headless: process.env.CI ? true : false, 
+    // storageState: './storageState.json',
+    headless: process.env.CI ? true : false,
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    //baseURL: 'https://digitalboost.business.govt.nz/',
+    // baseURL: 'https://digitalboost.business.govt.nz/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
-    viewport: { width: 1280, height: 720 },
+    viewport: {width: 1280, height: 720},
     ignoreHTTPSErrors: true,
   },
 
@@ -67,7 +69,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
         password: playwrightProjectsData.users.test0.password,
         storageState: playwrightProjectsData.storageState,
       },
-     },
+    },
     // {
     //   name: 'Mobile Safari',
     //   use: {
