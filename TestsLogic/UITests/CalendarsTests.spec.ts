@@ -61,16 +61,16 @@ test.describe('Calendars tests', async () => {
     await newAppointment.SendAppointment(appointmentTitle, appointmentBody);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState("hidden");
+    await sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({login}) => {
     runtimeAppoinmentId = await calendarAPI.CreateAppointmentRequest(appointmentTitle, login, "3", appointmentBody);
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Calendar);
-    await sideSecondaryCalendarMenu.CalendarSelecting.Select();
+    await sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await calendar.MoveAppointmentToTrash(appointmentTitle);
-    await sideSecondaryCalendarMenu.CalendarSelecting.Unselect();
-    await sideSecondaryCalendarMenu.TrashSelecting.Select();
+    await sideSecondaryCalendarMenu.SelectOnlyTrash();
     await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 });
