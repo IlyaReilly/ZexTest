@@ -5,15 +5,15 @@ test.describe('Chats tests', async () => {
 
   let page: Page;
   let dateTimePrefix;
-  let appointmentTitle;
-  let appointmentBody;
+  let spaceTitle;
+  let spaceTopic;
   let runtimeAppoinmentId = '';
 
   // Components
   let headerMenu;
   let sideMenu;
   let sideSecondaryCalendarMenu;
-  let newAppointment;
+  let newChatsItem;
   let calendar;
   let calendarAPI;
 
@@ -23,7 +23,7 @@ test.describe('Chats tests', async () => {
     calendarAPI = await apiManager.getCalendarAPI(page);
     headerMenu = await pageManager.getHeaderMenuComponent(page);
     sideMenu = await pageManager.getSideMenuComponent(page);
-    newAppointment = await pageManager.getNewAppointmentComponent(page);
+    newChatsItem = await pageManager.getNewChatsItemComponent(page);
     calendar = await pageManager.getCalendarComponent(page);
     sideSecondaryCalendarMenu = await pageManager.getSideSecondaryCalendarMenuComponent(page);
   });
@@ -31,13 +31,13 @@ test.describe('Chats tests', async () => {
   test.beforeEach(async () => {
     await page.reload();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
-    appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
+    spaceTitle = dateTimePrefix + ' Autotest Space Title';
+    spaceTopic = dateTimePrefix + ' Autotest Space Topic';
   });
 
   test.afterEach(async({login}) => {
     await calendarAPI.ItemActionRequest(calendarAPI.ActionRequestTypes.delete, runtimeAppoinmentId, login);
-    var id = await calendarAPI.CalendarSearchQuery(appointmentTitle, login);
+    var id = await calendarAPI.CalendarSearchQuery(spaceTitle, login);
     await calendarAPI.ItemActionRequest(calendarAPI.ActionRequestTypes.delete, id, login);
   });
   
@@ -45,8 +45,9 @@ test.describe('Chats tests', async () => {
     await page.close();
   });
 
-  test('Open Calendars tab. All calendars tabs display.', async ({}) => {
+  test('Create space. Space should appear in spaces list.', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Chats);
     await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.CreateSpace);
+    await newChatsItem.CreateSpace(spaceTitle, );
   });
 });

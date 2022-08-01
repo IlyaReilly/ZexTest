@@ -10,17 +10,30 @@ export class NewChatsItem extends BasePage {
     };
 
     NewChatDialog = {
-        FilterTextBox :this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
+        UserFilterTextBox :this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
         UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
     }
 
     NewSpaceDialog = {
-        FilterTextBox :this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
-        UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
+        TopicTextbox :this.Containers.MainContainer.locator('[name="Topic"]'),
+        TitleTextbox :this.Containers.MainContainer.locator('[name="Title"]'),
+        UserFilterTextbox :this.Containers.MainContainer.locator('[name="Start typing to pick an address"]'),
+    }
+
+    Elements = {
+        UserInFilterList: this.Containers.MainContainer.locator('.fXXPYY ')
     }
 
     constructor(page){
         super(page);
+    }
+
+    async CreateSpace(title, topic, user){
+        await this.NewSpaceDialog.TitleTextbox.fill(title);
+        await this.NewSpaceDialog.TopicTextbox.fill(topic);
+        await this.NewSpaceDialog.UserFilterTextbox.fill(user);
+        await this.Elements.UserInFilterList.locator(`"{$user}"`).click();
+        await this.Buttons.Create.click();
     }
 
 }
