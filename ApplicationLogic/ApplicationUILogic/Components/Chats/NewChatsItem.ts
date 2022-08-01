@@ -11,6 +11,12 @@ export class NewChatsItem extends BasePage {
 
     NewChatDialog = {
         FilterTextBox :this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
+        UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
+    }
+
+    NewSpaceDialog = {
+        FilterTextBox :this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
+        UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
     }
 
     constructor(page){

@@ -37,6 +37,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
   // Use global setup for single login
   globalSetup: require.resolve('./global-setup'),
   use: {
+    //viewport: { height: 816, width: 1536 },
     extraHTTPHeaders: {
       // We set this header per GitHub guidelines.
     },
@@ -50,7 +51,6 @@ const config: PlaywrightTestConfig<MyCredentials> = {
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
-    viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
   },
 
@@ -60,6 +60,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
       name: 'ttrotestuser_digitalboost_chromium',
       use: {
         ...devices['Desktop Chrome'],
+        viewport: { height: 816, width: 1536 },
         // We can change enviroments via running special project
         baseURL: playwrightProjectsData.baseURL.QA,
         // Ability to add variables to tests

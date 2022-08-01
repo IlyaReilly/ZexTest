@@ -9,9 +9,7 @@ export type MyCredentials = {
 };
 
 export const playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
-
 export const pageManager = new PageManager();
-
 export const apiManager = new APIManager();
 
 export const test = base.extend<MyCredentials>({
