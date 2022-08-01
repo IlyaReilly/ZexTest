@@ -4,10 +4,14 @@ import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/B
 
 test.describe('Contacts tests', async () => {
   let page: Page;
+  let dateTimePrefix;
+  let mailSubject;
+  let mailBody;
   let firstName;
   let lastName;
   let email;
   let newMail;
+  let mailsAPI;
 
   // Components
   let headerMenu;
@@ -16,23 +20,10 @@ test.describe('Contacts tests', async () => {
   let newContact;
   let contacts;
 
-  // Functions
-  async function SendLetter() {
-    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
-    await headerMenu.Buttons.NewItem.click();
-    await newMail.CreateNewMail(email, "mailSubject", "mailBody");
-    await newMail.SendMail();
-    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
-    await elementHandle?.waitForElementState("hidden");
-  }
-
-  let randomName = function () {
-    return Math.random().toString(36).replace(/[^a-z]+/g, '');
-  }
-
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
     await page.goto('/');
+    mailsAPI = await apiManager.getMailsAPI(page);
     headerMenu = await pageManager.getHeaderMenuComponent(page);
     sideMenu = await pageManager.getSideMenuComponent(page);
     newMail = await pageManager.getNewMailComponent(page);
@@ -43,9 +34,14 @@ test.describe('Contacts tests', async () => {
 
   test.beforeEach(async () => {
     await page.reload();
-    firstName = randomName() + 'First Name';
-    lastName = randomName() + 'Last Name';
-    email = randomName() + '@test.com';
+    // firstName = randomName() + 'First Name';
+    // lastName = randomName() + 'Last Name';
+    // email = randomName() + '@test.com';
+    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
+    firstName = dateTimePrefix + 'FName'
+    email = dateTimePrefix + '@test.com';
+    mailSubject = dateTimePrefix + ' Autotest Mail Subject';
+    mailBody = dateTimePrefix + ' Autotest Mail Body';
   });
 
   test.afterAll(async () => {
@@ -66,10 +62,11 @@ test.describe('Contacts tests', async () => {
     await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
 
-  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({}) => {
-    await SendLetter();
+  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({login}) => {
+    await mailsAPI.SendMsgRequest(mailSubject, login, email, mailBody);
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Contacts);
     await sideSecondaryContactsMenu.OpenContactsFolder(sideSecondaryContactsMenu.Options.EmailedContacts);
     await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
+
 });

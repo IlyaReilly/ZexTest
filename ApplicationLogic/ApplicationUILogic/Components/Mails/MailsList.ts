@@ -3,6 +3,7 @@ import {BasePage} from '../../Pages/BasePage';
 export class MailsList extends BasePage {
     Containers = {
         MainContainer: this.page.locator('.kEvhgn'),
+        LettersContainer: this.page.locator('.knclQe'),
         MailDetailsContainer: this.page.locator('.dMQfkZ'),
     };
 
@@ -21,8 +22,8 @@ export class MailsList extends BasePage {
     }
 
     EditMail = {
-        DeleteMail: this.page.locator('.gbqcnY:has([data-testid="icon: Trash2Outline"])'),
-        SpreadOptions: this.page.locator('.JzynG:has([data-testid="icon: MoreVertical"])'),
+        DeleteMail: this.page.locator('.gbqcnY:has([data-testid*="Trash2Outline"])'),
+        SpreadOptions: this.page.locator('.JzynG:has([data-testid*="MoreVertical"])'),
         MarkAsSpam: this.page.locator('"Mark as spam"'),
     }
 

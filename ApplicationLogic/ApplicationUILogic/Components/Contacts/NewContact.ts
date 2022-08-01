@@ -22,11 +22,11 @@ export class NewContact extends BasePage {
 
     async CreateNewContact(firstName, lastName, email) {
         await this.Inputs.FirstName.click();
-        await this.Inputs.FirstName.type(firstName);
+        await this.Inputs.FirstName.fill(firstName);
         await this.Inputs.LastName.click();
-        await this.Inputs.LastName.type(lastName);
+        await this.Inputs.LastName.fill(lastName);
         await this.Inputs.Email.click();
-        await this.Inputs.Email.type(email);
+        await this.Inputs.Email.fill(email);
         await this.Buttons.Save.click();
     }
 
