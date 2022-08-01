@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test';
+import {test as base} from '@playwright/test';
 import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
 import {APIManager} from '../../ApplicationLogic/ApplicationAPILogic/APIManager';
 
@@ -17,11 +17,11 @@ export const apiManager = new APIManager();
 export const test = base.extend<MyCredentials>({
   // Define an option and provide a default value.
   // We can later override it in the config.
-  login: ['Login', { option: true }],
-  password: ['Password', { option: true }],
+  login: ['Login', {option: true}],
+  password: ['Password', {option: true}],
 
-    page: async ({ page }, use) => {
-        await page.goto('/');
-        await use(page);
-    }
-  });
+  page: async ({page}, use) => {
+    await page.goto('/');
+    await use(page);
+  },
+});
