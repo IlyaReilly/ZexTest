@@ -1,9 +1,8 @@
-import { expect, Page } from '@playwright/test';
-import { test, pageManager, playwrightProjectsData, apiManager } from './BaseTest';
+import {expect, Page} from '@playwright/test';
+import {test, pageManager, playwrightProjectsData, apiManager} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Calendars tests', async () => {
-
   let page: Page;
   let dateTimePrefix;
   let appointmentTitle;
@@ -18,7 +17,7 @@ test.describe('Calendars tests', async () => {
   let calendar;
   let calendarAPI;
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({browser}) => {
     page = await browser.newPage();
     await page.goto('/');
     calendarAPI = await apiManager.getCalendarAPI(page);
@@ -36,12 +35,12 @@ test.describe('Calendars tests', async () => {
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
   });
 
-  test.afterEach(async({login}) => {
+  test.afterEach(async ({login}) => {
     await calendarAPI.ItemActionRequest(calendarAPI.ActionRequestTypes.delete, runtimeAppoinmentId, login);
-    var id = await calendarAPI.CalendarSearchQuery(appointmentTitle, login);
+    const id = await calendarAPI.CalendarSearchQuery(appointmentTitle, login);
     await calendarAPI.ItemActionRequest(calendarAPI.ActionRequestTypes.delete, id, login);
   });
-  
+
   test.afterAll(async () => {
     await page.close();
   });
@@ -60,13 +59,13 @@ test.describe('Calendars tests', async () => {
     await headerMenu.Buttons.NewItem.click();
     await newAppointment.SendAppointment(appointmentTitle, appointmentBody);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
-    await elementHandle?.waitForElementState("hidden");
+    await elementHandle?.waitForElementState('hidden');
     await sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({login}) => {
-    runtimeAppoinmentId = await calendarAPI.CreateAppointmentRequest(appointmentTitle, login, "3", appointmentBody);
+    runtimeAppoinmentId = await calendarAPI.CreateAppointmentRequest(appointmentTitle, login, '3', appointmentBody);
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Calendar);
     await sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await calendar.MoveAppointmentToTrash(appointmentTitle);

@@ -1,51 +1,51 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class Calendar extends BasePage {
-    Containers = {
-        MainContainer: this.page.locator('.cPoMlt'),
-        AppointmentPopupContainer: this.page.locator('.gqODaH'),
-        OtherActionsContainer: this.page.locator('.izBNKP'),
-        PopupContainer: this.page.locator('.loeZsV'),
-    };
+  Containers = {
+    MainContainer: this.page.locator('.cPoMlt'),
+    AppointmentPopupContainer: this.page.locator('.gqODaH'),
+    OtherActionsContainer: this.page.locator('.izBNKP'),
+    PopupContainer: this.page.locator('.loeZsV'),
+  };
 
-    Elements = {
-        Appointment: this.Containers.MainContainer.locator('.jNpaYv'),
-    };
+  Elements = {
+    Appointment: this.Containers.MainContainer.locator('.jNpaYv'),
+  };
 
-    AppointmentPopup = {
-        EditButton: this.Containers.AppointmentPopupContainer.locator('"EDIT"'),
-        OtherActionsDropdown: this.Containers.AppointmentPopupContainer.locator('"OTHER ACTIONS"'),
-        OtherActionsDelete: this.Containers.OtherActionsContainer.locator('"Delete"'),
-        OtherActionsDeletePermanently: this.Containers.OtherActionsContainer.locator('"Delete permanently"'),
-        OtherActionsOpenInDisplayer: this.Containers.OtherActionsContainer.locator('"Open in Displayer"'),
-        OtherActionsTags: this.Containers.OtherActionsContainer.locator('"Tags"'),
-    };
+  AppointmentPopup = {
+    EditButton: this.Containers.AppointmentPopupContainer.locator('"EDIT"'),
+    OtherActionsDropdown: this.Containers.AppointmentPopupContainer.locator('"OTHER ACTIONS"'),
+    OtherActionsDelete: this.Containers.OtherActionsContainer.locator('"Delete"'),
+    OtherActionsDeletePermanently: this.Containers.OtherActionsContainer.locator('"Delete permanently"'),
+    OtherActionsOpenInDisplayer: this.Containers.OtherActionsContainer.locator('"Open in Displayer"'),
+    OtherActionsTags: this.Containers.OtherActionsContainer.locator('"Tags"'),
+  };
 
-    DeletePopups = {
-        EditMessageButton: this.Containers.PopupContainer.locator('"EDIT MESSAGE"'),
-        SendCancellationButton: this.Containers.PopupContainer.locator('"SEND CANCELLATION"'),
-        DeletePermanentlyButton: this.Containers.PopupContainer.locator('"DELETE PERMANENTLY"'),
-    }
- 
-    constructor(page){
-        super(page);
-    }
+  DeletePopups = {
+    EditMessageButton: this.Containers.PopupContainer.locator('"EDIT MESSAGE"'),
+    SendCancellationButton: this.Containers.PopupContainer.locator('"SEND CANCELLATION"'),
+    DeletePermanentlyButton: this.Containers.PopupContainer.locator('"DELETE PERMANENTLY"'),
+  };
 
-    async OpenAppointmentInfoPopup(appointmentTitle){
-        await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
-    }
+  constructor(page) {
+    super(page);
+  }
 
-    async MoveAppointmentToTrash(appointmentTitle){
-        await this.OpenAppointmentInfoPopup(appointmentTitle);
-        await this.AppointmentPopup.OtherActionsDropdown.click();
-        await this.AppointmentPopup.OtherActionsDelete.click();
-        await this.DeletePopups.SendCancellationButton.click();
-    }
+  async OpenAppointmentInfoPopup(appointmentTitle) {
+    await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
+  }
 
-    async DeleteAppointmentPermanently(appointmentTitle){
-        await this.OpenAppointmentInfoPopup(appointmentTitle);
-        await this.AppointmentPopup.OtherActionsDropdown.click();
-        await this.AppointmentPopup.OtherActionsDeletePermanently.click();
-        await this.DeletePopups.DeletePermanentlyButton.click();
-    }
+  async MoveAppointmentToTrash(appointmentTitle) {
+    await this.OpenAppointmentInfoPopup(appointmentTitle);
+    await this.AppointmentPopup.OtherActionsDropdown.click();
+    await this.AppointmentPopup.OtherActionsDelete.click();
+    await this.DeletePopups.SendCancellationButton.click();
+  }
+
+  async DeleteAppointmentPermanently(appointmentTitle) {
+    await this.OpenAppointmentInfoPopup(appointmentTitle);
+    await this.AppointmentPopup.OtherActionsDropdown.click();
+    await this.AppointmentPopup.OtherActionsDeletePermanently.click();
+    await this.DeletePopups.DeletePermanentlyButton.click();
+  }
 }
