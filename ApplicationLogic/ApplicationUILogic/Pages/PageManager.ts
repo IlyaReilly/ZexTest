@@ -1,4 +1,4 @@
-import {LoginPage} from './LoginPage';
+import { LoginPage } from './LoginPage';
 import { HeaderMenu } from '../Components/HeaderMenu';
 import { NewMail } from '../Components/Mails/NewMail';
 import { NewAppointment } from '../Components/Calendars/NewAppointment';
@@ -14,51 +14,50 @@ import { SideSecondaryChatsMenu } from '../Components/Chats/SideSecondaryChatsMe
 import { NewChatsItem } from '../Components/Chats/NewChatsItem';
 
 export class PageManager {
-    //#region Pages
-    async getLoginPage(page){
-        return await new LoginPage(page);
-    }
-    //#endregion
-    
+  //#region Pages
+  async getLoginPage(page) {
+    return await new LoginPage(page);
+  }
+  //#endregion
 
-    async getNewContactComponent(page) {
-        return await new NewContact(page);
-    }
+  async getNewContactComponent(page) {
+    return await new NewContact(page);
+  }
 
-    async getContactsComponent(page) {
-        return await new Contacts(page);
-    }
-    //#region Main Components
+  async getContactsComponent(page) {
+    return await new Contacts(page);
+  }
+  //#region Main Components
   async getHeaderMenuComponent(page) {
     return await new HeaderMenu(page);
   }
 
-    async getSideMenuComponent(page){
-        return await new SideMenu(page);
-    }
-    //#endregion
+  async getSideMenuComponent(page) {
+    return await new SideMenu(page);
+  }
+  //#endregion
 
-    //#region Mail Components
+  //#region Mail Components
   async getNewMailComponent(page) {
     return await new NewMail(page);
   }
 
-    async getSideSecondaryMailMenuComponent(page){
-        return await new SideSecondaryMailMenu(page);
+  async getSideSecondaryMailMenuComponent(page) {
+    return await new SideSecondaryMailMenu(page);
   }
 
-    async getSideSecondaryContactsMenuComponent(page){
-        return await new SideSecondaryContactsMenu (page);
-    }
-
-    async getMailsListComponent(page){
-        return await new MailsList(page);
+  async getSideSecondaryContactsMenuComponent(page) {
+    return await new SideSecondaryContactsMenu(page);
   }
-    //#endregion
 
-    //#region Calendar Components
-    async getNewAppointmentComponent(page){
-        return await new NewAppointment(page);
+  async getMailsListComponent(page) {
+    return await new MailsList(page);
+  }
+  //#endregion
+
+  //#region Calendar Components
+  async getNewAppointmentComponent(page) {
+    return await new NewAppointment(page);
   }
 
   async getSideSecondaryCalendarMenuComponent(page) {
@@ -68,15 +67,15 @@ export class PageManager {
   async getCalendarComponent(page) {
     return await new Calendar(page);
   }
-    //#endregion
+  //#endregion
 
-    //#region Calendar Components
-    async getNewChatsItemComponent(page){
-        return await new NewChatsItem(page);
-    }
+  //#region Calendar Components
+  async getNewChatsItemComponent(page) {
+    return await new NewChatsItem(page);
+  }
 
-    async getSideSecondaryChatsMenuComponent(page){
-        return await new SideSecondaryChatsMenu(page);
-    }
-    //#endregion
+  async getSideSecondaryChatsMenuComponent(page) {
+    return await new SideSecondaryChatsMenu(page);
+  }
+  //#endregion
 }

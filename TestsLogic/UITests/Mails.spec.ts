@@ -1,10 +1,9 @@
 import {expect, Page} from '@playwright/test';
-import {test, pageManager, playwrightProjectsData, apiManager} from './BaseTest';
+import {test, pageManager, playwrightProjectsData, apiManager, dateTimePrefix} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Mails tests', async () => {
   let page: Page;
-  let dateTimePrefix;
   let mailSubject;
   let mailBody;
   let user1;
@@ -16,7 +15,6 @@ test.describe('Mails tests', async () => {
   let sideSecondaryMailMenu;
   let newMail;
   let mailsList;
-
   let mailsAPI;
 
   // Functions
@@ -53,9 +51,8 @@ test.describe('Mails tests', async () => {
 
   test.beforeEach(async () => {
     await page.reload();
-    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    mailSubject = dateTimePrefix + ' Autotest Mail Subject';
-    mailBody = dateTimePrefix + ' Autotest Mail Body';
+    mailSubject = dateTimePrefix() + ' Autotest Mail Subject';
+    mailBody = dateTimePrefix() + ' Autotest Mail Body';
   });
 
   test.afterEach(async ({login}) => {
@@ -81,13 +78,12 @@ test.describe('Mails tests', async () => {
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();    
   });
 
-  test('Junk mail. Mail appears in the junk chapter', async({login}) => {
-    await mailsAPI.SendMsgRequest(mailSubject, login, user2, mailBody);
+    test('Junk mail. Mail appears in the junk chapter', async({login}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
-    await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Inbox);
+    await mailsAPI.SendMsgRequest(mailSubject, login, user1, mailBody);
+    await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
     await mailsList.Containers.LettersContainer.locator(`"${mailSubject}"`).click();
     await mailsList.MarkAsSpam();
-    await page.reload({timeout: 3000});
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Junk);
     await mailsList.Containers.LettersContainer.locator(`:nth-match(:text("${mailSubject}"),1)`).waitFor();
     await mailsList.Containers.LettersContainer.locator(`:nth-match(:text("${mailSubject}"),1)`).click();

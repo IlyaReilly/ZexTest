@@ -1,4 +1,4 @@
-import {BasePage, InheritedFields} from '../../Pages/BasePage';
+import { BasePage, InheritedFields } from '../../Pages/BasePage';
 
 export class NewMail extends BasePage {
   Containers = {
@@ -7,11 +7,11 @@ export class NewMail extends BasePage {
 
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
 
-    Buttons = {
-        Send: this.Containers.MainContainer.locator('"SEND"'),
-        Save: this.Containers.MainContainer.locator('"SAVE"'),
-        CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),    
-    };
+  Buttons = {
+    Send: this.Containers.MainContainer.locator('"SEND"'),
+    Save: this.Containers.MainContainer.locator('"SAVE"'),
+    CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
+  };
 
   TextBox = {
     To: this.Containers.MainContainer.locator('.jgQFDI'),
@@ -19,9 +19,9 @@ export class NewMail extends BasePage {
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
 
-    constructor(page){
-        super(page);
-    }
+  constructor(page) {
+    super(page);
+  }
 
   async CreateNewMail(to, subject, body) {
     await this.TextBox.To.click();
@@ -43,7 +43,7 @@ export class NewMail extends BasePage {
     await this.Buttons.Save.click();
   }
 
-    async CloseNewMail() {
-        await this.Buttons.CloseCross.click();
-    }
+  async CloseNewMail() {
+    await this.Buttons.CloseCross.click();
+  }
 }

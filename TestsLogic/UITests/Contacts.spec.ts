@@ -1,16 +1,13 @@
 import { expect, Page } from '@playwright/test';
-import { test, pageManager, playwrightProjectsData, apiManager } from './BaseTest';
-import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
+import { test, pageManager, apiManager, dateTimePrefix } from './BaseTest';
 
 test.describe('Contacts tests', async () => {
   let page: Page;
-  let dateTimePrefix;
   let mailSubject;
   let mailBody;
   let firstName;
   let lastName;
   let email;
-  let newMail;
   let mailsAPI;
 
   // Components
@@ -26,7 +23,6 @@ test.describe('Contacts tests', async () => {
     mailsAPI = await apiManager.getMailsAPI(page);
     headerMenu = await pageManager.getHeaderMenuComponent(page);
     sideMenu = await pageManager.getSideMenuComponent(page);
-    newMail = await pageManager.getNewMailComponent(page);
     newContact = await pageManager.getNewContactComponent(page);
     sideSecondaryContactsMenu = await pageManager.getSideSecondaryContactsMenuComponent(page);
     contacts = await pageManager.getContactsComponent(page);
@@ -34,14 +30,11 @@ test.describe('Contacts tests', async () => {
 
   test.beforeEach(async () => {
     await page.reload();
-    // firstName = randomName() + 'First Name';
-    // lastName = randomName() + 'Last Name';
-    // email = randomName() + '@test.com';
-    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    firstName = dateTimePrefix + 'FName'
-    email = dateTimePrefix + '@test.com';
-    mailSubject = dateTimePrefix + ' Autotest Mail Subject';
-    mailBody = dateTimePrefix + ' Autotest Mail Body';
+    firstName = dateTimePrefix() + 'FName';
+    lastName = dateTimePrefix() + 'LName';
+    email = dateTimePrefix() + '@test.com';
+    mailSubject = dateTimePrefix() + ' Autotest Mail Subject';
+    mailBody = dateTimePrefix() + ' Autotest Mail Body';
   });
 
   test.afterAll(async () => {
@@ -62,11 +55,10 @@ test.describe('Contacts tests', async () => {
     await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
 
-  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({login}) => {
+  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({ login }) => {
     await mailsAPI.SendMsgRequest(mailSubject, login, email, mailBody);
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Contacts);
     await sideSecondaryContactsMenu.OpenContactsFolder(sideSecondaryContactsMenu.Options.EmailedContacts);
     await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
-
 });
