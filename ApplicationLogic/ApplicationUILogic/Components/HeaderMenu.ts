@@ -53,4 +53,13 @@ export class HeaderMenu extends BasePage {
   }
 
   // upload file
+
+  async UploadNewFile(filePath) {
+    await this.Buttons.NewItemMenu.click();
+    const [fileChooser] = await Promise.all([
+      this.page.waitForEvent('filechooser'),
+      this.NewItemMenu.Upload.click(),
+    ]);
+    await fileChooser.setFiles(filePath);
+  }
 }
