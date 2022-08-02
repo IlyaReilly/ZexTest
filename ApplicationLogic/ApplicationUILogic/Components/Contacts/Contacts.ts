@@ -1,4 +1,4 @@
-import { BasePage, InheritedFields } from '../../Pages/BasePage';
+import { BasePage } from '../../Pages/BasePage';
 
 export class Contacts extends BasePage {
   Containers = {
@@ -7,7 +7,7 @@ export class Contacts extends BasePage {
   };
 
   EditContact = {
-    DeleteContact: this.page.locator('.fHbZO:has([data-testid*="Trash2Outline"])'),
+    DeleteContact: this.Containers.MainContainer.locator('.fHbZO .bOlfsx:has([data-testid*="Trash2Outline"])'),
   };
 
   constructor(page) {

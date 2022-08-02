@@ -61,4 +61,15 @@ test.describe('Contacts tests', async () => {
     await sideSecondaryContactsMenu.OpenContactsFolder(sideSecondaryContactsMenu.Options.EmailedContacts);
     await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
+
+  test('Delete contact. Contact appears in trash chapter', async ({}) => {
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Contacts);
+    await headerMenu.Buttons.NewItem.click();
+    await newContact.CreateNewContact(firstName, lastName, email);
+    await contacts.Containers.ContactsContainer.locator(`"${email}"`).click();
+    await contacts.DeleteContact();
+    await page.reload({timeout: 3000});
+    await sideSecondaryContactsMenu.OpenContactsFolder(sideSecondaryContactsMenu.Options.Trash);
+    await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
+  });
 });
