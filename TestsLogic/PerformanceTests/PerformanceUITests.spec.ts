@@ -1,6 +1,6 @@
-import { Page, chromium, expect } from '@playwright/test';
-import { playAudit } from 'playwright-lighthouse';
-import { test, pageManager } from '../UITests/BaseTest';
+import {Page, chromium, expect} from '@playwright/test';
+import {playAudit} from 'playwright-lighthouse';
+import {test, pageManager} from '../UITests/BaseTest';
 import lighthouseDesktopConfig from 'lighthouse/lighthouse-core/config/lr-desktop-config';
 
 
@@ -8,16 +8,16 @@ let page: Page;
 let homePage;
 const port = 9222;
 const thresholdsConfig = {
-  performance: 50,
-  accessibility: 50,
+  "performance": 50,
+  "accessibility": 50,
   'best-practices': 50,
-  seo: 50,
+  "seo": 50,
 };
 const lighthouseOptions = {
-  disableStorageReset: true
+  disableStorageReset: true,
 };
 
-async function LighthouseAudit(page, pageName){
+async function LighthouseAudit(page, pageName) {
   await playAudit({
     page: page,
     opts: lighthouseOptions,
@@ -28,17 +28,17 @@ async function LighthouseAudit(page, pageName){
       formats: {
         html: true,
       },
-      name: 'lighthouseReport' + pageName
-    }
+      name: 'lighthouseReport' + pageName,
+    },
   });
 }
-  
+
 test.beforeAll(async ({}) => {
-  const browser = await chromium.launchPersistentContext('.',{
+  const browser = await chromium.launchPersistentContext('.', {
     args: ['--remote-debugging-port=' + port],
   });
-  const cookies = require('fs').readFileSync('storageState.json', 'utf8')
-  const deserializedCookies = JSON.parse(cookies)
+  const cookies = require('fs').readFileSync('storageState.json', 'utf8');
+  const deserializedCookies = JSON.parse(cookies);
   browser.addCookies(deserializedCookies.cookies);
   page = await browser.newPage();
 });
@@ -46,13 +46,13 @@ test.beforeAll(async ({}) => {
 test.beforeEach(async () => {
   await page.goto('/');
 });
-  
+
 test.afterAll(async () => {
   await page.close();
 });
-  
+
 test.describe('Run Lighthouse in Main Pages', async () => {
-  
+
   // test('Lighthouse Home Page', async ({loginWelcomMessage}) => {
   //   homePage = await pageManager.getHomePage(page);
   //   await expect(homePage.Lable.NavigationMenuHeading).toContainText(loginWelcomMessage, {timeout: 20000});

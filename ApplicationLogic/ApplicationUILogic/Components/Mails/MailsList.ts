@@ -7,12 +7,12 @@ export class MailsList extends BasePage {
         MailDetailsContainer: this.page.locator('.dMQfkZ'),
     };
 
-    Elements = {
-        Mail: this.Containers.MainContainer.locator('.bfkNFy'),
-        Header: this.Containers.MainContainer.locator('.hsyKgr'),
-        LetterSubject: this.page.locator('.jalknq '),
-        NotificationBlock: this.page.locator('.bcBnwD '),
-    };
+  Elements = {
+    Mail: this.Containers.MainContainer.locator('.bfkNFy'),
+    Header: this.Containers.MainContainer.locator('.hsyKgr'),
+    LetterSubject: this.page.locator('.jalknq '),
+    NotificationBlock: this.page.locator('.bcBnwD '),
+  };
 
     CurrentMail = {
         Inbox: this.Containers.MainContainer.locator('[data-testid="conversation-list-2"] > [tabindex="0"]'),
