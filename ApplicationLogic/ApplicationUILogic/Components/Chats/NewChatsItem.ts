@@ -32,7 +32,6 @@ export class NewChatsItem extends BasePage {
         await this.NewSpaceDialog.TitleTextbox.fill(title);
         await this.NewSpaceDialog.TopicTextbox.fill(topic);
         await this.NewSpaceDialog.UserFilterTextbox.fill(user);
-        await this.Elements.UserInFilterList.locator(`"{$user}"`).click();
         await this.Buttons.Create.click();
     }
 

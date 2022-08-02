@@ -21,7 +21,17 @@ export class SideSecondaryChatsMenu extends BasePage {
         FilterChatsList: this.Containers.MainContainer.locator('[name="Filter chats list"]')
     }
 
+    Elements = {
+        ConversationsListItem : this.Containers.MainContainer.locator('.heROSq')
+    }
+
     constructor(page){
         super(page);
+    }
+
+    OpenTab = {
+        Chats: async () => await this.Tabs.Chats.click(),
+        Spaces: async () => await this.Tabs.Spaces.click(),
+        VirtualRooms: async () => await this.Tabs.VirtualRooms.click(),
     }
 }

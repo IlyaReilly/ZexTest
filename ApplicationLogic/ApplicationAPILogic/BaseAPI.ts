@@ -7,6 +7,7 @@ type ActionRequestTypes = {
 export class BaseAPI {
   readonly page: Page;
   readonly soapServiceUrl = 'service/soap/';
+  readonly apiServiceUrl = 'zx/team/v20/';
 
   // Endpoints
   readonly searchRequest = 'SearchRequest';
@@ -17,6 +18,9 @@ export class BaseAPI {
   readonly sendMsgRequest = 'SendMsgRequest';
   // Calendar
   readonly createAppointmentRequest = 'CreateAppointmentRequest';
+  // Chats
+  readonly getConversationsRequest = 'getConversations';
+  readonly deleteConversationRequest = 'deleteConversation';
 
   readonly ActionRequestTypes = {
     delete: 'delete',
@@ -33,4 +37,6 @@ export class BaseAPI {
       },
     });
   }
+
+
 }
