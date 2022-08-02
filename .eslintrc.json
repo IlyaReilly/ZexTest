@@ -19,6 +19,7 @@
         "indent": ["error", 2],
         "max-len": "off",
         "new-cap": "off",
-        "require-jsdoc": "off"
+        "require-jsdoc": "off",
+        "quotes": "off"
     }
 }

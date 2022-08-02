@@ -8,10 +8,10 @@ let page: Page;
 let homePage;
 const port = 9222;
 const thresholdsConfig = {
-  'performance': 50,
-  'accessibility': 50,
+  "performance": 50,
+  "accessibility": 50,
   'best-practices': 50,
-  'seo': 50,
+  "seo": 50,
 };
 const lighthouseOptions = {
   disableStorageReset: true,
