@@ -74,7 +74,7 @@ test.describe('Mails tests', async () => {
     await SendLetter();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Inbox);
     await page.reload({timeout: 3000});
-    await mailsList.Containers.LettersContainer.locator(`"${mailSubject}"`).click();
+    await mailsList.OpenMail(mailSubject);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();    
   });
 
@@ -82,11 +82,10 @@ test.describe('Mails tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SendMsgRequest(mailSubject, login, user1, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
-    await mailsList.Containers.LettersContainer.locator(`"${mailSubject}"`).click();
+    await mailsList.OpenMail(mailSubject);
     await mailsList.MarkAsSpam();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Junk);
-    await mailsList.Containers.LettersContainer.locator(`:nth-match(:text("${mailSubject}"),1)`).waitFor();
-    await mailsList.Containers.LettersContainer.locator(`:nth-match(:text("${mailSubject}"),1)`).click();
+    await mailsList.OpenMail(mailSubject);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();    
   });
 
@@ -100,7 +99,7 @@ test.describe('Mails tests', async () => {
   test('Draft mail. Mail appears in the draft chapter.', async ({}) => {
     await MakeDraft();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
-    await mailsList.Containers.LettersContainer.locator(`"${mailSubject}"`).click();
+    await mailsList.OpenMail(mailSubject);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
@@ -108,10 +107,10 @@ test.describe('Mails tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SaveDraftRequest(mailSubject, login, user1, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
-    await mailsList.Containers.LettersContainer.locator(`"${mailSubject}"`).click();
+    await mailsList.OpenMail(mailSubject);
     await mailsList.DeleteDraft();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Trash);
-    await mailsList.Containers.LettersContainer.locator(`"${mailSubject}"`).click();
+    await mailsList.OpenMail(mailSubject);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 });

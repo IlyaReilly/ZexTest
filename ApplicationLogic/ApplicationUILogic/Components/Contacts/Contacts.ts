@@ -1,4 +1,4 @@
-import { BasePage } from '../../Pages/BasePage';
+import {BasePage} from '../../Pages/BasePage';
 
 export class Contacts extends BasePage {
   Containers = {

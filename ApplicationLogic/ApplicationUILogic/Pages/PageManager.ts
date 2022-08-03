@@ -1,25 +1,26 @@
-import { LoginPage } from './LoginPage';
-import { HeaderMenu } from '../Components/HeaderMenu';
-import { NewMail } from '../Components/Mails/NewMail';
-import { NewAppointment } from '../Components/Calendars/NewAppointment';
-import { SideMenu } from '../Components/SideMenu';
-import { SideSecondaryMailMenu } from '../Components/Mails/SideSecondaryMailMenu';
-import { SideSecondaryCalendarMenu } from '../Components/Calendars/SideSecondaryCalendarMenu';
-import { SideSecondaryContactsMenu } from '../Components/Contacts/SideSecondaryContactsMenu';
-import { MailsList } from '../Components/Mails/MailsList';
-import { Calendar } from '../Components/Calendars/Calendar';
-import { NewContact } from '../Components/Contacts/NewContact';
-import { Contacts } from '../Components/Contacts/Contacts';
-import { SideSecondaryChatsMenu } from '../Components/Chats/SideSecondaryChatsMenu';
-import { NewChatsItem } from '../Components/Chats/NewChatsItem';
+import {LoginPage} from './LoginPage';
+import {HeaderMenu} from '../Components/HeaderMenu';
+import {NewMail} from '../Components/Mails/NewMail';
+import {NewAppointment} from '../Components/Calendars/NewAppointment';
+import {SideMenu} from '../Components/SideMenu';
+import {SideSecondaryMailMenu} from '../Components/Mails/SideSecondaryMailMenu';
+import {SideSecondaryCalendarMenu} from '../Components/Calendars/SideSecondaryCalendarMenu';
+import {SideSecondaryContactsMenu} from '../Components/Contacts/SideSecondaryContactsMenu';
+import {MailsList} from '../Components/Mails/MailsList';
+import {Calendar} from '../Components/Calendars/Calendar';
+import {NewContact} from '../Components/Contacts/NewContact';
+import {Contacts} from '../Components/Contacts/Contacts';
+import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
+import {NewChatsItem} from '../Components/Chats/NewChatsItem';
 
 export class PageManager {
-  //#region Pages
+  // #region Pages
   async getLoginPage(page) {
     return await new LoginPage(page);
   }
-  //#endregion
+  // #endregion
 
+  // #region Сontacts
   async getNewContactComponent(page) {
     return await new NewContact(page);
   }
@@ -27,7 +28,10 @@ export class PageManager {
   async getContactsComponent(page) {
     return await new Contacts(page);
   }
-  //#region Main Components
+
+  // #endregion
+
+  // #region Main Components
   async getHeaderMenuComponent(page) {
     return await new HeaderMenu(page);
   }
@@ -35,7 +39,7 @@ export class PageManager {
   async getSideMenuComponent(page) {
     return await new SideMenu(page);
   }
-  //#endregion
+  // #endregion
 
   //#region Mail Components
   async getNewMailComponent(page) {

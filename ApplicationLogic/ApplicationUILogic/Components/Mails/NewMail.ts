@@ -1,4 +1,4 @@
-import { BasePage, InheritedFields } from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class NewMail extends BasePage {
   Containers = {

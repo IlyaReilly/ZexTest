@@ -1,4 +1,4 @@
-import { BasePage } from '../../Pages/BasePage';
+import {BasePage} from '../../Pages/BasePage';
 
 export class MailsList extends BasePage {
   Containers = {
@@ -23,8 +23,8 @@ export class MailsList extends BasePage {
     super(page);
   }
 
-  async OpenLetter(letter) {
-    await letter.click();
+  async OpenMail(mailSubject) {
+    await this.Containers.LettersContainer.locator(`"${mailSubject}"`).click();
   }
 
   async DeleteDraft() {
