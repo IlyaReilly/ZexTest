@@ -23,6 +23,9 @@ export class BaseAPI {
   // Chats
   readonly getConversationsRequest = 'getConversations';
   readonly deleteConversationRequest = 'deleteConversation';
+  // Files
+  readonly getFilesRequest = 'services/files/graphql';
+  readonly deleteFileRequest = 'services/files/graphql';
 
   readonly ActionRequestTypes = {
     delete: 'delete',

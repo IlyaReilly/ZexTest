@@ -11,6 +11,7 @@ test.describe('Files tests', async () => {
   let filesList;
   let fileNameJpg;
   let fileNamePng;
+  let filesAPI;
 
   test.beforeAll(async ({browser}) => {
     page = await browser.newPage();
@@ -20,6 +21,7 @@ test.describe('Files tests', async () => {
     filesList = await pageManager.getFilesList(page);
     fileNameJpg = 'testFile2';
     fileNamePng = 'testFile';
+    filesAPI = await apiManager.getFilesAPI(page);
   });
 
   test.beforeEach(async () => {
@@ -28,6 +30,11 @@ test.describe('Files tests', async () => {
 
   test.afterAll(async () => {
     await page.close();
+  });
+
+  test.afterEach(async() => {
+    let fileId = await filesAPI.GetFileId();
+    await filesAPI.MoveFileToTrashById(fileId);
   });
 
   test('File with JPG extension can be uploaded', async ({}) => {
