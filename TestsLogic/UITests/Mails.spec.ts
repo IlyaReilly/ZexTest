@@ -1,10 +1,9 @@
 import {expect, Page} from '@playwright/test';
-import {test, pageManager, playwrightProjectsData, apiManager} from './BaseTest';
+import {test, pageManager, playwrightProjectsData, apiManager, dateTimePrefix} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Mails tests', async () => {
   let page: Page;
-  let dateTimePrefix;
   let mailSubject;
   let mailBody;
   let user1;
@@ -16,7 +15,6 @@ test.describe('Mails tests', async () => {
   let sideSecondaryMailMenu;
   let newMail;
   let mailsList;
-
   let mailsAPI;
 
   // Functions
@@ -53,9 +51,8 @@ test.describe('Mails tests', async () => {
 
   test.beforeEach(async () => {
     await page.reload();
-    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    mailSubject = dateTimePrefix + ' Autotest Mail Subject';
-    mailBody = dateTimePrefix + ' Autotest Mail Body';
+    mailSubject = dateTimePrefix() + ' Autotest Mail Subject';
+    mailBody = dateTimePrefix() + ' Autotest Mail Body';
   });
 
   test.afterEach(async ({login}) => {
@@ -76,21 +73,20 @@ test.describe('Mails tests', async () => {
   test('Inbox mail. Mail appears in the inbox chapter', async ({}) => {
     await SendLetter();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Inbox);
-    await newMail.RefreshPage();
-    await newMail.OpenInboxMail();
+    await page.reload({timeout: 3000});
+    await mailsList.OpenMail(mailSubject);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
   test('Junk mail. Mail appears in the junk chapter', async ({login}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SendMsgRequest(mailSubject, login, user1, mailBody);
-    await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Inbox);
-    await newMail.RefreshPage();
-    await newMail.OpenInboxMail();
-    await newMail.MarkAsSpam();
+    await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
+    await mailsList.OpenMail(mailSubject);
+    await mailsList.MarkAsSpam();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Junk);
-    await newMail.OpenJunkMail();
-    await expect(mailsList.Elements.NotificationBlock.locator(':has-text("You’ve marked this e-mail as Spam")')).toBeVisible();
+    await mailsList.OpenMail(mailSubject);
+    await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
   test('Send mail. Mail appears in the sent chapter.', async ({login}) => {
@@ -103,7 +99,7 @@ test.describe('Mails tests', async () => {
   test('Draft mail. Mail appears in the draft chapter.', async ({}) => {
     await MakeDraft();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
-    await newMail.OpenDraftMail();
+    await mailsList.OpenMail(mailSubject);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
@@ -111,10 +107,10 @@ test.describe('Mails tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SaveDraftRequest(mailSubject, login, user1, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
-    await newMail.OpenDraftMail();
-    await newMail.DeleteDraft();
+    await mailsList.OpenMail(mailSubject);
+    await mailsList.DeleteDraft();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Trash);
-    await newMail.OpenTrashMail();
+    await mailsList.OpenMail(mailSubject);
     await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 });

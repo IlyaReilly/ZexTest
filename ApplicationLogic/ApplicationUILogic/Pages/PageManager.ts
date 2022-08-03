@@ -5,8 +5,11 @@ import {NewAppointment} from '../Components/Calendars/NewAppointment';
 import {SideMenu} from '../Components/SideMenu';
 import {SideSecondaryMailMenu} from '../Components/Mails/SideSecondaryMailMenu';
 import {SideSecondaryCalendarMenu} from '../Components/Calendars/SideSecondaryCalendarMenu';
+import {SideSecondaryContactsMenu} from '../Components/Contacts/SideSecondaryContactsMenu';
 import {MailsList} from '../Components/Mails/MailsList';
 import {Calendar} from '../Components/Calendars/Calendar';
+import {NewContact} from '../Components/Contacts/NewContact';
+import {Contacts} from '../Components/Contacts/Contacts';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
 import {NewChatsItem} from '../Components/Chats/NewChatsItem';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
@@ -17,6 +20,21 @@ export class PageManager {
   async getLoginPage(page) {
     return await new LoginPage(page);
   }
+  // #endregion
+
+  // #region Сontacts
+  async getNewContactComponent(page) {
+    return await new NewContact(page);
+  }
+
+  async getContactsComponent(page) {
+    return await new Contacts(page);
+  }
+
+  async getSideSecondaryContactsMenuComponent(page) {
+    return await new SideSecondaryContactsMenu(page);
+  }
+
   // #endregion
 
   // #region Main Components
@@ -57,7 +75,7 @@ export class PageManager {
   }
   // #endregion
 
-  // #region Calendar Components
+  // #region Chats Components
   async getNewChatsItemComponent(page) {
     return await new NewChatsItem(page);
   }
