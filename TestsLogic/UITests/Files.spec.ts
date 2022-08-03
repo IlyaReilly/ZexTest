@@ -28,13 +28,15 @@ test.describe('Files tests', async () => {
     await page.reload();
   });
 
-  test.afterAll(async () => {
-    await page.close();
+  test.afterEach(async () => {
+    let files = await filesAPI.GetFiles();
+    await files.forEach(async (file) => {
+      await filesAPI.DeleteFilePermanently(file.id);
+    });
   });
 
-  test.afterEach(async() => {
-    let fileId = await filesAPI.GetFileId();
-    await filesAPI.MoveFileToTrashById(fileId);
+  test.afterAll(async () => {
+    await page.close();
   });
 
   test('File with JPG extension can be uploaded', async ({}) => {
