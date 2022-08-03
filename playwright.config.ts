@@ -62,7 +62,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
       name: 'ttrotestuser_digitalboost_chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { height: 816, width: 1536 },
+        viewport: {height: 816, width: 1536},
         // We can change enviroments via running special project
         baseURL: playwrightProjectsData.baseURL.QA,
         // Ability to add variables to tests
@@ -71,7 +71,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
         storageState: playwrightProjectsData.storageState,
       },
     },
-    //{
+    // {
     //   name: 'Mobile Safari',
     //   use: {
     //     ...devices['iPad Pro 11'],
