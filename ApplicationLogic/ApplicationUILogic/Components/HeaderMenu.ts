@@ -52,8 +52,6 @@ export class HeaderMenu extends BasePage {
     await item.click();
   }
 
-  // upload file
-
   async UploadNewFile(filePath) {
     await this.Buttons.NewItemMenu.click();
     const [fileChooser] = await Promise.all([

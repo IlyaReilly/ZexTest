@@ -8,12 +8,18 @@ test.describe('Files tests', async () => {
   // Components
   let headerMenu;
   let sideMenu;
+  let filesList;
+  let fileNameJpg;
+  let fileNamePng;
 
   test.beforeAll(async ({browser}) => {
     page = await browser.newPage();
     await page.goto('/');
     headerMenu = await pageManager.getHeaderMenuComponent(page);
     sideMenu = await pageManager.getSideMenuComponent(page);
+    filesList = await pageManager.getFilesList(page);
+    fileNameJpg = 'testFile2';
+    fileNamePng = 'testFile';
   });
 
   test.beforeEach(async () => {
@@ -26,10 +32,14 @@ test.describe('Files tests', async () => {
 
   test('File with JPG extension can be uploaded', async ({}) => {
     await headerMenu.UploadNewFile('./TestData/testFile2.jpg');
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Files);
+    await expect((filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
   });
 
   test('File with PNG extension can be uploaded', async ({}) => {
     await headerMenu.UploadNewFile('./TestData/testFile.png');
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Files);
+    await expect((filesList.Elements.File.locator(`"${fileNamePng}"`))).toContainText('testFile');
   });
 });
 

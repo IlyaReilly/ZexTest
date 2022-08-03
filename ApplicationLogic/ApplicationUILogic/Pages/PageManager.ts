@@ -7,9 +7,10 @@ import {SideSecondaryMailMenu} from '../Components/Mails/SideSecondaryMailMenu';
 import {SideSecondaryCalendarMenu} from '../Components/Calendars/SideSecondaryCalendarMenu';
 import {MailsList} from '../Components/Mails/MailsList';
 import {Calendar} from '../Components/Calendars/Calendar';
-import { SideSecondaryChatsMenu } from '../Components/Chats/SideSecondaryChatsMenu';
+import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
 import {NewChatsItem} from '../Components/Chats/NewChatsItem';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
+import {FilesList} from '../Components/Files/FilesList';
 
 
 export class PageManager {
@@ -67,10 +68,14 @@ export class PageManager {
     }
     //#endregion
     
-    // #region Files Components
+  // #region Files Components
 
   async getSideSecondaryFilesMenuComponent(page) {
     return await new SideSecondaryFilesMenu(page);
+  }
+
+  async getFilesList(page) {
+    return await new FilesList(page);
   }
   // #endregion
 }

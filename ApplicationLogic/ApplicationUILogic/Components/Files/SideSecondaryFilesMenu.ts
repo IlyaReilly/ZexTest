@@ -18,6 +18,5 @@ export class SideSecondaryFilesMenu extends BasePage {
   };
 
   Buttons = {
-    CollapseTrash: this.Containers.MainContainer.locator(''),
   };
 }
