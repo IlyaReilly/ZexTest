@@ -35,11 +35,5 @@ test.describe('Files tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Files);
     await expect((filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
   });
-
-  test('File with PNG extension can be uploaded', async ({}) => {
-    await headerMenu.UploadNewFile('./TestData/testFile.png');
-    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Files);
-    await expect((filesList.Elements.File.locator(`"${fileNamePng}"`))).toContainText('testFile');
-  });
 });
 

@@ -16,8 +16,8 @@ export class SideSecondaryCalendarMenu extends BasePage {
   };
 
   Icons = {
-    CalendarUnchecked: this.Containers.MainContainer.locator('[data-name="calendar"]'),
-    TrashUnchecked: this.Containers.MainContainer.locator('[data-name="trash-2"]'),
+    CalendarUnchecked: this.Containers.MainContainer.locator('[data-name="calendar"] >> nth=0'),
+    TrashUnchecked: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
   };
 
   Locators = {
@@ -32,12 +32,14 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   TrashSelecting = {
     Select: async () => {
-      if (await this.page.$(this.sideSecondaryDefaultBarLocator + ' ' + this.Locators.TrashUnchecked)) {
+      await this.Tabs.Trash.waitFor();
+      if (await this.Icons.TrashUnchecked.isVisible()) {
         await this.Tabs.Trash.click();
       }
     },
     Unselect: async () => {
-      if (!(await this.page.$(this.sideSecondaryDefaultBarLocator + ' ' + this.Locators.TrashUnchecked))) {
+      await this.Tabs.Trash.waitFor();
+      if (!(await this.Icons.TrashUnchecked.isVisible())) {
         await this.Tabs.Trash.click();
       }
     },
@@ -45,12 +47,14 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   CalendarSelecting = {
     Select: async () => {
-      if (await this.page.$(this.sideSecondaryDefaultBarLocator + ' ' + this.Locators.CalendarUnchecked)) {
+      await this.Tabs.Calendar.waitFor();
+      if (await this.Icons.CalendarUnchecked.isVisible()) {
         await this.Tabs.Calendar.click();
       }
     },
     Unselect: async () => {
-      if (!(await this.page.$(this.sideSecondaryDefaultBarLocator + ' ' + this.Locators.CalendarUnchecked))) {
+      await this.Tabs.Calendar.waitFor();
+      if (!(await this.Icons.CalendarUnchecked.isVisible())) {
         await this.Tabs.Calendar.click();
       }
     },

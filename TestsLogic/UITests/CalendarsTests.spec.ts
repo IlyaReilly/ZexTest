@@ -1,5 +1,5 @@
 import {expect, Page} from '@playwright/test';
-import {test, pageManager, playwrightProjectsData, apiManager} from './BaseTest';
+import {test, pageManager, apiManager} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Calendars tests', async () => {
@@ -17,7 +17,7 @@ test.describe('Calendars tests', async () => {
   let calendar;
   let calendarAPI;
 
-  test.beforeAll(async ({browser}) => {
+  test.beforeAll(async ({browser, login}) => {
     page = await browser.newPage();
     await page.goto('/');
     calendarAPI = await apiManager.getCalendarAPI(page);
@@ -71,5 +71,14 @@ test.describe('Calendars tests', async () => {
     await calendar.MoveAppointmentToTrash(appointmentTitle);
     await sideSecondaryCalendarMenu.SelectOnlyTrash();
     await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
+  });
+
+  test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({login}) => {
+    runtimeAppoinmentId = await calendarAPI.CreateAppointmentRequest(appointmentTitle, login, '3', appointmentBody);
+    await calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, login);
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Calendar);
+    await sideSecondaryCalendarMenu.SelectOnlyTrash();
+    await calendar.DeleteAppointmentPermanently(appointmentTitle);
+    await expect(calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
   });
 });

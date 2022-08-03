@@ -12,41 +12,40 @@ import {NewChatsItem} from '../Components/Chats/NewChatsItem';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
 import {FilesList} from '../Components/Files/FilesList';
 
-
 export class PageManager {
-    //#region Pages
-    async getLoginPage(page){
-        return await new LoginPage(page);
-    }
-    //#endregion
+  // #region Pages
+  async getLoginPage(page) {
+    return await new LoginPage(page);
+  }
+  // #endregion
 
-    //#region Main Components
+  // #region Main Components
   async getHeaderMenuComponent(page) {
     return await new HeaderMenu(page);
   }
 
-    async getSideMenuComponent(page){
-        return await new SideMenu(page);
-    }
-    //#endregion
+  async getSideMenuComponent(page) {
+    return await new SideMenu(page);
+  }
+  // #endregion
 
-    //#region Mail Components
+  // #region Mail Components
   async getNewMailComponent(page) {
     return await new NewMail(page);
   }
 
-    async getSideSecondaryMailMenuComponent(page){
-        return await new SideSecondaryMailMenu(page);
+  async getSideSecondaryMailMenuComponent(page) {
+    return await new SideSecondaryMailMenu(page);
   }
 
-    async getMailsListComponent(page){
-        return await new MailsList(page);
+  async getMailsListComponent(page) {
+    return await new MailsList(page);
   }
-    //#endregion
+  // #endregion
 
-    //#region Calendar Components
-    async getNewAppointmentComponent(page){
-        return await new NewAppointment(page);
+  // #region Calendar Components
+  async getNewAppointmentComponent(page) {
+    return await new NewAppointment(page);
   }
 
   async getSideSecondaryCalendarMenuComponent(page) {
@@ -56,20 +55,19 @@ export class PageManager {
   async getCalendarComponent(page) {
     return await new Calendar(page);
   }
-    //#endregion
+  // #endregion
 
-    //#region Calendar Components
-    async getNewChatsItemComponent(page){
-        return await new NewChatsItem(page);
-    }
+  // #region Calendar Components
+  async getNewChatsItemComponent(page) {
+    return await new NewChatsItem(page);
+  }
 
-    async getSideSecondaryChatsMenuComponent(page){
-        return await new SideSecondaryChatsMenu(page);
-    }
-    //#endregion
-    
+  async getSideSecondaryChatsMenuComponent(page) {
+    return await new SideSecondaryChatsMenu(page);
+  }
+  // #endregion
+
   // #region Files Components
-
   async getSideSecondaryFilesMenuComponent(page) {
     return await new SideSecondaryFilesMenu(page);
   }
