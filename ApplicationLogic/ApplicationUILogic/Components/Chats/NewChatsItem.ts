@@ -1,4 +1,5 @@
-import { BasePage, InheritedFields } from '../../Pages/BasePage';
+import {Page} from '@playwright/test';
+import {BasePage} from '../../Pages/BasePage';
 
 export class NewChatsItem extends BasePage {
   Containers = {
@@ -24,11 +25,11 @@ export class NewChatsItem extends BasePage {
     UserInFilterList: this.Containers.MainContainer.locator('.fXXPYY '),
   };
 
-  constructor(page) {
+  constructor(page: Page) {
     super(page);
   }
 
-  async CreateSpace(title, topic, user) {
+  async CreateSpace(title: string, topic: string, user: string) {
     await this.NewSpaceDialog.TitleTextbox.fill(title);
     await this.NewSpaceDialog.TopicTextbox.fill(topic);
     await this.NewSpaceDialog.UserFilterTextbox.fill(user);

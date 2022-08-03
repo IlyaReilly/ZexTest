@@ -1,4 +1,4 @@
-import { BasePage, InheritedFields } from '../../Pages/BasePage';
+import {BasePage} from '../../Pages/BasePage';
 
 export class SideSecondaryChatsMenu extends BasePage {
   Containers = {

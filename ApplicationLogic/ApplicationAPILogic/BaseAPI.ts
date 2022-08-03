@@ -1,5 +1,6 @@
 import {Page} from '@playwright/test';
 
+// eslint-disable-next-line no-unused-vars
 type ActionRequestTypes = {
     delete: 'delete';
   };
@@ -18,6 +19,7 @@ export class BaseAPI {
   readonly sendMsgRequest = 'SendMsgRequest';
   // Calendar
   readonly createAppointmentRequest = 'CreateAppointmentRequest';
+  readonly cancelAppointmentRequest = 'CancelAppointmentRequest';
   // Chats
   readonly getConversationsRequest = 'getConversations';
   readonly deleteConversationRequest = 'deleteConversation';
@@ -37,6 +39,4 @@ export class BaseAPI {
       },
     });
   }
-
-
 }

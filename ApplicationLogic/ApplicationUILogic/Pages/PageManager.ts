@@ -29,6 +29,10 @@ export class PageManager {
     return await new Contacts(page);
   }
 
+  async getSideSecondaryContactsMenuComponent(page) {
+    return await new SideSecondaryContactsMenu(page);
+  }
+
   // #endregion
 
   // #region Main Components
@@ -41,7 +45,7 @@ export class PageManager {
   }
   // #endregion
 
-  //#region Mail Components
+  // #region Mail Components
   async getNewMailComponent(page) {
     return await new NewMail(page);
   }
@@ -50,16 +54,12 @@ export class PageManager {
     return await new SideSecondaryMailMenu(page);
   }
 
-  async getSideSecondaryContactsMenuComponent(page) {
-    return await new SideSecondaryContactsMenu(page);
-  }
-
   async getMailsListComponent(page) {
     return await new MailsList(page);
   }
-  //#endregion
+  // #endregion
 
-  //#region Calendar Components
+  // #region Calendar Components
   async getNewAppointmentComponent(page) {
     return await new NewAppointment(page);
   }
@@ -71,9 +71,9 @@ export class PageManager {
   async getCalendarComponent(page) {
     return await new Calendar(page);
   }
-  //#endregion
+  // #endregion
 
-  //#region Calendar Components
+  // #region Chats Components
   async getNewChatsItemComponent(page) {
     return await new NewChatsItem(page);
   }
@@ -81,5 +81,5 @@ export class PageManager {
   async getSideSecondaryChatsMenuComponent(page) {
     return await new SideSecondaryChatsMenu(page);
   }
-  //#endregion
+  // #endregion
 }
