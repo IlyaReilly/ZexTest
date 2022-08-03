@@ -1,5 +1,5 @@
-import { expect, Page } from '@playwright/test';
-import { test, pageManager, apiManager, dateTimePrefix } from './BaseTest';
+import {expect, Page} from '@playwright/test';
+import {test, pageManager, apiManager, dateTimePrefix} from './BaseTest';
 
 test.describe('Contacts tests', async () => {
   let page: Page;
