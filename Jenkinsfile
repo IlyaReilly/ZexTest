@@ -1,10 +1,12 @@
 pipeline {
-    agent { docker { image 'node:16.13.1-alpine' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'node --version'
-            }
-        }
-    }
+   agent { docker { image 'mcr.microsoft.com/playwright:v1.24.0-focal' } }
+   stages {
+      stage('e2e-tests') {
+         steps {
+            // Depends on your language / test framework
+            sh 'npm install'
+            sh 'npm run test'
+         }
+      }
+   }
 }
