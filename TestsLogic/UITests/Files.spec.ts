@@ -1,9 +1,11 @@
 import {expect, Page} from '@playwright/test';
-import {test, pageManager, playwrightProjectsData, apiManager} from './BaseTest';
+import {test, BaseTest} from './BaseTest';
 
 
 test.describe('Files tests', async () => {
   let page: Page;
+  let loginPage;
+  let userForLogin;
 
   // Components
   let headerMenu;
@@ -12,14 +14,19 @@ test.describe('Files tests', async () => {
   let fileNameJpg;
   let fileNamePng;
 
-  test.beforeAll(async ({browser}) => {
+  test.beforeAll(async ({browser}, workerInfo) => {
     page = await browser.newPage();
     await page.goto('/');
-    headerMenu = await pageManager.getHeaderMenuComponent(page);
-    sideMenu = await pageManager.getSideMenuComponent(page);
-    filesList = await pageManager.getFilesList(page);
+    headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
+    sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
+    filesList = await BaseTest.pageManager.getFilesList(page);
     fileNameJpg = 'testFile2';
     fileNamePng = 'testFile';
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    // Login
+    loginPage = await BaseTest.pageManager.getLoginPage(page);
+    await loginPage.Login(userForLogin.login, userForLogin.password);
+    await page.waitForLoadState('networkidle');
   });
 
   test.beforeEach(async () => {

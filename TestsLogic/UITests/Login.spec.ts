@@ -1,20 +1,26 @@
 import {expect} from '@playwright/test';
-import {test, pageManager} from './BaseTest';
+import {test, BaseTest} from './BaseTest';
 
-test.use({storageState: {cookies: [], origins: []}});
+// test.use({storageState: {cookies: [], origins: []}});
 
 test.describe('Login tests', async () => {
-  test('Success login.', async ({page, login, password}) => {
-    const loginPage = await pageManager.getLoginPage(page);
-    await loginPage.Login(login, password);
-    const headerMenu = await pageManager.getHeaderMenuComponent(page);
+  let userForLogin;
+
+  test.beforeAll(async ({}, workerInfo) => {
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+  });
+
+  test('Success login.', async ({page}) => {
+    const loginPage = await BaseTest.pageManager.getLoginPage(page);
+    await loginPage.Login(userForLogin.login, userForLogin.password);
+    const headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     await expect(headerMenu.Logos.MainLogo).toBeVisible();
   });
 
-  test('Logout.', async ({page, login, password}) => {
-    const loginPage = await pageManager.getLoginPage(page);
-    await loginPage.Login(login, password);
-    const headerMenu = await pageManager.getHeaderMenuComponent(page);
+  test('Logout.', async ({page}) => {
+    const loginPage = await BaseTest.pageManager.getLoginPage(page);
+    await loginPage.Login(userForLogin.login, userForLogin.password);
+    const headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     await headerMenu.OpenUserMenuSection(headerMenu.UserMenu.Logout);
     await expect(loginPage.TextBox.Login).toBeVisible();
   });

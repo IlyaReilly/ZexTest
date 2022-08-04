@@ -1,8 +1,8 @@
 {
   "baseURL":
     {
-    "QA": "https://qa-1.demo.zextras.io/"
-  },
+      "QA": "https://qa-1.demo.zextras.io/"
+    },
   "users":
     {
       "test0":

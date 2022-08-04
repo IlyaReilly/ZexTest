@@ -1,14 +1,16 @@
 import {expect, Page} from '@playwright/test';
-import {test, pageManager, apiManager, dateTimePrefix} from './BaseTest';
+import {test, BaseTest} from './BaseTest';
 
 test.describe('Contacts tests', async () => {
   let page: Page;
+  let loginPage;
   let mailSubject;
   let mailBody;
   let firstName;
   let lastName;
   let email;
   let mailsAPI;
+  let userForLogin;
 
   // Components
   let headerMenu;
@@ -17,24 +19,29 @@ test.describe('Contacts tests', async () => {
   let newContact;
   let contacts;
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({browser}, workerInfo) => {
     page = await browser.newPage();
     await page.goto('/');
-    mailsAPI = await apiManager.getMailsAPI(page);
-    headerMenu = await pageManager.getHeaderMenuComponent(page);
-    sideMenu = await pageManager.getSideMenuComponent(page);
-    newContact = await pageManager.getNewContactComponent(page);
-    sideSecondaryContactsMenu = await pageManager.getSideSecondaryContactsMenuComponent(page);
-    contacts = await pageManager.getContactsComponent(page);
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    mailsAPI = await BaseTest.apiManager.getMailsAPI(page);
+    headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
+    sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
+    newContact = await BaseTest.pageManager.getNewContactComponent(page);
+    sideSecondaryContactsMenu = await BaseTest.pageManager.getSideSecondaryContactsMenuComponent(page);
+    contacts = await BaseTest.pageManager.getContactsComponent(page);
+    // Login
+    loginPage = await BaseTest.pageManager.getLoginPage(page);
+    await loginPage.Login(userForLogin.login, userForLogin.password);
+    await page.waitForLoadState('networkidle');
   });
 
   test.beforeEach(async () => {
     await page.reload();
-    firstName = dateTimePrefix() + 'FName';
-    lastName = dateTimePrefix() + 'LName';
-    email = dateTimePrefix() + '@test.com';
-    mailSubject = dateTimePrefix() + ' Autotest Mail Subject';
-    mailBody = dateTimePrefix() + ' Autotest Mail Body';
+    firstName = BaseTest.dateTimePrefix() + 'FName';
+    lastName = BaseTest.dateTimePrefix() + 'LName';
+    email = BaseTest.dateTimePrefix() + '@test.com';
+    mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
+    mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
   });
 
   test.afterAll(async () => {
@@ -55,8 +62,8 @@ test.describe('Contacts tests', async () => {
     await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
 
-  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({ login }) => {
-    await mailsAPI.SendMsgRequest(mailSubject, login, email, mailBody);
+  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({}) => {
+    await mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, email, mailBody);
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Contacts);
     await sideSecondaryContactsMenu.OpenContactsFolder(sideSecondaryContactsMenu.Options.EmailedContacts);
     await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();

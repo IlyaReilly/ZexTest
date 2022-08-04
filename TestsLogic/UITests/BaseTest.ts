@@ -1,19 +1,13 @@
 import {test as base} from '@playwright/test';
 import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
 import {APIManager} from '../../ApplicationLogic/ApplicationAPILogic/APIManager';
-import {UserPool} from '../../TestData/UserPool';
+import {userPool} from '../../TestData/UserPool';
 
 // Declare your options to type-check your configuration.
 export type MyCredentials = {
   login: string;
   password: string;
 };
-
-const userPool = new UserPool();
-export const playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
-export const pageManager = new PageManager();
-export const apiManager = new APIManager();
-export const dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
 
 export const test = base.extend<MyCredentials>({
   // Define an option and provide a default value.
@@ -27,19 +21,14 @@ export const test = base.extend<MyCredentials>({
   },
 });
 
-export function GetUserFromPool() {
-  userPool.userPool.forEach((user, i) => {
-    if (!user.usedFlag) {
-      userPool[i].usedFlag = true;
-      return user;
-    }
-  });
-}
+export class BaseTest {
+  static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
+  static pageManager = new PageManager();
+  static apiManager = new APIManager();
+  static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
 
-export function DisposeUserInPool(user) {
-  userPool.userPool.forEach((poolUser, i) => {
-    if (poolUser == user) {
-      userPool[i].usedFlag = false;
-    }
-  });
+  static GetUserFromPool(index) {
+    const lastDigit2Str = String(index).slice(-1);
+    return userPool[Number(lastDigit2Str)];
+  }
 }

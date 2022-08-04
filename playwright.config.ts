@@ -2,7 +2,7 @@
 
 import type {PlaywrightTestConfig} from '@playwright/test';
 import {devices} from '@playwright/test';
-import {MyCredentials, playwrightProjectsData} from './TestsLogic/UITests/BaseTest';
+import {MyCredentials, BaseTest} from './TestsLogic/UITests/BaseTest';
 
 /**
  * Read environment variables from file.
@@ -31,15 +31,15 @@ const config: PlaywrightTestConfig<MyCredentials> = {
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 5 : 5,
+  workers: process.env.CI ? 3 : 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
   // Use global setup for single login
-  globalSetup: require.resolve('./global-setup'),
+  // globalSetup: require.resolve('./global-setup'),
   use: {
-    //viewport: { height: 816, width: 1536 },
+    // viewport: { height: 816, width: 1536 },
     extraHTTPHeaders: {
       // We set this header per GitHub guidelines.
     },
@@ -64,11 +64,11 @@ const config: PlaywrightTestConfig<MyCredentials> = {
         ...devices['Desktop Chrome'],
         viewport: {height: 816, width: 1536},
         // We can change enviroments via running special project
-        baseURL: playwrightProjectsData.baseURL.QA,
+        baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
         // Ability to add variables to tests
-        login: playwrightProjectsData.users.test0.login,
-        password: playwrightProjectsData.users.test0.password,
-        storageState: playwrightProjectsData.storageState,
+        // login: BaseTest.playwrightProjectsData.users.test0.login,
+        // password: BaseTest.playwrightProjectsData.users.test0.password,
+        // storageState: playwrightProjectsData.storageState,
       },
     },
     // {

@@ -11,6 +11,7 @@ export class MailsList extends BasePage {
   Elements = {
     Header: this.Containers.MainContainer.locator('.hsyKgr'),
     LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
+    Letter: this.Containers.MainContainer.locator('[data-testid="ConversationRow"]'),
   };
 
   EditMail = {
@@ -35,7 +36,7 @@ export class MailsList extends BasePage {
   }
 
   async OpenMail(mailSubject) {
-    await this.Containers.LettersContainer.locator(`"${mailSubject}"`).click();
+    await this.Elements.Letter.locator(`"${mailSubject}"`).click();
   }
 
   async DeleteDraft() {
