@@ -11,7 +11,7 @@ export class MailsList extends BasePage {
   Elements = {
     Header: this.Containers.MainContainer.locator('.hsyKgr'),
     LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
-    Letter: this.Containers.MainContainer.locator('[data-testid="ConversationRow"]'),
+    Letter: this.Containers.MainContainer.locator('.qPmzW '),
   };
 
   EditMail = {
