@@ -17,6 +17,7 @@ test.describe('Mails tests', async () => {
   let sideSecondaryMailMenu;
   let newMail;
   let mailsList;
+  let mailDetails;
   let mailsAPI;
 
   // Functions
@@ -39,8 +40,9 @@ test.describe('Mails tests', async () => {
     newMail = await BaseTest.pageManager.getNewMailComponent(page);
     sideSecondaryMailMenu = await BaseTest.pageManager.getSideSecondaryMailMenuComponent(page);
     mailsList = await BaseTest.pageManager.getMailsListComponent(page);
+    mailDetails = await BaseTest.pageManager.getMailDetailsComponent(page);
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1);
+    user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex);
     // Login
     loginPage = await BaseTest.pageManager.getLoginPage(page);
     await loginPage.Login(userForLogin.login, userForLogin.password);
@@ -78,19 +80,17 @@ test.describe('Mails tests', async () => {
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Inbox);
     await page.reload({timeout: 3000});
     await mailsList.OpenMail(mailSubject);
-    await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
-  test.only('Junk mail. Mail appears in the junk chapter', async ({}) => {
+  test('Junk mail. Mail appears in the junk chapter', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, user1.login, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
     await mailsList.OpenMail(mailSubject);
-    await mailsList.MarkAsSpam();
+    await mailDetails.MarkAsSpam();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Junk);
-    // await page.reload({timeout: 3000});
-    await mailsList.OpenMail(mailSubject);
-    await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
   test('Send mail. Mail appears in the sent chapter.', async ({}) => {
@@ -104,7 +104,7 @@ test.describe('Mails tests', async () => {
     await MakeDraft();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
     await mailsList.OpenMail(mailSubject);
-    await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
   test('Trash mail. Mail appears in the trash chapter', async ({}) => {
@@ -112,9 +112,9 @@ test.describe('Mails tests', async () => {
     await mailsAPI.SaveDraftRequest(mailSubject, userForLogin.login, user1.login, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);
     await mailsList.OpenMail(mailSubject);
-    await mailsList.DeleteDraft();
+    await mailDetails.DeleteDraft();
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Trash);
     await mailsList.OpenMail(mailSubject);
-    await expect(mailsList.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 });
