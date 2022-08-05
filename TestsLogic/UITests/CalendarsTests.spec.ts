@@ -32,7 +32,6 @@ test.describe('Calendars tests', async () => {
     // Login
     loginPage = await BaseTest.pageManager.getLoginPage(page);
     await loginPage.Login(userForLogin.login, userForLogin.password);
-    await page.waitForLoadState('networkidle');
   });
 
   test.beforeEach(async () => {
