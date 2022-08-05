@@ -1,33 +1,35 @@
-import { expect, Page } from '@playwright/test';
-import { test, pageManager, playwrightProjectsData, apiManager } from './BaseTest';
+import {expect, Page} from '@playwright/test';
+import {test, BaseTest} from './BaseTest';
 
 test.describe('Chats tests', async () => {
-
   let page: Page;
+  let loginPage;
   let dateTimePrefix;
   let spaceTitle;
   let spaceTopic;
-  let user1
-  let runtimeAppoinmentId = '';
+  let user1;
+  let userForLogin;
 
   // Components
   let headerMenu;
   let sideMenu;
   let sideSecondaryChatsMenu;
   let newChatsItem;
-  let calendar;
   let chatsAPI;
 
-  test.beforeAll(async ({ browser }) => {
+  test.beforeAll(async ({browser}, workerInfo) => {
     page = await browser.newPage();
     await page.goto('/');
-    user1 = playwrightProjectsData.users.test1.login;
-    chatsAPI = await apiManager.getChatsAPI(page);
-    headerMenu = await pageManager.getHeaderMenuComponent(page);
-    sideMenu = await pageManager.getSideMenuComponent(page);
-    newChatsItem = await pageManager.getNewChatsItemComponent(page);
-    calendar = await pageManager.getCalendarComponent(page);
-    sideSecondaryChatsMenu = await pageManager.getSideSecondaryChatsMenuComponent(page);
+    user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1);
+    chatsAPI = await BaseTest.apiManager.getChatsAPI(page);
+    headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
+    sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
+    newChatsItem = await BaseTest.pageManager.getNewChatsItemComponent(page);
+    sideSecondaryChatsMenu = await BaseTest.pageManager.getSideSecondaryChatsMenuComponent(page);
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    // Login
+    loginPage = await BaseTest.pageManager.getLoginPage(page);
+    await loginPage.Login(userForLogin.login, userForLogin.password);
   });
 
   test.beforeEach(async () => {
@@ -37,13 +39,13 @@ test.describe('Chats tests', async () => {
     spaceTopic = dateTimePrefix + ' Autotest Space Topic';
   });
 
-  test.afterEach(async() => {
-     var conversations = await chatsAPI.GetConversations();
-     await conversations.forEach(async conversation => {
-      await chatsAPI.DeleteConversation(conversation.id)
-     }); 
+  test.afterEach(async () => {
+    const conversations = await chatsAPI.GetConversations();
+    await conversations.forEach(async (conversation) => {
+      await chatsAPI.DeleteConversation(conversation.id);
+    });
   });
-  
+
   test.afterAll(async () => {
     await page.close();
   });
@@ -51,7 +53,7 @@ test.describe('Chats tests', async () => {
   test('Create space. Space should appear in spaces list.', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Chats);
     await headerMenu.OpenNewItemMenuSection(headerMenu.NewItemMenu.CreateSpace);
-    await newChatsItem.CreateSpace(spaceTitle, spaceTopic, user1);
+    await newChatsItem.CreateSpace(spaceTitle, spaceTopic, user1.login);
     await sideSecondaryChatsMenu.OpenTab.Spaces();
     await expect(sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toBeVisible();
   });

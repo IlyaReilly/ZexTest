@@ -8,7 +8,7 @@ type ActionRequestTypes = {
 export class BaseAPI {
   readonly page: Page;
   readonly soapServiceUrl = 'service/soap/';
-  readonly apiServiceUrl = 'zx/team/v20/';
+  readonly restServiceUrl = 'zx/team/v20/';
 
   // Endpoints
   readonly searchRequest = 'SearchRequest';

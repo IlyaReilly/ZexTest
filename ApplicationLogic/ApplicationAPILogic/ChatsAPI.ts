@@ -7,7 +7,7 @@ export class ChatsAPI extends BaseAPI {
 
   async GetConversations() {
     let conversations = '';
-    const response = await this.page.request.post(`${this.apiServiceUrl}${this.getConversationsRequest}`, {
+    const response = await this.page.request.post(`${this.restServiceUrl}${this.getConversationsRequest}`, {
       data: {},
     });
     const body = JSON.parse((await response.body()).toString());
@@ -18,7 +18,7 @@ export class ChatsAPI extends BaseAPI {
   }
 
   async DeleteConversation(id) {
-    await this.page.request.post(`${this.apiServiceUrl}${this.deleteConversationRequest}`, {
+    await this.page.request.post(`${this.restServiceUrl}${this.deleteConversationRequest}`, {
       data: {"conversation_id": id},
     });
   }

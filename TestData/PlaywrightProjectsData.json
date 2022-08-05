@@ -1,25 +1,60 @@
 {
   "baseURL":
     {
-    "QA": "https://qa-1.demo.zextras.io/"
-  },
+      "QA": "https://qa-1.demo.zextras.io/"
+    },
   "users":
     {
       "test0":
         {
           "login": "test0@testautomation.local",
           "password": "assext0"
-    },
+        },
       "test1":
         {
-          "login": "test0@testautomation.local",
+          "login": "test1@testautomation.local",
           "password": "assext1"
-    },
+        },
       "test2":
         {
           "login": "test2@testautomation.local",
           "password": "assext2"
-    }
-  },
+        },
+      "test3":
+        {
+          "login": "test3@testautomation.local",
+          "password": "assext3"
+        },
+      "test4":
+        {
+          "login": "test4@testautomation.local",
+          "password": "assext4"
+        },
+      "test5":
+        {
+          "login": "test5@testautomation.local",
+          "password": "assext5"
+        },
+      "test6":
+        {
+          "login": "test6@testautomation.local",
+          "password": "assext6"
+        },
+      "test7":
+        {
+          "login": "test7@testautomation.local",
+          "password": "assext7"
+        },
+      "test8":
+        {
+          "login": "test8@testautomation.local",
+          "password": "assext8"
+        },
+      "test9":
+        {
+          "login": "test9@testautomation.local",
+          "password": "assext9"
+        }
+    },
   "storageState": "./storageState.json"
 }
