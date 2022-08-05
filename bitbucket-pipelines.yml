@@ -6,7 +6,7 @@ pipelines:
         image: mcr.microsoft.com/playwright:v1.24.0-focal
         script:
           - apt-get install xvfb
-          - xvfb-run ttro_playwright
+          - xvfb-run automationtesting
           - if [[ $UITESTS  == "true" ]]; then
           - npm install
           - npx playwright install
