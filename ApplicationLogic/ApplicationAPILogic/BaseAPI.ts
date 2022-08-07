@@ -9,6 +9,7 @@ export class BaseAPI {
   readonly page: Page;
   readonly soapServiceUrl = 'service/soap/';
   readonly restServiceUrl = 'zx/team/v20/';
+  readonly graphqlServiceUrl = 'services/files/graphql';
 
   // Endpoints
   readonly searchRequest = 'SearchRequest';
@@ -23,9 +24,6 @@ export class BaseAPI {
   // Chats
   readonly getConversationsRequest = 'getConversations';
   readonly deleteConversationRequest = 'deleteConversation';
-  // Files
-  readonly getFilesRequest = 'services/files/graphql';
-  readonly deleteFileRequest = 'services/files/graphql';
 
   readonly ActionRequestTypes = {
     delete: 'delete',

@@ -18,13 +18,14 @@ test.describe('Files tests', async () => {
   test.beforeAll(async ({browser}, workerInfo) => {
     page = await browser.newPage();
     await page.goto('/');
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    filesAPI = await BaseTest.apiManager.getFilesAPI(page);
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
     filesList = await BaseTest.pageManager.getFilesList(page);
     fileNameJpg = 'testFile2';
     fileNamePng = 'testFile';
-    filesAPI = await apiManager.getFilesAPI(page);
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+
     // Login
     loginPage = await BaseTest.pageManager.getLoginPage(page);
     await loginPage.Login(userForLogin.login, userForLogin.password);
@@ -35,10 +36,14 @@ test.describe('Files tests', async () => {
   });
 
   test.afterEach(async () => {
-    let files = await filesAPI.GetFiles();
-    await files.forEach(async (file) => {
-      await filesAPI.DeleteFilePermanently(file.id);
-    });
+    const activeFiles = await filesAPI.GetActiveFiles();
+    await Promise.all(activeFiles.map((file) => {
+      return filesAPI.MoveFileToTrashById(file.id);
+    }));
+    const trashFiles = await filesAPI.GetTrashFiles();
+    await Promise.all(trashFiles.map((file) => {
+      return filesAPI.DeleteFilePermanentlyById(file.id);
+    }));
   });
 
   test.afterAll(async () => {
