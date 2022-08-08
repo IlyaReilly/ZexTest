@@ -39,4 +39,14 @@ export class BaseAPI {
       },
     });
   }
+
+  async ApiLogin(login: string, password: string) {
+    let response = await this.page.request.post('/zx/auth/v2/login', {
+      data: {
+        "Body": {"auth_method": "password", "user": login, "password": password},
+      },
+    });
+    const headersArray = JSON.parse((await response.headersArray()).toString());
+    const headers = JSON.parse((await response.headers()).toString());
+  }
 }
