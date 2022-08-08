@@ -16,7 +16,7 @@ import {MyCredentials, BaseTest} from './TestsLogic/UITests/BaseTest';
 const config: PlaywrightTestConfig<MyCredentials> = {
   testDir: './TestsLogic',
   /* Maximum time one test can run for. */
-  timeout: 30 * 1000,
+  timeout: 50 * 1000,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -25,7 +25,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
     timeout: 10000,
   },
   /* Run tests in files in parallel */
-  fullyParallel: false,
+  fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
