@@ -13,22 +13,10 @@ export class FileDetails extends BasePage {
 
   Elements = {
     FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
-
   };
 
   Buttons = {
     CloseDetails: this.Containers.HeaderContainer.locator('.bOlfsx'),
     Download: this.Containers.HeaderContainer.locator('g[data-name="download"]'),
-
-  }
-
-
-  async DeleteDraft() {
-    await this.EditMail.DeleteMail.click();
-  }
-
-  async MarkAsSpam() {  
-    await this.EditMail.SpreadOptions.click();
-    await this.MailOptions.MarkAsSpam.click();
-  }
+  };
 }
