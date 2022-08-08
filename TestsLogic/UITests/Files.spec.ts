@@ -37,11 +37,11 @@ test.describe('Files tests', async () => {
 
   test.afterEach(async () => {
     const activeFiles = await filesAPI.GetActiveFiles();
-    await Promise.all(activeFiles.map((file) => {
+    await Promise.all(activeFiles.map(async (file) => {
       return filesAPI.MoveFileToTrashById(file.id);
     }));
     const trashFiles = await filesAPI.GetTrashFiles();
-    await Promise.all(trashFiles.map((file) => {
+    await Promise.all(trashFiles.map(async (file) => {
       return filesAPI.DeleteFilePermanentlyById(file.id);
     }));
   });
