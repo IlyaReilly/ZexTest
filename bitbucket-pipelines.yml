@@ -3,9 +3,10 @@ pipelines:
   - parallel:
     - step:
         name: UI Tests
-        image: mcr.microsoft.com/playwright:v1.22.0-focal
+        image: mcr.microsoft.com/playwright:v1.24.0-focal
         script:
-          - xvfb-run node index.js
+          - apt-get install xvfb
+          - xvfb-run automationtesting
           - if [[ $UITESTS  == "true" ]]; then
           - npm install
           - npx playwright install

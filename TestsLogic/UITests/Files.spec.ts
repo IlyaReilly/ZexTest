@@ -13,16 +13,19 @@ test.describe('Files tests', async () => {
   let filesList;
   let fileNameJpg;
   let fileNamePng;
+  let filesAPI;
 
   test.beforeAll(async ({browser}, workerInfo) => {
     page = await browser.newPage();
     await page.goto('/');
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    filesAPI = await BaseTest.apiManager.getFilesAPI(page);
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
     filesList = await BaseTest.pageManager.getFilesList(page);
     fileNameJpg = 'testFile2';
     fileNamePng = 'testFile';
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+
     // Login
     loginPage = await BaseTest.pageManager.getLoginPage(page);
     await loginPage.Login(userForLogin.login, userForLogin.password);
@@ -30,6 +33,17 @@ test.describe('Files tests', async () => {
 
   test.beforeEach(async () => {
     await page.reload();
+  });
+
+  test.afterEach(async () => {
+    const activeFiles = await filesAPI.GetActiveFiles();
+    await Promise.all(activeFiles.map(async (file) => {
+      return filesAPI.MoveFileToTrashById(file.id);
+    }));
+    const trashFiles = await filesAPI.GetTrashFiles();
+    await Promise.all(trashFiles.map(async (file) => {
+      return filesAPI.DeleteFilePermanentlyById(file.id);
+    }));
   });
 
   test.afterAll(async () => {

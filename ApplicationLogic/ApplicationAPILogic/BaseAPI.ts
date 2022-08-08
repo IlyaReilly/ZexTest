@@ -9,6 +9,7 @@ export class BaseAPI {
   readonly page: Page;
   readonly soapServiceUrl = 'service/soap/';
   readonly restServiceUrl = 'zx/team/v20/';
+  readonly graphqlServiceUrl = 'services/files/graphql';
 
   // Endpoints
   readonly searchRequest = 'SearchRequest';
