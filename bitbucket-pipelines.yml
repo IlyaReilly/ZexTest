@@ -8,7 +8,7 @@ pipelines:
           - if [[ $UITESTS  == "true" ]]; then
           - npm install
           - npx playwright install
-          - npx playwright test UITests/
+          - npx playwright test
           - fi
           - if [[ $UITESTS == "false" ]]; then echo "UI TEsts was skipped"; fi
         services:
