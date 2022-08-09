@@ -39,9 +39,9 @@ test.describe('Chats tests', async () => {
 
   test.afterEach(async () => {
     const conversations = await chatsAPI.GetConversations();
-    await conversations.forEach(async (conversation) => {
-      await chatsAPI.DeleteConversation(conversation.id);
-    });
+    await Promise.all(conversations.map(async (conversation) => {
+      return chatsAPI.DeleteConversation(conversation.id);
+    }));
   });
 
   test.afterAll(async () => {
