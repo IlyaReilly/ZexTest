@@ -3,6 +3,5 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 /allure-results/
-storageState.json
 /lighthouse/
 *.orig
