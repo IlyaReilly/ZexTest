@@ -1,6 +1,7 @@
 import {CalendarAPI} from './CalendarAPI';
 import {MailsAPI} from './MailsAPI';
 import {ChatsAPI} from './ChatsAPI';
+import {FilesAPI} from './FilesAPI';
 
 export class APIManager {
   async getMailsAPI(page) {
@@ -13,5 +14,9 @@ export class APIManager {
 
   async getChatsAPI(page) {
     return await new ChatsAPI(page);
+  }
+
+  async getFilesAPI(page) {
+    return await new FilesAPI(page);
   }
 }
