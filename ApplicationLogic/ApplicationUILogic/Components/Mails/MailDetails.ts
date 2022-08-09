@@ -1,6 +1,6 @@
 import {BasePage} from '../../Pages/BasePage';
 
-export class MailDetals extends BasePage {
+export class MailDetails extends BasePage {
   Containers = {
     MailDetailsContainer: this.page.locator('.jbyjRV'),
     MailOptionsContainer: this.page.locator('.izBNKP'),

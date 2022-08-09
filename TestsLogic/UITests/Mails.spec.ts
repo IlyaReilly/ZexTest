@@ -1,14 +1,16 @@
-import {expect} from '@playwright/test';
+import {expect, Page} from '@playwright/test';
 import {test, BaseTest} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
+
 test.describe('Mails tests', async () => {
-  let loginPage;
+  let page: Page;
   let mailSubject;
   let mailBody;
   let user1;
   let userForLogin;
   const runtimeAppoinmentId = '';
+  let storagesPath;
 
   // Components
   let headerMenu;
@@ -19,7 +21,12 @@ test.describe('Mails tests', async () => {
   let mailDetails;
   let mailsAPI;
 
-  test.beforeEach(async ({page}, workerInfo) => {
+  test.beforeAll(async ({browser}, workerInfo) => {
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    storagesPath = await BaseTest.ApiLogin(userForLogin);
+    page = await browser.newPage({storageState: storagesPath});
+    await page.goto('/');
     mailsAPI = await BaseTest.apiManager.getMailsAPI(page);
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
@@ -27,11 +34,10 @@ test.describe('Mails tests', async () => {
     sideSecondaryMailMenu = await BaseTest.pageManager.getSideSecondaryMailMenuComponent(page);
     mailsList = await BaseTest.pageManager.getMailsListComponent(page);
     mailDetails = await BaseTest.pageManager.getMailDetailsComponent(page);
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    // Login
-    loginPage = await BaseTest.pageManager.getLoginPage(page);
-    await loginPage.Login(userForLogin.login, userForLogin.password);
+  });
+
+  test.beforeEach(async () => {
+    await page.goto('/');
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
   });
@@ -42,16 +48,16 @@ test.describe('Mails tests', async () => {
     await mailsAPI.ItemActionRequest(mailsAPI.ActionRequestTypes.delete, id, userForLogin.login);
   });
 
-  test.afterAll(async ({page}) => {
+  test.afterAll(async () => {
     await page.close();
   });
 
-  test('Open Mail tab. User login is presented in the secondary side bar.', async ({page}) => {
+  test('Open Mail tab. User login is presented in the secondary side bar.', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await expect(sideSecondaryMailMenu.Containers.MainContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
   });
 
-  test('Inbox mail. Mail appears in the inbox chapter', async ({page}) => {
+  test('Inbox mail. Mail appears in the inbox chapter', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await headerMenu.Buttons.NewItem.click();
     await newMail.CreateNewMail(userForLogin.login, mailSubject, mailBody);
@@ -64,7 +70,7 @@ test.describe('Mails tests', async () => {
     await expect(mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
-  test('Junk mail. Mail appears in the junk chapter', async ({page}) => {
+  test('Junk mail. Mail appears in the junk chapter', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, user1.login, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
@@ -74,14 +80,14 @@ test.describe('Mails tests', async () => {
     await expect(mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
-  test('Send mail. Mail appears in the sent chapter.', async ({page}) => {
+  test('Send mail. Mail appears in the sent chapter.', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, user1.login, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Sent);
     await expect(mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
-  test('Draft mail. Mail appears in the draft chapter.', async ({page}) => {
+  test('Draft mail. Mail appears in the draft chapter.', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await headerMenu.Buttons.NewItem.click();
     await newMail.CreateNewMail(user1.login, mailSubject, mailBody);
@@ -94,7 +100,7 @@ test.describe('Mails tests', async () => {
     await expect(mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
-  test('Trash mail. Mail appears in the trash chapter', async ({page}) => {
+  test('Trash mail. Mail appears in the trash chapter', async ({}) => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Mail);
     await mailsAPI.SaveDraftRequest(mailSubject, userForLogin.login, user1.login, mailBody);
     await sideSecondaryMailMenu.OpenMailFolder(sideSecondaryMailMenu.MailFolders.Drafts);

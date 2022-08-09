@@ -4,7 +4,7 @@ import {test, BaseTest} from './BaseTest';
 
 test.describe('Files tests', async () => {
   let page: Page;
-  let loginPage;
+  let storagesPath;
   let userForLogin;
 
   // Components
@@ -12,24 +12,20 @@ test.describe('Files tests', async () => {
   let sideMenu;
   let filesList;
   let fileNameJpg;
-  let fileNamePng;
 
   test.beforeAll(async ({browser}, workerInfo) => {
-    page = await browser.newPage();
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    storagesPath = await BaseTest.ApiLogin(userForLogin);
+    page = await browser.newPage({storageState: storagesPath});
     await page.goto('/');
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
     filesList = await BaseTest.pageManager.getFilesList(page);
     fileNameJpg = 'testFile2';
-    fileNamePng = 'testFile';
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    // Login
-    loginPage = await BaseTest.pageManager.getLoginPage(page);
-    await loginPage.Login(userForLogin.login, userForLogin.password);
   });
 
   test.beforeEach(async () => {
-    await page.reload();
+    await page.goto('/');
   });
 
   test.afterAll(async () => {

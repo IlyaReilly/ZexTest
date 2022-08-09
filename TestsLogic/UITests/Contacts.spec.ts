@@ -1,9 +1,9 @@
 import {expect, Page} from '@playwright/test';
 import {test, BaseTest} from './BaseTest';
+import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Contacts tests', async () => {
   let page: Page;
-  let loginPage;
   let mailSubject;
   let mailBody;
   let firstName;
@@ -11,6 +11,7 @@ test.describe('Contacts tests', async () => {
   let email;
   let mailsAPI;
   let userForLogin;
+  let storagesPath;
 
   // Components
   let headerMenu;
@@ -20,22 +21,20 @@ test.describe('Contacts tests', async () => {
   let contacts;
 
   test.beforeAll(async ({browser}, workerInfo) => {
-    page = await browser.newPage();
-    await page.goto('/');
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    storagesPath = await BaseTest.ApiLogin(userForLogin);
+    page = await browser.newPage({storageState: storagesPath});
+    await page.goto('/');
     mailsAPI = await BaseTest.apiManager.getMailsAPI(page);
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
     newContact = await BaseTest.pageManager.getNewContactComponent(page);
     sideSecondaryContactsMenu = await BaseTest.pageManager.getSideSecondaryContactsMenuComponent(page);
     contacts = await BaseTest.pageManager.getContactsComponent(page);
-    // Login
-    loginPage = await BaseTest.pageManager.getLoginPage(page);
-    await loginPage.Login(userForLogin.login, userForLogin.password);
   });
 
   test.beforeEach(async () => {
-    await page.reload();
+    await page.goto('/');
     firstName = BaseTest.dateTimePrefix() + 'FName';
     lastName = BaseTest.dateTimePrefix() + 'LName';
     email = BaseTest.dateTimePrefix() + '@test.com';
@@ -58,6 +57,8 @@ test.describe('Contacts tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Contacts);
     await headerMenu.Buttons.NewItem.click();
     await newContact.CreateNewContact(firstName, lastName, email);
+    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    await elementHandle?.waitForElementState('hidden');
     await expect(contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
 

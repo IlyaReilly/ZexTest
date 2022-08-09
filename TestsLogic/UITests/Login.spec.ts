@@ -3,7 +3,8 @@ import {test, BaseTest} from './BaseTest';
 
 // test.use({storageState: {cookies: [], origins: []}});
 
-test.describe('Login tests', async () => {
+// Don't work in the haedless mode
+test.describe.skip('Login tests', async () => {
   let userForLogin;
 
   test.beforeAll(async ({}, workerInfo) => {

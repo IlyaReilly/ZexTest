@@ -4,12 +4,12 @@ import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/B
 
 test.describe('Calendars tests', async () => {
   let page: Page;
-  let loginPage;
   let dateTimePrefix;
   let appointmentTitle;
   let appointmentBody;
   let runtimeAppoinmentId = '';
   let userForLogin;
+  let storagesPath;
 
   // Components
   let headerMenu;
@@ -20,22 +20,20 @@ test.describe('Calendars tests', async () => {
   let calendarAPI;
 
   test.beforeAll(async ({browser}, workerInfo) => {
-    page = await browser.newPage();
-    await page.goto('/');
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    storagesPath = await BaseTest.ApiLogin(userForLogin);
+    page = await browser.newPage({storageState: storagesPath});
+    await page.goto('/');
     calendarAPI = await BaseTest.apiManager.getCalendarAPI(page);
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
     newAppointment = await BaseTest.pageManager.getNewAppointmentComponent(page);
     calendar = await BaseTest.pageManager.getCalendarComponent(page);
     sideSecondaryCalendarMenu = await BaseTest.pageManager.getSideSecondaryCalendarMenuComponent(page);
-    // Login
-    loginPage = await BaseTest.pageManager.getLoginPage(page);
-    await loginPage.Login(userForLogin.login, userForLogin.password);
   });
 
   test.beforeEach(async () => {
-    await page.reload();
+    await page.goto('/');
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';

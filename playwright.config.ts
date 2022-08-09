@@ -25,7 +25,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
     timeout: 10000,
   },
   /* Run tests in files in parallel */
-  fullyParallel: false,
+  fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -45,11 +45,11 @@ const config: PlaywrightTestConfig<MyCredentials> = {
     },
     // Allpy storageState
     // storageState: './storageState.json',
-    headless: false,
+    headless: process.env.CI ? true : false,
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'https://digitalboost.business.govt.nz/',
+    baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
@@ -64,7 +64,7 @@ const config: PlaywrightTestConfig<MyCredentials> = {
         ...devices['Desktop Chrome'],
         viewport: {height: 816, width: 1536},
         // We can change enviroments via running special project
-        baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
+        // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
         // Ability to add variables to tests
         // login: BaseTest.playwrightProjectsData.users.test0.login,
         // password: BaseTest.playwrightProjectsData.users.test0.password,
