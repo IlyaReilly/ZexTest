@@ -5,7 +5,8 @@ pipeline {
          steps {
             // Depends on your language / test framework
             sh 'npm install'
-            sh 'npm run test'
+            sh 'npx playwright install'
+            sh 'npx playwright test'
          }
       }
    }
