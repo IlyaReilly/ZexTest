@@ -5,7 +5,6 @@ pipelines:
         name: UI Tests
         image: mcr.microsoft.com/playwright:v1.22.0-focal
         script:
-          - xvfb-run node index.js
           - if [[ $UITESTS  == "true" ]]; then
           - npm install
           - npx playwright install
