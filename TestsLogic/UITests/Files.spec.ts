@@ -12,7 +12,6 @@ test.describe('Files tests', async () => {
   let sideMenu;
   let filesList;
   let fileNameJpg;
-  let fileNamePng;
   let filesAPI;
   let fileDetails;
   let sideSecondaryMenu;
@@ -24,11 +23,10 @@ test.describe('Files tests', async () => {
     filesAPI = await BaseTest.apiManager.getFilesAPI(page);
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
-    sideSecondaryMenu = await BaseTest.pageManager.getSideSecondaryFilesMenuComponent(page) //
+    sideSecondaryMenu = await BaseTest.pageManager.getSideSecondaryFilesMenuComponent(page);
     filesList = await BaseTest.pageManager.getFilesList(page);
     fileDetails = await BaseTest.pageManager.getFileDetails(page);
     fileNameJpg = 'testFile2';
-    fileNamePng = 'testFile';
 
     // Login
     loginPage = await BaseTest.pageManager.getLoginPage(page);
