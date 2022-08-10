@@ -19,4 +19,8 @@ export class SideSecondaryFilesMenu extends BasePage {
 
   Buttons = {
   };
+
+  async OpenSecondaryMenuTab(tab) {
+    await tab.click();
+  }
 }

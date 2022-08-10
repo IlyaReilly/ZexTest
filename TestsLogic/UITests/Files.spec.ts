@@ -14,6 +14,8 @@ test.describe('Files tests', async () => {
   let fileNameJpg;
   let fileNamePng;
   let filesAPI;
+  let fileDetails;
+  let sideSecondaryMenu;
 
   test.beforeAll(async ({browser}, workerInfo) => {
     page = await browser.newPage();
@@ -22,7 +24,9 @@ test.describe('Files tests', async () => {
     filesAPI = await BaseTest.apiManager.getFilesAPI(page);
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
+    sideSecondaryMenu = await BaseTest.pageManager.getSideSecondaryFilesMenuComponent(page) //
     filesList = await BaseTest.pageManager.getFilesList(page);
+    fileDetails = await BaseTest.pageManager.getFileDetails(page);
     fileNameJpg = 'testFile2';
     fileNamePng = 'testFile';
 
@@ -55,5 +59,12 @@ test.describe('Files tests', async () => {
     await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Files);
     await expect((filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
   });
-});
 
+  test('File Preview is displayed by List File clicking', async ({}) => {
+    await filesAPI.UploadFileViaAPI();
+    await sideMenu.OpenMenuTab(sideMenu.SideMenuTabs.Files);
+    await sideSecondaryMenu.OpenSecondaryMenuTab(sideSecondaryMenu.Tabs.Home);
+    await filesList.OpenFileDetails(filesList.Elements.File);
+    await expect((fileDetails.Elements.FilePreview)).toBeVisible();
+  });
+});

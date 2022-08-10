@@ -8,11 +8,11 @@ export class FileDetails extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.jbyjRV'),
     HeaderContainer: this.page.locator('.gjtssk'),
-    FileOptionsContainer: this.page.locator('.izBNKP'),
   };
 
   Elements = {
     FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
+    FilePreview: this.page.locator('.hpDEtg'),
 
   };
 
@@ -20,15 +20,21 @@ export class FileDetails extends BasePage {
     CloseDetails: this.Containers.HeaderContainer.locator('.bOlfsx'),
     Download: this.Containers.HeaderContainer.locator('g[data-name="download"]'),
 
-  }
+  };
 
+  FileOptions = {
+    Download: this.Containers.MainContainer.locator('[data-testid="icon: Download"]'),
+    MaximizeOutline: this.Containers.MainContainer.locator('[data-testid="icon: MaximizeOutline"]'),
+    MoreOptions: this.Containers.MainContainer.locator('[data-testid="icon: MoreVertical"]'),
+    Flag: this.Containers.MainContainer.locator('"Flag"'),
+  };
 
-  async DeleteDraft() {
-    await this.EditMail.DeleteMail.click();
-  }
-
-  async MarkAsSpam() {  
-    await this.EditMail.SpreadOptions.click();
-    await this.MailOptions.MarkAsSpam.click();
+  async DownloadFile() {
+    const [download] = await Promise.all([
+      this.page.waitForEvent('download'),
+      this.FileOptions.Download.click(),
+    ]);
+    console.log(await download.path());
+    await download.saveAs('./TestData/test.txt');
   }
 }

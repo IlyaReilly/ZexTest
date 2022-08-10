@@ -14,4 +14,8 @@ export class FilesList extends BasePage {
     File: this.Containers.MainContainer.locator('.iLcLUN'),
     Header: this.Containers.MainContainer.locator('.debCVK'),
   };
+
+  async OpenFileDetails(file) {
+    await file.click();
+  }
 }

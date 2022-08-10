@@ -3,7 +3,7 @@ import {Page} from '@playwright/test';
 // eslint-disable-next-line no-unused-vars
 type ActionRequestTypes = {
     delete: 'delete';
-  };
+};
 
 export class BaseAPI {
   readonly page: Page;
@@ -24,6 +24,8 @@ export class BaseAPI {
   // Chats
   readonly getConversationsRequest = 'getConversations';
   readonly deleteConversationRequest = 'deleteConversation';
+  // Files
+  readonly uploadFileRequest = 'services/files/upload';
 
   readonly ActionRequestTypes = {
     delete: 'delete',
