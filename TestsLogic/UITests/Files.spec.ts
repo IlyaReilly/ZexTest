@@ -12,6 +12,7 @@ test.describe('Files tests', async () => {
   let sideMenu;
   let filesList;
   let fileNameJpg;
+  let filesAPI;
 
   test.beforeAll(async ({browser}, workerInfo) => {
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
@@ -21,13 +22,14 @@ test.describe('Files tests', async () => {
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
     filesList = await BaseTest.pageManager.getFilesList(page);
+    filesAPI = await BaseTest.apiManager.getFilesAPI(page);
     fileNameJpg = 'testFile2';
   });
 
   test.beforeEach(async () => {
     await page.goto('/');
   });
-  
+
   test.afterEach(async () => {
     const activeFiles = await filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
