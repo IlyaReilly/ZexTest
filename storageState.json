@@ -1,0 +1,49 @@
+{
+  "cookies": [
+    {
+      "sameSite": "Lax",
+      "name": "UI",
+      "value": "iris",
+      "domain": "qa-1.demo.zextras.io",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false
+    },
+    {
+      "sameSite": "Lax",
+      "name": "ZX_AUTH_TOKEN",
+      "value": "eyJhbGciOiJSUzUxMiJ9.eyJpc3MiOiI5N2IwZDg1My0zZDU5LTRiYmYtYjM2YS00NGE1Nzk2ZDlmMTEiLCJzdWIiOiI0Yzc2MmE2OC02NDM1LTQ1NzMtYmQyYy0zZGYwNjRmMGVmNzkiLCJleHAiOjE2NTk3NzA3NjUsImp0aSI6ImRhMzIzNDE3LWZjN2QtNGE3MS05MDAyLWFjZmI1YjRhNzZmZCIsImlhdCI6MTY1OTU5Nzk2NSwiZXh0cmFfaW5mb3JtYXRpb24iOiJ7XCJkb21haW5faWRcIjpcImRkODk1Y2I0LWMwY2QtNGI3My1hNmMyLWI5YjdiNDczNjY0ZFwiLFwicHJvdG9jb2xcIjpcImh0dHBcIixcImRldmljZV9pZFwiOlwiNjNjZWY1MmItNzY0Mi00ZjVkLWEzY2UtZDNlMDQ4ODM5MjYzXCIsXCJkZXZpY2VfbW9kZWxcIjpcIkNocm9tZSAxMDQvV2luZG93cyAxMFwiLFwiZG9tYWluX3VybFwiOlwiaHR0cHM6Ly9xYS0xLmRlbW8uemV4dHJhcy5pb1wiLFwiaXBfYWRkcmVzc1wiOlwiODkuNjQuNTAuNTBcIixcInVzZXJfYWdlbnRcIjpcIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDQuMC41MTEyLjIwIFNhZmFyaS81MzcuMzZcIn0iLCJzZXJ2aWNlIjoiV2ViVUkiLCJ0b2tlbiI6IjBfNmEyMzYzMjk2YTM4MTJiNzNhZWQ4MjhhNTM0OTZkZTZhMjM1MzE4ZF82OTY0M2QzMzM2M2EzNDYzMzczNjMyNjEzNjM4MmQzNjM0MzMzNTJkMzQzNTM3MzMyZDYyNjQzMjYzMmQzMzY0NjYzMDM2MzQ2NjMwNjU2NjM3MzkzYjY1Nzg3MDNkMzEzMzNhMzEzNjM1MzkzNzM3MzAzNzM2MzUzMzM1MzkzYjc0Nzk3MDY1M2QzNjNhN2E2OTZkNjI3MjYxM2I3NTNkMzEzYTYxM2I3NDY5NjQzZDMxMzAzYTMyMzAzNjMyMzEzNDM2MzIzMTM1M2IifQ.oz3dgNvn4k8DZG41Sfeyp1Z1i_EZb7gjg3bGhKlncLpB8EOQQUp55GnhEOBy9kTBLALHl_GyFgkTN1hpf8OtLKLMCtMY-yTI6vrMMsVyooalrNvLRBFGAGUdtMcr_hCS7exayc7b7BrJcNVf9hp6l5H5ZXiFJ8Ju217Pn7qYMuw0PGy3XnKtIi9HRAHbW3AyQB0qJuaVPkoH63tSiFvP3ln1DNdNGSUObAPUIqWeA9pqpDHN3s-9L9s6yHQbvPsf6oVlNLn-UuyUYfplRO9bb_waPWZOT0mRFSoaZ9_rw0OnOqm5phzQbkBXRyDCt1SetkwltLg06tf3APsXMZB8lg",
+      "domain": "qa-1.demo.zextras.io",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true
+    },
+    {
+      "sameSite": "Lax",
+      "name": "ZM_AUTH_TOKEN",
+      "value": "0_6a2363296a3812b73aed828a53496de6a235318d_69643d33363a34633736326136382d363433352d343537332d626432632d3364663036346630656637393b6578703d31333a313635393737303736353335393b747970653d363a7a696d6272613b753d313a613b7469643d31303a323036323134363231353b",
+      "domain": "qa-1.demo.zextras.io",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://qa-1.demo.zextras.io",
+      "localStorage": [
+        {
+          "name": "device-uuid",
+          "value": "63cef52b-7642-4f5d-a3ce-d3e048839263"
+        },
+        {
+          "name": "i18nextLng",
+          "value": "ru-RU"
+        }
+      ]
+    }
+  ]
+}
