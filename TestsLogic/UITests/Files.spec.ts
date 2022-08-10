@@ -1,10 +1,9 @@
 import {expect, Page} from '@playwright/test';
 import {test, BaseTest} from './BaseTest';
 
-
 test.describe('Files tests', async () => {
   let page: Page;
-  let loginPage;
+  let storagesPath;
   let userForLogin;
 
   // Components
@@ -16,25 +15,28 @@ test.describe('Files tests', async () => {
   let fileDetails;
   let sideSecondaryMenu;
 
-  test.beforeAll(async ({browser}, workerInfo) => {
-    page = await browser.newPage();
-    await page.goto('/');
+  test.beforeEach(async ({browser}, workerInfo) => {
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    filesAPI = await BaseTest.apiManager.getFilesAPI(page);
+    storagesPath = await BaseTest.ApiLogin(userForLogin);
+    // user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1);
+    page = await browser.newPage({storageState: storagesPath});
+    await page.goto('/');
+
     headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(page);
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
     sideSecondaryMenu = await BaseTest.pageManager.getSideSecondaryFilesMenuComponent(page);
     filesList = await BaseTest.pageManager.getFilesList(page);
     fileDetails = await BaseTest.pageManager.getFileDetails(page);
+    filesAPI = await BaseTest.apiManager.getFilesAPI(page);
     fileNameJpg = 'testFile2';
-
-    // Login
-    loginPage = await BaseTest.pageManager.getLoginPage(page);
-    await loginPage.Login(userForLogin.login, userForLogin.password);
   });
 
   test.beforeEach(async () => {
-    await page.reload();
+    await page.goto('/');
+    const activeFiles = await filesAPI.GetActiveFiles();
+    await Promise.all(activeFiles.map(async (file) => {
+      return filesAPI.MoveFileToTrashById(file.id);
+    }));
   });
 
   test.afterEach(async () => {

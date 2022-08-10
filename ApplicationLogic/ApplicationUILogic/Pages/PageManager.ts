@@ -15,7 +15,7 @@ import {NewChatsItem} from '../Components/Chats/NewChatsItem';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
 import {FilesList} from '../Components/Files/FilesList';
 import {FileDetails} from '../Components/Files/FileDetails';
-import {MailDetals} from '../Components/Mails/MailDetails';
+import {MailDetails} from '../Components/Mails/MailDetails';
 
 export class PageManager {
   // #region Pages
@@ -63,7 +63,7 @@ export class PageManager {
   }
 
   async getMailDetailsComponent(page) {
-    return await new MailDetals(page);
+    return await new MailDetails(page);
   }
   // #endregion
 

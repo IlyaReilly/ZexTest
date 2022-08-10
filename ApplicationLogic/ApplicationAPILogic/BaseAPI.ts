@@ -1,9 +1,30 @@
-import {Page} from '@playwright/test';
+import {Page, request} from '@playwright/test';
 
 // eslint-disable-next-line no-unused-vars
 type ActionRequestTypes = {
     delete: 'delete';
 };
+
+export async function ApiLoginMethod(login: string, password: string) {
+  const playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
+  const authTokens: string[] = [];
+  const apiContext = await request.newContext({baseURL: playwrightProjectsData.baseURL.QA});
+  const response = await apiContext.post('/zx/auth/v2/login', {
+    data: {
+      "auth_method": "password", "user": login, "password": password,
+    },
+  });
+  const headersArray = await response.headersArray();
+  const rx = /(ZX_AUTH_TOKEN|ZM_AUTH_TOKEN)=[^;]*/g;
+  let token;
+  headersArray.forEach((header) => {
+    if (header.name == 'set-cookie') {
+      token = header.value.match(rx)[0];
+      authTokens.push(token.replace('ZX_AUTH_TOKEN=', '').replace('ZM_AUTH_TOKEN=', ''));
+    }
+  });
+  return authTokens;
+}
 
 export class BaseAPI {
   readonly page: Page;

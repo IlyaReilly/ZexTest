@@ -3,14 +3,12 @@ pipelines:
   - parallel:
     - step:
         name: UI Tests
-        image: mcr.microsoft.com/playwright:v1.24.0-focal
+        image: mcr.microsoft.com/playwright:v1.22.0-focal
         script:
-          - apt-get install xvfb
-          - xvfb-run automationtesting
           - if [[ $UITESTS  == "true" ]]; then
           - npm install
           - npx playwright install
-          - npx playwright test UITests/
+          - npx playwright test
           - fi
           - if [[ $UITESTS == "false" ]]; then echo "UI TEsts was skipped"; fi
         services:

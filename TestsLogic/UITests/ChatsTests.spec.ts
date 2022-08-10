@@ -3,12 +3,12 @@ import {test, BaseTest} from './BaseTest';
 
 test.describe('Chats tests', async () => {
   let page: Page;
-  let loginPage;
   let dateTimePrefix;
   let spaceTitle;
   let spaceTopic;
   let user1;
   let userForLogin;
+  let storagesPath;
 
   // Components
   let headerMenu;
@@ -18,7 +18,9 @@ test.describe('Chats tests', async () => {
   let chatsAPI;
 
   test.beforeAll(async ({browser}, workerInfo) => {
-    page = await browser.newPage();
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    storagesPath = await BaseTest.ApiLogin(userForLogin);
+    page = await browser.newPage({storageState: storagesPath});
     await page.goto('/');
     user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1);
     chatsAPI = await BaseTest.apiManager.getChatsAPI(page);
@@ -26,14 +28,10 @@ test.describe('Chats tests', async () => {
     sideMenu = await BaseTest.pageManager.getSideMenuComponent(page);
     newChatsItem = await BaseTest.pageManager.getNewChatsItemComponent(page);
     sideSecondaryChatsMenu = await BaseTest.pageManager.getSideSecondaryChatsMenuComponent(page);
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    // Login
-    loginPage = await BaseTest.pageManager.getLoginPage(page);
-    await loginPage.Login(userForLogin.login, userForLogin.password);
   });
 
   test.beforeEach(async () => {
-    await page.reload();
+    await page.goto('/');
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     spaceTitle = dateTimePrefix + ' Autotest Space Title';
     spaceTopic = dateTimePrefix + ' Autotest Space Topic';
@@ -41,9 +39,9 @@ test.describe('Chats tests', async () => {
 
   test.afterEach(async () => {
     const conversations = await chatsAPI.GetConversations();
-    await conversations.forEach(async (conversation) => {
-      await chatsAPI.DeleteConversation(conversation.id);
-    });
+    await Promise.all(conversations.map(async (conversation) => {
+      return chatsAPI.DeleteConversation(conversation.id);
+    }));
   });
 
   test.afterAll(async () => {
