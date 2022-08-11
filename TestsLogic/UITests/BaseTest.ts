@@ -5,28 +5,31 @@ import {userPool} from '../../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
 
-// Declare your options to type-check your configuration.
-export type MyCredentials = {
-  login: string;
-  password: string;
-};
 
-export const test = base.extend<MyCredentials>({
-  // Define an option and provide a default value.
-  // We can later override it in the config.
-  login: ['Login', {option: true}],
-  password: ['Password', {option: true}],
-
-  page: async ({page}, use) => {
+export const test = base.extend<{pageManager: PageManager, apiManager: APIManager}>({
+  page: async ({browser}, use, workerInfo) => {
+    const userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    const storagesPath = await BaseTest.ApiLogin(userForLogin);
+    const page = await browser.newPage({storageState: storagesPath});
     await page.goto('/');
     await use(page);
+  },
+
+  pageManager: async ({page}, use) => {
+    const pageManager = new PageManager(page);
+    await use(pageManager);
+  },
+
+  apiManager: async ({page}, use) => {
+    const apiManager = new APIManager(page);
+    await use(apiManager);
   },
 });
 
 export class BaseTest {
   static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
-  static pageManager = new PageManager();
-  static apiManager = new APIManager();
+  // static pageManager = new PageManager();
+  // static apiManager = new APIManager();
   static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
 
   static GetUserFromPool(index) {

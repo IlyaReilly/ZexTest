@@ -2,7 +2,7 @@
 
 import type {PlaywrightTestConfig} from '@playwright/test';
 import {devices} from '@playwright/test';
-import {MyCredentials, BaseTest} from './TestsLogic/UITests/BaseTest';
+import {BaseTest} from './TestsLogic/UITests/BaseTest';
 
 /**
  * Read environment variables from file.
@@ -13,7 +13,7 @@ import {MyCredentials, BaseTest} from './TestsLogic/UITests/BaseTest';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-const config: PlaywrightTestConfig<MyCredentials> = {
+const config: PlaywrightTestConfig = {
   testDir: './TestsLogic',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,

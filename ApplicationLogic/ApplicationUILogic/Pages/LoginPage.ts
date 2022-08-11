@@ -1,5 +1,5 @@
 import {BasePage} from './BasePage';
-import {BaseTest} from '../../../TestsLogic/UITests/BaseTest';
+import {PageManager} from '../../ApplicationUILogic/Pages/PageManager';
 
 const pageLocator: string = '.jmIrib';
 
@@ -20,10 +20,10 @@ export class LoginPage extends BasePage {
   }
 
   async Login(login, password) {
+    const pageManager = new PageManager(this.page);
     await this.TextBox.Login.fill(login);
     await this.TextBox.Password.fill(password);
     await this.Buttons.Login.click();
-    const headerMenu = await BaseTest.pageManager.getHeaderMenuComponent(this.page);
-    await headerMenu.Logos.MainLogo.waitFor();
+    await pageManager.headerMenu.Logos.MainLogo.waitFor();
   }
 }

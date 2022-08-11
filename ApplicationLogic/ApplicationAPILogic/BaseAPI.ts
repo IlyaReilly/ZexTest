@@ -47,7 +47,6 @@ export class BaseAPI {
   readonly deleteConversationRequest = 'deleteConversation';
   // Files
   readonly uploadFileRequest = 'services/files/upload';
-
   readonly ActionRequestTypes = {
     delete: 'delete',
   };

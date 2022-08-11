@@ -11,6 +11,7 @@ export class HeaderMenu extends BasePage {
     UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
     NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
     NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
+    Search: this.Containers.MainContainer.locator('.ikNroI'),
   };
 
   UserMenu = {
@@ -38,6 +39,10 @@ export class HeaderMenu extends BasePage {
     MainLogo: this.Containers.MainContainer.locator('.heVtQH'),
   };
 
+  TextBoxes = {
+    Search: this.Containers.MainContainer.locator('.jgQFDI'),
+  };
+
   constructor(page) {
     super(page);
   }
@@ -59,5 +64,11 @@ export class HeaderMenu extends BasePage {
       this.NewItemMenu.Upload.click(),
     ]);
     await fileChooser.setFiles(filePath);
+  }
+
+  async MakeSearch(query) {
+    await this.TextBoxes.Search.type(query);
+    await this.TextBoxes.Search.locator(`"${query}"`).waitFor();
+    await this.TextBoxes.Search.press('Enter');
   }
 }

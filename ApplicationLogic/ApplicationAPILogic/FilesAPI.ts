@@ -48,6 +48,7 @@ export class FilesAPI extends BaseAPI {
     const image = fs.readFileSync(file);
     await this.page.request.post(`${this.uploadFileRequest}`, {
       headers: {
+        Accept: "*/*",
         ContentType: "multipart/form-data",
         Filename: "dGVzdC5wbmc=",
       },
@@ -58,6 +59,7 @@ export class FilesAPI extends BaseAPI {
           mimeType: "image/png",
           buffer: image,
         },
+        title: "Test file",
       },
     });
   }

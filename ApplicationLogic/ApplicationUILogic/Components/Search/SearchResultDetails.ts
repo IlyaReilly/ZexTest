@@ -1,6 +1,6 @@
 import {BasePage} from '../../Pages/BasePage';
 
-export class MailDetails extends BasePage {
+export class SearchResultDetails extends BasePage {
   Containers = {
     MailDetailsContainer: this.page.locator('.jbyjRV'),
     MailOptionsContainer: this.page.locator('.izBNKP'),
@@ -8,7 +8,6 @@ export class MailDetails extends BasePage {
 
   Elements = {
     LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
-    MoveMailNotification: this.page.locator('.ldHDuR'),
   };
 
   EditMail = {
