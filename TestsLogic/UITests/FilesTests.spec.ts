@@ -1,5 +1,7 @@
 import {expect} from '@playwright/test';
 import {test} from './BaseTest';
+import fs from "fs";
+
 
 test.describe('Files tests', async () => {
   // Components
@@ -40,5 +42,16 @@ test.describe('Files tests', async () => {
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
     await expect((pageManager.fileDetails.Elements.FilePreview)).toBeVisible();
+  });
+
+  test('File can be downloaded', async ({apiManager, pageManager}) => {
+    await apiManager.filesAPI.UploadFileViaAPI();
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
+    await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
+    expect(fs.existsSync(await pageManager.fileDetails.DownloadFile())).toBeTruthy();
+    fs.unlink('./TestData/test.png', function(err) {
+      if (err) throw err;
+    });
   });
 });

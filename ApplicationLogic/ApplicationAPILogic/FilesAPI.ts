@@ -44,7 +44,7 @@ export class FilesAPI extends BaseAPI {
   }
 
   async UploadFileViaAPI() {
-    const file = path.resolve("./TestData/", "test.png");
+    const file = path.resolve("./TestData/", "testAPI.png");
     const image = fs.readFileSync(file);
     await this.page.request.post(`${this.uploadFileRequest}`, {
       headers: {
