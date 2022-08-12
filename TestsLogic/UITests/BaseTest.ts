@@ -28,8 +28,6 @@ export const test = base.extend<{pageManager: PageManager, apiManager: APIManage
 
 export class BaseTest {
   static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
-  // static pageManager = new PageManager();
-  // static apiManager = new APIManager();
   static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
 
   static GetUserFromPool(index) {
