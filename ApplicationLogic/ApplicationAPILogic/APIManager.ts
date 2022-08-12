@@ -18,20 +18,4 @@ export class APIManager {
     this.chatsAPI = new ChatsAPI(this.page);
     this.filesAPI = new FilesAPI(this.page);
   }
-
-  async getMailsAPI(page) {
-    return await new MailsAPI(page);
-  }
-
-  async getCalendarAPI(page) {
-    return await new CalendarAPI(page);
-  }
-
-  async getChatsAPI(page) {
-    return await new ChatsAPI(page);
-  }
-
-  async getFilesAPI(page) {
-    return await new FilesAPI(page);
-  }
 }
