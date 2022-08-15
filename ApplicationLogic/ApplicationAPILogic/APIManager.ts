@@ -3,6 +3,7 @@ import {CalendarAPI} from './CalendarAPI';
 import {MailsAPI} from './MailsAPI';
 import {ChatsAPI} from './ChatsAPI';
 import {FilesAPI} from './FilesAPI';
+import {ContactsAPI} from './ContactsAPI';
 
 export class APIManager {
   page: Page;
@@ -10,6 +11,7 @@ export class APIManager {
   calendarAPI;
   chatsAPI;
   filesAPI;
+  сontactsAPI;
 
   constructor(page) {
     this.page = page;
@@ -17,5 +19,6 @@ export class APIManager {
     this.calendarAPI = new CalendarAPI(this.page);
     this.chatsAPI = new ChatsAPI(this.page);
     this.filesAPI = new FilesAPI(this.page);
+    this.сontactsAPI = new ContactsAPI(this.page);
   }
 }

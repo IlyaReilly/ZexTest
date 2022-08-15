@@ -2,11 +2,13 @@ import {BasePage} from '../../Pages/BasePage';
 
 export class SearchResultsList extends BasePage {
   Containers = {
-    MainContainer: this.page.locator('.gnWgSu'),
+    MainContainerMail: this.page.locator('.gnWgSu'),
+    MainContainerContacts: this.page.locator('.cMxeuw'),
   };
 
   Elements = {
-    SearchResult: this.Containers.MainContainer.locator('.eVGFEb'),
+    SearchResultMail: this.Containers.MainContainerMail.locator('.eVGFEb'),
+    SearchResultContacts: this.Containers.MainContainerContacts.locator('.cfJAcc'),
   };
 
   constructor(page) {

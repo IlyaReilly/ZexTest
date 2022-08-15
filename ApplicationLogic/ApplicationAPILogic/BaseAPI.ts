@@ -47,6 +47,11 @@ export class BaseAPI {
   readonly deleteConversationRequest = 'deleteConversation';
   // Files
   readonly uploadFileRequest = 'services/files/upload';
+
+  // Contacts
+  readonly contactActionRequest = 'ContactActionRequest';
+  readonly createContactRequest = 'CreateContactRequest';
+
   readonly ActionRequestTypes = {
     delete: 'delete',
   };

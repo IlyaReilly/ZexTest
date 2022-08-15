@@ -13,6 +13,7 @@ import {BaseTest} from './TestsLogic/UITests/BaseTest';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
 const config: PlaywrightTestConfig = {
   testDir: './TestsLogic',
   /* Maximum time one test can run for. */

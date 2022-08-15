@@ -5,7 +5,6 @@ import {userPool} from '../../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
 
-
 export const test = base.extend<{pageManager: PageManager, apiManager: APIManager}>({
   page: async ({browser}, use, workerInfo) => {
     const userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
