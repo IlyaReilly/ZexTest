@@ -34,7 +34,9 @@ export class FileDetails extends BasePage {
       this.page.waitForEvent('download'),
       this.FileOptions.Download.click(),
     ]);
-    console.log(await download.path());
-    await download.saveAs('./TestData/test.txt');
+    const suggestedFileName = download.suggestedFilename();
+    const downloadedfilePath = './TestData/' + suggestedFileName;
+    await download.saveAs(downloadedfilePath);
+    return downloadedfilePath;
   }
 }
