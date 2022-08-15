@@ -1,6 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
+import {userPool} from '../../TestData/UserPool';
 
 test.describe('Contacts tests', async () => {
   let mailSubject;
@@ -11,7 +12,8 @@ test.describe('Contacts tests', async () => {
   let userForLogin;
 
   test.beforeEach(async ({}, workerInfo) => {
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    userForLogin = userPool[5];
+    // userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
     firstName = BaseTest.dateTimePrefix() + 'FName';
     lastName = BaseTest.dateTimePrefix() + 'LName';
     email = BaseTest.dateTimePrefix() + '@test.com';
@@ -30,23 +32,32 @@ test.describe('Contacts tests', async () => {
     await expect(pageManager.sideSecondaryContactsMenu.Options.Trash, 'Trash tab should be presented').toBeVisible();
   });
 
-  test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager}) => {
+  test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
-    await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
+    // await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
+    const contacts = await apiManager.сontactsAPI.GetContacts(userForLogin.login);
+    await Promise.all(contacts.map(async (contact) => {
+      return apiManager.сontactsAPI.DeleteContactsById(contact.id, userForLogin.login);
+    }));
   });
 
   test('Emailed contact. New email reciever appears in emailed contact chapter', async ({pageManager, apiManager}) => {
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, email, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.EmailedContacts);
-    await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
+    // await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
+    const emailedContacts = await apiManager.сontactsAPI.GetEmailedContacts(userForLogin.login);
+    await Promise.all(emailedContacts.map(async (contact) => {
+      return apiManager.сontactsAPI.DeleteContactsById(contact.id, userForLogin.login);
+    }));
   });
 
-  test('Delete contact. Contact appears in trash chapter', async ({page, pageManager}) => {
+  test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
+    // await apiManager.сontactsAPI.CreateContact(firstName, email);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
@@ -54,6 +65,11 @@ test.describe('Contacts tests', async () => {
     await pageManager.contacts.DeleteContact();
     await page.reload({timeout: 3000});
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);
-    await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
+    // await page.evaluate(() => document.querySelector('.knclQe').scrollTo(0, document.body.scrollHeight));
+    // await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
+    const deletedContacts = await apiManager.сontactsAPI.GetTrashContacts(userForLogin.login);
+    await Promise.all(deletedContacts.map(async (contact) => {
+      return apiManager.сontactsAPI.DeleteContactsPermanentlyById(contact.id, userForLogin.login);
+    }));
   });
 });
