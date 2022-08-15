@@ -55,10 +55,11 @@ test.describe('Files tests', async () => {
       expect(fs.existsSync(await pageManager.fileDetails.DownloadFile())).toBeTruthy();
     } catch (e) {
       throw e;
-    } finally {
-      fs.unlink(`./download/${fileUploadTimeStamp + 'testAPI.png'}`, function(err) {
-        if (err) throw err;
-      });
     }
+    // finally {
+    //   fs.unlink(`./download/${fileUploadTimeStamp + 'testAPI.png'}`, function(err) {
+    //     if (err) throw err;
+    //   });
+    // }
   });
 });
