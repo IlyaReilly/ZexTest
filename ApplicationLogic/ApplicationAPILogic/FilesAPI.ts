@@ -55,16 +55,16 @@ export class FilesAPI extends BaseAPI {
     });
   }
 
-  async UploadFileViaAPI(fileName) {
+  async UploadFileViaAPI(fileName, fileUploadTimeStamp = Date.now()) {
     const file = path.resolve("./TestData/", fileName);
     const image = fs.readFileSync(file);
-    const buffer = Buffer.from(fileName);
-    const fileNameBase64 = buffer.toString('base64');
+    const buffer = Buffer.from(fileUploadTimeStamp + fileName);
+    const unicfileNameBase64 = buffer.toString('base64');
     await this.page.request.post(`${this.uploadFileRequest}`, {
       headers: {
         Accept: "*/*",
         ContentType: "multipart/form-data",
-        Filename: fileNameBase64,
+        Filename: unicfileNameBase64,
       },
       multipart: {
         file:
@@ -73,7 +73,6 @@ export class FilesAPI extends BaseAPI {
           mimeType: "image/png",
           buffer: image,
         },
-        title: "Test file",
       },
     });
   }

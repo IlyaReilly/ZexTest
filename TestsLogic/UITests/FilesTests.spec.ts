@@ -45,10 +45,20 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be downloaded', async ({apiManager, pageManager}) => {
-    await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
-    expect(fs.existsSync(await pageManager.fileDetails.DownloadFile())).toBeTruthy();
+    const fileUploadTimeStamp = Date.now();
+    try {
+      await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, fileUploadTimeStamp);
+      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+      await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
+      await expect((pageManager.filesList.Elements.File.locator(`"${fileUploadTimeStamp + 'testAPI'}"`))).toContainText(`${fileUploadTimeStamp}`);
+      await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
+      expect(fs.existsSync(await pageManager.fileDetails.DownloadFile())).toBeTruthy();
+    } catch (e) {
+      throw e;
+    } finally {
+      fs.unlink(`./download/${fileUploadTimeStamp + 'testAPI.png'}`, function(err) {
+        if (err) throw err;
+      });
+    }
   });
 });
