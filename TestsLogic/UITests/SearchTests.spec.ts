@@ -1,4 +1,6 @@
 import {expect} from '@playwright/test';
+import fs from "fs";
+import path from "path";
 import {test, BaseTest} from './BaseTest';
 
 test.describe('Search tests', async () => {
@@ -11,8 +13,8 @@ test.describe('Search tests', async () => {
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
   });
 
-  test.afterEach(async ({page, apiManager}) => {
-    // await page.close();
+  test.afterEach(async ({page}) => {
+    await page.close();
   });
 
   test('Search sent email', async ({pageManager, apiManager}) => {
@@ -48,6 +50,28 @@ test.describe('Search tests', async () => {
     } finally {
       const id = await apiManager.сontactsAPI.ContactsSearchQuery(contactName, userForLogin.login);
       await apiManager.сontactsAPI.DeleteContactsPermanentlyById(id, userForLogin.login);
+    }
+  });
+
+  test('Search file', async ({apiManager, pageManager}) => {
+    const templateFileName = 'fileForSearch.png';
+    const fileName = uniquePrefix + 'fileForSearch';
+    const fileNameFull = fileName + '.png';
+    const filePathSrc = path.resolve("./TestData/", templateFileName);
+    const filePathDest = path.resolve("./TestData/", fileNameFull);
+    fs.copyFileSync(filePathSrc, filePathDest);
+
+    try {
+      await apiManager.filesAPI.UploadFileViaAPI(fileNameFull);
+      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+      await pageManager.headerMenu.MakeSearch(fileName);
+      await expect(pageManager.searchResultsList.Elements.SearchResultFiles.locator(`"${fileName}"`)).toBeVisible();
+    } catch (e) {
+      throw e;
+    } finally {
+      fs.unlinkSync(filePathDest);
+      const id = await apiManager.filesAPI.FilesSearchQuery(fileName);
+      await apiManager.filesAPI.DeleteFilePermanentlyById(id);
     }
   });
 });
