@@ -6,7 +6,7 @@ import fs from "fs";
 test.describe('Files tests', async () => {
   // Components
   const fileNameJpg= 'testFile2';
-
+  const fileNameForApi= 'testAPI.png';
 
   test.beforeEach(async ({apiManager}) => {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
@@ -37,7 +37,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
-    await apiManager.filesAPI.UploadFileViaAPI();
+    await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
@@ -45,13 +45,10 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be downloaded', async ({apiManager, pageManager}) => {
-    await apiManager.filesAPI.UploadFileViaAPI();
+    await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
     expect(fs.existsSync(await pageManager.fileDetails.DownloadFile())).toBeTruthy();
-    fs.unlink('./TestData/test.png', function(err) {
-      if (err) throw err;
-    });
   });
 });
