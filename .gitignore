@@ -4,5 +4,6 @@ node_modules/
 /playwright/.cache/
 /allure-results/
 /lighthouse/
+/download/*
 *.orig
 *.local.json

@@ -55,10 +55,10 @@ export class FilesAPI extends BaseAPI {
     });
   }
 
-  async UploadFileViaAPI(fileName) {
+  async UploadFileViaAPI(fileName, unicFilePrefix = '') {
     const file = path.resolve("./TestData/", fileName);
     const image = fs.readFileSync(file);
-    const buffer = Buffer.from(fileName);
+    const buffer = Buffer.from(unicFilePrefix + fileName);
     const fileNameBase64 = buffer.toString('base64');
     await this.page.request.post(`${this.uploadFileRequest}`, {
       headers: {
@@ -73,7 +73,6 @@ export class FilesAPI extends BaseAPI {
           mimeType: "image/png",
           buffer: image,
         },
-        title: "Test file",
       },
     });
   }
