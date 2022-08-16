@@ -40,3 +40,4 @@ export class FileDetails extends BasePage {
     return downloadedfilePath;
   }
 }
+
