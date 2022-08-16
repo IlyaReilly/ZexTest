@@ -19,7 +19,9 @@ test.describe('Contacts tests', async () => {
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
   });
 
-  test.afterEach(async ({page}) => {
+  test.afterEach(async ({page, apiManager}) => {
+    const id = await apiManager.сontactsAPI.ContactsSearchQuery(firstName, userForLogin.login);
+    await apiManager.сontactsAPI.DeleteContactsPermanentlyById(id, userForLogin.login);
     await page.close();
   });
 
@@ -30,44 +32,32 @@ test.describe('Contacts tests', async () => {
     await expect(pageManager.sideSecondaryContactsMenu.Options.Trash, 'Trash tab should be presented').toBeVisible();
   });
 
-  test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager, apiManager}) => {
+  test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
-    // await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
-    const contacts = await apiManager.сontactsAPI.GetContacts(userForLogin.login);
-    await Promise.all(contacts.map(async (contact) => {
-      return apiManager.сontactsAPI.DeleteContactsById(contact.id, userForLogin.login);
-    }));
+    await page.evaluate(() => document.querySelector('.knclQe').scrollTo(0, document.body.scrollHeight));
+    await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
 
-  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({pageManager, apiManager}) => {
+  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({page, pageManager, apiManager}) => {
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, email, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.EmailedContacts);
-    // await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
-    const emailedContacts = await apiManager.сontactsAPI.GetEmailedContacts(userForLogin.login);
-    await Promise.all(emailedContacts.map(async (contact) => {
-      return apiManager.сontactsAPI.DeleteContactsById(contact.id, userForLogin.login);
-    }));
+    await page.evaluate(() => document.querySelector('.knclQe').scrollTo(0, document.body.scrollHeight));
+    await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
-    // await apiManager.сontactsAPI.CreateContact(firstName, email);
+    await apiManager.сontactsAPI.CreateContact(firstName, userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newContact.CreateNewContact(firstName, lastName, email);
-    await pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`).click();
+    await pageManager.contacts.Containers.ContactsContainer.locator(`"${userForLogin.login}"`).click();
     await pageManager.contacts.DeleteContact();
     await page.reload({timeout: 3000});
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);
-    // await page.evaluate(() => document.querySelector('.knclQe').scrollTo(0, document.body.scrollHeight));
-    // await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
-    const deletedContacts = await apiManager.сontactsAPI.GetTrashContacts(userForLogin.login);
-    await Promise.all(deletedContacts.map(async (contact) => {
-      return apiManager.сontactsAPI.DeleteContactsPermanentlyById(contact.id, userForLogin.login);
-    }));
+    await page.evaluate(() => document.querySelector('.knclQe').scrollTo(0, document.body.scrollHeight));
+    await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
   });
 });
