@@ -1,7 +1,6 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
-import {userPool} from '../../TestData/UserPool';
 
 test.describe('Contacts tests', async () => {
   let mailSubject;
@@ -12,9 +11,7 @@ test.describe('Contacts tests', async () => {
   let userForLogin;
 
   test.beforeEach(async ({}, workerInfo) => {
-    // userForLogin = userPool[5];
-    // userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    userForLogin = userPool[5];
+    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
     firstName = BaseTest.dateTimePrefix() + 'FName';
     lastName = BaseTest.dateTimePrefix() + 'LName';
     email = BaseTest.dateTimePrefix() + '@test.com';

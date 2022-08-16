@@ -7,8 +7,7 @@ import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI
 
 export const test = base.extend<{pageManager: PageManager, apiManager: APIManager}>({
   page: async ({browser}, use, workerInfo) => {
-    // const userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    const userForLogin = userPool[5];
+    const userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
     const storagesPath = await BaseTest.ApiLogin(userForLogin);
     const page = await browser.newPage({storageState: storagesPath});
     await page.goto('/');
