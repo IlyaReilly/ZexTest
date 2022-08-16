@@ -12,8 +12,9 @@ test.describe('Contacts tests', async () => {
   let userForLogin;
 
   test.beforeEach(async ({}, workerInfo) => {
-    userForLogin = userPool[5];
+    // userForLogin = userPool[5];
     // userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    userForLogin = userPool[5];
     firstName = BaseTest.dateTimePrefix() + 'FName';
     lastName = BaseTest.dateTimePrefix() + 'LName';
     email = BaseTest.dateTimePrefix() + '@test.com';
