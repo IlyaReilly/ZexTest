@@ -20,6 +20,8 @@ import {MailDetails} from '../Components/Mails/MailDetails';
 import {SearchResultDetails} from '../Components/Search/SearchResultDetails';
 import {SearchResultsList} from '../Components/Search/SearchResultsList';
 import {SearchStatisticsHeader} from '../Components/Search/SearchStatisticsHeader';
+import {ChatsInfo} from '../Components/Chats/ChatsInfo';
+import {Chats} from '../Components/Chats/Chats';
 
 export class PageManager {
   page: Page;
@@ -44,6 +46,8 @@ export class PageManager {
   sideSecondaryFilesMenu;
   filesList;
   fileDetails;
+  chatsInfo;
+  chats;
 
   constructor(page) {
     this.page = page;
@@ -68,5 +72,7 @@ export class PageManager {
     this.sideSecondaryFilesMenu = new SideSecondaryFilesMenu(page);
     this.filesList = new FilesList(page);
     this.fileDetails = new FileDetails(page);
+    this.chatsInfo = new ChatsInfo(page);
+    this.chats = new Chats(page);
   }
 }

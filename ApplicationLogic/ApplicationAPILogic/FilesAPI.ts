@@ -55,7 +55,7 @@ export class FilesAPI extends BaseAPI {
     });
   }
 
-  async UploadFileViaAPI(fileName) {
+  async UploadFileViaAPI(fileName, prefix = '') {
     const file = path.resolve("./TestData/", fileName);
     const image = fs.readFileSync(file);
     const buffer = Buffer.from(fileName);

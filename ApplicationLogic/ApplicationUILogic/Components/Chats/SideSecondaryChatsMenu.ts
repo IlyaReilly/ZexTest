@@ -22,7 +22,7 @@ export class SideSecondaryChatsMenu extends BasePage {
   };
 
   Elements = {
-    ConversationsListItem: this.Containers.MainContainer.locator('.heROSq'),
+    ConversationsListItem: this.Containers.MainContainer.locator('.beJmAt'),
   };
 
   constructor(page) {
@@ -34,4 +34,8 @@ export class SideSecondaryChatsMenu extends BasePage {
     Spaces: async () => await this.Tabs.Spaces.click(),
     VirtualRooms: async () => await this.Tabs.VirtualRooms.click(),
   };
+
+  async SelectConversationFromList(conversationTitle) {
+    await this.Elements.ConversationsListItem.locator(`"${conversationTitle}"`).click();
+  }
 }

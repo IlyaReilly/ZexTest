@@ -4,6 +4,7 @@ import {MailsAPI} from './MailsAPI';
 import {ChatsAPI} from './ChatsAPI';
 import {FilesAPI} from './FilesAPI';
 import {ContactsAPI} from './ContactsAPI';
+import {UsersAPI} from './UsersAPI';
 
 export class APIManager {
   page: Page;
@@ -12,6 +13,7 @@ export class APIManager {
   chatsAPI;
   filesAPI;
   сontactsAPI;
+  usersAPI;
 
   constructor(page) {
     this.page = page;
@@ -20,5 +22,6 @@ export class APIManager {
     this.chatsAPI = new ChatsAPI(this.page);
     this.filesAPI = new FilesAPI(this.page);
     this.сontactsAPI = new ContactsAPI(this.page);
+    this.usersAPI = new UsersAPI(this.page);
   }
 }

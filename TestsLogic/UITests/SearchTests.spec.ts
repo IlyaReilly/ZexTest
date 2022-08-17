@@ -53,6 +53,23 @@ test.describe('Search tests', async () => {
     }
   });
 
+  // Unstable test due to bug
+  test.skip('Search appointment', async ({apiManager, pageManager}) => {
+    const appointmentName = uniquePrefix + ' AppointmentName Name';
+
+    try {
+      await apiManager.calendarAPI.CreateAppointmentRequest(appointmentName, userForLogin.login, 2, 'appointmentName body');
+      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+      await pageManager.headerMenu.MakeSearch(uniquePrefix);
+      await expect(pageManager.searchResultsList.Elements.SearchResultAppointments.locator(`"${appointmentName}"`)).toBeVisible();
+    } catch (e) {
+      throw e;
+    } finally {
+      const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentName, userForLogin.login);
+      await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, userForLogin.login);
+    }
+  });
+
   test('Search file', async ({apiManager, pageManager}) => {
     const templateFileName = 'fileForSearch.png';
     const fileName = uniquePrefix + 'fileForSearch';
@@ -62,7 +79,7 @@ test.describe('Search tests', async () => {
     fs.copyFileSync(filePathSrc, filePathDest);
 
     try {
-      await apiManager.filesAPI.UploadFileViaAPI(fileNameFull);
+      await apiManager.filesAPI.UploadFileViaAPI(fileNameFull, uniquePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
       await pageManager.headerMenu.MakeSearch(fileName);
       await expect(pageManager.searchResultsList.Elements.SearchResultFiles.locator(`"${fileName}"`)).toBeVisible();

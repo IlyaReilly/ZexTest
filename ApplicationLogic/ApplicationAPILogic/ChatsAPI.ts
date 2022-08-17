@@ -22,4 +22,12 @@ export class ChatsAPI extends BaseAPI {
       data: {"conversation_id": id},
     });
   }
+
+  async CreateConversations(title, topic, userId) {
+    const response = await this.page.request.post(`${this.restServiceUrl}${this.createSpaceRequest}`, {
+      data: {"name": title, "invited_user_ids": [userId], "topic": topic},
+    });
+    const body = JSON.parse((await response.body()).toString());
+    return body.id;
+  }
 }

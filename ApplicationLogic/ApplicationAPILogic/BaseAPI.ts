@@ -44,13 +44,15 @@ export class BaseAPI {
   readonly cancelAppointmentRequest = 'CancelAppointmentRequest';
   // Chats
   readonly getConversationsRequest = 'getConversations';
+  readonly createSpaceRequest = 'createSpace';
   readonly deleteConversationRequest = 'deleteConversation';
   // Files
   readonly uploadFileRequest = 'services/files/upload';
-
   // Contacts
   readonly contactActionRequest = 'ContactActionRequest';
   readonly createContactRequest = 'CreateContactRequest';
+  // Users
+  readonly getUserDetailsRequest = 'getUserDetails';
 
   readonly ActionRequestTypes = {
     delete: 'delete',

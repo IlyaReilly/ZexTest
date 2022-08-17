@@ -14,15 +14,11 @@ test.describe('Chats tests', async () => {
     spaceTopic = dateTimePrefix + ' Autotest Space Topic';
   });
 
-  test.afterEach(async ({apiManager}) => {
+  test.afterAll(async ({apiManager}) => {
     const conversations = await apiManager.chatsAPI.GetConversations();
     await Promise.all(conversations.map(async (conversation) => {
       return apiManager.chatsAPI.DeleteConversation(conversation.id);
     }));
-  });
-
-  test.afterEach(async ({page}) => {
-    await page.close();
   });
 
   test('Create space. Space should appear in spaces list.', async ({pageManager}) => {
@@ -31,5 +27,17 @@ test.describe('Chats tests', async () => {
     await pageManager.newChatsItem.CreateSpace(spaceTitle, spaceTopic, user1.login);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toBeVisible();
+  });
+
+  test('Delete space. Space should be deleted.', async ({pageManager, apiManager}, workerInfo) => {
+    const user = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1);
+    const userId = await apiManager.usersAPI.GetUserId(user.login);
+    await apiManager.chatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
+    await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
+    await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
+    await pageManager.chatsInfo.Buttons.DeleteSpace.click();
+    await pageManager.chats.DeleteSpacePopup.DeleteButton.click();
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toHaveCount(0);
   });
 });
