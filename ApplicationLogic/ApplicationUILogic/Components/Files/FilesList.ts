@@ -13,6 +13,7 @@ export class FilesList extends BasePage {
   Elements = {
     File: this.Containers.MainContainer.locator('.iLcLUN'),
     Header: this.Containers.MainContainer.locator('.debCVK'),
+    FileName: this.Containers.ListContainer.locator('.hiooLB'),
   };
 
   async OpenFileDetails(file) {

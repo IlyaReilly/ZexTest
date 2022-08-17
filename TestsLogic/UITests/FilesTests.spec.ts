@@ -1,14 +1,16 @@
 import {expect} from '@playwright/test';
-import {test} from './BaseTest';
+import {test, BaseTest} from './BaseTest';
 import fs from "fs";
 
 
 test.describe('Files tests', async () => {
   // Components
-  const fileNameJpg= 'testFile2';
-  const fileNameForApi= 'testAPI.png';
+  const fileNameJpg = 'testFile2';
+  const fileNameForApi = 'testAPI.png';
+  let unicFilePrefix;
 
   test.beforeEach(async ({apiManager}) => {
+    unicFilePrefix = BaseTest.dateTimePrefix();
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.filesAPI.MoveFileToTrashById(file.id);
@@ -45,10 +47,15 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be downloaded', async ({apiManager, pageManager}) => {
-    await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
-    expect(fs.existsSync(await pageManager.fileDetails.DownloadFile())).toBeTruthy();
+    try {
+      await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
+      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+      await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
+      await expect((pageManager.filesList.Elements.File.locator(`"${unicFilePrefix + 'testAPI'}"`))).toBeVisible();
+      await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
+      expect(fs.existsSync(await pageManager.fileDetails.DownloadFile())).toBeTruthy();
+    } catch (e) {
+      throw e;
+    }
   });
 });
