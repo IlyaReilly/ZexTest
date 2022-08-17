@@ -19,7 +19,9 @@ test.describe('Contacts tests', async () => {
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
   });
 
-  test.afterEach(async ({page}) => {
+  test.afterEach(async ({page, apiManager}) => {
+    const id = await apiManager.сontactsAPI.ContactsSearchQuery(firstName, userForLogin.login);
+    await apiManager.сontactsAPI.DeleteContactsPermanentlyById(id, userForLogin.login);
     await page.close();
   });
 
@@ -36,24 +38,26 @@ test.describe('Contacts tests', async () => {
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
+    await page.evaluate(() => document.querySelector('.knclQe').scrollTo(0, document.body.scrollHeight));
     await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
 
-  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({pageManager, apiManager}) => {
+  test('Emailed contact. New email reciever appears in emailed contact chapter', async ({page, pageManager, apiManager}) => {
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, email, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.EmailedContacts);
+    await page.evaluate(() => document.querySelector('.knclQe').scrollTo(0, document.body.scrollHeight));
     await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
   });
 
-  test('Delete contact. Contact appears in trash chapter', async ({page, pageManager}) => {
+  test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
+    await apiManager.сontactsAPI.CreateContact(firstName, userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newContact.CreateNewContact(firstName, lastName, email);
-    await pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`).click();
+    await pageManager.contacts.Containers.ContactsContainer.locator(`"${userForLogin.login}"`).click();
     await pageManager.contacts.DeleteContact();
     await page.reload({timeout: 3000});
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);
-    await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${email}"`)).toBeVisible();
+    await page.evaluate(() => document.querySelector('.knclQe').scrollTo(0, document.body.scrollHeight));
+    await expect(pageManager.contacts.Containers.ContactsContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
   });
 });
