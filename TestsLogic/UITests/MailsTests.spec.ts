@@ -48,8 +48,8 @@ test.describe('Mails tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.MarkAsSpam();
-    await pageManager.mailDetails.Elements.MoveMailNotification.waitFor();
-    const elementHandle = await page.$(pageManager.mailDetails.Elements.MoveMailNotification._selector);
+    await pageManager.mailDetails.Elements.ActioWithMailNotification.waitFor();
+    const elementHandle = await page.$(pageManager.mailDetails.Elements.ActioWithMailNotification._selector);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Junk);
     await page.reload();

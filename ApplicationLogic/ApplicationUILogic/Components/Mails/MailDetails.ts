@@ -8,7 +8,7 @@ export class MailDetails extends BasePage {
 
   Elements = {
     LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
-    MoveMailNotification: this.page.locator('.ldHDuR'),
+    ActioWithMailNotification: this.page.locator('.ldHDuR'),
   };
 
   EditMail = {
