@@ -79,7 +79,7 @@ test.describe('Search tests', async () => {
     fs.copyFileSync(filePathSrc, filePathDest);
 
     try {
-      await apiManager.filesAPI.UploadFileViaAPI(fileNameFull, uniquePrefix);
+      await apiManager.filesAPI.UploadFileViaAPI(fileNameFull);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
       await pageManager.headerMenu.MakeSearch(fileName);
       await expect(pageManager.searchResultsList.Elements.SearchResultFiles.locator(`"${fileName}"`)).toBeVisible();
