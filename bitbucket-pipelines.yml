@@ -2,13 +2,41 @@ pipelines:
   default:
   - parallel:
     - step:
-        name: UI Tests
+        name: UI Tests Chromium
         image: mcr.microsoft.com/playwright:v1.22.0-focal
         script:
           - if [[ $UITESTS  == "true" ]]; then
           - npm install
           - npx playwright install
-          - npx playwright test
+          - npx playwright test --project="chromium"
+          - fi
+          - if [[ $UITESTS == "false" ]]; then echo "UI TEsts was skipped"; fi
+        services:
+          - docker
+        artifacts:
+          - playwright-report/**.*
+    - step:
+        name: UI Tests Firefox
+        image: mcr.microsoft.com/playwright:v1.22.0-focal
+        script:
+          - if [[ $UITESTS  == "true" ]]; then
+          - npm install
+          - npx playwright install
+          - npx playwright test --project="firefox"
+          - fi
+          - if [[ $UITESTS == "false" ]]; then echo "UI TEsts was skipped"; fi
+        services:
+          - docker
+        artifacts:
+          - playwright-report/**.*
+    - step:
+        name: UI Tests Webkit
+        image: mcr.microsoft.com/playwright:v1.22.0-focal
+        script:
+          - if [[ $UITESTS  == "true" ]]; then
+          - npm install
+          - npx playwright install
+          - npx playwright test --project="webkit"
           - fi
           - if [[ $UITESTS == "false" ]]; then echo "UI TEsts was skipped"; fi
         services:

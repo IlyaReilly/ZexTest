@@ -62,7 +62,7 @@ const config: PlaywrightTestConfig = {
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'ttrotestuser_digitalboost_chromium',
+      name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
         viewport: {height: 816, width: 1536},
@@ -72,6 +72,20 @@ const config: PlaywrightTestConfig = {
         // login: BaseTest.playwrightProjectsData.users.test0.login,
         // password: BaseTest.playwrightProjectsData.users.test0.password,
         // storageState: playwrightProjectsData.storageState,
+      },
+    },
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox'],
+        viewport: {height: 816, width: 1536},
+      },
+    },
+    {
+      name: 'webkit',
+      use: {
+        ...devices['Desktop Safari'],
+        viewport: {height: 816, width: 1536},
       },
     },
     // {
@@ -100,26 +114,6 @@ const config: PlaywrightTestConfig = {
     //   name: 'Mobile Chrome',
     //   use: {
     //     ...devices['Galaxy S9+'],
-    //     baseURL: playwrightProjectsData.baseURL.UAT,
-    //     login: playwrightProjectsData.users.bobTesting01.login,
-    //     password: playwrightProjectsData.users.bobTesting01.password,
-    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-    //     storageState: playwrightProjectsData.storageState,
-    //   },
-    // },
-    // {
-    //   name: 'firefox',
-    //   use: {
-    //     ...devices['Desktop Firefox'],
-    //     login: playwrightProjectsData.users.test0.login,
-    //     password: playwrightProjectsData.users.test0.password,
-    //     storageState: playwrightProjectsData.storageState,
-    //   },
-    // },
-    // {
-    //   name: 'webkit',
-    //   use: {
-    //     ...devices['Desktop Safari'],
     //     baseURL: playwrightProjectsData.baseURL.UAT,
     //     login: playwrightProjectsData.users.bobTesting01.login,
     //     password: playwrightProjectsData.users.bobTesting01.password,
