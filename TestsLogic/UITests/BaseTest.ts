@@ -9,7 +9,7 @@ export const test = base.extend<{pageManager: PageManager, apiManager: APIManage
   page: async ({browser}, use, workerInfo) => {
     const userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
     const storagesPath = await BaseTest.ApiLogin(userForLogin);
-    const page = await browser.newPage({storageState: storagesPath});
+    const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
     await use(page);
   },
