@@ -16,6 +16,6 @@ export class MailsList extends BasePage {
   }
 
   async OpenMail(mailSubject) {
-    await this.Elements.Letter.locator(`"${mailSubject}"`).click();
+    await this.Elements.Letter.locator(`"${mailSubject}"`).first().click();
   }
 }

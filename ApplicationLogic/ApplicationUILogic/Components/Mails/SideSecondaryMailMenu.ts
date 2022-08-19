@@ -23,7 +23,7 @@ export class SideSecondaryMailMenu extends BasePage {
 
   async OpenMailFolder(folder) {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
-      await this.Buttons.OpenHideMailFolders.click();
+      await this.Buttons.OpenHideMailFolders.first().click();
     }
 
     await folder.click();
