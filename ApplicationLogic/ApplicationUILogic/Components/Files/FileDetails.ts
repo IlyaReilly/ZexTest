@@ -8,6 +8,7 @@ export class FileDetails extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.jbyjRV'),
     HeaderContainer: this.page.locator('.gjtssk'),
+    FileOptionsContainer: this.page.locator('.izBNKP'),
   };
 
   Elements = {
@@ -23,10 +24,11 @@ export class FileDetails extends BasePage {
   };
 
   FileOptions = {
-    Download: this.Containers.MainContainer.locator('[data-testid="icon: Download"]'),
-    MaximizeOutline: this.Containers.MainContainer.locator('[data-testid="icon: MaximizeOutline"]'),
-    MoreOptions: this.Containers.MainContainer.locator('[data-testid="icon: MoreVertical"]'),
-    Flag: this.Containers.MainContainer.locator('"Flag"'),
+    Download: this.Containers.FileOptionsContainer.locator('[data-testid="icon: Download"]'),
+    MaximizeOutline: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MaximizeOutline"]'),
+    MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MoreVertical"]'),
+    Flag: this.Containers.FileOptionsContainer.locator('"Flag"'),
+    UnFlag: this.Containers.FileOptionsContainer.locator('"Unflag"'),
   };
 
   async DownloadFile() {
