@@ -12,7 +12,7 @@ test.describe('Contacts tests', async () => {
 
   test.beforeEach(async ({}, workerInfo) => {
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    firstName = BaseTest.dateTimePrefix() + 'FName';
+    firstName = BaseTest.dateTimePrefix();
     lastName = BaseTest.dateTimePrefix() + 'LName';
     email = BaseTest.dateTimePrefix() + '@test.com';
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
