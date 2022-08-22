@@ -23,7 +23,6 @@ test.describe('Calendars tests', async () => {
   });
 
   test.afterEach(async ({page}) => {
-    await page.close();
   });
 
   test('Open Calendars tab. All calendars tabs display.', async ({pageManager}) => {

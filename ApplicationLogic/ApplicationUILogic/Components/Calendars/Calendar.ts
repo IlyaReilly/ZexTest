@@ -33,9 +33,9 @@ export class Calendar extends BasePage {
 
   async OpenAppointmentInfoPopup(appointmentTitle) {
     const appointmentLocator = this.Elements.Appointment.locator(`"${appointmentTitle}"`);
-    await appointmentLocator.waitFor();
-    const appointmentElement = await this.page.$(appointmentLocator._selector);
+    const appointmentElement = await this.page.waitForSelector(appointmentLocator._selector, {state: 'attached'});
     await appointmentElement.evaluate((el) => el.style.display = 'inline');
+    await appointmentElement.evaluate((el) => el.style.visibility = 'visible');
     await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
   }
 
