@@ -1,58 +1,58 @@
 {
   "baseURL":
     {
-      "QA": "https://qa-1.demo.zextras.io/"
+      "QA": "https://2150.demo.zextras.io/"
     },
   "users":
     {
       "test0":
         {
-          "login": "test0@testautomation.local",
+          "login": "test0@demo.zextras.io",
           "password": "assext0"
         },
       "test1":
         {
-          "login": "test1@testautomation.local",
+          "login": "test1@demo.zextras.io",
           "password": "assext1"
         },
       "test2":
         {
-          "login": "test2@testautomation.local",
+          "login": "test2@demo.zextras.io",
           "password": "assext2"
         },
       "test3":
         {
-          "login": "test3@testautomation.local",
+          "login": "test3@demo.zextras.io",
           "password": "assext3"
         },
       "test4":
         {
-          "login": "test4@testautomation.local",
+          "login": "test4@demo.zextras.io",
           "password": "assext4"
         },
       "test5":
         {
-          "login": "test5@testautomation.local",
+          "login": "test5@demo.zextras.io",
           "password": "assext5"
         },
       "test6":
         {
-          "login": "test6@testautomation.local",
+          "login": "test6@demo.zextras.io",
           "password": "assext6"
         },
       "test7":
         {
-          "login": "test7@testautomation.local",
+          "login": "test7@demo.zextras.io",
           "password": "assext7"
         },
       "test8":
         {
-          "login": "test8@testautomation.local",
+          "login": "test8@demo.zextras.io",
           "password": "assext8"
         },
       "test9":
         {
-          "login": "test9@testautomation.local",
+          "login": "test9@demo.zextras.io",
           "password": "assext9"
         }
     },
