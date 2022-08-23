@@ -4,7 +4,7 @@
       "sameSite": "Lax",
       "name": "UI",
       "value": "iris",
-      "domain": "qa-1.demo.zextras.io",
+      "domain": "2150.demo.zextras.io",
       "path": "/",
       "expires": -1,
       "httpOnly": false,
@@ -13,8 +13,8 @@
     {
       "sameSite": "Lax",
       "name": "ZX_AUTH_TOKEN",
-      "value": "eyJhbGciOiJSUzUxMiJ9.eyJpc3MiOiI5N2IwZDg1My0zZDU5LTRiYmYtYjM2YS00NGE1Nzk2ZDlmMTEiLCJzdWIiOiI0Yzc2MmE2OC02NDM1LTQ1NzMtYmQyYy0zZGYwNjRmMGVmNzkiLCJleHAiOjE2NTk3NzA3NjUsImp0aSI6ImRhMzIzNDE3LWZjN2QtNGE3MS05MDAyLWFjZmI1YjRhNzZmZCIsImlhdCI6MTY1OTU5Nzk2NSwiZXh0cmFfaW5mb3JtYXRpb24iOiJ7XCJkb21haW5faWRcIjpcImRkODk1Y2I0LWMwY2QtNGI3My1hNmMyLWI5YjdiNDczNjY0ZFwiLFwicHJvdG9jb2xcIjpcImh0dHBcIixcImRldmljZV9pZFwiOlwiNjNjZWY1MmItNzY0Mi00ZjVkLWEzY2UtZDNlMDQ4ODM5MjYzXCIsXCJkZXZpY2VfbW9kZWxcIjpcIkNocm9tZSAxMDQvV2luZG93cyAxMFwiLFwiZG9tYWluX3VybFwiOlwiaHR0cHM6Ly9xYS0xLmRlbW8uemV4dHJhcy5pb1wiLFwiaXBfYWRkcmVzc1wiOlwiODkuNjQuNTAuNTBcIixcInVzZXJfYWdlbnRcIjpcIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDQuMC41MTEyLjIwIFNhZmFyaS81MzcuMzZcIn0iLCJzZXJ2aWNlIjoiV2ViVUkiLCJ0b2tlbiI6IjBfNmEyMzYzMjk2YTM4MTJiNzNhZWQ4MjhhNTM0OTZkZTZhMjM1MzE4ZF82OTY0M2QzMzM2M2EzNDYzMzczNjMyNjEzNjM4MmQzNjM0MzMzNTJkMzQzNTM3MzMyZDYyNjQzMjYzMmQzMzY0NjYzMDM2MzQ2NjMwNjU2NjM3MzkzYjY1Nzg3MDNkMzEzMzNhMzEzNjM1MzkzNzM3MzAzNzM2MzUzMzM1MzkzYjc0Nzk3MDY1M2QzNjNhN2E2OTZkNjI3MjYxM2I3NTNkMzEzYTYxM2I3NDY5NjQzZDMxMzAzYTMyMzAzNjMyMzEzNDM2MzIzMTM1M2IifQ.oz3dgNvn4k8DZG41Sfeyp1Z1i_EZb7gjg3bGhKlncLpB8EOQQUp55GnhEOBy9kTBLALHl_GyFgkTN1hpf8OtLKLMCtMY-yTI6vrMMsVyooalrNvLRBFGAGUdtMcr_hCS7exayc7b7BrJcNVf9hp6l5H5ZXiFJ8Ju217Pn7qYMuw0PGy3XnKtIi9HRAHbW3AyQB0qJuaVPkoH63tSiFvP3ln1DNdNGSUObAPUIqWeA9pqpDHN3s-9L9s6yHQbvPsf6oVlNLn-UuyUYfplRO9bb_waPWZOT0mRFSoaZ9_rw0OnOqm5phzQbkBXRyDCt1SetkwltLg06tf3APsXMZB8lg",
-      "domain": "qa-1.demo.zextras.io",
+      "value": "eyJhbGciOiJSUzUxMiJ9.eyJpc3MiOiI5ZDhjNmJiYS1mMjFjLTRlMTktYTlkYi02YmI0NGU1OTAzMjAiLCJzdWIiOiJiMWFiNmZjNC1iOWVhLTRlMjktYmViYi1lZmU4MDM2MmM5NDkiLCJleHAiOjE2NjE0MzIxODIsImp0aSI6ImE4NzRmYjkwLWZhNTYtNDE1NC1iNjVmLWY4OWJhNjFkNmJhMyIsImlhdCI6MTY2MTI1OTM4MiwiZXh0cmFfaW5mb3JtYXRpb24iOiJ7XCJkb21haW5faWRcIjpcIjU4NGY5YTU4LTRmNmUtNGRmNi1iYjU1LWVjZmYzNWJkNTJkNlwiLFwicHJvdG9jb2xcIjpcImh0dHBcIixcImRldmljZV9pZFwiOlwiN2ViNjRmODItNGZkMi00ZWQ0LWI3N2YtZjdmM2IyZDZjYzg5XCIsXCJkZXZpY2VfbW9kZWxcIjpcIkNocm9tZSAxMDQvV2luZG93cyAxMFwiLFwiZG9tYWluX3VybFwiOlwiaHR0cHM6Ly8yMTUwLmRlbW8uemV4dHJhcy5pb1wiLFwiaXBfYWRkcmVzc1wiOlwiODIuMTM1LjI0MS4yMDhcIixcInVzZXJfYWdlbnRcIjpcIk1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS8xMDQuMC41MTEyLjIwIFNhZmFyaS81MzcuMzZcIn0iLCJzZXJ2aWNlIjoiV2ViVUkiLCJ0b2tlbiI6IjBfZGI1YzM0ZDkzNTU2N2JjYTRhMGY5ZDIxNjI4YTUyNmNmYzU5MDY4ZV82OTY0M2QzMzM2M2E2MjMxNjE2MjM2NjY2MzM0MmQ2MjM5NjU2MTJkMzQ2NTMyMzkyZDYyNjU2MjYyMmQ2NTY2NjUzODMwMzMzNjMyNjMzOTM0MzkzYjY1Nzg3MDNkMzEzMzNhMzEzNjM2MzEzNDMzMzIzMTM4MzIzMDM0MzIzYjc0Nzk3MDY1M2QzNjNhN2E2OTZkNjI3MjYxM2I3NTNkMzEzYTYxM2I3NDY5NjQzZDMxMzAzYTMxMzQzMjM4MzkzNTMwMzUzNTM1M2IifQ.ApsMcDWNyzsAoic17CA8la5Kca_6Y9e0sR8tfaUInVLkK_UpHbRQmVgEQBoMWfDurY9x4yHlFETBrVfqBOuQsz_nzwlZ6u81r5sTJStdhnmq5nfNOI0L1DkGQJ8dtajhAvQXXJkvKNiF1Z9RAQDsSCMFZiNgafY2Mx0vuUAxXHInunzV1YZ6Q7No0nWTEr0L_PGbgPDGW28QkktD9oVXH0ycQkWal9BnsPcw9ryLkCy2xnEGgyjJOgM_xNZsjUyk-hSP8-lXIireyrP1a6xmd9lJvqBij-xW_ustl71HODarnvs1g4Gu6Z-KdRe5f2yeRgM-KD4NN_o2gymE0QMFBQ",
+      "domain": "2150.demo.zextras.io",
       "path": "/",
       "expires": -1,
       "httpOnly": true,
@@ -23,8 +23,8 @@
     {
       "sameSite": "Lax",
       "name": "ZM_AUTH_TOKEN",
-      "value": "0_6a2363296a3812b73aed828a53496de6a235318d_69643d33363a34633736326136382d363433352d343537332d626432632d3364663036346630656637393b6578703d31333a313635393737303736353335393b747970653d363a7a696d6272613b753d313a613b7469643d31303a323036323134363231353b",
-      "domain": "qa-1.demo.zextras.io",
+      "value": "0_db5c34d935567bca4a0f9d21628a526cfc59068e_69643d33363a62316162366663342d623965612d346532392d626562622d6566653830333632633934393b6578703d31333a313636313433323138323034323b747970653d363a7a696d6272613b753d313a613b7469643d31303a313432383935303535353b",
+      "domain": "2150.demo.zextras.io",
       "path": "/",
       "expires": -1,
       "httpOnly": true,
@@ -33,15 +33,15 @@
   ],
   "origins": [
     {
-      "origin": "https://qa-1.demo.zextras.io",
+      "origin": "https://2150.demo.zextras.io",
       "localStorage": [
         {
           "name": "device-uuid",
-          "value": "63cef52b-7642-4f5d-a3ce-d3e048839263"
+          "value": "7eb64f82-4fd2-4ed4-b77f-f7f3b2d6cc89"
         },
         {
           "name": "i18nextLng",
-          "value": "ru-RU"
+          "value": "en-US"
         }
       ]
     }
