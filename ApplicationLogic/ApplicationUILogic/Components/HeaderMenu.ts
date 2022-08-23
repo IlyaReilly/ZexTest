@@ -66,13 +66,6 @@ export class HeaderMenu extends BasePage {
     await fileChooser.setFiles(filePath);
   }
 
-  // WORK ON IT!!!!
-
-  async CreateNewFolder(folderName) {
-    await this.Buttons.NewItemMenu.click();
-    await this.NewItemMenu.NewFolder.click();
-  }
-
   async MakeSearch(query) {
     await this.TextBoxes.Search.type(query);
     await this.TextBoxes.Search.locator(`"${query}"`).waitFor();

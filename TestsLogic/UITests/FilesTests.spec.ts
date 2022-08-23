@@ -58,4 +58,15 @@ test.describe('Files tests', async () => {
       throw e;
     }
   });
+
+  test('Create new Folder', async ({pageManager, page}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await pageManager.headerMenu.Buttons.NewItemMenu.click();
+    const elementHandle = await page.$(pageManager.headerMenu.Containers.NewItemMenuContainer);
+    await elementHandle?.waitForElementState('visible');
+    await pageManager.headerMenu.OpenNewItemMenuSection(pageManager.headerMenu.NewItemMenu.NewFolder);
+    // await pageManager.headerMenu.NewItemMenu.NewFolder.click();
+    // await pageManager.headerMenu.OpenNewItemMenuSection(pageManager.headerMenu.NewItemMenu.NewFolder);
+    await pageManager.fileDetails.CreateNewEntity('testFolder1');
+  });
 });

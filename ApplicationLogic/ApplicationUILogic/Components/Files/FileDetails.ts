@@ -9,12 +9,18 @@ export class FileDetails extends BasePage {
     MainContainer: this.page.locator('.jbyjRV'),
     HeaderContainer: this.page.locator('.gjtssk'),
     FileOptionsContainer: this.page.locator('.izBNKP'),
+    PopupContainer: this.page.locator('.loeZsV'),
   };
 
   Elements = {
     FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
     FilePreview: this.page.locator('.hpDEtg'),
+  };
 
+  CreateEntityPopup = {
+    EntityInput: this.Containers.PopupContainer.locator('.IUNTF'),
+    ClosePopupButton: this.Containers.PopupContainer.locator('.cvcXyJ'),
+    CreateButton: this.Containers.PopupContainer.locator('"CREATE"'),
   };
 
   Buttons = {
@@ -40,6 +46,14 @@ export class FileDetails extends BasePage {
     const downloadedfilePath = './download/' + suggestedFileName;
     await download.saveAs(downloadedfilePath);
     return downloadedfilePath;
+  }
+
+  // WORK ON IT!!!!
+
+  async CreateNewEntity(entityName) {
+    await this.CreateEntityPopup.EntityInput.click();
+    await this.CreateEntityPopup.EntityInput.fill(entityName);
+    await this.CreateEntityPopup.CreateButton.click();
   }
 }
 
