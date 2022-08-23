@@ -28,6 +28,7 @@ export const test = base.extend<{pageManager: PageManager, apiManager: APIManage
 export class BaseTest {
   static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
   static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
+  static baseUrl = BaseTest.playwrightProjectsData.baseURL.QA;
 
   static GetUserFromPool(index) {
     const lastDigit2Str = String(index).slice(-1);
@@ -38,7 +39,12 @@ export class BaseTest {
     const storagesPath = '../../TestData/StorageStates/storageState.json';
     const userStoragesPath = `TestData/StorageStates/${user.login}.json`;
     const authTokens = await ApiLoginMethod(user.login, user.password);
+    const domain = BaseTest.baseUrl.replace('https://', '').replace('/', '');
     const storageStatejson = JSON.parse(JSON.stringify(require(storagesPath)));
+    storageStatejson.cookies[0].domain = domain;
+    storageStatejson.cookies[1].domain = domain;
+    storageStatejson.cookies[2].domain = domain;
+    storageStatejson.origins[0].origin = BaseTest.baseUrl;
     storageStatejson.cookies[1].value = authTokens[0];
     storageStatejson.cookies[2].value = authTokens[1];
     const jsonData = JSON.stringify(storageStatejson);

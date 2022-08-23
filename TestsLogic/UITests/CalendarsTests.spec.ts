@@ -22,9 +22,6 @@ test.describe('Calendars tests', async () => {
     await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, userForLogin.login);
   });
 
-  test.afterEach(async ({page}) => {
-  });
-
   test('Open Calendars tab. All calendars tabs display.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.AllCalendars, 'All calendars tab should be presented').toBeVisible();
