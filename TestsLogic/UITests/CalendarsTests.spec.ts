@@ -50,12 +50,13 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
-  test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager}) => {
+  test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, userForLogin.login, '3', appointmentBody);
     await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);
+    await page.reload();
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
   });
 });
