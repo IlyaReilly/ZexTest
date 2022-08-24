@@ -8,12 +8,20 @@ export class FileDetails extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.jbyjRV'),
     HeaderContainer: this.page.locator('.gjtssk'),
+    FileOptionsContainer: this.page.locator('.gBuoCY'),
+    FileOptionsDropdownContainer: this.page.locator('.izBNKP'),
+    PopupContainer: this.page.locator('.loeZsV'),
   };
 
   Elements = {
     FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
-    FilePreview: this.page.locator('.hpDEtg'),
+    FilePreview: this.page.locator('.kpwBSH'),
+  };
 
+  CreateEntityPopup = {
+    EntityInput: this.Containers.PopupContainer.locator('.IUNTF'),
+    ClosePopupButton: this.Containers.PopupContainer.locator('.cvcXyJ'),
+    CreateButton: this.Containers.PopupContainer.locator('"CREATE"'),
   };
 
   Buttons = {
@@ -23,10 +31,11 @@ export class FileDetails extends BasePage {
   };
 
   FileOptions = {
-    Download: this.Containers.MainContainer.locator('[data-testid="icon: Download"]'),
-    MaximizeOutline: this.Containers.MainContainer.locator('[data-testid="icon: MaximizeOutline"]'),
-    MoreOptions: this.Containers.MainContainer.locator('[data-testid="icon: MoreVertical"]'),
-    Flag: this.Containers.MainContainer.locator('"Flag"'),
+    Download: this.Containers.FileOptionsContainer.locator('[data-testid="icon: Download"]'),
+    MaximizeOutline: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MaximizeOutline"]'),
+    MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MoreVertical"]'),
+    Flag: this.Containers.FileOptionsDropdownContainer.locator('"Flag"'),
+    UnFlag: this.Containers.FileOptionsDropdownContainer.locator('"Unflag"'),
   };
 
   async DownloadFile() {
@@ -38,6 +47,13 @@ export class FileDetails extends BasePage {
     const downloadedfilePath = './download/' + suggestedFileName;
     await download.saveAs(downloadedfilePath);
     return downloadedfilePath;
+  }
+
+  async CreateNewEntity(entityName) {
+    entityName = entityName + Date.now();
+    await this.CreateEntityPopup.EntityInput.click();
+    await this.CreateEntityPopup.EntityInput.fill(entityName);
+    await this.CreateEntityPopup.CreateButton.click();
   }
 }
 
