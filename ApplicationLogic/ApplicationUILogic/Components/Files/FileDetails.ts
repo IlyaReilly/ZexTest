@@ -8,13 +8,14 @@ export class FileDetails extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.jbyjRV'),
     HeaderContainer: this.page.locator('.gjtssk'),
-    FileOptionsContainer: this.page.locator('.izBNKP'),
+    FileOptionsContainer: this.page.locator('.gBuoCY'),
+    FileOptionsDropdownContainer: this.page.locator('.izBNKP'),
     PopupContainer: this.page.locator('.loeZsV'),
   };
 
   Elements = {
     FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
-    FilePreview: this.page.locator('.hpDEtg'),
+    FilePreview: this.page.locator('.kpwBSH'),
   };
 
   CreateEntityPopup = {
@@ -33,8 +34,8 @@ export class FileDetails extends BasePage {
     Download: this.Containers.FileOptionsContainer.locator('[data-testid="icon: Download"]'),
     MaximizeOutline: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MaximizeOutline"]'),
     MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MoreVertical"]'),
-    Flag: this.Containers.FileOptionsContainer.locator('"Flag"'),
-    UnFlag: this.Containers.FileOptionsContainer.locator('"Unflag"'),
+    Flag: this.Containers.FileOptionsDropdownContainer.locator('"Flag"'),
+    UnFlag: this.Containers.FileOptionsDropdownContainer.locator('"Unflag"'),
   };
 
   async DownloadFile() {
@@ -48,9 +49,8 @@ export class FileDetails extends BasePage {
     return downloadedfilePath;
   }
 
-  // WORK ON IT!!!!
-
   async CreateNewEntity(entityName) {
+    entityName = entityName + Date.now();
     await this.CreateEntityPopup.EntityInput.click();
     await this.CreateEntityPopup.EntityInput.fill(entityName);
     await this.CreateEntityPopup.CreateButton.click();

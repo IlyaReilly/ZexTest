@@ -17,7 +17,7 @@ test.describe('Files tests', async () => {
     }));
   });
 
-  test.afterEach(async ({apiManager}) => {
+  test.afterEach(async ({apiManager, page}) => {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.filesAPI.MoveFileToTrashById(file.id);
@@ -26,9 +26,6 @@ test.describe('Files tests', async () => {
     await Promise.all(trashFiles.map(async (file) => {
       return apiManager.filesAPI.DeleteFilePermanentlyById(file.id);
     }));
-  });
-
-  test.afterAll(async ({page}) => {
     await page.close();
   });
 
@@ -57,16 +54,5 @@ test.describe('Files tests', async () => {
     } catch (e) {
       throw e;
     }
-  });
-
-  test('Create new Folder', async ({pageManager, page}) => {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await pageManager.headerMenu.Buttons.NewItemMenu.click();
-    const elementHandle = await page.$(pageManager.headerMenu.Containers.NewItemMenuContainer);
-    await elementHandle?.waitForElementState('visible');
-    await pageManager.headerMenu.OpenNewItemMenuSection(pageManager.headerMenu.NewItemMenu.NewFolder);
-    // await pageManager.headerMenu.NewItemMenu.NewFolder.click();
-    // await pageManager.headerMenu.OpenNewItemMenuSection(pageManager.headerMenu.NewItemMenu.NewFolder);
-    await pageManager.fileDetails.CreateNewEntity('testFolder1');
   });
 });
