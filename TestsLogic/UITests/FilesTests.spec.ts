@@ -17,7 +17,7 @@ test.describe('Files tests', async () => {
     }));
   });
 
-  test.afterEach(async ({apiManager}) => {
+  test.afterEach(async ({apiManager, page}) => {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.filesAPI.MoveFileToTrashById(file.id);
@@ -26,9 +26,6 @@ test.describe('Files tests', async () => {
     await Promise.all(trashFiles.map(async (file) => {
       return apiManager.filesAPI.DeleteFilePermanentlyById(file.id);
     }));
-  });
-
-  test.afterAll(async ({page}) => {
     await page.close();
   });
 

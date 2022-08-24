@@ -26,7 +26,7 @@ export class HeaderMenu extends BasePage {
     NewAppointment: this.Containers.NewItemMenuContainer.locator('"New appointment"'),
     NewContact: this.Containers.NewItemMenuContainer.locator('"New contact"'),
     Upload: this.Containers.NewItemMenuContainer.locator('"Upload"'),
-    NewFolder: this.Containers.NewItemMenuContainer.locator('"New Folder"'),
+    NewFolder: this.Containers.NewItemMenuContainer.locator(`:nth-match(:text('New Folder'), 1)`),
     NewDocument: this.Containers.NewItemMenuContainer.locator('"New Document"'),
     NewSpreadsheet: this.Containers.NewItemMenuContainer.locator('"New Spreadsheet"'),
     NewPresentation: this.Containers.NewItemMenuContainer.locator('"New Presentation"'),
@@ -54,6 +54,9 @@ export class HeaderMenu extends BasePage {
 
   async OpenNewItemMenuSection(item) {
     await this.Buttons.NewItemMenu.click();
+    const elementHandle = await this.page.$(this.Containers.NewItemMenuContainer._selector);
+    await elementHandle?.waitForElementState('visible');
+    await item.hover();
     await item.click();
   }
 
