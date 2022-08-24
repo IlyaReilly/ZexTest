@@ -74,20 +74,20 @@ const config: PlaywrightTestConfig = {
         // storageState: playwrightProjectsData.storageState,
       },
     },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        viewport: {height: 816, width: 1536},
-      },
-    },
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-        viewport: {height: 816, width: 1536},
-      },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     viewport: {height: 816, width: 1536},
+    //   },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //     viewport: {height: 816, width: 1536},
+    //   },
+    // },
     // // {
     //   name: 'Mobile Safari',
     //   use: {

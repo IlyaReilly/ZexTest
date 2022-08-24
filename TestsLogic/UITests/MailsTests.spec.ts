@@ -37,7 +37,7 @@ test.describe('Mails tests', async () => {
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
-    await page.reload({timeout: 3000});
+    await page.reload();
     await pageManager.mailsList.OpenMail(mailSubject);
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
