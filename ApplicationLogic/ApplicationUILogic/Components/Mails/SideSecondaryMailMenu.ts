@@ -6,7 +6,7 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   Buttons = {
-    OpenHideMailFolders: this.Containers.MainContainer.locator('.jrPiJK .cLLOPN'),
+    OpenHideMailFolders: this.Containers.MainContainer.locator('.fjrKpL .cLLOPN'),
   };
 
   MailFolders = {
