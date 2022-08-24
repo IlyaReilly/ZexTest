@@ -29,7 +29,8 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
   });
 
-  test('Inbox mail. Mail appears in the inbox chapter', async ({page, pageManager}) => {
+  test('Inbox mail. Mail appears in the inbox chapter', async ({page, pageManager, browserName}) => {
+    test.slow(browserName === 'webkit', 'This test is slow on Mac');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(userForLogin.login, mailSubject, mailBody);
@@ -37,12 +38,13 @@ test.describe('Mails tests', async () => {
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
-    await page.reload({timeout: 3000});
+    await page.reload();
     await pageManager.mailsList.OpenMail(mailSubject);
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
-  test('Junk mail. Mail appears in the junk chapter', async ({page, pageManager, apiManager}) => {
+  test('Junk mail. Mail appears in the junk chapter', async ({page, pageManager, apiManager, browserName}) => {
+    test.slow(browserName === 'webkit', 'This test is slow on Mac');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, user1.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
