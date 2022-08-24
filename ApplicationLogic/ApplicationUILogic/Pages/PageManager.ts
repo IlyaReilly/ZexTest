@@ -10,7 +10,7 @@ import {SideSecondaryContactsMenu} from '../Components/Contacts/SideSecondaryCon
 import {MailsList} from '../Components/Mails/MailsList';
 import {Calendar} from '../Components/Calendars/Calendar';
 import {NewContact} from '../Components/Contacts/NewContact';
-import {Contacts} from '../Components/Contacts/Contacts';
+import {Contacts} from '../Components/Contacts/ContactsList';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
 import {NewChatsItem} from '../Components/Chats/NewChatsItem';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
