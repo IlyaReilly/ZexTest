@@ -10,7 +10,7 @@ import {SideSecondaryContactsMenu} from '../Components/Contacts/SideSecondaryCon
 import {MailsList} from '../Components/Mails/MailsList';
 import {Calendar} from '../Components/Calendars/Calendar';
 import {NewContact} from '../Components/Contacts/NewContact';
-import {Contacts} from '../Components/Contacts/ContactsList';
+import {ContactsList} from '../Components/Contacts/ContactsList';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
 import {NewChatsItem} from '../Components/Chats/NewChatsItem';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
@@ -30,7 +30,7 @@ export class PageManager {
   searchResultsList;
   searchStatisticsHeader;
   newContact;
-  contacts;
+  contactsList;
   sideSecondaryContactsMenu;
   headerMenu;
   sideMenu;
@@ -56,7 +56,7 @@ export class PageManager {
     this.searchResultsList = new SearchResultsList(page);
     this.searchStatisticsHeader = new SearchStatisticsHeader(page);
     this.newContact = new NewContact(page);
-    this.contacts = new Contacts(page);
+    this.contactsList = new ContactsList(page);
     this.sideSecondaryContactsMenu = new SideSecondaryContactsMenu(page);
     this.headerMenu = new HeaderMenu(page);
     this.sideMenu = new SideMenu(page);
