@@ -2,7 +2,6 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
-
 test.describe('Mails tests', async () => {
   let mailSubject;
   let mailBody;
@@ -50,8 +49,8 @@ test.describe('Mails tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.MarkAsSpam();
-    await pageManager.mailDetails.Elements.ActioWithMailNotification.waitFor();
-    const elementHandle = await page.$(pageManager.mailDetails.Elements.ActioWithMailNotification._selector);
+    await pageManager.mailDetails.Elements.ActionWithMailNotification.waitFor();
+    const elementHandle = await page.$(pageManager.mailDetails.Elements.ActionWithMailNotification._selector);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Junk);
     await page.reload();
