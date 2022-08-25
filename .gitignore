@@ -7,4 +7,3 @@ node_modules/
 /download/*
 *.orig
 *.local.json
-*@demo.zextras.io.json
