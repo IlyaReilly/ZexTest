@@ -9,7 +9,7 @@ export class Calendar extends BasePage {
   };
 
   Elements = {
-    Appointment: this.Containers.MainContainer.locator('.jNpaYv'),
+    Appointment: this.Containers.MainContainer.locator('.cpLtAp'),
   };
 
   AppointmentPopup = {

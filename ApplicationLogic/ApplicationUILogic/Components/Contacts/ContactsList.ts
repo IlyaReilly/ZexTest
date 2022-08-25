@@ -2,12 +2,12 @@ import {BasePage} from '../../Pages/BasePage';
 
 export class Contacts extends BasePage {
   Containers = {
-    MainContainer: this.page.locator('.cPoMlt'),
-    ContactsContainer: this.page.locator('.knclQe'),
+    ContactsListContainer: this.page.locator('.kEvhgn'),
+    ContactDetailsContainer: this.page.locator('.jbJu'),
   };
 
   EditContact = {
-    DeleteContact: this.Containers.MainContainer.locator('.fHbZO .bOlfsx:has([data-testid*="Trash2Outline"])'),
+    DeleteContact: this.Containers.ContactDetailsContainer.locator('.fHbZO .bOlfsx:has([data-testid*="Trash2Outline"])'),
   };
 
   constructor(page) {
