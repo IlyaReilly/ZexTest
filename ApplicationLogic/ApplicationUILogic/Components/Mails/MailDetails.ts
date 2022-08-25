@@ -8,7 +8,7 @@ export class MailDetails extends BasePage {
 
   Elements = {
     LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
-    ActioWithMailNotification: this.page.locator('.ldHDuR'),
+    ActionWithMailNotification: this.page.locator('.ldHDuR'),
   };
 
   EditMail = {
@@ -25,7 +25,6 @@ export class MailDetails extends BasePage {
     EditAsNew: this.Containers.MailOptionsContainer.locator('"Edit as new"'),
     MarkAsSpam: this.Containers.MailOptionsContainer.locator('"Mark as spam"'),
     ShowOriginal: this.Containers.MailOptionsContainer.locator('"Show original"'),
-
   };
 
   constructor(page) {

@@ -1,8 +1,9 @@
 import {BasePage} from '../../Pages/BasePage';
 
-export class Contacts extends BasePage {
+export class ContactsList extends BasePage {
   Containers = {
     ContactsListContainer: this.page.locator('.kEvhgn'),
+    ContactsListToScrollContainer: this.page.locator('.knclQe'),
     ContactDetailsContainer: this.page.locator('.jbJu'),
   };
 
