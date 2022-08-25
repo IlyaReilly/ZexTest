@@ -26,7 +26,7 @@ export class CalendarAPI extends BaseAPI {
     let id = '';
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
       data: {
-        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": 1660078800000, "calExpandInstStart": 1658869200000, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": `${query} ( inid:\"10\")`}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 45}, "session": {"id": "11151", "_content": "11151"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
+        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": 9999999900000, "calExpandInstStart": 1000000000000, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": `${query} ( inid:\"10\")`}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 45}, "session": {"id": "11151", "_content": "11151"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
     const body = JSON.parse((await response.body()).toString());
@@ -40,7 +40,7 @@ export class CalendarAPI extends BaseAPI {
     const id = new Array(100);
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
       data: {
-        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": 1660157953936, "calExpandInstStart": 1658861953936, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": "inid:\"3\""}}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "14020", "_content": "14020"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
+        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": 9999999900000, "calExpandInstStart": 1000000000000, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": "inid:\"3\""}}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "14020", "_content": "14020"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
     const body = JSON.parse((await response.body()).toString());
