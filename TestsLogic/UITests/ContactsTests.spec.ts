@@ -32,8 +32,8 @@ test.describe('Contacts tests', async () => {
     await expect(pageManager.sideSecondaryContactsMenu.Options.Trash, 'Trash tab should be presented').toBeVisible();
   });
 
-  test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager, browserName}) => {
-    test.slow(browserName === 'webkit', 'This test is slow on Mac');
+  test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager}) => {
+    test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
