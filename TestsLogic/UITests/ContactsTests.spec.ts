@@ -60,7 +60,7 @@ test.describe('Contacts tests', async () => {
     await page.reload();
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);
     await ScrollDownContactsList(page, pageManager);
-    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
+    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${firstName}"`)).toBeVisible();
   });
 });
 
