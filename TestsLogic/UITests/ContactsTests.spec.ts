@@ -55,7 +55,7 @@ test.describe('Contacts tests', async () => {
     test.slow();
     await apiManager.сontactsAPI.CreateContact(firstName, userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`). click();
+    await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`).first().click();
     await pageManager.contactsList.DeleteContact();
     await page.reload();
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);

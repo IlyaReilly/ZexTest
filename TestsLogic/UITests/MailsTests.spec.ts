@@ -79,6 +79,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('Trash mail. Mail appears in the trash chapter', async ({pageManager, apiManager}) => {
+    test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SaveDraftRequest(mailSubject, userForLogin.login, user1.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Drafts);
