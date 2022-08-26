@@ -40,7 +40,7 @@ test.describe('Contacts tests', async () => {
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
     await ScrollDownContactsList(page, pageManager);
-    await expect(pageManager.contacts.Containers.ContactsListContainer.locator(`"${email}"`)).toBeVisible();
+    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`)).toBeVisible();
   });
 
   test('Emailed contact. New email reciever appears in emailed contact chapter', async ({page, pageManager, apiManager}) => {
@@ -48,23 +48,23 @@ test.describe('Contacts tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.EmailedContacts);
     await ScrollDownContactsList(page, pageManager);
-    await expect(pageManager.contacts.Containers.ContactsListContainer.locator(`"${email}"`)).toBeVisible();
+    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`)).toBeVisible();
   });
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
     await apiManager.сontactsAPI.CreateContact(firstName, userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.contacts.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`). click();
-    await pageManager.contacts.DeleteContact();
-    await page.reload({timeout: 3000});
+    await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`). click();
+    await pageManager.contactsList.DeleteContact();
+    await page.reload();
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);
     await ScrollDownContactsList(page, pageManager);
-    await expect(pageManager.contacts.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
+    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
   });
 });
 
 async function ScrollDownContactsList(page, pageManager) {
-  const listSelector = pageManager.mailsList.Containers.LettersContainer._selector;
-  await pageManager.mailsList.Containers.LettersContainer.waitFor();
+  const listSelector = pageManager.contactsList.Containers.ContactsListToScrollContainer._selector;
+  await pageManager.contactsList.Containers.ContactsListToScrollContainer.waitFor();
   await page.evaluate((locator) => document.querySelector(locator).scrollTo(0, document.body.scrollHeight), (listSelector));
 }

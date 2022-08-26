@@ -2,13 +2,12 @@ import {BasePage} from '../../Pages/BasePage';
 
 export class MailsList extends BasePage {
   Containers = {
-    MainContainer: this.page.locator('.kEvhgn'),
-    LettersContainer: this.page.locator('.knclQe'),
+    MailsListContainer: this.page.locator('.kEvhgn'),
   };
 
   Elements = {
-    Header: this.Containers.MainContainer.locator('.hsyKgr'),
-    Letter: this.Containers.MainContainer.locator('.qPmzW '),
+    Header: this.Containers.MailsListContainer.locator('.hsyKgr'),
+    Letter: this.Containers.MailsListContainer.locator('.qPmzW '),
   };
 
   constructor(page) {
