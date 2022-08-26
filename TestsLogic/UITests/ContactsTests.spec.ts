@@ -52,6 +52,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
+    test.slow();
     await apiManager.сontactsAPI.CreateContact(firstName, userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`). click();
