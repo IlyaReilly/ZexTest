@@ -36,8 +36,8 @@ export class Calendar extends BasePage {
     const appointmentElement = await this.page.waitForSelector(appointmentLocator._selector, {state: 'attached'});
     await appointmentElement.evaluate((el) => el.style.display = 'inline');
     await appointmentElement.evaluate((el) => el.style.visibility = 'visible');
-    await appointmentElement.evaluate((el) => el.click());
-    // await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
+    await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
+    // await appointmentElement.evaluate((el) => el.click());
   }
 
   async MoveAppointmentToTrash(appointmentTitle) {
