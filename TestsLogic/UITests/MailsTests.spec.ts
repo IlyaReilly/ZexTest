@@ -58,6 +58,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('Send mail. Mail appears in the sent chapter.', async ({pageManager, apiManager}) => {
+    test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, user1.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
