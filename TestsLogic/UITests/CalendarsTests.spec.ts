@@ -62,8 +62,7 @@ test.describe('Calendars tests', async () => {
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
     await pageManager.calendar.SelectCalendarView(calendarViewTitle);
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);
-    await page.reload();
-    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
+    await page.reload(); // temporary step due to a bug on UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
   });
 });
