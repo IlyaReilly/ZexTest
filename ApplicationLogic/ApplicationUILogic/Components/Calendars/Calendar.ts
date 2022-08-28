@@ -7,6 +7,7 @@ export class Calendar extends BasePage {
     OtherActionsContainer: this.page.locator('.izBNKP'),
     PopupContainer: this.page.locator('.loeZsV'),
     ReminderPopupContainer: this.page.locator('.fKWHjI .loeZsV'),
+    CalendarView: this.page.locator('.dIeVeP'),
   };
 
   Elements = {
@@ -41,6 +42,10 @@ export class Calendar extends BasePage {
     if (await this.Containers.ReminderPopupContainer.isVisible() === true) {
       await this.ReminderPopup.DismissButton.click();
     }
+  }
+
+  async SelectCalendarView(calendarViewTitle) {
+    this.Containers.CalendarView.locator(`"${calendarViewTitle}"`).click();
   }
 
   async OpenAppointmentInfoPopup(appointmentTitle) {
