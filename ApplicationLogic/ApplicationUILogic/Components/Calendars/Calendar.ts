@@ -6,6 +6,8 @@ export class Calendar extends BasePage {
     AppointmentPopupContainer: this.page.locator('.gqODaH'),
     OtherActionsContainer: this.page.locator('.izBNKP'),
     PopupContainer: this.page.locator('.loeZsV'),
+    ReminderPopupContainer: this.page.locator('.fKWHjI .loeZsV'),
+    CalendarView: this.page.locator('.dIeVeP'),
   };
 
   Elements = {
@@ -21,6 +23,11 @@ export class Calendar extends BasePage {
     OtherActionsTags: this.Containers.OtherActionsContainer.locator('"Tags"'),
   };
 
+  ReminderPopup = {
+    DismissButton: this.Containers.ReminderPopupContainer.locator('"DISMISS"'), // .ejIaaY .cGzJpD
+    SetNewTime: this.Containers.ReminderPopupContainer.locator('.bOlfsx'),
+  };
+
   DeletePopups = {
     EditMessageButton: this.Containers.PopupContainer.locator('"EDIT MESSAGE"'),
     SendCancellationButton: this.Containers.PopupContainer.locator('"SEND CANCELLATION"'),
@@ -31,13 +38,24 @@ export class Calendar extends BasePage {
     super(page);
   }
 
+  async CloseReminderPopup() {
+    if (await this.Containers.ReminderPopupContainer.isVisible() === true) {
+      await this.ReminderPopup.DismissButton.click();
+    }
+  }
+
+  async SelectCalendarView(calendarViewTitle) {
+    this.Containers.CalendarView.locator(`"${calendarViewTitle}"`).click();
+  }
+
   async OpenAppointmentInfoPopup(appointmentTitle) {
     const appointmentLocator = this.Elements.Appointment.locator(`"${appointmentTitle}"`);
     const appointmentElement = await this.page.waitForSelector(appointmentLocator._selector, {state: 'attached'});
     await appointmentElement.evaluate((el) => el.style.display = 'inline');
     await appointmentElement.evaluate((el) => el.style.visibility = 'visible');
     await appointmentElement.evaluate((el) => el.click());
-    // await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
+    await this.CloseReminderPopup();
+    await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
   }
 
   async MoveAppointmentToTrash(appointmentTitle) {
