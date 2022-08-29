@@ -5,10 +5,8 @@ import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/B
 test.describe('Mails tests', async () => {
   let mailSubject;
   let mailBody;
-  let user1;
 
   test.beforeEach(async ({}, workerInfo) => {
-    user1 = BaseTest.secondUser;
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
   });
@@ -41,7 +39,7 @@ test.describe('Mails tests', async () => {
   test('Junk mail. Mail appears in the junk chapter', async ({page, pageManager, apiManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, user1.login, mailBody);
+    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.MarkAsSpam();
@@ -56,7 +54,7 @@ test.describe('Mails tests', async () => {
   test('Send mail. Mail appears in the sent chapter.', async ({pageManager, apiManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, user1.login, mailBody);
+    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
   });
@@ -65,7 +63,7 @@ test.describe('Mails tests', async () => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newMail.CreateNewMail(user1.login, mailSubject, mailBody);
+    await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
     await pageManager.newMail.SaveMail();
     await pageManager.newMail.CloseNewMail();
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
@@ -78,7 +76,7 @@ test.describe('Mails tests', async () => {
   test('Trash mail. Mail appears in the trash chapter', async ({pageManager, apiManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await apiManager.mailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, user1.login, mailBody);
+    await apiManager.mailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Drafts);
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.DeleteDraft();

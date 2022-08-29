@@ -9,14 +9,13 @@ test.describe.skip('Login tests', async () => {
   let userForLogin;
 
   test.beforeAll(async ({}, workerInfo) => {
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
   });
 
   test('Success login.', async ({browser}) => {
     const page = await browser.newPage();
     await page.goto('/');
     const pageManager = new PageManager(page);
-    await pageManager.loginPage.Login(userForLogin.login, userForLogin.password);
+    await pageManager.loginPage.Login(userForLogin.login, BaseTest.userForLogin.password);
     await expect(pageManager.headerMenu.Logos.MainLogo).toBeVisible();
   });
 
@@ -24,7 +23,7 @@ test.describe.skip('Login tests', async () => {
     const page = await browser.newPage();
     await page.goto('/');
     const pageManager = new PageManager(page);
-    await pageManager.loginPage.Login(userForLogin.login, userForLogin.password);
+    await pageManager.loginPage.Login(userForLogin.login, BaseTest.userForLogin.password);
     await pageManager.headerMenu.OpenUserMenuSection(pageManager.headerMenu.UserMenu.Logout);
     await expect(pageManager.loginPage.TextBox.Login).toBeVisible();
   });

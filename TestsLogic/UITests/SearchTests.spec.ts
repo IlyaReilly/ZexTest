@@ -12,6 +12,7 @@ test.describe('Search tests', async () => {
   });
 
   test.afterEach(async ({page}) => {
+    await page.close();
   });
 
   test('Search sent email', async ({pageManager, apiManager}) => {

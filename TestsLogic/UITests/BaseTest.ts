@@ -42,7 +42,7 @@ export class BaseTest {
 
   static GetUserFromPool(index, multiplier) {
     const lastDigit2Str = String(index).slice(-1);
-    return userPool[Number(lastDigit2Str + multiplier)];
+    return userPool[Number(parseInt(lastDigit2Str) + multiplier)];
   }
 
   static async ApiLogin(user) {
