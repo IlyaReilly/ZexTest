@@ -9,11 +9,15 @@ test.describe('Calendars tests', async () => {
   let runtimeAppoinmentId = '';
   let userForLogin;
 
-  test.beforeEach(async ({}, workerInfo) => {
+  test.beforeEach(async ({apiManager}, workerInfo) => {
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
+    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(userForLogin.login);
+    await Promise.all(allAppionmentsIds.map(async (id) => {
+      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, userForLogin.login);
+    }));
   });
 
   test.afterEach(async ({apiManager}) => {

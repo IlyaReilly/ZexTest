@@ -24,9 +24,10 @@ export class CalendarAPI extends BaseAPI {
 
   async CalendarSearchQuery(query: string, user: string) {
     let id = '';
+    const startEndExpand = this.StartEndRangeCounterForSearch();
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
       data: {
-        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": 9999999900000, "calExpandInstStart": 1000000000000, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": `${query} ( inid:\"10\")`}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 45}, "session": {"id": "11151", "_content": "11151"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
+        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": startEndExpand.endExpand, "calExpandInstStart": startEndExpand.startExpand, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": `${query} ( inid:\"10\")`}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 45}, "session": {"id": "11151", "_content": "11151"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
     const body = JSON.parse((await response.body()).toString());
@@ -37,10 +38,11 @@ export class CalendarAPI extends BaseAPI {
   }
 
   async GetAllAppointments(user: string) {
-    const id = new Array(100);
+    const id = [];
+    const startEndExpand = this.StartEndRangeCounterForSearch();
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
       data: {
-        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": 9999999900000, "calExpandInstStart": 1000000000000, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": "inid:\"3\""}}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "14020", "_content": "14020"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
+        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": startEndExpand.endExpand, "calExpandInstStart": startEndExpand.startExpand, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": "inid:\"10\""}}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "14020", "_content": "14020"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
     const body = JSON.parse((await response.body()).toString());
@@ -70,5 +72,12 @@ export class CalendarAPI extends BaseAPI {
 
   ParseDateToUSTime(date) {
     return (date.toLocaleString('en-US', {hour: 'numeric', hour12: true, minute: 'numeric'}));
+  }
+
+  StartEndRangeCounterForSearch() {
+    const startYear = 2022;
+    const currentYear = new Date().getFullYear();
+    const oneYearInMillisecond = 31536000000;
+    return {startExpand: 1639872000000 + oneYearInMillisecond*(currentYear - startYear), endExpand: 1671408000000 + oneYearInMillisecond*(currentYear - startYear)};
   }
 }
