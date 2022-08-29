@@ -32,8 +32,8 @@ test.describe('Contacts tests', async () => {
     await expect(pageManager.sideSecondaryContactsMenu.Options.Trash, 'Trash tab should be presented').toBeVisible();
   });
 
-  test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager, browserName}) => {
-    test.slow(browserName === 'webkit', 'This test is slow on Mac');
+  test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager}) => {
+    test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
@@ -52,14 +52,15 @@ test.describe('Contacts tests', async () => {
   });
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
+    test.slow();
     await apiManager.сontactsAPI.CreateContact(firstName, userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`). click();
+    await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`).first().click();
     await pageManager.contactsList.DeleteContact();
     await page.reload();
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);
     await ScrollDownContactsList(page, pageManager);
-    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
+    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${firstName}"`)).toBeVisible();
   });
 });
 
