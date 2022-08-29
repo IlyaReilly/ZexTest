@@ -8,10 +8,8 @@ test.describe('Contacts tests', async () => {
   let firstName;
   let lastName;
   let email;
-  let userForLogin;
 
-  test.beforeEach(async ({}, workerInfo) => {
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+  test.beforeEach(async () => {
     firstName = BaseTest.dateTimePrefix();
     lastName = BaseTest.dateTimePrefix() + 'LName';
     email = BaseTest.dateTimePrefix() + '@test.com';
@@ -20,8 +18,8 @@ test.describe('Contacts tests', async () => {
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    const id = await apiManager.сontactsAPI.ContactsSearchQuery(firstName, userForLogin.login);
-    await apiManager.сontactsAPI.DeleteContactsPermanentlyById(id, userForLogin.login);
+    const id = await apiManager.сontactsAPI.ContactsSearchQuery(firstName, BaseTest.userForLogin.login);
+    await apiManager.сontactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
     await page.close();
   });
 
@@ -44,7 +42,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('Emailed contact. New email reciever appears in emailed contact chapter', async ({page, pageManager, apiManager}) => {
-    await apiManager.mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, email, mailBody);
+    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, email, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.EmailedContacts);
     await ScrollDownContactsList(page, pageManager);
@@ -53,9 +51,9 @@ test.describe('Contacts tests', async () => {
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
     test.slow();
-    await apiManager.сontactsAPI.CreateContact(firstName, userForLogin.login);
+    await apiManager.сontactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${userForLogin.login}"`).first().click();
+    await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactsList.DeleteContact();
     await page.reload();
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);

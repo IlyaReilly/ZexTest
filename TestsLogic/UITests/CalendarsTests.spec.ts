@@ -2,16 +2,14 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
-test.describe.only('Calendars tests', async () => {
+test.describe('Calendars tests', async () => {
   let dateTimePrefix;
   let appointmentTitle;
   let appointmentBody;
   let runtimeAppoinmentId = '';
-  // let userForLogin;
   let calendarViewTitle;
 
-  test.beforeEach(async ({apiManager}, workerInfo) => {
-    // userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+  test.beforeEach(async () => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
