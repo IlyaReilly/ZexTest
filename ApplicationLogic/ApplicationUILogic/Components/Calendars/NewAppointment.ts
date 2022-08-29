@@ -3,6 +3,7 @@ import {BasePage, InheritedFields} from '../../Pages/BasePage';
 export class NewAppointment extends BasePage {
   Containers = {
     MainContainer: this.page.locator(InheritedFields.NewItemDefaultContainerLocator),
+    AttendeesDropdown: this.page.locator('.fStkje'),
   };
 
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
@@ -10,6 +11,10 @@ export class NewAppointment extends BasePage {
   Buttons = {
     Send: this.Containers.MainContainer.locator('"SEND"'),
     Save: this.Containers.MainContainer.locator('"SAVE"'),
+  };
+
+  Dropdowns = {
+    Attendee: this.Containers.AttendeesDropdown.locator('.ipOeIU'),
   };
 
   TextBox = {
@@ -27,6 +32,7 @@ export class NewAppointment extends BasePage {
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();
     await this.TextBox.Attendees.type('2');
+    await this.page.keyboard.press('Enter');
     await this.TextBox.Body.click();
     await this.TextBox.Body.type(body);
     await this.TextBox.Body.locator(`"${body}"`).waitFor();

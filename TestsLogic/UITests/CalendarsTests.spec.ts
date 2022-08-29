@@ -8,12 +8,14 @@ test.describe('Calendars tests', async () => {
   let appointmentBody;
   let runtimeAppoinmentId = '';
   let userForLogin;
+  let calendarViewTitle;
 
   test.beforeEach(async ({}, workerInfo) => {
     userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
+    calendarViewTitle = 'WEEK';
   });
 
   test.afterEach(async ({apiManager}) => {
@@ -38,15 +40,19 @@ test.describe('Calendars tests', async () => {
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
-  test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager}) => {
+  test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await page.reload();
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
     await pageManager.calendar.MoveAppointmentToTrash(appointmentTitle);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
@@ -55,8 +61,9 @@ test.describe('Calendars tests', async () => {
     await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);
-    await page.reload();
+    await page.reload(); // temporary step due to a bug on UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
   });
 });
