@@ -11,12 +11,12 @@ export class FilesList extends BasePage {
   };
 
   Elements = {
-    File: this.page.locator('.lnXHNY'),
+    File: this.Containers.ListContainer.locator('.lnXHNY'),
     Header: this.Containers.MainContainer.locator('.debCVK'),
     FileName: this.Containers.ListContainer.locator('.hiooLB'),
   };
 
   async OpenFileDetails(unicFileName) {
-    await this.page.locator(`//div[text()='${unicFileName}']/ancestor::div[contains(@class, 'lnXHNY')]`).click();
+    await this.page.locator('div.lnXHNY', {hasText: `${unicFileName}`}).click();
   }
 }
