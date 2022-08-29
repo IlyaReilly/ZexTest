@@ -8,9 +8,11 @@ test.describe('Files tests', async () => {
   const fileNameJpg = 'testFile2';
   const fileNameForApi = 'testAPI.png';
   let unicFilePrefix;
+  let unicFileName;
 
   test.beforeEach(async ({apiManager}) => {
     unicFilePrefix = BaseTest.dateTimePrefix();
+    unicFileName = unicFilePrefix + 'testAPI';
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.filesAPI.MoveFileToTrashById(file.id);
@@ -35,11 +37,11 @@ test.describe('Files tests', async () => {
     await expect((pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
   });
 
-  test('File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
-    await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi);
+  test('File Preview is displayed by List File clicking', async ({pageManager, apiManager, page}) => {
+    await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
+    await pageManager.filesList.OpenFileDetails(unicFileName);
     await expect((pageManager.fileDetails.Elements.FilePreview)).toBeVisible();
   });
 
@@ -48,8 +50,8 @@ test.describe('Files tests', async () => {
       await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
       await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-      await expect((pageManager.filesList.Elements.File.locator(`"${unicFilePrefix + 'testAPI'}"`))).toBeVisible();
-      await pageManager.filesList.OpenFileDetails(pageManager.filesList.Elements.File);
+      await expect((pageManager.filesList.Elements.File.locator(`"${unicFileName}"`))).toBeVisible();
+      await pageManager.filesList.OpenFileDetails(unicFileName);
       expect(fs.existsSync(await pageManager.fileDetails.DownloadFile())).toBeTruthy();
     } catch (e) {
       throw e;
