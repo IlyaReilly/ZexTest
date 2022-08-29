@@ -8,7 +8,7 @@ test.describe('Chats tests', async () => {
   let user1;
 
   test.beforeEach(async ({}, workerInfo) => {
-    user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1);
+    user1 = BaseTest.secondUser;
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     spaceTitle = dateTimePrefix + ' Autotest Space Title';
     spaceTopic = dateTimePrefix + ' Autotest Space Topic';
@@ -30,8 +30,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Delete space. Space should be deleted.', async ({pageManager, apiManager}, workerInfo) => {
-    const user = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1);
-    const userId = await apiManager.usersAPI.GetUserId(user.login);
+    const userId = await apiManager.usersAPI.GetUserId(user1.login);
     await apiManager.chatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();

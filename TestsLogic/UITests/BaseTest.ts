@@ -7,8 +7,16 @@ import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI
 
 export const test = base.extend<{pageManager: PageManager, apiManager: APIManager}>({
   page: async ({browser}, use, workerInfo) => {
-    const userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    const storagesPath = await BaseTest.ApiLogin(userForLogin);
+    let multiplier;
+    switch (workerInfo.project.name) {
+    case 'chromium': multiplier = 0; break;
+    case 'firefox': multiplier = 10; break;
+    case 'webkit': multiplier = 20; break;
+    default: multiplier = 0;
+    }
+    BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier);
+    BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier);
+    const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin);
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
     await use(page);
@@ -29,10 +37,12 @@ export class BaseTest {
   static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
   static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
   static baseUrl = BaseTest.playwrightProjectsData.baseURL.QA;
+  static userForLogin;
+  static secondUser;
 
-  static GetUserFromPool(index) {
+  static GetUserFromPool(index, multiplier) {
     const lastDigit2Str = String(index).slice(-1);
-    return userPool[Number(lastDigit2Str)];
+    return userPool[Number(lastDigit2Str + multiplier)];
   }
 
   static async ApiLogin(user) {

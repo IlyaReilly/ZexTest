@@ -6,33 +6,29 @@ test.describe('Mails tests', async () => {
   let mailSubject;
   let mailBody;
   let user1;
-  let userForLogin;
-  const runtimeAppoinmentId = '';
 
   test.beforeEach(async ({}, workerInfo) => {
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
-    user1 = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    user1 = BaseTest.secondUser;
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, runtimeAppoinmentId, userForLogin.login);
-    const id = await apiManager.mailsAPI.MailSearchQuery(mailSubject, userForLogin.login);
-    await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, userForLogin.login);
+    const id = await apiManager.mailsAPI.MailSearchQuery(mailSubject, BaseTest.userForLogin.login);
+    await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
     await page.close();
   });
 
   test('Open Mail tab. User login is presented in the secondary side bar.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${userForLogin.login}"`)).toBeVisible();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`)).toBeVisible();
   });
 
   test('Inbox mail. Mail appears in the inbox chapter', async ({page, pageManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newMail.CreateNewMail(userForLogin.login, mailSubject, mailBody);
+    await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
     await pageManager.newMail.SendMail();
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
@@ -45,7 +41,7 @@ test.describe('Mails tests', async () => {
   test('Junk mail. Mail appears in the junk chapter', async ({page, pageManager, apiManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await apiManager.mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, user1.login, mailBody);
+    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, user1.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.MarkAsSpam();
@@ -60,7 +56,7 @@ test.describe('Mails tests', async () => {
   test('Send mail. Mail appears in the sent chapter.', async ({pageManager, apiManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await apiManager.mailsAPI.SendMsgRequest(mailSubject, userForLogin.login, user1.login, mailBody);
+    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, user1.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
   });
@@ -82,7 +78,7 @@ test.describe('Mails tests', async () => {
   test('Trash mail. Mail appears in the trash chapter', async ({pageManager, apiManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await apiManager.mailsAPI.SaveDraftRequest(mailSubject, userForLogin.login, user1.login, mailBody);
+    await apiManager.mailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, user1.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Drafts);
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.DeleteDraft();

@@ -2,30 +2,27 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from './BaseTest';
 import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
-test.describe('Calendars tests', async () => {
+test.describe.only('Calendars tests', async () => {
   let dateTimePrefix;
   let appointmentTitle;
   let appointmentBody;
   let runtimeAppoinmentId = '';
-  let userForLogin;
+  // let userForLogin;
   let calendarViewTitle;
 
   test.beforeEach(async ({apiManager}, workerInfo) => {
-    userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
+    // userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex);
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
     calendarViewTitle = 'WEEK';
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, userForLogin.login);
-    }));
   });
 
-  test.afterEach(async ({apiManager}) => {
-    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, runtimeAppoinmentId, userForLogin.login);
-    const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentTitle, userForLogin.login);
-    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, userForLogin.login);
+  test.afterEach(async ({page, apiManager}) => {
+    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, runtimeAppoinmentId, BaseTest.userForLogin.login);
+    const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentTitle, BaseTest.userForLogin.login);
+    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    await page.close();
   });
 
   test('Open Calendars tab. All calendars tabs display.', async ({pageManager}) => {
@@ -49,7 +46,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
-    runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, userForLogin.login, '3', appointmentBody);
+    runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await page.reload();
@@ -61,8 +58,8 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager, page}) => {
-    runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, userForLogin.login, '3', appointmentBody);
-    await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, userForLogin.login);
+    runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
+    await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
     await pageManager.calendar.SelectCalendarView(calendarViewTitle);
