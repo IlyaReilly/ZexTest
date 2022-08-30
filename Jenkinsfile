@@ -23,4 +23,9 @@ pipeline {
          }
       }
    }
+   post {
+      always {
+         archiveArtifacts 'build/playwright-report/**.*'
+      }
+    }
 }
