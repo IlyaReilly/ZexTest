@@ -33,7 +33,6 @@ export class NewAppointment extends BasePage {
     await this.TextBox.Attendees.click();
     await this.TextBox.Attendees.type('2');
     await this.page.keyboard.press('Enter');
-    await this.TextBox.Body.click();
     await this.TextBox.Body.type(body);
     await this.TextBox.Body.locator(`"${body}"`).waitFor();
     const elementHandle = await this.page.$(this.Buttons.Send._selector);
