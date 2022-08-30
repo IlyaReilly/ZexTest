@@ -25,7 +25,7 @@ pipeline {
    }
    post {
       always {
-         archiveArtifacts artifacts: 'playwright-report/index.html'
+         archiveArtifacts artifacts: 'playwright-report/**.*'
       }
-    }
+   }
 }
