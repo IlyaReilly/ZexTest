@@ -25,7 +25,7 @@ pipeline {
    }
    post {
       always {
-         archiveArtifacts 'build/playwright-report/**.*'
+         archiveArtifacts artifacts: 'build/playwright-report/index.html'
       }
     }
 }
