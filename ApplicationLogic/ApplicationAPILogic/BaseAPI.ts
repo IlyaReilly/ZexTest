@@ -1,4 +1,4 @@
-import {Page, request} from '@playwright/test';
+import {Page, request, expect} from '@playwright/test';
 
 // eslint-disable-next-line no-unused-vars
 type ActionRequestTypes = {
@@ -14,6 +14,7 @@ export async function ApiLoginMethod(login: string, password: string) {
       "auth_method": "password", "user": login, "password": password,
     },
   });
+  await expect(response.ok()).toBeTruthy();
   const headersArray = await response.headersArray();
   const rx = /(ZX_AUTH_TOKEN|ZM_AUTH_TOKEN)=[^;]*/g;
   let token;

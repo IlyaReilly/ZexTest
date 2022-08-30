@@ -6,7 +6,7 @@ test.describe('Mails tests', async () => {
   let mailSubject;
   let mailBody;
 
-  test.beforeEach(async ({}, workerInfo) => {
+  test.beforeEach(async () => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
   });
