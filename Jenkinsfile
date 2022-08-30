@@ -3,10 +3,23 @@ pipeline {
    stages {
       stage('e2e-tests') {
          steps {
-            // Depends on your language / test framework
-            sh 'npm install'
-            sh 'npx playwright install'
-            sh 'npx playwright test'
+            parallel(
+               chromium: {
+                  sh 'npm install'
+                  sh 'npx playwright install'
+                  sh 'npx playwright test --project="chromium"'
+               },
+               firefox: {
+                  sh 'npm install'
+                  sh 'npx playwright install'
+                  sh 'npx playwright test --project="firefox"'
+               },
+               webkit: {
+                  sh 'npm install'
+                  sh 'npx playwright install'
+                  sh 'npx playwright test --project="webkit"'
+               }
+            )
          }
       }
    }
