@@ -43,7 +43,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
-  test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
+  test.only('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
