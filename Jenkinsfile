@@ -20,12 +20,15 @@ pipeline {
                   sh 'npx playwright test --project="webkit"'
                }
             )
+            dir('playwright-report') {
+               archiveArtifacts artifacts: '**'
+            }    
          }
       }
    }
-   post {
-      always {
-         archiveArtifacts artifacts: 'playwright-report/**'
-      }
-   }
+   // post {
+   //    always {
+   //       archiveArtifacts artifacts: 'playwright-report/**'
+   //    }
+   // }
 }
