@@ -12,7 +12,7 @@ pipeline {
                post {
                   always {
                      sh 'tar -czvf playwright-report-chromium.tar.gz playwright-report'
-                     archiveArtifacts artifacts: 'playwright-report.tar.gz'
+                     archiveArtifacts artifacts: 'playwright-report-chromium.tar.gz'
                   }
                }
             }
@@ -25,7 +25,7 @@ pipeline {
                post {
                   always {
                      sh 'tar -czvf playwright-report-firefox.tar.gz playwright-report'
-                     archiveArtifacts artifacts: 'playwright-report.tar.gz'
+                     archiveArtifacts artifacts: 'playwright-report-firefox.tar.gz'
                   }
                }
             }
@@ -38,7 +38,7 @@ pipeline {
                post {
                   always {
                      sh 'tar -czvf playwright-report-webkit.tar.gz playwright-report'
-                     archiveArtifacts artifacts: 'playwright-report.tar.gz'
+                     archiveArtifacts artifacts: 'playwright-report-webkit.tar.gz'
                   }
                }
             }
