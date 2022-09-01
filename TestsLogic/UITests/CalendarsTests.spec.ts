@@ -9,6 +9,13 @@ test.describe('Calendars tests', async () => {
   let runtimeAppoinmentId = '';
   let calendarViewTitle;
 
+  test.beforeAll(async ({page, apiManager}) => {
+    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
+    await Promise.all(allAppionmentsIds.map(async (id) => {
+      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    }));
+  });
+
   test.beforeEach(async () => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
