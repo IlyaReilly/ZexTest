@@ -2,15 +2,9 @@ pipeline {
    agent { docker { image 'mcr.microsoft.com/playwright:v1.24.0-focal' } }
    stages {
       stage('Clear test reports'){
-         if (fileExists('playwright-report-chromium.tar.gz')) {
-            new File('playwright-report-chromium.tar.gz').delete()
-         }
-         if (fileExists('playwright-report-firefox.tar.gz')) {
-            new File('playwright-report-firefox.tar.gz').delete()
-         }
-         if (fileExists('playwright-report-webkit.tar.gz')) {
-            new File('playwright-report-webkit.tar.gz').delete()
-         }         
+         sh(""" rm -rf "playwright-report-chromium.tar.gz" """)
+         sh(""" rm -rf "playwright-report-firefox.tar.gz" """)
+         sh(""" rm -rf "playwright-report-webkit.tar.gz" """)
       }
       stage('e2e-tests'){
          parallel {
