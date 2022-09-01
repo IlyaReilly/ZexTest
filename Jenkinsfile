@@ -2,9 +2,11 @@ pipeline {
    agent { docker { image 'mcr.microsoft.com/playwright:v1.24.0-focal' } }
    stages {
       stage('Clear test reports'){
-         sh(""" rm -rf "playwright-report-chromium.tar.gz" """)
-         sh(""" rm -rf "playwright-report-firefox.tar.gz" """)
-         sh(""" rm -rf "playwright-report-webkit.tar.gz" """)
+         steps {
+            sh(""" rm -rf "playwright-report-chromium.tar.gz" """)
+            sh(""" rm -rf "playwright-report-firefox.tar.gz" """)
+            sh(""" rm -rf "playwright-report-webkit.tar.gz" """)
+         }
       }
       stage('e2e-tests'){
          parallel {
