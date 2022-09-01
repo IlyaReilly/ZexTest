@@ -10,8 +10,12 @@ export class Calendar extends BasePage {
     CalendarView: this.page.locator('.dIeVeP'),
   };
 
+  Selectors = {
+    PrivateAppLockIconSelector: '[data-testid*="Lock"]',
+  };
+
   Elements = {
-    Appointment: this.Containers.MainContainer.locator('.cpLtAp'),
+    Appointment: this.Containers.MainContainer.locator('.hIcxKG'),
   };
 
   AppointmentPopup = {
@@ -36,6 +40,10 @@ export class Calendar extends BasePage {
 
   constructor(page) {
     super(page);
+  }
+
+  async GetAppointmentWithTitle(title) {
+    return await this.page.locator(this.Elements.Appointment._selector, {hasText: title});
   }
 
   async CloseReminderPopup() {

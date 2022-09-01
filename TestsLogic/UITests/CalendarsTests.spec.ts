@@ -50,6 +50,18 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
+  test('Create new privete appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);
+    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    await elementHandle?.waitForElementState('hidden');
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
+    const appointmentElement = await pageManager.calendar.GetAppointmentWithTitle(appointmentTitle);
+    await expect(appointmentElement.locator(pageManager.calendar.Selectors.PrivateAppLockIconSelector)).toHaveCount(1);
+  });
+
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
