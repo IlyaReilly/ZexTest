@@ -14,7 +14,7 @@ export async function ApiLoginMethod(login: string, password: string) {
       "auth_method": "password", "user": login, "password": password,
     },
   });
-  await expect(response.ok()).toBeTruthy();
+  await expect(response.ok(), 'API login request doesn`t bring success response').toBeTruthy();
   const headersArray = await response.headersArray();
   const rx = /(ZX_AUTH_TOKEN|ZM_AUTH_TOKEN)=[^;]*/g;
   let token;
