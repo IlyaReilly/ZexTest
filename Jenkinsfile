@@ -1,6 +1,17 @@
 pipeline {
    agent { docker { image 'mcr.microsoft.com/playwright:v1.24.0-focal' } }
    stages {
+      stage('Clear test reports'){
+         if (fileExists('playwright-report-chromium.tar.gz')) {
+            new File('playwright-report-chromium.tar.gz').delete()
+         }
+         if (fileExists('playwright-report-firefox.tar.gz')) {
+            new File('playwright-report-firefox.tar.gz').delete()
+         }
+         if (fileExists('playwright-report-webkit.tar.gz')) {
+            new File('playwright-report-webkit.tar.gz').delete()
+         }         
+      }
       stage('e2e-tests'){
          parallel {
             stage('chromium') {
@@ -12,7 +23,7 @@ pipeline {
                post {
                   always {
                      sh 'tar -czvf playwright-report-chromium.tar.gz playwright-report'
-                     archiveArtifacts artifacts: 'playwright-report-chromium.tar.gz'
+                     archiveArtifacts 'playwright-report-chromium.tar.gz'
                   }
                }
             }
@@ -25,7 +36,7 @@ pipeline {
                post {
                   always {
                      sh 'tar -czvf playwright-report-firefox.tar.gz playwright-report'
-                     archiveArtifacts artifacts: 'playwright-report-firefox.tar.gz'
+                     archiveArtifacts 'playwright-report-firefox.tar.gz'
                   }
                }
             }
@@ -37,8 +48,9 @@ pipeline {
                }
                post {
                   always {
+
                      sh 'tar -czvf playwright-report-webkit.tar.gz playwright-report'
-                     archiveArtifacts artifacts: 'playwright-report-webkit.tar.gz'
+                     archiveArtifacts 'playwright-report-webkit.tar.gz'
                   }
                }
             }
