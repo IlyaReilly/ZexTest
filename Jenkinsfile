@@ -10,6 +10,20 @@ pipeline {
       }
       stage('e2e-tests'){
          parallel {
+            stage('webkit') {
+               steps {
+                  sh 'npm install'
+                  sh 'npx playwright install'
+                  sh 'npx playwright test --project="webkit"'
+               }
+               post {
+                  always {
+
+                     sh 'tar -czvf playwright-report-webkit.tar.gz playwright-report'
+                     archiveArtifacts 'playwright-report-webkit.tar.gz'
+                  }
+               }
+            }
             stage('chromium') {
                steps {
                   sh 'npm install'
@@ -33,20 +47,6 @@ pipeline {
                   always {
                      sh 'tar -czvf playwright-report-firefox.tar.gz playwright-report'
                      archiveArtifacts 'playwright-report-firefox.tar.gz'
-                  }
-               }
-            }
-            stage('webkit') {
-               steps {
-                  sh 'npm install'
-                  sh 'npx playwright install'
-                  sh 'npx playwright test --project="webkit"'
-               }
-               post {
-                  always {
-
-                     sh 'tar -czvf playwright-report-webkit.tar.gz playwright-report'
-                     archiveArtifacts 'playwright-report-webkit.tar.gz'
                   }
                }
             }
