@@ -70,4 +70,21 @@ export class Calendar extends BasePage {
     await this.AppointmentPopup.OtherActionsDeletePermanently.click();
     await this.DeletePopups.DeletePermanentlyButton.click();
   }
+
+  async GetElementColor(elementName) {
+    const element = this.Containers.CalendarView.locator('div.iZsIAW', {hasText: `${elementName}`});
+    const color = await element.evaluate((el) => {
+      return window.getComputedStyle(el).getPropertyValue('background-color');
+    });
+    console.log(`!!! ${color} !!!!`);
+    return color;
+  }
+
+  async GetCurrentDay() {
+    const today = new Date();
+    let weekDay = String(today).slice(0, 3);
+    let day = String(today.getDate());
+    let dayOfWeek = day + ' ' + weekDay;
+    return dayOfWeek;
+  }
 }

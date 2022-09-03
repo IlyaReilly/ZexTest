@@ -13,7 +13,6 @@ test.describe('Calendars tests', async () => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
-    calendarViewTitle = 'WEEK';
   });
 
   test.afterEach(async ({page, apiManager}) => {
@@ -33,6 +32,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Create new appointment. New appoinrment is presented in calendar.', async ({page, pageManager}) => {
+    calendarViewTitle = 'WEEK';
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
@@ -44,6 +44,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
+    calendarViewTitle = 'WEEK';
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
@@ -56,6 +57,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager, page}) => {
+    calendarViewTitle = 'WEEK';
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
@@ -64,5 +66,17 @@ test.describe('Calendars tests', async () => {
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);
     await page.reload(); // temporary step due to a bug on UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
+  });
+
+  test('Calendar view: WORK WEEK is a default view', async ({pageManager, page}) => {
+    calendarViewTitle = 'WORK WEEK';
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await page.reload();
+    await expect(await pageManager.calendar.GetElementColor(calendarViewTitle)).toBe('rgb(213, 227, 246)');
+  });
+
+  test('day', async ({pageManager}) => {
+    cusrrent 
+    await expect(await pageManager.calendar.GetCurrentDay()).toBe('rgb(213, 227, 246)');
   });
 });
