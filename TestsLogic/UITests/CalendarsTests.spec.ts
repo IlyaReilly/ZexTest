@@ -9,6 +9,13 @@ test.describe('Calendars tests', async () => {
   let runtimeAppoinmentId = '';
   let calendarViewTitle;
 
+  test.beforeAll(async ({page, apiManager}) => {
+    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
+    await Promise.all(allAppionmentsIds.map(async (id) => {
+      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    }));
+  });
+
   test.beforeEach(async () => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
@@ -41,6 +48,18 @@ test.describe('Calendars tests', async () => {
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarViewTitle);
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
+  });
+
+  test('Create new privete appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);
+    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    await elementHandle?.waitForElementState('hidden');
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
+    const appointmentElement = await pageManager.calendar.GetAppointmentWithTitle(appointmentTitle);
+    await expect(appointmentElement.locator(pageManager.calendar.Selectors.PrivateAppLockIconSelector)).toHaveCount(1);
   });
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
