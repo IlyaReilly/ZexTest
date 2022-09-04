@@ -83,19 +83,48 @@ test.describe('Calendars tests', async () => {
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
     await pageManager.calendar.SelectCalendarView(calendarViewTitle);
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);
-    await page.reload(); // temporary step due to a bug on UI
+    await page.reload(); // temporary step due to a bug on Firefox UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
   });
 
-  test('Calendar view: WORK WEEK is a default view', async ({pageManager, page}) => {
+  test('Calendar view: "Work week" is a default view', async ({pageManager, page}) => {
     calendarViewTitle = 'WORK WEEK';
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
-    await page.reload();
     await expect(await pageManager.calendar.GetElementColor(calendarViewTitle)).toBe('rgb(213, 227, 246)');
   });
 
-  test('day', async ({pageManager}) => {
-    cusrrent 
-    await expect(await pageManager.calendar.GetCurrentDay()).toBe('rgb(213, 227, 246)');
+  test('Calendar view: Current Date is selected on the Calendar', async ({pageManager, page}) => {
+    calendarViewTitle = 'DAY';
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
+    await expect(await pageManager.calendar.Elements.CurrentDate.innerText().valueOf()).toBe(await pageManager.calendar.CalculateCurrentDate());
+  });
+
+  test('Calendar view: Day', async ({pageManager}) => {
+    calendarViewTitle = 'DAY';
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
+    await expect(pageManager.calendar.Containers.MainContainer).toHaveScreenshot({maxDiffPixels: 6100});
+  });
+
+  test('Calendar view: Week', async ({pageManager}) => {
+    calendarViewTitle = 'WEEK';
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
+    await expect(pageManager.calendar.Containers.MainContainer).toHaveScreenshot({maxDiffPixels: 6100});
+  });
+
+  test('Calendar view: Work Week', async ({pageManager}) => {
+    calendarViewTitle = 'WORK WEEK';
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
+    await expect(pageManager.calendar.Containers.MainContainer).toHaveScreenshot({maxDiffPixels: 6100});
+  });
+
+  test('Calendar view: Month', async ({pageManager}) => {
+    calendarViewTitle = 'MONTH';
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await pageManager.calendar.SelectCalendarView(calendarViewTitle);
+    await expect(pageManager.calendar.Containers.MainContainer).toHaveScreenshot({maxDiffPixels: 3100});
   });
 });

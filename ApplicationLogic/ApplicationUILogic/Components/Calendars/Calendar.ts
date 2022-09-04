@@ -16,6 +16,7 @@ export class Calendar extends BasePage {
 
   Elements = {
     Appointment: this.Containers.MainContainer.locator('.hIcxKG'),
+    CurrentDate: this.Containers.MainContainer.locator('.iVBcdo .cGzJpD'),
   };
 
   AppointmentPopup = {
@@ -28,7 +29,7 @@ export class Calendar extends BasePage {
   };
 
   ReminderPopup = {
-    DismissButton: this.Containers.ReminderPopupContainer.locator('"DISMISS"'), // .ejIaaY .cGzJpD
+    DismissButton: this.Containers.ReminderPopupContainer.locator('"DISMISS"'),
     SetNewTime: this.Containers.ReminderPopupContainer.locator('.bOlfsx'),
   };
 
@@ -53,7 +54,8 @@ export class Calendar extends BasePage {
   }
 
   async SelectCalendarView(calendarViewTitle) {
-    this.Containers.CalendarView.locator(`"${calendarViewTitle}"`).click();
+    await this.Containers.CalendarView.locator(`"${calendarViewTitle}"`).click();
+    await this.page.waitForSelector('[data-testid="spinner"]', {state: 'hidden'});
   }
 
   async OpenAppointmentInfoPopup(appointmentTitle) {
@@ -84,15 +86,14 @@ export class Calendar extends BasePage {
     const color = await element.evaluate((el) => {
       return window.getComputedStyle(el).getPropertyValue('background-color');
     });
-    console.log(`!!! ${color} !!!!`);
     return color;
   }
 
-  async GetCurrentDay() {
+  async CalculateCurrentDate() {
     const today = new Date();
-    let weekDay = String(today).slice(0, 3);
-    let day = String(today.getDate());
-    let dayOfWeek = day + ' ' + weekDay;
-    return dayOfWeek;
+    const weekDay = today.toLocaleString('en-US', {weekday: "long"}).toUpperCase();
+    const monthAndDate = String(today).slice(4, 10).toUpperCase();
+    const weekDayMonthDate = weekDay + ' ' + monthAndDate;
+    return weekDayMonthDate;
   }
 }
