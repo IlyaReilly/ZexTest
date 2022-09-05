@@ -1,7 +1,7 @@
 import {expect} from '@playwright/test';
 import fs from "fs";
 import path from "path";
-import {test, BaseTest} from './BaseTest';
+import {test, BaseTest} from '../UITests/BaseTest';
 
 test.describe('Search tests', async () => {
   // Components
@@ -52,7 +52,7 @@ test.describe('Search tests', async () => {
   });
 
   // Unstable test due to bug
-  test.skip('Search appointment', async ({apiManager, pageManager}) => {
+  test('Search appointment', async ({apiManager, pageManager}) => {
     const appointmentName = uniquePrefix + ' AppointmentName Name';
 
     try {
