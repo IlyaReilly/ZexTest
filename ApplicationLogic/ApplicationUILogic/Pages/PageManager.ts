@@ -9,6 +9,7 @@ import {SideSecondaryCalendarMenu} from '../Components/Calendars/SideSecondaryCa
 import {SideSecondaryContactsMenu} from '../Components/Contacts/SideSecondaryContactsMenu';
 import {MailsList} from '../Components/Mails/MailsList';
 import {Calendar} from '../Components/Calendars/Calendar';
+import {ShareCalendarModal} from '../Components/Calendars/ShareCalendarModal';
 import {NewContact} from '../Components/Contacts/NewContact';
 import {ContactsList} from '../Components/Contacts/ContactsList';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
@@ -48,6 +49,7 @@ export class PageManager {
   fileDetails;
   chatsInfo;
   chats;
+  shareCalendarModal;
 
   constructor(page) {
     this.page = page;
@@ -74,5 +76,6 @@ export class PageManager {
     this.fileDetails = new FileDetails(page);
     this.chatsInfo = new ChatsInfo(page);
     this.chats = new Chats(page);
+    this.shareCalendarModal = new ShareCalendarModal(page);
   }
 }
