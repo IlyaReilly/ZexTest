@@ -54,6 +54,9 @@ export class BaseAPI {
   readonly createContactRequest = 'CreateContactRequest';
   // Users
   readonly getUserDetailsRequest = 'getUserDetails';
+  // Folders
+  readonly createFolderRequest = 'CreateFolderRequest';
+  readonly folderActionRequest = 'FolderActionRequest';
 
   readonly ActionRequestTypes = {
     delete: 'delete',

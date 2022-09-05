@@ -18,6 +18,7 @@ export class SideSecondaryMailMenu extends BasePage {
     Sent: this.Containers.MainContainer.locator('"Sent"'),
     Drafts: this.Containers.MainContainer.locator('"Drafts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
+    SubFolder: this.Containers.MainContainer.locator('.fAVahr'),
   };
 
   MailFolderOptions = {
@@ -68,12 +69,11 @@ export class SideSecondaryMailMenu extends BasePage {
     await this.CreateNewFolderPopup.CreateAndMoveButton.click();
   }
 
-  // OpenHidenFoldersList = {
-  //   Sent: async () => await this.Buttons.OpenHideSentFolders.click(),
-  // };
-
   async OpenHidenSentFolders() {
-    // await this.Buttons.OpenHideSentFolders.waitFor();
     await this.Buttons.OpenHideSentFolders.click();
+  }
+
+  async OpenSubFolder(folderName) {
+    await this.MailFolders.SubFolder.locator(`"${folderName}"`).click();
   }
 }
