@@ -1,8 +1,12 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class ShareCalendarModal extends BasePage {
   Containers = {
-    MainContainer: this.page.locator('[data-testid="modal"]'),
+    MainContainer: this.page.locator(InheritedFields.ModalWindowLocator),
+  };
+
+  Buttons = {
+    ShareCalendar: this.Containers.MainContainer.locator('"SHARE CALENDAR"'),
   };
 
   ShareWithDropdown = {
@@ -10,6 +14,6 @@ export class ShareCalendarModal extends BasePage {
   };
 
   TextBoxes = {
-    Recipients: this.Containers.MainContainer.locator("Recipients e-mail addresses"),
+    Recipients: this.Containers.MainContainer.locator('"Recipients e-mail addresses" >> xpath=preceding-sibling::*'),
   };
 }
