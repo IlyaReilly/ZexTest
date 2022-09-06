@@ -16,6 +16,12 @@ export class Calendar extends BasePage {
 
   Elements = {
     Appointment: this.Containers.MainContainer.locator('.hIcxKG'),
+    CurrentDate: this.Containers.MainContainer.locator('.iVBcdo .cGzJpD'),
+    Cell: this.Containers.MainContainer.locator('.rbc-day-bg'),
+    Column: this.Containers.MainContainer.locator('.rbc-time-column'),
+    ActiveViewButton: this.Containers.MainContainer.locator('.iZsIAW'),
+    NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
+    TodayButton: this.Containers.MainContainer.locator('.iPEbcU'),
   };
 
   AppointmentPopup = {
@@ -28,7 +34,7 @@ export class Calendar extends BasePage {
   };
 
   ReminderPopup = {
-    DismissButton: this.Containers.ReminderPopupContainer.locator('"DISMISS"'), // .ejIaaY .cGzJpD
+    DismissButton: this.Containers.ReminderPopupContainer.locator('"DISMISS"'),
     SetNewTime: this.Containers.ReminderPopupContainer.locator('.bOlfsx'),
   };
 
@@ -53,7 +59,7 @@ export class Calendar extends BasePage {
   }
 
   async SelectCalendarView(calendarViewTitle) {
-    this.Containers.CalendarView.locator(`"${calendarViewTitle}"`).click();
+    await this.Containers.CalendarView.locator(`"${calendarViewTitle}"`).click();
   }
 
   async OpenAppointmentInfoPopup(appointmentTitle) {
@@ -77,5 +83,13 @@ export class Calendar extends BasePage {
     await this.AppointmentPopup.OtherActionsDropdown.click();
     await this.AppointmentPopup.OtherActionsDeletePermanently.click();
     await this.DeletePopups.DeletePermanentlyButton.click();
+  }
+
+  async CalculateCurrentDate() {
+    const today = new Date();
+    const weekDay = today.toLocaleString('en-US', {weekday: "long"}).toUpperCase();
+    const monthAndDate = String(today).slice(4, 10).toUpperCase();
+    const weekDayMonthDate = weekDay + ' ' + monthAndDate;
+    return weekDayMonthDate;
   }
 }
