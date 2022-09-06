@@ -1,5 +1,5 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from './BaseTest';
+import {test, BaseTest} from '../UITests/BaseTest';
 import fs from "fs";
 
 
