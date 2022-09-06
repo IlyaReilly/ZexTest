@@ -17,6 +17,11 @@ export class Calendar extends BasePage {
   Elements = {
     Appointment: this.Containers.MainContainer.locator('.hIcxKG'),
     CurrentDate: this.Containers.MainContainer.locator('.iVBcdo .cGzJpD'),
+    Cell: this.Containers.MainContainer.locator('.rbc-day-bg'),
+    Column: this.Containers.MainContainer.locator('.rbc-time-column'),
+    ActiveViewButton: this.Containers.MainContainer.locator('.iZsIAW'),
+    NextDateArrow: this.Containers.MainContainer.locator('[data-testid="icon: ChevronRight"]'),
+    TodayButton: this.Containers.MainContainer.locator('.iPEbcU'),
   };
 
   AppointmentPopup = {
@@ -79,14 +84,6 @@ export class Calendar extends BasePage {
     await this.AppointmentPopup.OtherActionsDropdown.click();
     await this.AppointmentPopup.OtherActionsDeletePermanently.click();
     await this.DeletePopups.DeletePermanentlyButton.click();
-  }
-
-  async GetElementColor(elementName) {
-    const element = this.Containers.CalendarView.locator('div.iZsIAW', {hasText: `${elementName}`});
-    const color = await element.evaluate((el) => {
-      return window.getComputedStyle(el).getPropertyValue('background-color');
-    });
-    return color;
   }
 
   async CalculateCurrentDate() {
