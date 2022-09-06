@@ -108,8 +108,9 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Column, 'Calendar have to consist of 8 Columns').toHaveCount(8);
   });
 
-  test('Calendar view: Work Week', async ({pageManager}) => {
+  test('Calendar view: Work Week', async ({pageManager, page}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    await BaseTest.waitForLoaderSpinnerHidden(page);
     await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 5 Cell').toHaveCount(5);
     await expect(pageManager.calendar.Elements.Column, 'Calendar have to consist of 6 Columns').toHaveCount(6);
   });

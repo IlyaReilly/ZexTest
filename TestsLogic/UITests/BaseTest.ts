@@ -61,4 +61,12 @@ export class BaseTest {
     await fs.writeFile(`./${userStoragesPath}`, jsonData, 'utf8');
     return `./${userStoragesPath}`;
   }
+
+  static async waitForLoaderSpinnerHidden(page) {
+    try {
+      await page.waitForSelector('[data-testid="spinner"]', {state: 'hidden'});
+    } catch (e) {
+      throw e;
+    };
+  }
 }

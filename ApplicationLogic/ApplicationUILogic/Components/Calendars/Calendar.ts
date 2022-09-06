@@ -20,7 +20,7 @@ export class Calendar extends BasePage {
     Cell: this.Containers.MainContainer.locator('.rbc-day-bg'),
     Column: this.Containers.MainContainer.locator('.rbc-time-column'),
     ActiveViewButton: this.Containers.MainContainer.locator('.iZsIAW'),
-    NextDateArrow: this.Containers.MainContainer.locator('[data-testid="icon: ChevronRight"]'),
+    NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
     TodayButton: this.Containers.MainContainer.locator('.iPEbcU'),
   };
 
@@ -60,7 +60,6 @@ export class Calendar extends BasePage {
 
   async SelectCalendarView(calendarViewTitle) {
     await this.Containers.CalendarView.locator(`"${calendarViewTitle}"`).click();
-    await this.page.waitForSelector('[data-testid="spinner"]', {state: 'hidden'});
   }
 
   async OpenAppointmentInfoPopup(appointmentTitle) {
