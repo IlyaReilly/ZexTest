@@ -4,7 +4,8 @@ export class SideSecondaryMailMenu extends BasePage {
   Containers = {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    CreateNewFolderPopupContainer: this.page.locator('.lgcnRq '),
+    CreateNewFolderPopupContainer: this.page.locator('.lgcnRq'),
+    ShareFolderModalContainer: this.page.locator('loeZsV'),
   };
 
   Buttons = {
@@ -35,6 +36,12 @@ export class SideSecondaryMailMenu extends BasePage {
     FilterFolders: this.Containers.CreateNewFolderPopupContainer.locator('[placeholder="Enter Folder Name"]'),
     CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"CANCEL"'),
     CreateAndMoveButton: this.Containers.CreateNewFolderPopupContainer.locator('"CREATE AND MOVE"'),
+  };
+
+  ShareFolderModal = {
+    RecipientsAddress: this.Containers.ShareFolderModalContainer.locator('.ffxRAC'),
+    GoBackButton: this.Containers.ShareFolderModalContainer.locator('"GO BACK"'),
+    ShareFolderButton: this.Containers.ShareFolderModalContainer.locator('"SHARE FOLDER"'),
   };
 
   constructor(page) {
@@ -75,5 +82,12 @@ export class SideSecondaryMailMenu extends BasePage {
 
   async OpenSubFolder(folderName) {
     await this.MailFolders.SubFolder.locator(`"${folderName}"`).click();
+  }
+
+  async ShareCreatedFolder(recipient) {
+    // await this.ShareFolderModal.RecipientsAddress.click();
+    // await this.ShareFolderModal.RecipientsAddress.fill(recipient);
+    // await this.ShareFolderModal.ShareFolderButton.click();
+    await this.ShareFolderModal.GoBackButton.click();
   }
 }
