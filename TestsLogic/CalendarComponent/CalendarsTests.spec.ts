@@ -59,7 +59,7 @@ test.describe('Calendars tests', async () => {
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     const appointmentElement = await pageManager.calendar.GetAppointmentWithTitle(appointmentTitle);
     await expect(appointmentElement.locator(pageManager.calendar.Selectors.PrivateAppLockIconSelector)).toHaveCount(1);
   });
@@ -68,7 +68,7 @@ test.describe('Calendars tests', async () => {
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await page.reload();
-    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     await pageManager.calendar.MoveAppointmentToTrash(appointmentTitle);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
@@ -79,7 +79,7 @@ test.describe('Calendars tests', async () => {
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
-    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);
     await page.reload(); // temporary step due to a bug on Firefox UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
