@@ -14,6 +14,7 @@ export class FilesList extends BasePage {
     File: this.Containers.ListContainer.locator('.lnXHNY'),
     Header: this.Containers.MainContainer.locator('.debCVK'),
     FileName: this.Containers.ListContainer.locator('.hiooLB'),
+    FlagIcon: this.Containers.ListContainer.locator('[data-testid="icon: Flag"]'),
   };
 
   async OpenFileDetails(unicFileName) {
