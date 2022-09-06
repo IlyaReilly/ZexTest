@@ -5,6 +5,16 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator(this.sideSecondaryDefaultBarLocator),
+    ContextMenuContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+  };
+
+  ContextMenu = {
+    AllCalendars: this.Containers.ContextMenuContainer.locator('"New calendar"'),
+    MoveToRoot: this.Containers.ContextMenuContainer.locator('"Move to root"'),
+    EditCalendarProperties: this.Containers.ContextMenuContainer.locator('"Edit calendar properties"'),
+    DeleteCalendar: this.Containers.ContextMenuContainer.locator('"Delete calendar"'),
+    ShareCalendar: this.Containers.ContextMenuContainer.locator('"Share Calendar"'),
+    CalendarAccessShare: this.Containers.ContextMenuContainer.locator('"Calendar’s access share"'),
   };
 
   Tabs = {
@@ -29,6 +39,14 @@ export class SideSecondaryCalendarMenu extends BasePage {
     super(page);
   }
 
+  async OpenContextMenuForCalendar() {
+    await this.Tabs.Calendar.click({button: 'right'});
+  }
+
+  async ShareCalendar() {
+    await this.OpenContextMenuForCalendar();
+    await this.ContextMenu.ShareCalendar.click();
+  }
 
   TrashSelecting = {
     Select: async () => {
