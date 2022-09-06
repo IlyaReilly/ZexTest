@@ -1,10 +1,6 @@
-import {BasePage, InheritedFields} from '../../Pages/BasePage';
+import {ModalWindowBase} from '../ModalWindows/ModalWindowBase';
 
-export class CalendarAccessShareModal extends BasePage {
-  Containers = {
-    MainContainer: this.page.locator(InheritedFields.ModalWindowLocator),
-  };
-
+export class CalendarAccessShareModal extends ModalWindowBase {
   Buttons = {
     IcsUrl: this.Containers.MainContainer.locator('"ICS URL"'),
     OutlookUrl: this.Containers.MainContainer.locator('"OUTLOOK URL"'),
