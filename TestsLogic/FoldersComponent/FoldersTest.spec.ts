@@ -47,14 +47,4 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenSubFolder(folderName);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();
   });
-
-  // Test needs to be improved
-  test.skip('Share new folder', async ({pageManager, apiManager}) => {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
-    await pageManager.sideSecondaryMailMenu.OpenHidenSentFolders();
-    await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
-    await pageManager.sideSecondaryMailMenu.MailfolderOption.ShareFolder();
-    await pageManager.sideSecondaryMailMenu.ShareCreatedFolder();
-  });
 });
