@@ -13,10 +13,11 @@ test.describe('Calendars tests', async () => {
     }));
   });
 
-  test.beforeEach(async () => {
+  test.beforeEach(async ({apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
+    await apiManager.calendarAPI.RevokeSharingOfCalendar(BaseTest.userForLogin.login);
   });
 
   test.afterEach(async ({page, apiManager}) => {
@@ -25,15 +26,24 @@ test.describe('Calendars tests', async () => {
     await page.close();
   });
 
-  test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({page, pageManager, apiManager}) => {
+  test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({pageManager, apiManager}) => {
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.ShareCalendar();
-    await pageManager.shareCalendarModal.TextBoxes.Recipients.type(BaseTest.userForLogin.login);
+    await pageManager.shareCalendarModal.TextBoxes.Recipients.type(BaseTest.secondUser.login);
     await pageManager.shareCalendarModal.TextBoxes.Recipients.press('Enter');
     await pageManager.shareCalendarModal.Buttons.ShareCalendar.click();
     await expect(pageManager.calendarAccessShareModal.Buttons.IcsUrl, 'Calendar access share window should contain ICS URL button').toBeVisible();
     await expect(pageManager.calendarAccessShareModal.Buttons.OutlookUrl, 'Calendar access share window should contain OUTLOOK URL button').toBeVisible();
     await expect(pageManager.calendarAccessShareModal.Buttons.ViewUrl, 'Calendar access share window should contain VIEW URL button').toBeVisible();
+  });
+
+  test('Share Calendar. Check shared icon and notification.', async ({page, pageManager, apiManager}) => {
+    await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
+    await apiManager.calendarAPI.ShareCalendar(BaseTest.userForLogin.login, BaseTest.secondUser.login);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await expect(pageManager.sideSecondaryCalendarMenu.Icons.SharedIcon, 'Shared icon should be presented opposite calendar when it is shared').toBeVisible();
+    await page.hover(pageManager.sideSecondaryCalendarMenu.Icons.SharedIcon._selector);
+    await expect(pageManager.sideSecondaryCalendarMenu.Hints.SharedHint, 'Shared icon should display hint with the number of people for sharing').toBeVisible();
   });
 });

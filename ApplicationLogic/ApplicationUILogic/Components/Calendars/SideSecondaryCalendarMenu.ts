@@ -28,6 +28,11 @@ export class SideSecondaryCalendarMenu extends BasePage {
   Icons = {
     CalendarUnchecked: this.Containers.MainContainer.locator('[data-name="calendar"] >> nth=0'),
     TrashUnchecked: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
+    SharedIcon: this.Containers.MainContainer.locator('[data-testid*="ArrowCircleRight"]'),
+  };
+
+  Hints = {
+    SharedHint: this.page.locator('"Shared with 1 people"'),
   };
 
   Locators = {

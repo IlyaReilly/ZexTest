@@ -36,6 +36,7 @@ export class BaseAPI {
   // Endpoints
   readonly searchRequest = 'SearchRequest';
   readonly itemActionRequest = 'ItemActionRequest';
+  readonly folderActionRequest = 'FolderActionRequest';
   // Mails
   readonly convActionRequest = 'ConvActionRequest';
   readonly saveDraftRequest = 'SaveDraftRequest';
