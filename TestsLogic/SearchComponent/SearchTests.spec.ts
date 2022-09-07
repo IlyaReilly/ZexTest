@@ -72,8 +72,8 @@ test.describe('Search tests', async () => {
     const templateFileName = 'fileForSearch.png';
     const fileName = uniquePrefix + 'fileForSearch';
     const fileNameFull = fileName + '.png';
-    const filePathSrc = path.resolve("./TestData/Assets/", templateFileName);
-    const filePathDest = path.resolve("./TestData/Assets/", fileNameFull);
+    const filePathSrc = path.resolve("./TestData/Files/", templateFileName);
+    const filePathDest = path.resolve("./TestData/Files/", fileNameFull);
     fs.copyFileSync(filePathSrc, filePathDest);
 
     try {
