@@ -74,6 +74,6 @@ export class SideSecondaryMailMenu extends BasePage {
   }
 
   async OpenSubFolder(folderName) {
-    await this.MailFolders.SubFolder.locator(`"${folderName}"`).click();
+    await this.MailFolders.SubFolder.locator(`"${folderName}"`).first().click();
   }
 }
