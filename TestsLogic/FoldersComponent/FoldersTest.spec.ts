@@ -36,6 +36,7 @@ test.describe('Folders tests', async () => {
   });
 
   test('Move mail to a new folder', async ({pageManager, apiManager}) => {
+    test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
