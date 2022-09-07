@@ -26,12 +26,14 @@ test.describe('Calendars tests', async () => {
     await page.close();
   });
 
-  test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({pageManager, apiManager}) => {
+  test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({page, pageManager, apiManager}) => {
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.ShareCalendar();
     await pageManager.shareCalendarModal.TextBoxes.Recipients.type(BaseTest.secondUser.login);
     await pageManager.shareCalendarModal.TextBoxes.Recipients.press('Enter');
+    const elementHandle = await page.$(pageManager.shareCalendarModal.Buttons.ShareCalendar._selector);
+    await elementHandle?.waitForElementState('enabled');
     await pageManager.shareCalendarModal.Buttons.ShareCalendar.click();
     await expect(pageManager.calendarAccessShareModal.Buttons.IcsUrl, 'Calendar access share window should contain ICS URL button').toBeVisible();
     await expect(pageManager.calendarAccessShareModal.Buttons.OutlookUrl, 'Calendar access share window should contain OUTLOOK URL button').toBeVisible();
