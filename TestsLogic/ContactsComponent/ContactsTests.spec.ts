@@ -38,7 +38,7 @@ test.describe('Contacts tests', async () => {
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
     await ScrollDownContactsList(page, pageManager);
-    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`)).toBeVisible();
+    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`), 'The e-mail address of a new contact is visible in Contacts list').toBeVisible();
   });
 
   test('Emailed contact. New email reciever appears in emailed contact chapter', async ({page, pageManager, apiManager}) => {
@@ -46,7 +46,7 @@ test.describe('Contacts tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.EmailedContacts);
     await ScrollDownContactsList(page, pageManager);
-    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`)).toBeVisible();
+    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`), 'The e-mail address of a new contact is visible in Emailed contacts list').toBeVisible();
   });
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
@@ -58,7 +58,7 @@ test.describe('Contacts tests', async () => {
     await page.reload();
     await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.Options.Trash);
     await ScrollDownContactsList(page, pageManager);
-    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${firstName}"`)).toBeVisible();
+    await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${firstName}"`), 'The first name of a new contact is visible in Trash contacts list').toBeVisible();
   });
 });
 
