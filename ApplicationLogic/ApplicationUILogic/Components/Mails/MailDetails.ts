@@ -1,4 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class MailDetails extends BasePage {
   Containers = {
@@ -29,7 +29,7 @@ export class MailDetails extends BasePage {
   };
 
   MoveConversationPopup = {
-    SpreadFoldersList: this.Containers.MoveConversationContainer.locator('.cLLOPN:has([data-testid*="icon: ChevronDown"])'),
+    SpreadFoldersList: this.Containers.MoveConversationContainer.locator(InheritedFields.SpreadHidenFolders),
     FoldersListItem: this.Containers.MoveConversationContainer.locator('.kWgjwg'),
     NewFolderButton: this.Containers.MoveConversationContainer.locator('"NEW FOLDER"'),
     MoveButton: this.Containers.MoveConversationContainer.locator('"MOVE"'),

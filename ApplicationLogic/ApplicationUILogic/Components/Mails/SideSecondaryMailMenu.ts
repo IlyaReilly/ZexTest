@@ -9,7 +9,7 @@ export class SideSecondaryMailMenu extends BasePage {
 
   Buttons = {
     OpenHideMailFolders: this.Containers.MainContainer.locator('.fjrKpL .cLLOPN'),
-    OpenHideSentFolders: this.Containers.MainContainer.locator('.cLLOPN:has([data-testid*="icon: ChevronDown"])'),
+    OpenHideSentFolders: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
   MailFolders = {
@@ -48,6 +48,20 @@ export class SideSecondaryMailMenu extends BasePage {
     await folder.click();
   }
 
+  async SpreadMails() {
+    if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
+      await this.Buttons.OpenHideMailFolders.first().click();
+    }
+  }
+
+  OpenMailFolders = {
+    Inbox: async () => await this.MailFolders.Inbox.click(),
+    Junk: async () => await this.MailFolders.Junk.click(),
+    Sent: async () => await this.MailFolders.Sent.click(),
+    Drafts: async () => await this.MailFolders.Drafts.click(),
+    Trash: async () => await this.MailFolders.Trash.click(),
+  };
+
   async OpenMailFolderOptions(folder) {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
       await this.Buttons.OpenHideMailFolders.first().click();
@@ -73,7 +87,7 @@ export class SideSecondaryMailMenu extends BasePage {
     await this.Buttons.OpenHideSentFolders.click();
   }
 
-  async OpenSubFolder(folderName) {
+  async OpenFirstSubFolder(folderName) {
     await this.MailFolders.SubFolder.locator(`"${folderName}"`).first().click();
   }
 }

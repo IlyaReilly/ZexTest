@@ -19,6 +19,8 @@ test.describe('Folders tests', async () => {
     await page.close();
   });
 
+  // Test skipped due to problems of folder deletion afterhook.
+  // It can not be implemented with UI folder creation. Impossible to get id for deletion
   test.skip('Create new folder', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
@@ -39,13 +41,14 @@ test.describe('Folders tests', async () => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
+    await pageManager.sideSecondaryMailMenu.SpreadMails();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolders.Sent();
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.EditMail.SpreadOptions.click();
     await pageManager.mailDetails.MailOptions.Move.click();
     await pageManager.mailDetails.MoveMailToFolder(folderName);
     await pageManager.sideSecondaryMailMenu.OpenHidenSentFolders();
-    await pageManager.sideSecondaryMailMenu.OpenSubFolder(folderName);
+    await pageManager.sideSecondaryMailMenu.OpenFirstSubFolder(folderName);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();
   });
 });
