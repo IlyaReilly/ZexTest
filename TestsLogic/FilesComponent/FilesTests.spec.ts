@@ -32,7 +32,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File with JPG extension can be uploaded', async ({pageManager}) => {
-    await pageManager.headerMenu.UploadNewFile('./TestData/testFile2.jpg');
+    await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await expect((pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
   });

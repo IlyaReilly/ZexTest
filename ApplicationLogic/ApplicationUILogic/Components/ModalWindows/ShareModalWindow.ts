@@ -6,7 +6,7 @@ export class ShareModalWindow extends ModalWindowBase {
   }
 
   Buttons = {
-    ShareCalendar: this.Containers.MainContainer.locator('"SHARE CALENDAR"'),
+    ShareCalendar: this.Containers.MainContainer.locator('xpath=//*[contains(text(), "SHARE")]'),
   };
 
   ShareWithDropdown = {
