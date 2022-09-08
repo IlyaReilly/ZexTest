@@ -12,8 +12,8 @@ export class SideSecondaryFilesMenu extends BasePage {
   Tabs = {
     Home: this.Containers.MainContainer.locator('"Home"'),
     SharedWithMe: this.Containers.MainContainer.locator('"Shared with me"'),
-    Trash: this.Containers.MainContainer.locator('.fifhdL div:nth-child(3) .bOlfsx'),
-    Filters: this.Containers.MainContainer.locator('.fifhdL div:nth-child(4) .bOlfsx'),
+    Trash: this.Containers.MainContainer.locator('[data-testid*="ChevronDown"] >> nth=0'),
+    Filters: this.Containers.MainContainer.locator('[data-testid*="ChevronDown"] >> nth=-1'),
     Uploads: this.Containers.MainContainer.locator('"Uploads"'),
     TrashElements: this.Containers.MainContainer.locator('"My elements"'),
     FiltersFlagged: this.Containers.MainContainer.locator('"Flagged"'),
@@ -27,3 +27,5 @@ export class SideSecondaryFilesMenu extends BasePage {
     await tab.click();
   }
 }
+
+

@@ -1,6 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
 import fs from "fs";
+import { PageManager } from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
 
 
 test.describe('Files tests', async () => {
@@ -31,6 +32,12 @@ test.describe('Files tests', async () => {
     await page.close();
   });
 
+ async function uploadAndOpenDetails({apiManager, pageManager}) {
+  await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
+  await pageManager.filesList.OpenNeededUrl('home');
+  await pageManager.filesList.OpenFileDetails(unicFileName);
+  }
+
   test('File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
@@ -58,51 +65,49 @@ test.describe('Files tests', async () => {
     }
   });
 
-  test('File can be permanently removed', async ({pageManager}) => {
-    await pageManager.headerMenu.UploadNewFile('./TestData/testFile2.jpg');
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await pageManager.filesList.OpenFileDetails(fileNameJpg);
-    await pageManager.fileDetails.OpenDropdown(pageManager.fileDetails.FileOptions.MoveToTrash);
+  test('File must be moved to trash', async({apiManager, pageManager}) => {
+    await uploadAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.OpenDropdown('MoveToTrash');
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Trash);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.TrashElements);
-    await pageManager.filesList.OpenFileDetails(fileNameJpg);
+    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
+  });
+
+  test('File can be permanently removed', async ({apiManager, pageManager}) => {
+    await uploadAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.OpenDropdown('MoveToTrash');
+    await pageManager.filesList.OpenNeededUrl('trashElements');
+    await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.DeletePermanentlyButton.click();
     await pageManager.fileDetails.CreateEntityPopup.DeleteButton.click();
-    await expect(pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`)).not.toBeVisible(); 
+    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await expect(pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`)).not.toBeVisible(); 
+    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
   });
 
-  test('File can be restored from trash', async ({pageManager}) => {
-    await pageManager.headerMenu.UploadNewFile('./TestData/testFile2.jpg');
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await pageManager.filesList.OpenFileDetails(fileNameJpg);
-    await pageManager.fileDetails.OpenDropdown(pageManager.fileDetails.FileOptions.MoveToTrash);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Trash);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.TrashElements);
-    await pageManager.filesList.OpenFileDetails(fileNameJpg);
+  test('File can be restored from trash', async ({apiManager, pageManager}) => {
+    await uploadAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.OpenDropdown('MoveToTrash');
+    await pageManager.filesList.OpenNeededUrl('trashElements');
+    await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.RestoreButton.click();
-    await expect(pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`)).not.toBeVisible(); 
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await expect(pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`)).toBeVisible(); 
+    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
+    await pageManager.filesList.OpenNeededUrl('home');
+    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible(); 
   });
 
-  test('File must be flagged and unflagged',async ({pageManager}) => {
-    await pageManager.headerMenu.UploadNewFile('./TestData/testFile2.jpg');
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await pageManager.filesList.OpenFileDetails(fileNameJpg);
-    await pageManager.fileDetails.OpenDropdown(pageManager.fileDetails.FileOptions.Flag);
+  test('File must be flagged and unflagged',async ({apiManager, pageManager}) => {
+    await uploadAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.OpenDropdown('Flag');
     await expect(pageManager.filesList.Elements.FlagIcon).toBeVisible();
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Filters);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.FiltersFlagged);
-    await pageManager.filesList.OpenFileDetails(fileNameJpg);
-    await pageManager.fileDetails.OpenDropdown(pageManager.fileDetails.FileOptions.UnFlag);
-    await expect(pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`)).not.toBeVisible();
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
-    await expect(pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`)).toBeVisible();
+    await pageManager.filesList.OpenNeededUrl('filtersFlagged');
+    await pageManager.filesList.OpenFileDetails(unicFileName);
+    await pageManager.fileDetails.OpenDropdown('UnFlag');
+    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible();
+    await pageManager.filesList.OpenNeededUrl('home');
+    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
   });
 });
+
+

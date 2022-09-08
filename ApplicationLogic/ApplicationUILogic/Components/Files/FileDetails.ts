@@ -39,8 +39,8 @@ export class FileDetails extends BasePage {
     UnFlag: this.Containers.FileOptionsDropdownContainer.locator('"Unflag"'),
     Dropdown: this.Containers.FileOptionsContainer.locator('.JzynG'),
     MoveToTrash: this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"'),
-    DeletePermanentlyButton: this.Containers.FileOptionsContainer.locator('.goiYeC:last-child'),
-    RestoreButton: this.Containers.FileOptionsContainer.locator('.goiYeC:first-child'),
+    DeletePermanentlyButton: this.Containers.FileOptionsContainer.locator('[data-testid*="DeletePermanentlyOutline"]'),
+    RestoreButton: this.Containers.FileOptionsContainer.locator('[data-testid*="RestoreOutline"]'),
   };
 
   async DownloadFile() {
@@ -62,8 +62,14 @@ export class FileDetails extends BasePage {
   }
 
   async OpenDropdown(option) {
+    const dropdownChoices = [
+      {name: 'Flag', path: this.Containers.FileOptionsDropdownContainer.locator('"Flag"')},
+      {name: 'UnFlag', path: this.Containers.FileOptionsDropdownContainer.locator('"Unflag"')},
+      {name: 'MoveToTrash', path: this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"')},
+    ];
+    const neededChoice = dropdownChoices.find(i => i.name === option);
     await this.FileOptions.Dropdown.click();
-    await option.click();
+    await neededChoice?.path.click();
     }
 }
 
