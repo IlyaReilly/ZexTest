@@ -6,9 +6,11 @@ test.describe('Folders tests', async () => {
   let mailSubject;
   let mailBody;
   let folderId;
+  let newFolderName;
 
   test.beforeEach(async ({apiManager}) => {
     folderName = BaseTest.dateTimePrefix() + ' Folder';
+    newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     folderId = await apiManager.foldersAPI.CreateFolder(folderName, BaseTest.userForLogin.login);
@@ -35,7 +37,7 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.SpreadMails();
     await pageManager.sideSecondaryMailMenu.OpenMailFolders.Inbox();
     await pageManager.sideSecondaryMailMenu.OpenHidenSentFolders();
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should be visible").toBeVisible();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`).first(), "Created folder should be visible").toBeVisible();
   });
 
   test('Move mail to a new folder', async ({pageManager, apiManager}) => {
@@ -51,5 +53,32 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenHidenSentFolders();
     await pageManager.sideSecondaryMailMenu.OpenFirstSubFolder(folderName);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();
+  });
+
+  test('Share a new folder', async ({page, pageManager}) => {
+    test.slow();
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await pageManager.sideSecondaryMailMenu.SpreadMails();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolders.Inbox();
+    await pageManager.sideSecondaryMailMenu.OpenHidenSentFolders();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
+    await pageManager.sideSecondaryMailMenu.MailfolderOption.ShareFolder();
+    await pageManager.shareFolderModal.TextBoxes.Recipients.type(BaseTest.secondUser.login);
+    await pageManager.shareFolderModal.TextBoxes.Recipients.press('Enter');
+    await pageManager.shareFolderModal.Buttons.ShareButton.click();
+    await expect(pageManager.mailDetails.Elements.ActionWithMailNotification.locator('"Folder shared"'), '"Folder shared" action notification appears in right bottom corner').toBeVisible();
+    await page.reload();
+    await expect(pageManager.sideSecondaryMailMenu.Icons.SharedIcon, 'Share icon should be near folder name').toBeVisible();
+  });
+
+  test('Edit a new folder', async ({pageManager, apiManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await pageManager.sideSecondaryMailMenu.SpreadMails();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolders.Inbox();
+    await pageManager.sideSecondaryMailMenu.OpenHidenSentFolders();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
+    await pageManager.sideSecondaryMailMenu.MailfolderOption.Edit();
+    await pageManager.editFolderModal.EditFolder(newFolderName);
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${newFolderName}"`), "New folder name should be visible").toBeVisible();
   });
 });

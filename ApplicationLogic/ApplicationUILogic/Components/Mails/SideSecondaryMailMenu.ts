@@ -12,6 +12,10 @@ export class SideSecondaryMailMenu extends BasePage {
     OpenHideSentFolders: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
+  Icons = {
+    SharedIcon: this.Containers.MainContainer.locator('[data-testid*="Shared"]'),
+  };
+
   MailFolders = {
     Inbox: this.Containers.MainContainer.locator('"Inbox"'),
     Junk: this.Containers.MainContainer.locator('"Junk"'),
