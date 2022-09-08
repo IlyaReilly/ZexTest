@@ -42,7 +42,7 @@ test.describe('Files tests', async () => {
   async function UploadAndMoveToTrash({apiManager, pageManager}) {
     await uploadAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.MoveToTrash();
-    await pageManager.sideSecondaryFilesMenu.TabsInFolders.TrashElements();
+    await pageManager.sideSecondaryFilesMenu.SelectTrashSubfolder.TrashElements();
   }
 
   test('File with JPG extension can be uploaded', async ({pageManager}) => {
@@ -100,7 +100,7 @@ test.describe('Files tests', async () => {
     await uploadAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.Flag();
     await expect(pageManager.filesList.Elements.FlagIcon).toBeVisible();
-    await pageManager.sideSecondaryFilesMenu.TabsInFolders.FiltersFlagged();
+    await pageManager.sideSecondaryFilesMenu.SelectFilterSubfolder.FiltersFlagged();
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.ClickDropdownOption.UnFlag();
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible();

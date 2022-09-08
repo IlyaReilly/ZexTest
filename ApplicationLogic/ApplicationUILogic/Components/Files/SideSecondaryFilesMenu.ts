@@ -27,14 +27,30 @@ export class SideSecondaryFilesMenu extends BasePage {
     await tab.click();
   };
 
-  async OpenFolder(folderNumber, option) {
+  async OpenSubFolder(folderNumber, option) {
     await this.Containers.MainContainer.locator(`[data-testid*="ChevronDown"] >> nth=${folderNumber}`).click();
     await option.click();
     }
-    
-  TabsInFolders = {
-    TrashElements: async () => await this.OpenFolder(0, this.Containers.MainContainer.locator('"My elements"')),
-    FiltersFlagged: async () => await this.OpenFolder(-1, this.Containers.MainContainer.locator('"Flagged"'))
+
+  Subfolders = {
+    Trash: {
+      TrashElements: this.Containers.MainContainer.locator('"My elements"'),
+      SharedElements: this.Containers.MainContainer.locator('"Shared Elements"'),
+    },
+    Filters: {
+      FiltersFlagged: this.Containers.MainContainer.locator('"Flagged"'),
+      FiltersSharedByMe: this.Containers.MainContainer.locator('"Shared by me"')
+    }
+  };
+
+  SelectTrashSubfolder = {
+    TrashElements: async () => await this.OpenSubFolder(0, this.Subfolders.Trash.TrashElements),
+    SharedElements: async () => await this.OpenSubFolder(0, this.Subfolders.Trash.SharedElements),
+  };
+
+  SelectFilterSubfolder = {
+    FiltersFlagged: async () => await this.OpenSubFolder(-1, this.Subfolders.Filters.FiltersFlagged),
+    FiltersSharedByMe: async () => await this.OpenSubFolder(-1, this.Subfolders.Filters.FiltersSharedByMe),
   }
 }
 
