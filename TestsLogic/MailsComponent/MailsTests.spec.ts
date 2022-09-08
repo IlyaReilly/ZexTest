@@ -19,7 +19,7 @@ test.describe('Mails tests', async () => {
 
   test('Open Mail tab. User login is presented in the secondary side bar.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`)).toBeVisible();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`), 'User`s login is visible').toBeVisible();
   });
 
   test('Inbox mail. Mail appears in the inbox chapter', async ({page, pageManager}) => {
@@ -33,7 +33,7 @@ test.describe('Mails tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
     await page.reload();
     await pageManager.mailsList.OpenMail(mailSubject);
-    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
   });
 
   test('Junk mail. Mail appears in the junk chapter', async ({page, pageManager, apiManager}) => {
@@ -48,7 +48,7 @@ test.describe('Mails tests', async () => {
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Junk);
     await page.reload();
-    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Junk folder mails list').toBeVisible();
   });
 
   test('Send mail. Mail appears in the sent chapter.', async ({pageManager, apiManager}) => {
@@ -56,7 +56,7 @@ test.describe('Mails tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
-    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Sent folder mails list').toBeVisible();
   });
 
   test('Draft mail. Mail appears in the draft chapter.', async ({page, pageManager}) => {
@@ -70,7 +70,7 @@ test.describe('Mails tests', async () => {
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Drafts);
     await pageManager.mailsList.OpenMail(mailSubject);
-    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Draft folder mails list').toBeVisible();
   });
 
   test('Trash mail. Mail appears in the trash chapter', async ({pageManager, apiManager}) => {
@@ -82,6 +82,6 @@ test.describe('Mails tests', async () => {
     await pageManager.mailDetails.DeleteDraft();
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Trash);
     await pageManager.mailsList.OpenMail(mailSubject);
-    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`)).toBeVisible();
+    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Trash folder mails list').toBeVisible();
   });
 });
