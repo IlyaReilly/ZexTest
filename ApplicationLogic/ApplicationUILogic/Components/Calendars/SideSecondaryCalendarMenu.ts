@@ -9,7 +9,7 @@ export class SideSecondaryCalendarMenu extends BasePage {
   };
 
   ContextMenu = {
-    AllCalendars: this.Containers.ContextMenuContainer.locator('"New calendar"'),
+    NewCalendar: this.Containers.ContextMenuContainer.locator('"New calendar"'),
     MoveToRoot: this.Containers.ContextMenuContainer.locator('"Move to root"'),
     EditCalendarProperties: this.Containers.ContextMenuContainer.locator('"Edit calendar properties"'),
     DeleteCalendar: this.Containers.ContextMenuContainer.locator('"Delete calendar"'),
@@ -47,6 +47,33 @@ export class SideSecondaryCalendarMenu extends BasePage {
   async OpenContextMenuForCalendar() {
     await this.Tabs.Calendar.click({button: 'right'});
   }
+
+  OpenCalendarContextMenuOption = {
+    ShareCalendar: async () => {
+      await this.OpenContextMenuForCalendar();
+      await this.ContextMenu.ShareCalendar.click();
+    },
+    NewCalendar: async () => {
+      await this.OpenContextMenuForCalendar();
+      await this.ContextMenu.NewCalendar.click();
+    },
+    MoveToRoot: async () => {
+      await this.OpenContextMenuForCalendar();
+      await this.ContextMenu.MoveToRoot.click();
+    },
+    EditCalendarProperties: async () => {
+      await this.OpenContextMenuForCalendar();
+      await this.ContextMenu.EditCalendarProperties.click();
+    },
+    DeleteCalendar: async () => {
+      await this.OpenContextMenuForCalendar();
+      await this.ContextMenu.DeleteCalendar.click();
+    },
+    CalendarAccessShare: async () => {
+      await this.OpenContextMenuForCalendar();
+      await this.ContextMenu.CalendarAccessShare.click();
+    },
+  };
 
   async ShareCalendar() {
     await this.OpenContextMenuForCalendar();
