@@ -32,15 +32,15 @@ test.describe('Files tests', async () => {
     await page.close();
   });
 
- async function uploadAndOpenDetails({apiManager, pageManager}) {
+ async function UploadFileAndOpenDetails({apiManager, pageManager}) {
   await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
   await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
   await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
   await pageManager.filesList.OpenFileDetails(unicFileName);
   };
 
-  async function UploadAndMoveToTrash({apiManager, pageManager}) {
-    await uploadAndOpenDetails({apiManager, pageManager});
+  async function UploadFileAndMoveToTrash({apiManager, pageManager}) {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.MoveToTrash();
     await pageManager.sideSecondaryFilesMenu.SelectTrashSubfolder.TrashElements();
   }
@@ -73,12 +73,12 @@ test.describe('Files tests', async () => {
   });
 
   test('File must be moved to trash', async({apiManager, pageManager}) => {
-    await UploadAndMoveToTrash({apiManager, pageManager});
+    await UploadFileAndMoveToTrash({apiManager, pageManager});
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
   });
 
   test('File can be permanently removed', async ({apiManager, pageManager}) => {
-    await UploadAndMoveToTrash({apiManager, pageManager});
+    await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.DeletePermanentlyButton.click();
     await pageManager.fileDetails.CreateEntityPopup.DeleteButton.click();
@@ -88,7 +88,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be restored from trash', async ({apiManager, pageManager}) => {
-    await UploadAndMoveToTrash({apiManager, pageManager});
+    await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.RestoreButton.click();
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
@@ -97,7 +97,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File must be flagged and unflagged',async ({apiManager, pageManager}) => {
-    await uploadAndOpenDetails({apiManager, pageManager});
+    await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.Flag();
     await expect(pageManager.filesList.Elements.FlagIcon).toBeVisible();
     await pageManager.sideSecondaryFilesMenu.SelectFilterSubfolder.FiltersFlagged();
