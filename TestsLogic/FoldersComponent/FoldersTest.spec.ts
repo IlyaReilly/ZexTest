@@ -19,8 +19,8 @@ test.describe('Folders tests', async () => {
     await page.close();
   });
 
-  // Test skipped due to problems of folder deletion afterhook.
-  // It can not be implemented with UI folder creation. Impossible to get id for deletion
+  // Test skipped due to problems with folder deletion afterhook.
+  // It can not be implemented with UI folder creation. Impossible to get folder's id for deletion
   test.skip('Create new folder', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
@@ -32,7 +32,8 @@ test.describe('Folders tests', async () => {
 
   test('Create new folder with API', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
+    await pageManager.sideSecondaryMailMenu.SpreadMails();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolders.Inbox();
     await pageManager.sideSecondaryMailMenu.OpenHidenSentFolders();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should be visible").toBeVisible();
   });
