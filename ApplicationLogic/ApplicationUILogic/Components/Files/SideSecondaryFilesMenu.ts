@@ -25,7 +25,25 @@ export class SideSecondaryFilesMenu extends BasePage {
 
   async OpenSecondaryMenuTab(tab) {
     await tab.click();
-  }
+  };
+
+  async OpenTrashFolder(option) {
+    await this.Containers.MainContainer.locator('[data-testid*="ChevronDown"] >> nth=0').click();
+    await option.click();
+  };
+
+  async OpenTrashElements() {
+    await this.OpenTrashFolder(this.Containers.MainContainer.locator('"My elements"'))
+  };
+
+  async OpenFiltersFolder(option) {
+    await this.Containers.MainContainer.locator('[data-testid*="ChevronDown"] >> nth=-1').click();
+    await option.click();
+  };
+
+  async OpenFiltersFlagged() {
+    await this.OpenFiltersFolder(this.Containers.MainContainer.locator('"Flagged"'))
+  };
 }
 
 

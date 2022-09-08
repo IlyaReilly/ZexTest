@@ -158,6 +158,8 @@
     },
     "urlParts":
     {
+      "Files": 
+      {
       "trashElements": "https://2150.demo.zextras.io/carbonio/files/filter/myTrash",
       "filtersFlagged": "https://2150.demo.zextras.io/carbonio/files/filter/flagged",
       "filtersSharedByMe": "https://2150.demo.zextras.io/carbonio/files/filter/sharedByMe",
@@ -165,6 +167,7 @@
       "uploads": "https://2150.demo.zextras.io/carbonio/files/uploads",
       "sharedWithMe": "https://2150.demo.zextras.io/carbonio/files/filter/sharedWithMe",
       "home": "https://2150.demo.zextras.io/carbonio/files/root/LOCAL_ROOT"
+      }
     },
   "storageState": "./storageState.json"
 }

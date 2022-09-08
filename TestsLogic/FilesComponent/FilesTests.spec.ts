@@ -34,8 +34,15 @@ test.describe('Files tests', async () => {
 
  async function uploadAndOpenDetails({apiManager, pageManager}) {
   await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
-  await pageManager.filesList.OpenNeededUrl('home');
+  await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+  await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
   await pageManager.filesList.OpenFileDetails(unicFileName);
+  };
+
+  async function UploadAndMoveToTrash({apiManager, pageManager}) {
+    await uploadAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.ClickDropdownMoveToTrash();
+    await pageManager.sideSecondaryFilesMenu.OpenTrashElements();
   }
 
   test('File with JPG extension can be uploaded', async ({pageManager}) => {
@@ -66,17 +73,12 @@ test.describe('Files tests', async () => {
   });
 
   test('File must be moved to trash', async({apiManager, pageManager}) => {
-    await uploadAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.OpenDropdown('MoveToTrash');
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Trash);
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.TrashElements);
+    await UploadAndMoveToTrash({apiManager, pageManager});
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
   });
 
   test('File can be permanently removed', async ({apiManager, pageManager}) => {
-    await uploadAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.OpenDropdown('MoveToTrash');
-    await pageManager.filesList.OpenNeededUrl('trashElements');
+    await UploadAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.DeletePermanentlyButton.click();
     await pageManager.fileDetails.CreateEntityPopup.DeleteButton.click();
@@ -86,25 +88,23 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be restored from trash', async ({apiManager, pageManager}) => {
-    await uploadAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.OpenDropdown('MoveToTrash');
-    await pageManager.filesList.OpenNeededUrl('trashElements');
+    await UploadAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.RestoreButton.click();
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
-    await pageManager.filesList.OpenNeededUrl('home');
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible(); 
   });
 
   test('File must be flagged and unflagged',async ({apiManager, pageManager}) => {
     await uploadAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.OpenDropdown('Flag');
+    await pageManager.fileDetails.ClickDropdownFlag();
     await expect(pageManager.filesList.Elements.FlagIcon).toBeVisible();
-    await pageManager.filesList.OpenNeededUrl('filtersFlagged');
+    await pageManager.sideSecondaryFilesMenu.OpenFiltersFlagged();
     await pageManager.filesList.OpenFileDetails(unicFileName);
-    await pageManager.fileDetails.OpenDropdown('UnFlag');
+    await pageManager.fileDetails.ClickDropdownUnflag();
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible();
-    await pageManager.filesList.OpenNeededUrl('home');
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
   });

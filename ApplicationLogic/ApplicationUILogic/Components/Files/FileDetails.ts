@@ -62,14 +62,20 @@ export class FileDetails extends BasePage {
   }
 
   async OpenDropdown(option) {
-    const dropdownChoices = [
-      {name: 'Flag', path: this.Containers.FileOptionsDropdownContainer.locator('"Flag"')},
-      {name: 'UnFlag', path: this.Containers.FileOptionsDropdownContainer.locator('"Unflag"')},
-      {name: 'MoveToTrash', path: this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"')},
-    ];
-    const neededChoice = dropdownChoices.find(i => i.name === option);
     await this.FileOptions.Dropdown.click();
-    await neededChoice?.path.click();
-    }
+    await option.click();
+  };
+
+  async ClickDropdownMoveToTrash() {
+    await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"'));
+  };
+  
+  async ClickDropdownFlag() {
+    await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Flag"'));
+  };
+
+  async ClickDropdownUnflag() {
+    await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Unflag"'));
+  };
 }
 
