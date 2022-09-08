@@ -41,8 +41,8 @@ test.describe('Files tests', async () => {
 
   async function UploadAndMoveToTrash({apiManager, pageManager}) {
     await uploadAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.ClickDropdownMoveToTrash();
-    await pageManager.sideSecondaryFilesMenu.OpenTrashElements();
+    await pageManager.fileDetails.ClickDropdownOption.MoveToTrash();
+    await pageManager.sideSecondaryFilesMenu.FilesInDropdown.TrashElements();
   }
 
   test('File with JPG extension can be uploaded', async ({pageManager}) => {
@@ -98,11 +98,11 @@ test.describe('Files tests', async () => {
 
   test('File must be flagged and unflagged',async ({apiManager, pageManager}) => {
     await uploadAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.ClickDropdownFlag();
+    await pageManager.fileDetails.ClickDropdownOption.Flag();
     await expect(pageManager.filesList.Elements.FlagIcon).toBeVisible();
-    await pageManager.sideSecondaryFilesMenu.OpenFiltersFlagged();
+    await pageManager.sideSecondaryFilesMenu.FilesInDropdown.FiltersFlagged();
     await pageManager.filesList.OpenFileDetails(unicFileName);
-    await pageManager.fileDetails.ClickDropdownUnflag();
+    await pageManager.fileDetails.ClickDropdownOption.UnFlag();
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible();
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();

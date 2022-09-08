@@ -64,18 +64,12 @@ export class FileDetails extends BasePage {
   async OpenDropdown(option) {
     await this.FileOptions.Dropdown.click();
     await option.click();
-  };
+  }
 
-  async ClickDropdownMoveToTrash() {
-    await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"'));
-  };
-  
-  async ClickDropdownFlag() {
-    await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Flag"'));
-  };
-
-  async ClickDropdownUnflag() {
-    await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Unflag"'));
-  };
+  ClickDropdownOption = {
+    MoveToTrash: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"')),
+    Flag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Flag"')),
+    UnFlag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Unflag"')),
+}
 }
 

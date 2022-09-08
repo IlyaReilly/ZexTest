@@ -32,18 +32,15 @@ export class SideSecondaryFilesMenu extends BasePage {
     await option.click();
   };
 
-  async OpenTrashElements() {
-    await this.OpenTrashFolder(this.Containers.MainContainer.locator('"My elements"'))
-  };
-
   async OpenFiltersFolder(option) {
     await this.Containers.MainContainer.locator('[data-testid*="ChevronDown"] >> nth=-1').click();
     await option.click();
   };
 
-  async OpenFiltersFlagged() {
-    await this.OpenFiltersFolder(this.Containers.MainContainer.locator('"Flagged"'))
-  };
+  FilesInDropdown = {
+    TrashElements: async () => await this.OpenTrashFolder(this.Containers.MainContainer.locator('"My elements"')),
+    FiltersFlagged: async () => await this.OpenFiltersFolder(this.Containers.MainContainer.locator('"Flagged"'))
+  }
 }
 
 
