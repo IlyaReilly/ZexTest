@@ -50,30 +50,29 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   OpenCalendarContextMenuOption = {
     ShareCalendar: async () => {
-      await this.OpenContextMenuForCalendar();
-      await this.ContextMenu.ShareCalendar.click();
+      await this.ClickContextMenuOption(this.ContextMenu.ShareCalendar);
     },
     NewCalendar: async () => {
-      await this.OpenContextMenuForCalendar();
-      await this.ContextMenu.NewCalendar.click();
+      await this.ClickContextMenuOption(this.ContextMenu.NewCalendar);
     },
     MoveToRoot: async () => {
-      await this.OpenContextMenuForCalendar();
-      await this.ContextMenu.MoveToRoot.click();
+      await this.ClickContextMenuOption(this.ContextMenu.MoveToRoot);
     },
     EditCalendarProperties: async () => {
-      await this.OpenContextMenuForCalendar();
-      await this.ContextMenu.EditCalendarProperties.click();
+      await this.ClickContextMenuOption(this.ContextMenu.EditCalendarProperties);
     },
     DeleteCalendar: async () => {
-      await this.OpenContextMenuForCalendar();
-      await this.ContextMenu.DeleteCalendar.click();
+      await this.ClickContextMenuOption(this.ContextMenu.DeleteCalendar);
     },
     CalendarAccessShare: async () => {
-      await this.OpenContextMenuForCalendar();
-      await this.ContextMenu.CalendarAccessShare.click();
+      await this.ClickContextMenuOption(this.ContextMenu.CalendarAccessShare);
     },
   };
+
+  async ClickContextMenuOption(element) {
+    await this.OpenContextMenuForCalendar();
+    await element.click();
+  }
 
   async ShareCalendar() {
     await this.OpenContextMenuForCalendar();
