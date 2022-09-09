@@ -12,6 +12,10 @@ export class SideSecondaryMailMenu extends BasePage {
     OpenHideSentFolders: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
+  Icons = {
+    SharedIcon: this.Containers.MainContainer.locator('[data-testid*="Shared"]'),
+  };
+
   MailFolders = {
     Inbox: this.Containers.MainContainer.locator('"Inbox"'),
     Junk: this.Containers.MainContainer.locator('"Junk"'),
@@ -83,8 +87,8 @@ export class SideSecondaryMailMenu extends BasePage {
     await this.CreateNewFolderPopup.CreateAndMoveButton.click();
   }
 
-  async OpenHidenSentFolders() {
-    await this.Buttons.OpenHideSentFolders.click();
+  async ExpandSentFolders() {
+    await this.Buttons.OpenHideSentFolders.first().click();
   }
 
   async OpenFirstSubFolder(folderName) {

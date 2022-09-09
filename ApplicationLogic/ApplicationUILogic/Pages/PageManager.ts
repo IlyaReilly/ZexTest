@@ -27,6 +27,9 @@ import {SearchResultsList} from '../Components/Search/SearchResultsList';
 import {SearchStatisticsHeader} from '../Components/Search/SearchStatisticsHeader';
 import {ChatsInfo} from '../Components/Chats/ChatsInfo';
 import {Chats} from '../Components/Chats/Chats';
+import {ShareFolderModal} from '../Components/Mails/ShareFolderModal';
+import {EditFolderModal} from '../Components/Mails/EditFolderModal';
+
 
 export class PageManager {
   page: Page;
@@ -60,6 +63,8 @@ export class PageManager {
   // #region Modal windows
   shareCalendarModal;
   calendarAccessShareModal;
+  shareFolderModal;
+  editFolderModal;
   // #endregion
 
   constructor(page) {
@@ -94,6 +99,8 @@ export class PageManager {
     this.editCalendarPropertyModal = new EditCalendarPropertyModal(page);
     this.revokeShareCalendarModal = new RevokeShareCalendarModal(page);
     this.newCalendarModal = new NewCalendarModal(page);
+    this.shareFolderModal = new ShareFolderModal(page);
+    this.editFolderModal = new EditFolderModal(page);
     // #endregion
   }
 }

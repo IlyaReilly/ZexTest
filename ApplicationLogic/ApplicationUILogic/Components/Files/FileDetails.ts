@@ -22,6 +22,7 @@ export class FileDetails extends BasePage {
     EntityInput: this.Containers.PopupContainer.locator('.IUNTF'),
     ClosePopupButton: this.Containers.PopupContainer.locator('.cvcXyJ'),
     CreateButton: this.Containers.PopupContainer.locator('"CREATE"'),
+    DeleteButton: this.Containers.PopupContainer.locator('"DELETE PERMANENTLY"'),
   };
 
   Buttons = {
@@ -36,6 +37,10 @@ export class FileDetails extends BasePage {
     MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MoreVertical"]'),
     Flag: this.Containers.FileOptionsDropdownContainer.locator('"Flag"'),
     UnFlag: this.Containers.FileOptionsDropdownContainer.locator('"Unflag"'),
+    Dropdown: this.Containers.FileOptionsContainer.locator('.JzynG'),
+    MoveToTrash: this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"'),
+    DeletePermanentlyButton: this.Containers.FileOptionsContainer.locator('[data-testid*="DeletePermanentlyOutline"]'),
+    RestoreButton: this.Containers.FileOptionsContainer.locator('[data-testid*="RestoreOutline"]'),
   };
 
   async DownloadFile() {
@@ -55,5 +60,16 @@ export class FileDetails extends BasePage {
     await this.CreateEntityPopup.EntityInput.fill(entityName);
     await this.CreateEntityPopup.CreateButton.click();
   }
+
+  async OpenDropdown(option) {
+    await this.FileOptions.Dropdown.click();
+    await option.click();
+  }
+
+  ClickDropdownOption = {
+    MoveToTrash: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"')),
+    Flag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Flag"')),
+    UnFlag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Unflag"')),
+}
 }
 

@@ -33,9 +33,9 @@ test.describe('Sharing calendar tests', async () => {
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.ShareCalendar();
     await pageManager.shareCalendarModal.TextBoxes.Recipients.type(BaseTest.secondUser.login);
     await pageManager.shareCalendarModal.TextBoxes.Recipients.press('Enter');
-    const elementHandle = await page.$(pageManager.shareCalendarModal.Buttons.ShareCalendar._selector);
+    const elementHandle = await page.$(pageManager.shareCalendarModal.Buttons.ShareButton._selector);
     await elementHandle?.waitForElementState('enabled');
-    await pageManager.shareCalendarModal.Buttons.ShareCalendar.click();
+    await pageManager.shareCalendarModal.Buttons.ShareButton.click();
     await expect(pageManager.calendarAccessShareModal.Buttons.IcsUrl, 'Calendar access share window should contain ICS URL button').toBeVisible();
     await expect(pageManager.calendarAccessShareModal.Buttons.OutlookUrl, 'Calendar access share window should contain OUTLOOK URL button').toBeVisible();
     await expect(pageManager.calendarAccessShareModal.Buttons.ViewUrl, 'Calendar access share window should contain VIEW URL button').toBeVisible();
