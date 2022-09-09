@@ -77,6 +77,29 @@ export class CalendarAPI extends BaseAPI {
     });
   }
 
+  async GetCalendarFolders(user: string) {
+    const response = await this.page.request.post(`${this.soapServiceUrl}${this.getFolderRequest}`, {
+      headers: {['content-type']: 'application/soap+xml'},
+      data: `<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"><soap:Header><context xmlns="urn:zimbra"><account by="name">${user}</account><format type="js"/></context></soap:Header><soap:Body><BatchRequest xmlns="urn:zimbra" onerror="stop"> <GetFolderRequest xmlns="urn:zimbraMail" visible="1"></GetFolderRequest></BatchRequest></soap:Body></soap:Envelope>`,
+    });
+    const body = JSON.parse((await response.body()).toString());
+    return body.Body.BatchResponse.GetFolderResponse[0].folder[0].folder;
+  }
+
+  async GetCalendarFolderIdByName(user: string, folderName: string) {
+    const foldersList = await this.GetCalendarFolders(user);
+    const folder = foldersList.find((x) => x.name == folderName);
+    return folder.id;
+  }
+
+  async DeleteCalendarFolderRequest(id: string, user: string) {
+    await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
+      data: {
+        "Body": {"FolderActionRequest": {"action": {"id": id, "op": "delete", "f": ""}, "_jsns": "urn:zimbraMail"}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "13415", "_content": "13415"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 104.0.0.0 (Windows)", "version": "22.7.2_ZEXTRAS_202207 agent 20220726-0959 FOSS"}}},
+      },
+    });
+  }
+
   ParseDateToISO(date) {
     return (date.toISOString()).split('-').join('').split(':').join('').replace(/\.\d+Z/, 'Z');
   }
