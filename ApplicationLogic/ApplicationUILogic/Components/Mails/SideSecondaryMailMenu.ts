@@ -87,7 +87,7 @@ export class SideSecondaryMailMenu extends BasePage {
     await this.CreateNewFolderPopup.CreateAndMoveButton.click();
   }
 
-  async OpenHidenSentFolders() {
+  async ExpandSentFolders() {
     await this.Buttons.OpenHideSentFolders.first().click();
   }
 
