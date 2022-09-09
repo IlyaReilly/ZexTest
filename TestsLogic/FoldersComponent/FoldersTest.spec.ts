@@ -57,7 +57,7 @@ test.describe('Folders tests', async () => {
 
   test('Share a new folder', async ({page, pageManager}) => {
     test.slow();
-    await PrepareFolderForAction({pageManager});
+    await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.ShareFolder();
     await pageManager.shareFolderModal.TextBoxes.Recipients.type(BaseTest.secondUser.login);
     await pageManager.shareFolderModal.TextBoxes.Recipients.press('Enter');
@@ -68,13 +68,13 @@ test.describe('Folders tests', async () => {
   });
 
   test('Edit a new folder', async ({pageManager}) => {
-    await PrepareFolderForAction({pageManager});
+    await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.Edit();
     await pageManager.editFolderModal.EditFolder(newFolderName);
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${newFolderName}"`), "New folder name should be visible").toBeVisible();
   });
 
-  async function PrepareFolderForAction({pageManager}) {
+  async function OpenSentMailSubFolderContextMenu({pageManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.sideSecondaryMailMenu.SpreadMails();
     await pageManager.sideSecondaryMailMenu.OpenMailFolders.Inbox();
