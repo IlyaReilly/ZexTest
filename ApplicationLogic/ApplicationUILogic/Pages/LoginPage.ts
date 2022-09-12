@@ -26,4 +26,14 @@ export class LoginPage extends BasePage {
     await this.Buttons.Login.click();
     await pageManager.headerMenu.Logos.MainLogo.waitFor();
   }
+
+  async Logout() {
+    const pageManager = new PageManager(this.page);
+    await pageManager.headerMenu.OpenUserMenuSection(pageManager.headerMenu.UserMenu.Logout);
+  }
+
+  async Relogin(login, password) {
+    await this.Logout();
+    await this.Login(login, password);
+  }
 }

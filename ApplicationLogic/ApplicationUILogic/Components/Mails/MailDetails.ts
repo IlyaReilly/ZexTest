@@ -35,6 +35,15 @@ export class MailDetails extends BasePage {
     MoveButton: this.Containers.MoveConversationContainer.locator('"MOVE"'),
   };
 
+  AppointmentInvitationOptions = {
+    Yes: this.Containers.MailDetailsContainer.locator('"YES"'),
+    Maybe: this.Containers.MailDetailsContainer.locator('"MAYBE"'),
+    No: this.Containers.MailDetailsContainer.locator('"NO"'),
+    ProposeNewTime: this.Containers.MailDetailsContainer.locator('"PROPOSE NEW TIME"'),
+  };
+
+  AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.daaZGX');
+
   constructor(page) {
     super(page);
   }
