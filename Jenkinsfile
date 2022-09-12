@@ -33,7 +33,9 @@ pipeline {
                   always {
                      sh 'tar -czvf playwright-report-chromium.tar.gz playwright-report'
                      archiveArtifacts 'playwright-report-chromium.tar.gz'
-                     emailext attachLog: true, body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: '$DEFAULT_SUBJECT', to: "andrei.artsiukouski@zextras.com"
+                     failure {
+                        emailext attachmentsPattern: 'playwright-report-chromium.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: 'Сhromium tests', to: "andrei.artsiukouski@zextras.com"
+                     }
                   }
                }
             }
