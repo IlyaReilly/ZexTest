@@ -33,39 +33,39 @@ test.describe('Files tests', async () => {
         await expect(pageManager.filesList.Elements.File).not.toHaveText(oldName);
       };
 
-      test('New document should be created', async ({pageManager}) => {
+      test('Create document file. Document file should be created.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
         await pageManager.headerMenu.SelectItemInNewItemMenu.NewDocument();
         await pageManager.createNewItemModal.NewItemName.CreateDocumentName(oldItemName);
       });
 
-      test('New spreadsheet should be created', async ({pageManager}) => {
+      test('Create spreadsheet file. Presentation file should be created.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
         await pageManager.headerMenu.SelectItemInNewItemMenu.NewSpreadsheet();
         await pageManager.createNewItemModal.NewItemName.CreateSpreadsheetName(oldItemName);
       });
 
-      test('New presentation should be created', async ({pageManager}) => {
+      test('Create presentation file. Presentation file should be created.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
         await pageManager.headerMenu.SelectItemInNewItemMenu.NewPresentation();
         await pageManager.createNewItemModal.NewItemName.CreatePresentationName(oldItemName);
       });
 
-      test('Presentation file should change name', async ({pageManager}) => {
+      test('Create presentation file and change his name. Presentation file should be renamed.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
         await pageManager.headerMenu.SelectItemInNewItemMenu.NewPresentation();
         await pageManager.createNewItemModal.NewItemName.CreatePresentationName(oldItemName);
         await SaveOldNameRenameFileAndExpectFileRename({pageManager});
       });
 
-      test('Spreadsheet file should change name', async ({pageManager}) => {
+      test('Create spreadsheet file and change his name. Spreadsheet file should be renamed.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
         await pageManager.headerMenu.SelectItemInNewItemMenu.NewSpreadsheet();
         await pageManager.createNewItemModal.NewItemName.CreateSpreadsheetName(oldItemName);
         await SaveOldNameRenameFileAndExpectFileRename({pageManager});
       });
 
-      test('Document file should change name', async ({pageManager}) => {
+      test('Create document file and change his name. Document file should be renamed.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
         await pageManager.headerMenu.SelectItemInNewItemMenu.NewDocument();
         await pageManager.createNewItemModal.NewItemName.CreateDocumentName(oldItemName);
