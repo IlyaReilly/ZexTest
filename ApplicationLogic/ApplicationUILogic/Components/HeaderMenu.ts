@@ -52,14 +52,6 @@ export class HeaderMenu extends BasePage {
     await section.click();
   }
 
-  async OpenNewItemMenuSection(item) {
-    await this.Buttons.NewItemMenu.click();
-    const elementHandle = await this.page.$(this.Containers.NewItemMenuContainer._selector);
-    await elementHandle?.waitForElementState('visible');
-    await item.hover();
-    await item.click();
-  }
-
   async UploadNewFile(filePath) {
     await this.Buttons.NewItemMenu.click();
     const [fileChooser] = await Promise.all([
@@ -73,5 +65,27 @@ export class HeaderMenu extends BasePage {
     await this.TextBoxes.Search.type(query);
     await this.TextBoxes.Search.locator(`"${query}"`).waitFor();
     await this.TextBoxes.Search.press('Enter');
+  }
+
+  async OpenNewItemMenu(option) {
+    await this.Containers.MainContainer.locator('.byOcMA').click();
+    await this.page.locator('[data-testid="dropdown-popper-list"]').waitFor({state: 'visible'});
+    await option.waitFor();
+    await option.hover();
+    await option.click();
+  }
+
+  SelectItemInNewItemMenu = {
+    NewEmail: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewEmail),
+    NewAppointment: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewAppointment),
+    NewContact: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewContact),
+    Upload: async () => await this.OpenNewItemMenu(this.NewItemMenu.Upload),
+    NewFolder: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewFolder),
+    NewDocument: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewDocument),
+    NewSpreadsheet: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewSpreadsheet),
+    NewPresentation: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewPresentation),
+    CreateChat: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateChat),
+    CreateGroup: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateGroup),
+    CreateSpace: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateSpace),
   }
 }

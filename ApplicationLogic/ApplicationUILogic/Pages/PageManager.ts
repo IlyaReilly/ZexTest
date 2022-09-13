@@ -29,7 +29,7 @@ import {ChatsInfo} from '../Components/Chats/ChatsInfo';
 import {Chats} from '../Components/Chats/Chats';
 import {ShareFolderModal} from '../Components/Mails/ShareFolderModal';
 import {EditFolderModal} from '../Components/Mails/EditFolderModal';
-
+import {CreateNewItemModal} from '../Components/ModalWindows/CreateNewItemModal';
 
 export class PageManager {
   page: Page;
@@ -65,6 +65,7 @@ export class PageManager {
   calendarAccessShareModal;
   shareFolderModal;
   editFolderModal;
+  createNewItemModal;
   // #endregion
 
   constructor(page) {
@@ -101,6 +102,7 @@ export class PageManager {
     this.newCalendarModal = new NewCalendarModal(page);
     this.shareFolderModal = new ShareFolderModal(page);
     this.editFolderModal = new EditFolderModal(page);
+    this.createNewItemModal = new CreateNewItemModal(page);
     // #endregion
   }
 }
