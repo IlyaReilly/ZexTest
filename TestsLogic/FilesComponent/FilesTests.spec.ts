@@ -43,6 +43,11 @@ test.describe('Files tests', async () => {
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.MoveToTrash();
     await pageManager.sideSecondaryFilesMenu.SelectTrashSubfolder.TrashElements();
+  };
+
+  async function ExpectNotVisibleAndReturnAtHome({pageManager}) {
+    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
   }
 
   test('File with JPG extension can be uploaded', async ({pageManager}) => {
@@ -78,12 +83,12 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be permanently removed', async ({apiManager, pageManager}) => {
+    test.slow();
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.DeletePermanentlyButton.click();
     await pageManager.fileDetails.CreateEntityPopup.DeleteButton.click();
-    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
+    await ExpectNotVisibleAndReturnAtHome({pageManager});
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
   });
 
@@ -91,8 +96,7 @@ test.describe('Files tests', async () => {
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.RestoreButton.click();
-    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible(); 
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
+    await ExpectNotVisibleAndReturnAtHome({pageManager});
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible(); 
   });
 
@@ -103,8 +107,7 @@ test.describe('Files tests', async () => {
     await pageManager.sideSecondaryFilesMenu.SelectFilterSubfolder.FiltersFlagged();
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.ClickDropdownOption.UnFlag();
-    await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible();
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
+    await ExpectNotVisibleAndReturnAtHome({pageManager});
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
   });

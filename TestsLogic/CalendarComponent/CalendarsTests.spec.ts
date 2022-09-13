@@ -44,16 +44,19 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Create new appointment. New appoinrment is presented in calendar.', async ({page, pageManager}) => {
+    test.slow();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.Day);
+    await pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`).isEnabled();
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
   test('Create new privete appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
+    test.slow();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
@@ -65,6 +68,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
+    test.slow();
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await page.reload();
