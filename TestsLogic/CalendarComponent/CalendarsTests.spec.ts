@@ -51,7 +51,7 @@ test.describe('Calendars tests', async () => {
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.Day);
-    await pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`).isEnabled();
+    await pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`).waitFor()
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
