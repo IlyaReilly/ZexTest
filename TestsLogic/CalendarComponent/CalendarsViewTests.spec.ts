@@ -1,7 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
 
-test.describe('Calendars tests', async () => {
+test.describe('Calendars view tests', async () => {
   let dateTimePrefix;
   let appointmentTitle;
   const calendarView = {

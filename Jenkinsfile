@@ -30,7 +30,7 @@ pipeline {
                   sh 'npx playwright test --project="chromium"'
                }
                post {
-                  always {
+                  failure {
                      sh 'tar -czvf playwright-report-chromium.tar.gz playwright-report'
                      archiveArtifacts 'playwright-report-chromium.tar.gz'
                      emailext attachmentsPattern: '**/playwright-report-chromium.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Сhromium tests", to: "andrei.artsiukouski@zextras.com"
