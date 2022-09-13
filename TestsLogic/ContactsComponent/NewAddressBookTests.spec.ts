@@ -28,20 +28,30 @@ test.describe('New address book tests', async () => {
   });
 
   test('Create new Address book with API.', async ({pageManager}) => {
-    test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'New address book should be visible in Contacts folder').toBeVisible();
   });
 
-  test('Move Address book to root.', async ({pageManager}) => {
+  test('Move Address book to Root.', async ({pageManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
-    await pageManager.sideSecondaryContactsMenu.MoveAddressBook(addressBookName);
+    await pageManager.sideSecondaryContactsMenu.OpenMoveAddressBookModal(addressBookName);
     await pageManager.moveAddressBookModal.DropDowns.Root.click();
-    await pageManager.moveAddressBookModal.Buttons.Create.click();
+    await pageManager.moveAddressBookModal.Buttons.Move.click();
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'New Address book should be visible on Root').toBeVisible();
+  });
+
+  test('Share Address book.', async ({page, pageManager}) => {
+    test.slow();
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
+    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
+    await pageManager.sideSecondaryContactsMenu.OpenShareAddressBookModal(addressBookName);
+    await pageManager.shareAddressBookModal.ShareAddressBook(BaseTest.secondUser.login);
+    await page.reload();
+    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
+    await expect(pageManager.sideSecondaryContactsMenu.Icons.SharedIcon.first(), 'Share icon should be near folder name').toBeVisible();
   });
 });
 

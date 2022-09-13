@@ -4,18 +4,21 @@ export class SideSecondaryContactsMenu extends BasePage {
   Containers = {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     ContextMenuContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    CreateNewFolderPopupContainer: this.page.locator('.lgcnRq'),
-    FoldersListContainer: this.page.locator('.kWgjwg'),
   };
 
   Buttons = {
-    OpenHideAddressBookFolders: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
+    ExpandAddressBookFolders: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
-  Options = {
+  ContactAddressBooks = {
     Contacts: this.Containers.MainContainer.locator('"Contacts"'),
     EmailedContacts: this.Containers.MainContainer.locator('"Emailed Contacts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
+    SubAddressBook: this.Containers.MainContainer.locator('.kWgjwg'),
+  };
+ 
+  Icons = {
+    SharedIcon: this.Containers.MainContainer.locator('.gZYmKk'),
   };
 
   ContextMenu = {
@@ -27,12 +30,8 @@ export class SideSecondaryContactsMenu extends BasePage {
     DeleteAddressBook: this.Containers.ContextMenuContainer.locator('"Delete address book"'),
   };
 
-  async OpenNewAddressBookContextMenuOption(){
-      await this.ClickContextMenuOption(this.ContextMenu.NewAddressBook);
-  }
-  
   async OpenContextMenuForContacts() {
-    await this.Options.Contacts.click({button: 'right'});
+    await this.ContactAddressBooks.Contacts.click({button: 'right'});
   }
 
   async ClickContextMenuOption(element) {
@@ -40,17 +39,22 @@ export class SideSecondaryContactsMenu extends BasePage {
     await element.click();
   }
 
-  async MoveAddressBook(AddressBookName) {
-    await this.Containers.FoldersListContainer.locator(`"${AddressBookName}"`).click({button: 'right'});
+  async OpenNewAddressBookContextMenuOption() {
+      await this.ClickContextMenuOption(this.ContextMenu.NewAddressBook);
+  }
+  
+  async OpenMoveAddressBookModal(addressBookName) {
+    await this.ContactAddressBooks.SubAddressBook.locator(`"${addressBookName}"`).click({button: 'right'});
     await this.ContextMenu.Move.click();
   }
 
-  async ExpandContactsFolder() {
-    await this.Buttons.OpenHideAddressBookFolders.first().click();
+  async OpenShareAddressBookModal(addressBookName){
+    await this.ContactAddressBooks.SubAddressBook.locator(`"${addressBookName}"`).click({button: 'right'});
+    await this.ContextMenu.ShareAddressBook.click();
   }
 
-  async OpenContactsFolder(folder) {
-    await folder.click();
+  async ExpandContactsFolder() {
+    await this.Buttons.ExpandAddressBookFolders.first().click();
   }
 
   constructor(page) {

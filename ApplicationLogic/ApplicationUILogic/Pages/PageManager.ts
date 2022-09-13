@@ -31,6 +31,7 @@ import {ShareFolderModal} from '../Components/Mails/ShareFolderModal';
 import {EditFolderModal} from '../Components/Mails/EditFolderModal';
 import {NewAddressBookModal} from '../Components/Contacts/NewAddressBookModal';
 import {MoveAddressBookModal} from '../Components/Contacts/MoveAddressBookModal';
+import {ShareAddressBookModal} from '../Components/Contacts/ShareAddressBookModal';
 
 
 export class PageManager {
@@ -69,6 +70,7 @@ export class PageManager {
   calendarAccessShareModal;
   shareFolderModal;
   editFolderModal;
+  shareAddressBookModal;
   // #endregion
 
   constructor(page) {
@@ -107,6 +109,7 @@ export class PageManager {
     this.newCalendarModal = new NewCalendarModal(page);
     this.shareFolderModal = new ShareFolderModal(page);
     this.editFolderModal = new EditFolderModal(page);
+    this.shareAddressBookModal = new ShareAddressBookModal(page);
     // #endregion
   }
 }
