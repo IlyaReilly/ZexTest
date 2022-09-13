@@ -14,7 +14,6 @@ export class SideSecondaryContactsMenu extends BasePage {
     Contacts: this.Containers.MainContainer.locator('"Contacts"'),
     EmailedContacts: this.Containers.MainContainer.locator('"Emailed Contacts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
-    SubAddressBook: this.Containers.MainContainer.locator('.kWgjwg'),
   };
  
   Icons = {
@@ -30,6 +29,17 @@ export class SideSecondaryContactsMenu extends BasePage {
     DeleteAddressBook: this.Containers.ContextMenuContainer.locator('"Delete address book"'),
   };
 
+  OpenAddressBookContextMenu = {
+    MoveAddressBookModal: async (addressBookName) => {
+      await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
+      await this.ContextMenu.Move.click();
+    },
+    ShareAddressBookModal: async (addressBookName) => {
+      await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
+      await this.ContextMenu.ShareAddressBook.click();
+    },
+  };
+
   async OpenContextMenuForContacts() {
     await this.ContactAddressBooks.Contacts.click({button: 'right'});
   }
@@ -43,16 +53,6 @@ export class SideSecondaryContactsMenu extends BasePage {
       await this.ClickContextMenuOption(this.ContextMenu.NewAddressBook);
   }
   
-  async OpenMoveAddressBookModal(addressBookName) {
-    await this.ContactAddressBooks.SubAddressBook.locator(`"${addressBookName}"`).click({button: 'right'});
-    await this.ContextMenu.Move.click();
-  }
-
-  async OpenShareAddressBookModal(addressBookName){
-    await this.ContactAddressBooks.SubAddressBook.locator(`"${addressBookName}"`).click({button: 'right'});
-    await this.ContextMenu.ShareAddressBook.click();
-  }
-
   async ExpandContactsFolder() {
     await this.Buttons.ExpandAddressBookFolders.first().click();
   }
