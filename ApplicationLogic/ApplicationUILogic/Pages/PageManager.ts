@@ -29,6 +29,8 @@ import {ChatsInfo} from '../Components/Chats/ChatsInfo';
 import {Chats} from '../Components/Chats/Chats';
 import {ShareFolderModal} from '../Components/Mails/ShareFolderModal';
 import {EditFolderModal} from '../Components/Mails/EditFolderModal';
+import {MoveFolderModal} from '../Components/Mails/MoveFolderModal';
+import { WipeFolderModal } from '../Components/Mails/WipeFolderModal';
 
 
 export class PageManager {
@@ -65,6 +67,8 @@ export class PageManager {
   calendarAccessShareModal;
   shareFolderModal;
   editFolderModal;
+  moveFolderModal;
+  wipeFolderModal;
   // #endregion
 
   constructor(page) {
@@ -101,6 +105,8 @@ export class PageManager {
     this.newCalendarModal = new NewCalendarModal(page);
     this.shareFolderModal = new ShareFolderModal(page);
     this.editFolderModal = new EditFolderModal(page);
+    this.moveFolderModal = new MoveFolderModal(page);
+    this.wipeFolderModal = new WipeFolderModal(page);
     // #endregion
   }
 }
