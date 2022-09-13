@@ -5,6 +5,7 @@ export class SideSecondaryContactsMenu extends BasePage {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     ContextMenuContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
     CreateNewFolderPopupContainer: this.page.locator('.lgcnRq'),
+    FoldersListContainer: this.page.locator('.kWgjwg'),
   };
 
   Buttons = {
@@ -26,45 +27,33 @@ export class SideSecondaryContactsMenu extends BasePage {
     DeleteAddressBook: this.Containers.ContextMenuContainer.locator('"Delete address book"'),
   };
 
+  async OpenNewAddressBookContextMenuOption(){
+      await this.ClickContextMenuOption(this.ContextMenu.NewAddressBook);
+  }
+  
   async OpenContextMenuForContacts() {
     await this.Options.Contacts.click({button: 'right'});
   }
-
-  OpenContactsContextMenuOption = {
-    NewAddressBook: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.NewAddressBook);
-    },
-    Move: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.Move);
-    },
-    ShareAddressBook: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.ShareAddressBook);
-    },
-    EmptyAddressBook: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.EmptyAddressBook);
-    },
-    EditAddressBook: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.EditAddressBook);
-    },
-    DeleteAddressBook: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.DeleteAddressBook);
-    },
-  };
 
   async ClickContextMenuOption(element) {
     await this.OpenContextMenuForContacts();
     await element.click();
   }
 
+  async MoveAddressBook(AddressBookName) {
+    await this.Containers.FoldersListContainer.locator(`"${AddressBookName}"`).click({button: 'right'});
+    await this.ContextMenu.Move.click();
+  }
+
   async ExpandContactsFolder() {
     await this.Buttons.OpenHideAddressBookFolders.first().click();
   }
 
-  constructor(page) {
-    super(page);
-  }
-
   async OpenContactsFolder(folder) {
     await folder.click();
+  }
+
+  constructor(page) {
+    super(page);
   }
 }
