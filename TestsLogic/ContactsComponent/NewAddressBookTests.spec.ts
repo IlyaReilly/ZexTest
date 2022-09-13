@@ -19,7 +19,7 @@ test.describe('New address book tests', async () => {
 
   // Test skipped due to problems with folder deletion afterhook.
   // It can not be implemented with UI folder creation. Impossible to get folder's id for deletion
-  test.skip('Create new address book', async ({pageManager}) => {
+  test.skip('Create new address book. New address book should be visible in Contacts folder.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
     await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
@@ -27,13 +27,13 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'New address book should be visible in Contacts folder').toBeVisible();
   });
 
-  test('Create new Address book with API.', async ({pageManager}) => {
+  test('Create new Address book with API. New address book should be visible in Contacts folder.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'New address book should be visible in Contacts folder').toBeVisible();
   });
 
-  test('Move Address book to Root.', async ({pageManager}) => {
+  test('Move Address book to Root. New Address book should be visible on Root.', async ({pageManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
@@ -43,7 +43,7 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'New Address book should be visible on Root').toBeVisible();
   });
 
-  test('Share Address book.', async ({page, pageManager}) => {
+  test('Share Address book. Share icon should be near folder name.', async ({page, pageManager}) => {
     test.slow();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
