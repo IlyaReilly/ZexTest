@@ -30,7 +30,7 @@ import {Chats} from '../Components/Chats/Chats';
 import {ShareFolderModal} from '../Components/Mails/ShareFolderModal';
 import {EditFolderModal} from '../Components/Mails/EditFolderModal';
 import {MoveFolderModal} from '../Components/Mails/MoveFolderModal';
-import { WipeFolderModal } from '../Components/Mails/WipeFolderModal';
+import {WipeFolderModal} from '../Components/Mails/WipeFolderModal';
 
 
 export class PageManager {
