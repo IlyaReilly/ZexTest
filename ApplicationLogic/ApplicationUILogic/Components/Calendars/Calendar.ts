@@ -12,6 +12,7 @@ export class Calendar extends BasePage {
 
   Selectors = {
     PrivateAppLockIconSelector: '[data-testid*="Lock"]',
+    NeedActionsIconSelector: '[data-testid*="CalendarWarning"]',
   };
 
   Elements = {

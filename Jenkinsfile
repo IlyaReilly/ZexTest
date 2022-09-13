@@ -17,9 +17,10 @@ pipeline {
                   sh 'npx playwright test --project="webkit"'
                }
                post {
-                  always {
+                  failure {
                      sh 'tar -czvf playwright-report-webkit.tar.gz playwright-report'
                      archiveArtifacts 'playwright-report-webkit.tar.gz'
+                     emailext attachmentsPattern: '**/playwright-report-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Webkit tests", to: "andrei.artsiukouski@zextras.com"                     
                   }
                }
             }
@@ -33,7 +34,7 @@ pipeline {
                   failure {
                      sh 'tar -czvf playwright-report-chromium.tar.gz playwright-report'
                      archiveArtifacts 'playwright-report-chromium.tar.gz'
-                     emailext attachmentsPattern: '**/playwright-report-chromium.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Сhromium tests", to: "andrei.artsiukouski@zextras.com"
+                     emailext attachmentsPattern: '**/playwright-report-chromium.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Chromium tests", to: "andrei.artsiukouski@zextras.com"
                   }
                }
             }
@@ -44,9 +45,10 @@ pipeline {
                   sh 'npx playwright test --project="firefox"'
                }
                post {
-                  always {
+                  failure {
                      sh 'tar -czvf playwright-report-firefox.tar.gz playwright-report'
                      archiveArtifacts 'playwright-report-firefox.tar.gz'
+                     emailext attachmentsPattern: '**/playwright-report-firefox.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Firefox tests", to: "andrei.artsiukouski@zextras.com"                     
                   }
                }
             }
