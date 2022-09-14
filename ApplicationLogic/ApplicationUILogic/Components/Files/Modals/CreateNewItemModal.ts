@@ -1,5 +1,5 @@
 import { Locator } from '@playwright/test';
-import {ModalWindowBase} from './ModalWindowBase';
+import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 
 export class CreateNewItemModal extends ModalWindowBase {
     constructor(page) {

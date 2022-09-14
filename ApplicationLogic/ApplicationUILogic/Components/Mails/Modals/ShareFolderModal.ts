@@ -1,4 +1,4 @@
-import {ShareModalWindow} from '../ModalWindows/ShareModalWindow';
+import {ShareModalWindow} from '../../ModalWindows/ShareModalWindow';
 
 export class ShareFolderModal extends ShareModalWindow {
   constructor(page) {
