@@ -29,6 +29,9 @@ import {ChatsInfo} from '../Components/Chats/ChatsInfo';
 import {Chats} from '../Components/Chats/Chats';
 import {ShareFolderModal} from '../Components/Mails/ShareFolderModal';
 import {EditFolderModal} from '../Components/Mails/EditFolderModal';
+import {NewAddressBookModal} from '../Components/Contacts/NewAddressBookModal';
+import {MoveAddressBookModal} from '../Components/Contacts/MoveAddressBookModal';
+import {ShareAddressBookModal} from '../Components/Contacts/ShareAddressBookModal';
 import {CreateNewItemModal} from '../Components/ModalWindows/CreateNewItemModal';
 
 export class PageManager {
@@ -59,6 +62,8 @@ export class PageManager {
   editCalendarPropertyModal;
   revokeShareCalendarModal;
   newCalendarModal;
+  newAddressBookModal;
+  moveAddressBookModal;
 
   // #region Modal windows
   shareCalendarModal;
@@ -66,6 +71,7 @@ export class PageManager {
   shareFolderModal;
   editFolderModal;
   createNewItemModal;
+  shareAddressBookModal;
   // #endregion
 
   constructor(page) {
@@ -93,6 +99,8 @@ export class PageManager {
     this.fileDetails = new FileDetails(page);
     this.chatsInfo = new ChatsInfo(page);
     this.chats = new Chats(page);
+    this.newAddressBookModal = new NewAddressBookModal(page);
+    this.moveAddressBookModal = new MoveAddressBookModal(page);
 
     // #region Modal windows
     this.shareCalendarModal = new ShareCalendarModal(page);
@@ -103,6 +111,7 @@ export class PageManager {
     this.shareFolderModal = new ShareFolderModal(page);
     this.editFolderModal = new EditFolderModal(page);
     this.createNewItemModal = new CreateNewItemModal(page);
+    this.shareAddressBookModal = new ShareAddressBookModal(page);
     // #endregion
   }
 }

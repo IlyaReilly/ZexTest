@@ -32,4 +32,9 @@ test.describe('Calendars tests. Appointment in attendee calendar.', async () => 
   test('Create new appointment. Attendee see appointment in own calendar.', async ({pageManager}) => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
+
+  test('Create new appointment. Attendee see appointment with need action icon.', async ({pageManager}) => {
+    const appointmentElement = await pageManager.calendar.GetAppointmentWithTitle(appointmentTitle);
+    await expect(appointmentElement.locator(pageManager.calendar.Selectors.NeedActionsIconSelector)).toHaveCount(1);
+  });
 });

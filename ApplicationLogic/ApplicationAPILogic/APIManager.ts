@@ -6,6 +6,7 @@ import {FilesAPI} from './FilesAPI';
 import {ContactsAPI} from './ContactsAPI';
 import {UsersAPI} from './UsersAPI';
 import {FoldersAPI} from './FoldersAPI';
+import {AddressBookAPI} from './AddressBooksAPI';
 
 export class APIManager {
   page: Page;
@@ -16,6 +17,7 @@ export class APIManager {
   сontactsAPI;
   usersAPI;
   foldersAPI;
+  addressBookAPI;
 
   constructor(page) {
     this.page = page;
@@ -26,5 +28,6 @@ export class APIManager {
     this.сontactsAPI = new ContactsAPI(this.page);
     this.usersAPI = new UsersAPI(this.page);
     this.foldersAPI = new FoldersAPI(this.page);
+    this.addressBookAPI = new AddressBookAPI(this.page);
   }
 }
