@@ -5,6 +5,7 @@ export class HeaderMenu extends BasePage {
     MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('.ktmHhm'),
     NewItemMenuContainer: this.page.locator('.izBNKP'),
+    NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   Buttons = {
@@ -68,14 +69,14 @@ export class HeaderMenu extends BasePage {
   }
 
   async OpenNewItemMenu(option) {
-    await this.Containers.MainContainer.locator('.byOcMA').click();
-    await this.page.locator('[data-testid="dropdown-popper-list"]').waitFor({state: 'visible'});
+    await this.Buttons.NewItemMenu.click();
+    await this.Containers.NewItemMenuDropdownList.waitFor({state: 'visible'});
     await option.waitFor();
     await option.hover();
     await option.click();
   }
 
-  SelectItemInNewItemMenu = {
+  SelectOptionInNewItemMenu = {
     NewEmail: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewEmail),
     NewAppointment: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewAppointment),
     NewContact: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewContact),

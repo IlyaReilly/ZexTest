@@ -21,7 +21,7 @@ test.describe('Chats tests', async () => {
 
   test('Create space. Space should appear in spaces list.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
-    await pageManager.headerMenu.SelectItemInNewItemMenu.CreateSpace();
+    await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateSpace();
     await pageManager.newChatsItem.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toBeVisible();

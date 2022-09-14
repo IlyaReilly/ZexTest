@@ -17,16 +17,16 @@ export class CreateNewItemModal extends ModalWindowBase {
         CreateButton: this.Containers.MainContainer.locator('.fzGsKw')
       };
 
-      async CreateItemName (option, name) {
+      async CreateItem (option, name) {
         await option.selectText();
         await option.fill(name);
         await this.Buttons.CreateButton.click();
       };
 
       NewItemName = {
-        CreateDocumentName: async (name) => await this.CreateItemName(this.Fields.DocumentName, name),
-        CreateSpreadsheetName: async (name) => await this.CreateItemName(this.Fields.SpreadsheetName, name),
-        CreatePresentationName: async (name) => await this.CreateItemName(this.Fields.PresentationName, name),
-        RenameFile: async (name) => await this.CreateItemName(this.Fields.Rename, name),
+        CreateDocumentName: async (name) => await this.CreateItem(this.Fields.DocumentName, name),
+        CreateSpreadsheetName: async (name) => await this.CreateItem(this.Fields.SpreadsheetName, name),
+        CreatePresentationName: async (name) => await this.CreateItem(this.Fields.PresentationName, name),
+        RenameFile: async (name) => await this.CreateItem(this.Fields.Rename, name),
       };
 };

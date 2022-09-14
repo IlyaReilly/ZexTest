@@ -33,41 +33,44 @@ test.describe('Files tests', async () => {
         await expect(pageManager.filesList.Elements.File).not.toHaveText(oldName);
       };
 
-      test('Create document file. Document file should be created.', async ({pageManager}) => {
+      test('Create document file. Document file should be in Home tab.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectItemInNewItemMenu.NewDocument();
+        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewDocument();
         await pageManager.createNewItemModal.NewItemName.CreateDocumentName(oldItemName);
+        await expect(pageManager.filesList.Elements.File).toBeVisible();
       });
 
-      test('Create spreadsheet file. Presentation file should be created.', async ({pageManager}) => {
+      test('Create spreadsheet file. Spreadsheet file should be in Home tab.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectItemInNewItemMenu.NewSpreadsheet();
+        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewSpreadsheet();
         await pageManager.createNewItemModal.NewItemName.CreateSpreadsheetName(oldItemName);
+        await expect(pageManager.filesList.Elements.File).toBeVisible();
       });
 
-      test('Create presentation file. Presentation file should be created.', async ({pageManager}) => {
+      test('Create presentation file. Presentation file should be in Home tab.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectItemInNewItemMenu.NewPresentation();
+        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewPresentation();
         await pageManager.createNewItemModal.NewItemName.CreatePresentationName(oldItemName);
+        await expect(pageManager.filesList.Elements.File).toBeVisible();
       });
 
-      test('Create presentation file and change his name. Presentation file should be renamed.', async ({pageManager}) => {
+      test('Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectItemInNewItemMenu.NewPresentation();
+        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewPresentation();
         await pageManager.createNewItemModal.NewItemName.CreatePresentationName(oldItemName);
         await SaveOldNameRenameFileAndExpectFileRename({pageManager});
       });
 
-      test('Create spreadsheet file and change his name. Spreadsheet file should be renamed.', async ({pageManager}) => {
+      test('Change the name of a spreadsheet. The spreadsheet should be in a Home tab with a new name.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectItemInNewItemMenu.NewSpreadsheet();
+        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewSpreadsheet();
         await pageManager.createNewItemModal.NewItemName.CreateSpreadsheetName(oldItemName);
         await SaveOldNameRenameFileAndExpectFileRename({pageManager});
       });
 
-      test('Create document file and change his name. Document file should be renamed.', async ({pageManager}) => {
+      test('Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectItemInNewItemMenu.NewDocument();
+        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewDocument();
         await pageManager.createNewItemModal.NewItemName.CreateDocumentName(oldItemName);
         await SaveOldNameRenameFileAndExpectFileRename({pageManager});
       });
