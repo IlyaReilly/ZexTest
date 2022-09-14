@@ -29,10 +29,11 @@ import {ChatsInfo} from '../Components/Chats/ChatsInfo';
 import {Chats} from '../Components/Chats/Chats';
 import {ShareFolderModal} from '../Components/Mails/ShareFolderModal';
 import {EditFolderModal} from '../Components/Mails/EditFolderModal';
+import {CreateNewItemModal} from '../Components/ModalWindows/CreateNewItemModal';
 import {NewAddressBookModal} from '../Components/Contacts/NewAddressBookModal';
 import {MoveAddressBookModal} from '../Components/Contacts/MoveAddressBookModal';
 import {ShareAddressBookModal} from '../Components/Contacts/ShareAddressBookModal';
-import {CreateNewItemModal} from '../Components/ModalWindows/CreateNewItemModal';
+
 
 export class PageManager {
   page: Page;
