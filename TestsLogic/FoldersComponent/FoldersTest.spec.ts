@@ -42,7 +42,18 @@ test.describe('Folders tests', async () => {
 
   test('Move mail to a new folder', async ({pageManager, apiManager}) => {
     test.slow();
-    await CreateNewFolderAndPutMailHere({pageManager, apiManager});
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
+    await pageManager.sideSecondaryMailMenu.SpreadMails();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolders.Sent();
+    await pageManager.mailsList.OpenMail(mailSubject);
+    await pageManager.mailDetails.EditMail.SpreadOptions.click();
+    await pageManager.mailDetails.MailOptions.Move.click();
+    await pageManager.mailDetails.MoveMailToFolder(folderName);
+    await pageManager.sideSecondaryMailMenu.ExpandFolders();
+    await pageManager.sideSecondaryMailMenu.OpenFirstSubFolder(folderName);
+    await pageManager.sideSecondaryMailMenu.ExpandFolders();
+    await pageManager.sideSecondaryMailMenu.OpenFirstSubFolder(folderName);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();
   });
 
@@ -74,12 +85,18 @@ test.describe('Folders tests', async () => {
 
   test('Folder is wiped', async ({pageManager, apiManager}) => {
     test.slow();
-    await CreateNewFolderAndPutMailHere({pageManager, apiManager});
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    const mailId = await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
+    await apiManager.mailsAPI.MoveMailToFolder(mailId, BaseTest.userForLogin.login, folderId);
+    await pageManager.sideSecondaryMailMenu.SpreadMails();
+    await pageManager.sideSecondaryMailMenu.ExpandFolders();
+    await pageManager.sideSecondaryMailMenu.OpenFirstSubFolder(folderName);
     await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
     await pageManager.sideSecondaryMailMenu.MailfolderOption.WipeFolder();
     await pageManager.wipeFolderModal.WipeNewFolder();
     await expect(pageManager.mailsList.Elements.Letter, 'Mails list should be empty').toHaveCount(0);
   });
+
 
   async function OpenSentMailSubFolderContextMenu({pageManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -87,18 +104,5 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolders.Inbox();
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
     await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
-  }
-
-  async function CreateNewFolderAndPutMailHere({pageManager, apiManager}) {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
-    await pageManager.sideSecondaryMailMenu.SpreadMails();
-    await pageManager.sideSecondaryMailMenu.OpenMailFolders.Sent();
-    await pageManager.mailsList.OpenMail(mailSubject);
-    await pageManager.mailDetails.EditMail.SpreadOptions.click();
-    await pageManager.mailDetails.MailOptions.Move.click();
-    await pageManager.mailDetails.MoveMailToFolder(folderName);
-    await pageManager.sideSecondaryMailMenu.ExpandFolders();
-    await pageManager.sideSecondaryMailMenu.OpenFirstSubFolder(folderName);
   }
 });
