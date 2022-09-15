@@ -9,7 +9,7 @@ export class ShareFolderModal extends ShareModalWindow {
     GoBack: this.Containers.MainContainer.locator('"GO BACK"'),
   };
 
-  async FillShareFolderModal(recipient) {
+  async ShareFolder(recipient) {
     await this.TextBoxes.Recipients.fill(recipient);
     await this.TextBoxes.Recipients.press('Enter');
     await this.Buttons.ShareButton.click();

@@ -9,7 +9,7 @@ export class SideSecondaryMailMenu extends BasePage {
 
   Buttons = {
     OpenHideMailFolders: this.Containers.MainContainer.locator('.fjrKpL .cLLOPN'),
-    OpenHidenFolders: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
+    ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
   Icons = {
@@ -88,7 +88,7 @@ export class SideSecondaryMailMenu extends BasePage {
   }
 
   async ExpandFolders() {
-    await this.Buttons.OpenHidenFolders.first().click();
+    await this.Buttons.ExpandFolder.first().click();
   }
 
   async OpenFirstSubFolder(folderName) {

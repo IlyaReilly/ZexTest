@@ -50,7 +50,7 @@ test.describe('Folders tests', async () => {
     test.slow();
     await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.ShareFolder();
-    await pageManager.shareFolderModal.FillShareFolderModal(BaseTest.secondUser.login);
+    await pageManager.shareFolderModal.ShareFolder(BaseTest.secondUser.login);
     await expect(pageManager.mailDetails.Elements.ActionWithMailNotification.locator('"Folder shared"'), '"Folder shared" action notification appears in right bottom corner').toBeVisible();
     await page.reload();
     await expect(pageManager.sideSecondaryMailMenu.Icons.SharedIcon, 'Share icon should be near folder name').toBeVisible();
