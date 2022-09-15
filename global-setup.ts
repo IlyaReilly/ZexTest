@@ -1,6 +1,4 @@
 import {chromium, FullConfig} from '@playwright/test';
-import {PageManager} from './ApplicationLogic/ApplicationUILogic/Pages/PageManager';
-
 
 async function globalSetup(config: FullConfig) {
   // Ability to logine once for all tests
