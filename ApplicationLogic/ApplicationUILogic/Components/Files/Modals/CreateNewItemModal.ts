@@ -23,7 +23,7 @@ export class CreateNewItemModal extends ModalWindowBase {
         await this.Buttons.CreateButton.click();
       };
 
-      NewItemName = {
+      CreatedFilesName = {
         CreateDocumentName: async (name) => await this.CreateItem(this.Fields.DocumentName, name),
         CreateSpreadsheetName: async (name) => await this.CreateItem(this.Fields.SpreadsheetName, name),
         CreatePresentationName: async (name) => await this.CreateItem(this.Fields.PresentationName, name),

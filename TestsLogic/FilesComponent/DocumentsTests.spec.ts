@@ -29,49 +29,58 @@ test.describe('Files tests', async () => {
       async function SaveOldNameRenameFileAndExpectFileRename ({pageManager}) {
         const oldName = await pageManager.filesList.Elements.File.textContent();
         await pageManager.fileDetails.ClickDropdownOption.Rename();
-        await pageManager.createNewItemModal.NewItemName.RenameFile(newItemName);
+        await pageManager.createNewItemModal.CreatedFilesName.RenameFile(newItemName);
         await expect(pageManager.filesList.Elements.File).not.toHaveText(oldName);
       };
 
+      async function CreateNewFileAndGiveName({pageManager},newItem, name) {
+        if(newItem === pageManager.headerMenu.NewItemMenu.NewDocument) {
+        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewDocument();
+        await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(name);
+        } 
+        else if(newItem === pageManager.headerMenu.NewItemMenu.NewPresentation) {
+          await pageManager.headerMenu.SelectOptionInNewItemMenu.NewPresentation();
+          await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(name);
+        }
+        else if(newItem === pageManager.headerMenu.NewItemMenu.NewSpreadsheet) {
+          await pageManager.headerMenu.SelectOptionInNewItemMenu.NewSpreadsheet();
+          await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(oldItemName);
+        };
+      }
+
       test('Create document file. Document file should be in Home tab.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewDocument();
-        await pageManager.createNewItemModal.NewItemName.CreateDocumentName(oldItemName);
+        await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName)
         await expect(pageManager.filesList.Elements.File).toBeVisible();
       });
 
       test('Create spreadsheet file. Spreadsheet file should be in Home tab.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewSpreadsheet();
-        await pageManager.createNewItemModal.NewItemName.CreateSpreadsheetName(oldItemName);
+        await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewSpreadsheet, oldItemName)
         await expect(pageManager.filesList.Elements.File).toBeVisible();
       });
 
       test('Create presentation file. Presentation file should be in Home tab.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewPresentation();
-        await pageManager.createNewItemModal.NewItemName.CreatePresentationName(oldItemName);
+        await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewPresentation, oldItemName)
         await expect(pageManager.filesList.Elements.File).toBeVisible();
       });
 
       test('Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewPresentation();
-        await pageManager.createNewItemModal.NewItemName.CreatePresentationName(oldItemName);
+        await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewPresentation, oldItemName)
         await SaveOldNameRenameFileAndExpectFileRename({pageManager});
       });
 
       test('Change the name of a spreadsheet. The spreadsheet should be in a Home tab with a new name.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewSpreadsheet();
-        await pageManager.createNewItemModal.NewItemName.CreateSpreadsheetName(oldItemName);
+        await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewSpreadsheet, oldItemName)
         await SaveOldNameRenameFileAndExpectFileRename({pageManager});
       });
 
       test('Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-        await pageManager.headerMenu.SelectOptionInNewItemMenu.NewDocument();
-        await pageManager.createNewItemModal.NewItemName.CreateDocumentName(oldItemName);
+        await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName)
         await SaveOldNameRenameFileAndExpectFileRename({pageManager});
       });
 });
