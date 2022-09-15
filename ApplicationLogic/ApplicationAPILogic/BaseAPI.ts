@@ -40,6 +40,7 @@ export class BaseAPI {
   readonly convActionRequest = 'ConvActionRequest';
   readonly saveDraftRequest = 'SaveDraftRequest';
   readonly sendMsgRequest = 'SendMsgRequest';
+  readonly msgActionRequest = 'MsgActionRequest';
   // Calendar
   readonly createAppointmentRequest = 'CreateAppointmentRequest';
   readonly cancelAppointmentRequest = 'CancelAppointmentRequest';
