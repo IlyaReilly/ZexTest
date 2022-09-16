@@ -98,13 +98,10 @@ test.describe('Folders tests', async () => {
   });
 
   test('Folder is deleted', async ({pageManager, apiManager}) => {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await pageManager.sideSecondaryMailMenu.SpreadMails();
-    await pageManager.sideSecondaryMailMenu.OpenMailFolders.Inbox();
-    await pageManager.sideSecondaryMailMenu.ExpandFolders();
-    await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
-    await pageManager.sideSecondaryMailMenu.MailfolderOption.DeleteFolder();
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should be visible").not.toBeVisible();
+    await OpenSentMailSubFolderContextMenu({pageManager});
+    await pageManager.sideSecondaryMailMenu.MailfolderOption.Delete();
+    await pageManager.deleteFolderModal.DeleteFolder();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should not be visible").not.toBeVisible();
   });
 
 
