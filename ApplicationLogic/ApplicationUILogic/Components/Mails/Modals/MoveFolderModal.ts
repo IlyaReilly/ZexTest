@@ -1,4 +1,4 @@
-import {ModalWindowBase} from '../ModalWindows/ModalWindowBase';
+import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 
 
 export class MoveFolderModal extends ModalWindowBase {

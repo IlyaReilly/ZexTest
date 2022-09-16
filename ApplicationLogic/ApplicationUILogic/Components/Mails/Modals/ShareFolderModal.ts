@@ -1,6 +1,6 @@
-import {ShareModalWindow} from '../ModalWindows/ShareModalWindow';
+import {ShareModalWindow} from '../../ModalWindows/ShareModalWindow';
 
-export class ShareAddressBookModal extends ShareModalWindow {
+export class ShareFolderModal extends ShareModalWindow {
   constructor(page) {
     super(page);
   }
@@ -9,7 +9,7 @@ export class ShareAddressBookModal extends ShareModalWindow {
     GoBack: this.Containers.MainContainer.locator('"GO BACK"'),
   };
 
-  async ShareAddressBook(recipient) {
+  async ShareFolder(recipient) {
     await this.TextBoxes.Recipients.fill(recipient);
     await this.TextBoxes.Recipients.press('Enter');
     await this.Buttons.ShareButton.click();

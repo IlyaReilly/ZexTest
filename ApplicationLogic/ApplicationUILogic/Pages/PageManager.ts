@@ -9,11 +9,11 @@ import {SideSecondaryCalendarMenu} from '../Components/Calendars/SideSecondaryCa
 import {SideSecondaryContactsMenu} from '../Components/Contacts/SideSecondaryContactsMenu';
 import {MailsList} from '../Components/Mails/MailsList';
 import {Calendar} from '../Components/Calendars/Calendar';
-import {ShareCalendarModal} from '../Components/Calendars/ShareCalendarModal';
-import {NewCalendarModal} from '../Components/Calendars/NewCalendarModal';
-import {RevokeShareCalendarModal} from '../Components/Calendars/RevokeShareCalendarModal';
-import {EditCalendarPropertyModal} from '../Components/Calendars/EditCalendarPropertyModal';
-import {CalendarAccessShareModal} from '../Components/Calendars/CalendarAccessShareModal';
+import {ShareCalendarModal} from '../Components/Calendars/Modals/ShareCalendarModal';
+import {NewCalendarModal} from '../Components/Calendars/Modals/NewCalendarModal';
+import {RevokeShareCalendarModal} from '../Components/Calendars/Modals/RevokeShareCalendarModal';
+import {EditCalendarPropertyModal} from '../Components/Calendars/Modals/EditCalendarPropertyModal';
+import {CalendarAccessShareModal} from '../Components/Calendars/Modals/CalendarAccessShareModal';
 import {NewContact} from '../Components/Contacts/NewContact';
 import {ContactsList} from '../Components/Contacts/ContactsList';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
@@ -27,13 +27,14 @@ import {SearchResultsList} from '../Components/Search/SearchResultsList';
 import {SearchStatisticsHeader} from '../Components/Search/SearchStatisticsHeader';
 import {ChatsInfo} from '../Components/Chats/ChatsInfo';
 import {Chats} from '../Components/Chats/Chats';
-import {ShareFolderModal} from '../Components/Mails/ShareFolderModal';
-import {EditFolderModal} from '../Components/Mails/EditFolderModal';
-import {MoveFolderModal} from '../Components/Mails/MoveFolderModal';
-import {WipeFolderModal} from '../Components/Mails/WipeFolderModal';
-import {NewAddressBookModal} from '../Components/Contacts/NewAddressBookModal';
-import {MoveAddressBookModal} from '../Components/Contacts/MoveAddressBookModal';
-import {ShareAddressBookModal} from '../Components/Contacts/ShareAddressBookModal';
+import {ShareFolderModal} from '../Components/Mails/Modals/ShareFolderModal';
+import {EditFolderModal} from '../Components/Mails/Modals/EditFolderModal';
+import {CreateNewItemModal} from '../Components/Files/Modals/CreateNewItemModal';
+import {NewAddressBookModal} from '../Components/Contacts/Modals/NewAddressBookModal';
+import {MoveAddressBookModal} from '../Components/Contacts/Modals/MoveAddressBookModal';
+import {ShareAddressBookModal} from '../Components/Contacts/Modals/ShareAddressBookModal';
+import {MoveFolderModal} from '../Components/Mails/Modals/MoveFolderModal';
+import {WipeFolderModal} from '../Components/Mails/Modals/WipeFolderModal';
 
 
 export class PageManager {
@@ -61,20 +62,30 @@ export class PageManager {
   fileDetails;
   chatsInfo;
   chats;
+
+  // #region Calendars Modal
+  newCalendarModal;
+  calendarAccessShareModal;
   editCalendarPropertyModal;
   revokeShareCalendarModal;
-  newCalendarModal;
+  shareCalendarModal;
+  // #endregion
+
+  // #region Contacts Modal
   newAddressBookModal;
   moveAddressBookModal;
+  shareAddressBookModal;
+  // #endregion
 
-  // #region Modal windows
-  shareCalendarModal;
-  calendarAccessShareModal;
+  // #region Files Modal
+  createNewItemModal;
+  // #endregion
+
+  // #region Mails Modal
   shareFolderModal;
   editFolderModal;
   moveFolderModal;
   wipeFolderModal;
-  shareAddressBookModal;
   // #endregion
 
   constructor(page) {
@@ -102,15 +113,26 @@ export class PageManager {
     this.fileDetails = new FileDetails(page);
     this.chatsInfo = new ChatsInfo(page);
     this.chats = new Chats(page);
-    this.newAddressBookModal = new NewAddressBookModal(page);
-    this.moveAddressBookModal = new MoveAddressBookModal(page);
 
-    // #region Modal windows
+    // #region Calendars Modal
     this.shareCalendarModal = new ShareCalendarModal(page);
     this.calendarAccessShareModal = new CalendarAccessShareModal(page);
     this.editCalendarPropertyModal = new EditCalendarPropertyModal(page);
     this.revokeShareCalendarModal = new RevokeShareCalendarModal(page);
     this.newCalendarModal = new NewCalendarModal(page);
+    // #endregion
+
+    // #region Contacts Modal
+    this.newAddressBookModal = new NewAddressBookModal(page);
+    this.moveAddressBookModal = new MoveAddressBookModal(page);
+    this.shareAddressBookModal = new ShareAddressBookModal(page);
+    // #endregion
+
+    // #region Files Modal
+    this.createNewItemModal = new CreateNewItemModal(page);
+    // #endregion
+
+    // #region Mails Modal
     this.shareFolderModal = new ShareFolderModal(page);
     this.editFolderModal = new EditFolderModal(page);
     this.moveFolderModal = new MoveFolderModal(page);

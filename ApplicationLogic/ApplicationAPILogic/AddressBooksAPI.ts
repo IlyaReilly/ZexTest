@@ -39,7 +39,7 @@ export class AddressBookAPI extends BaseAPI {
     }
     return folderId;
   }
-  
+
   async DeleteAddressBookById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
       data: {
