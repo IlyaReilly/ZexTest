@@ -37,16 +37,16 @@ test.describe('Files tests', async () => {
         if(newItem === pageManager.headerMenu.NewItemMenu.NewDocument) {
         await pageManager.headerMenu.SelectOptionInNewItemMenu.NewDocument();
         await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(name);
-        } 
+        }
         else if(newItem === pageManager.headerMenu.NewItemMenu.NewPresentation) {
           await pageManager.headerMenu.SelectOptionInNewItemMenu.NewPresentation();
           await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(name);
         }
         else if(newItem === pageManager.headerMenu.NewItemMenu.NewSpreadsheet) {
           await pageManager.headerMenu.SelectOptionInNewItemMenu.NewSpreadsheet();
-          await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(oldItemName);
+          await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(name);
         };
-      }
+      };
 
       test('Create document file. Document file should be in Home tab.', async ({pageManager}) => {
         await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
