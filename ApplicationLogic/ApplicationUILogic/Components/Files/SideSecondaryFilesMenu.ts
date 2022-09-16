@@ -30,7 +30,7 @@ export class SideSecondaryFilesMenu extends BasePage {
   async OpenSubFolder(folderNumber, option) {
     await this.Containers.MainContainer.locator(`[data-testid*="ChevronDown"] >> nth=${folderNumber}`).click();
     await option.click();
-    }
+  }
 
   Subfolders = {
     Trash: {
@@ -39,8 +39,8 @@ export class SideSecondaryFilesMenu extends BasePage {
     },
     Filters: {
       FiltersFlagged: this.Containers.MainContainer.locator('"Flagged"'),
-      FiltersSharedByMe: this.Containers.MainContainer.locator('"Shared by me"')
-    }
+      FiltersSharedByMe: this.Containers.MainContainer.locator('"Shared by me"'),
+    },
   };
 
   SelectTrashSubfolder = {
@@ -51,7 +51,7 @@ export class SideSecondaryFilesMenu extends BasePage {
   SelectFilterSubfolder = {
     FiltersFlagged: async () => await this.OpenSubFolder(-1, this.Subfolders.Filters.FiltersFlagged),
     FiltersSharedByMe: async () => await this.OpenSubFolder(-1, this.Subfolders.Filters.FiltersSharedByMe),
-  }
+  };
 }
 
 

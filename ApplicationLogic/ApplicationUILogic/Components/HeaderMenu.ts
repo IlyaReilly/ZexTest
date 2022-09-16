@@ -88,5 +88,5 @@ export class HeaderMenu extends BasePage {
     CreateChat: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateChat),
     CreateGroup: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateGroup),
     CreateSpace: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateSpace),
-  }
+  };
 }

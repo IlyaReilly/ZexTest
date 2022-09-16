@@ -81,7 +81,7 @@ export class PageManager {
   createNewItemModal;
   // #endregion
 
-  //#region Mails Modal
+  // #region Mails Modal
   shareFolderModal;
   editFolderModal;
   moveFolderModal;
@@ -113,7 +113,7 @@ export class PageManager {
     this.fileDetails = new FileDetails(page);
     this.chatsInfo = new ChatsInfo(page);
     this.chats = new Chats(page);
-    
+
     // #region Calendars Modal
     this.shareCalendarModal = new ShareCalendarModal(page);
     this.calendarAccessShareModal = new CalendarAccessShareModal(page);
@@ -132,7 +132,7 @@ export class PageManager {
     this.createNewItemModal = new CreateNewItemModal(page);
     // #endregion
 
-    //#region Mails Modal
+    // #region Mails Modal
     this.shareFolderModal = new ShareFolderModal(page);
     this.editFolderModal = new EditFolderModal(page);
     this.moveFolderModal = new MoveFolderModal(page);

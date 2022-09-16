@@ -72,6 +72,6 @@ export class FileDetails extends BasePage {
     Flag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Flag"')),
     UnFlag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Unflag"')),
     Rename: async () => await this.OpenDropdown(this.FileOptions.Rename),
-}
+  };
 }
 
