@@ -9,7 +9,7 @@ export class SideSecondaryMailMenu extends BasePage {
 
   Buttons = {
     OpenHideMailFolders: this.Containers.MainContainer.locator('.fjrKpL .cLLOPN'),
-    OpenHideSentFolders: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
+    ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
   Icons = {
@@ -70,7 +70,7 @@ export class SideSecondaryMailMenu extends BasePage {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
       await this.Buttons.OpenHideMailFolders.first().click();
     }
-    await folder.click({button: "right"});
+    await folder.first().click({button: "right"});
   }
 
   MailfolderOption = {
@@ -87,8 +87,8 @@ export class SideSecondaryMailMenu extends BasePage {
     await this.CreateNewFolderPopup.CreateAndMoveButton.click();
   }
 
-  async ExpandSentFolders() {
-    await this.Buttons.OpenHideSentFolders.first().click();
+  async ExpandFolders() {
+    await this.Buttons.ExpandFolder.first().click();
   }
 
   async OpenFirstSubFolder(folderName) {
