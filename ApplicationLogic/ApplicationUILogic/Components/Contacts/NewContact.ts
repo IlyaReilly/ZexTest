@@ -10,8 +10,8 @@ export class NewContact extends BasePage {
   };
 
   Inputs = {
-    FirstName: this.Containers.MainContainer.locator('[placeholder="First Name"]'),
-    LastName: this.Containers.MainContainer.locator('[placeholder="Last Name"]'),
+    FirstName: this.Containers.MainContainer.locator('[placeholder="First Name*"]'),
+    LastName: this.Containers.MainContainer.locator('[placeholder="Last Name*"]'),
     Email: this.Containers.MainContainer.locator('[placeholder="E-mail"]'),
   };
 

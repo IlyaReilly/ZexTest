@@ -15,7 +15,7 @@ export class SideSecondaryContactsMenu extends BasePage {
     EmailedContacts: this.Containers.MainContainer.locator('"Emailed Contacts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
   };
- 
+
   Icons = {
     SharedIcon: this.Containers.MainContainer.locator('.gZYmKk'),
   };
@@ -40,6 +40,10 @@ export class SideSecondaryContactsMenu extends BasePage {
     },
   };
 
+  async OpenContactsFolder(folder) {
+    await folder.click();
+  }
+
   async OpenContextMenuForContacts() {
     await this.ContactAddressBooks.Contacts.click({button: 'right'});
   }
@@ -50,9 +54,9 @@ export class SideSecondaryContactsMenu extends BasePage {
   }
 
   async OpenNewAddressBookContextMenuOption() {
-      await this.ClickContextMenuOption(this.ContextMenu.NewAddressBook);
+    await this.ClickContextMenuOption(this.ContextMenu.NewAddressBook);
   }
-  
+
   async ExpandContactsFolder() {
     await this.Buttons.ExpandAddressBookFolders.first().click();
   }
