@@ -7,7 +7,7 @@ export class SideSecondaryContactsMenu extends BasePage {
   };
 
   Buttons = {
-    ExpandAddressBookFolders: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
+    ExpandAddressBooks: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
   ContactAddressBooks = {
@@ -54,7 +54,7 @@ export class SideSecondaryContactsMenu extends BasePage {
   }
   
   async ExpandContactsFolder() {
-    await this.Buttons.ExpandAddressBookFolders.first().click();
+    await this.Buttons.ExpandAddressBooks.first().click();
   }
 
   constructor(page) {
