@@ -6,7 +6,7 @@ test.describe('New address book tests', async () => {
   let addressBookName;
   let addressBookId;
 
-  test.beforeEach(async ({apiManager}) => {
+  test.beforeEach(async () => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     addressBookName = dateTimePrefix + ' Address book';
   });
