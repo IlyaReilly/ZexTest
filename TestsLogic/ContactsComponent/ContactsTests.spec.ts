@@ -44,7 +44,7 @@ test.describe('Contacts tests', async () => {
   test('Emailed contact. New email reciever appears in emailed contact chapter', async ({page, pageManager, apiManager}) => {
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, email, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts);
+    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();
     await ScrollDownContactsList(page, pageManager);
     await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`), 'The e-mail address of a new contact is visible in Emailed contacts list').toBeVisible();
   });
@@ -56,7 +56,7 @@ test.describe('Contacts tests', async () => {
     await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactsList.DeleteContact();
     await page.reload();
-    await pageManager.sideSecondaryContactsMenu.OpenContactsFolder(pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash);
+    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();
     await ScrollDownContactsList(page, pageManager);
     await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${firstName}"`), 'The first name of a new contact is visible in Trash contacts list').toBeVisible();
   });

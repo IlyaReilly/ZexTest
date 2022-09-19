@@ -40,10 +40,6 @@ export class SideSecondaryContactsMenu extends BasePage {
     },
   };
 
-  async OpenContactsFolder(folder) {
-    await folder.click();
-  }
-
   async OpenContextMenuForContacts() {
     await this.ContactAddressBooks.Contacts.click({button: 'right'});
   }
