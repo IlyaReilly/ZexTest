@@ -97,6 +97,13 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.mailsList.Elements.Letter, 'Mails list should be empty').toHaveCount(0);
   });
 
+  test('Folder is deleted', async ({pageManager, apiManager}) => {
+    await OpenSentMailSubFolderContextMenu({pageManager});
+    await pageManager.sideSecondaryMailMenu.MailfolderOption.Delete();
+    await pageManager.deleteFolderModal.DeleteFolder();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should not be visible").not.toBeVisible();
+  });
+
 
   async function OpenSentMailSubFolderContextMenu({pageManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
