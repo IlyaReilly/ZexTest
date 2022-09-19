@@ -3,7 +3,7 @@ import {BasePage} from '../../Pages/BasePage';
 export class FileDetails extends BasePage {
   constructor(page) {
     super(page);
-  }
+  };
 
   Containers = {
     MainContainer: this.page.locator('.jbyjRV'),
@@ -11,11 +11,14 @@ export class FileDetails extends BasePage {
     FileOptionsContainer: this.page.locator('.gBuoCY'),
     FileOptionsDropdownContainer: this.page.locator('.izBNKP'),
     PopupContainer: this.page.locator('.loeZsV'),
+    InformationContainer: this.page.locator('.bQoEy'),
   };
 
   Elements = {
     FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
     FilePreview: this.page.locator('.kpwBSH'),
+    Description: this.Containers.InformationContainer.locator('.IUNTF'),
+    DescriptionText: this.Containers.InformationContainer.locator('.iRjUZP'),
   };
 
   CreateEntityPopup = {
@@ -28,7 +31,8 @@ export class FileDetails extends BasePage {
   Buttons = {
     CloseDetails: this.Containers.HeaderContainer.locator('.bOlfsx'),
     Download: this.Containers.HeaderContainer.locator('g[data-name="download"]'),
-
+    EditDescriptionButton: this.Containers.InformationContainer.locator('[data-testid*="Edit2Outline"]'),
+    SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
   };
 
   FileOptions = {
@@ -53,19 +57,19 @@ export class FileDetails extends BasePage {
     const downloadedfilePath = './download/' + suggestedFileName;
     await download.saveAs(downloadedfilePath);
     return downloadedfilePath;
-  }
+  };
 
   async CreateNewEntity(entityName) {
     entityName = entityName + Date.now();
     await this.CreateEntityPopup.EntityInput.click();
     await this.CreateEntityPopup.EntityInput.fill(entityName);
     await this.CreateEntityPopup.CreateButton.click();
-  }
+  };
 
   async OpenDropdown(option) {
     await this.FileOptions.Dropdown.click();
     await option.click();
-  }
+  };
 
   ClickDropdownOption = {
     MoveToTrash: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"')),
@@ -73,5 +77,10 @@ export class FileDetails extends BasePage {
     UnFlag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Unflag"')),
     Rename: async () => await this.OpenDropdown(this.FileOptions.Rename),
   };
-}
 
+  async WriteDescription(text) {
+    await this.Buttons.EditDescriptionButton.click();
+    await this.Elements.Description.type(text);
+    await this.Buttons.SaveEditsButton.click();
+  };
+};

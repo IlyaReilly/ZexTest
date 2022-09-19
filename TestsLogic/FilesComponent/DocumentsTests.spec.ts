@@ -119,5 +119,10 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.CheckMark).not.toBeTruthy();
   });
 
-  test
+  test('Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
+    await pageManager.fileDetails.WriteDescription(newItemName);
+    await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
+  });
 });
