@@ -67,6 +67,11 @@ export class BaseAPI {
   constructor(page : Page) {
     this.page = page;
   }
+  // Add this method
+  async GetResponseBody(response) {
+    const body = await JSON.parse((await response.body()).toString());
+    return body;
+  }
 
   async ItemActionRequest(action: string, id: string, user: string) {
     await this.page.request.post(`${this.soapServiceUrl}${this.itemActionRequest}`, {

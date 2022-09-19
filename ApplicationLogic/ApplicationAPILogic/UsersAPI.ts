@@ -10,7 +10,8 @@ export class UsersAPI extends BaseAPI {
     const response = await this.page.request.post(`${this.restServiceUrl}${this.getUserDetailsRequest}`, {
       data: {'emails': [userMail]},
     });
-    const body = JSON.parse((await response.body()).toString());
+
+    const body = await this.GetResponseBody(response);
     if (body.results[userMail].status == 'ok') {
       userId = body.results[userMail].user_details.id;
     }

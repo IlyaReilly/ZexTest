@@ -10,7 +10,8 @@ export class ChatsAPI extends BaseAPI {
     const response = await this.page.request.post(`${this.restServiceUrl}${this.getConversationsRequest}`, {
       data: {},
     });
-    const body = JSON.parse((await response.body()).toString());
+
+    const body = await this.GetResponseBody(response);
     if (body.conversations) {
       conversations = body.conversations;
     }
@@ -27,7 +28,8 @@ export class ChatsAPI extends BaseAPI {
     const response = await this.page.request.post(`${this.restServiceUrl}${this.createSpaceRequest}`, {
       data: {"name": title, "invited_user_ids": [userId], "topic": topic},
     });
-    const body = JSON.parse((await response.body()).toString());
+
+    const body = await this.GetResponseBody(response);
     return body.id;
   }
 }

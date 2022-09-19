@@ -32,8 +32,8 @@ export class FoldersAPI extends BaseAPI {
         },
       },
     );
-    const body = JSON.parse((await response.body()).toString());
 
+    const body = await this.GetResponseBody(response);
     if (body.Body.CreateFolderResponse.folder) {
       folderId = body.Body.CreateFolderResponse.folder[0].id;
     }
