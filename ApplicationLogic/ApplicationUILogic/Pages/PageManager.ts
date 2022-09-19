@@ -35,6 +35,7 @@ import {MoveAddressBookModal} from '../Components/Contacts/Modals/MoveAddressBoo
 import {ShareAddressBookModal} from '../Components/Contacts/Modals/ShareAddressBookModal';
 import {MoveFolderModal} from '../Components/Mails/Modals/MoveFolderModal';
 import {WipeFolderModal} from '../Components/Mails/Modals/WipeFolderModal';
+import {DeleteFolderModal} from '../Components/Mails/Modals/DeleteFolderModal';
 
 
 export class PageManager {
@@ -86,6 +87,7 @@ export class PageManager {
   editFolderModal;
   moveFolderModal;
   wipeFolderModal;
+  deleteFolderModal;
   // #endregion
 
   constructor(page) {
@@ -137,7 +139,7 @@ export class PageManager {
     this.editFolderModal = new EditFolderModal(page);
     this.moveFolderModal = new MoveFolderModal(page);
     this.wipeFolderModal = new WipeFolderModal(page);
-    this.shareAddressBookModal = new ShareAddressBookModal(page);
+    this.deleteFolderModal = new DeleteFolderModal(page);
     // #endregion
   }
 }
