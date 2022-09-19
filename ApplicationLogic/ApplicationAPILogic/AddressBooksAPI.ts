@@ -45,8 +45,12 @@ export class AddressBookAPI extends BaseAPI {
     let addressBookId = '';
     let addressBook = function findAddressBook(addressBooksList){
       addressBooksList.forEach(addressBookElement => {
-        if(addressBookElement.name == addressBookName) addressBookId = addressBookElement.id;
-        if(!addressBookId && addressBookElement.folder) findAddressBook(addressBookElement.folder);
+        if(addressBookElement.name == addressBookName){
+          addressBookId = addressBookElement.id;
+        } 
+        if(!addressBookId && addressBookElement.folder){
+          findAddressBook(addressBookElement.folder);
+        } 
     });
     return addressBookId;
   }
