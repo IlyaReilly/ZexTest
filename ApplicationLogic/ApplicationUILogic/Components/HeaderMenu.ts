@@ -3,7 +3,7 @@ import {BasePage} from '../Pages/BasePage';
 export class HeaderMenu extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.colVne'),
-    UserMenuContainer: this.page.locator('.ktmHhm'),
+    UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
     NewItemMenuContainer: this.page.locator('.izBNKP'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };

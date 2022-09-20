@@ -3,7 +3,7 @@ import {BaseAPI} from "./BaseAPI";
 export class FoldersAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async CreateFolder(folderName: string, userMail: string) {
     let folderId = "";
@@ -32,13 +32,13 @@ export class FoldersAPI extends BaseAPI {
         },
       },
     );
-    const body = JSON.parse((await response.body()).toString());
 
+    const body = await this.GetResponseBody(response);
     if (body.Body.CreateFolderResponse.folder) {
       folderId = body.Body.CreateFolderResponse.folder[0].id;
     }
     return folderId;
-  }
+  };
 
   async DeleteFolderById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
@@ -63,7 +63,7 @@ export class FoldersAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 
   async DeleteFolderPermanentlyById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
@@ -87,5 +87,5 @@ export class FoldersAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 }

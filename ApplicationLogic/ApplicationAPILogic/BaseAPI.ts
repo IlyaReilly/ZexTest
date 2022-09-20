@@ -25,7 +25,7 @@ export async function ApiLoginMethod(login: string, password: string) {
     }
   });
   return authTokens;
-}
+};
 
 export class BaseAPI {
   readonly page: Page;
@@ -66,7 +66,12 @@ export class BaseAPI {
 
   constructor(page : Page) {
     this.page = page;
-  }
+  };
+
+  async GetResponseBody(response) {
+    const body = await JSON.parse((await response.body()).toString());
+    return body;
+  };
 
   async ItemActionRequest(action: string, id: string, user: string) {
     await this.page.request.post(`${this.soapServiceUrl}${this.itemActionRequest}`, {
@@ -74,14 +79,14 @@ export class BaseAPI {
         "Body": {"ItemActionRequest": {"_jsns": "urn:zimbraMail", "action": {"op": action, "id": id}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 42}, "session": {"id": "11151", "_content": "11151"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
-  }
+  };
 
   async GetFolders(user: string, view: string) {
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.getFolderRequest}`, {
       headers: {['content-type']: 'application/soap+xml'},
       data: `<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"><soap:Header><context xmlns="urn:zimbra"><account by="name">${user}</account><format type="js"/></context></soap:Header><soap:Body><BatchRequest xmlns="urn:zimbra" onerror="stop"> <GetFolderRequest xmlns="urn:zimbraMail" visible="1" view="${view}"></GetFolderRequest></BatchRequest></soap:Body></soap:Envelope>`,
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
     return body.Body.BatchResponse.GetFolderResponse[0].folder[0].folder;
-  }
+  };
 }

@@ -3,7 +3,7 @@ import {BaseAPI} from "./BaseAPI";
 export class AddressBookAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async CreateAddressBook(folderName: string, userMail: string) {
     let folderId = "";
@@ -32,30 +32,30 @@ export class AddressBookAPI extends BaseAPI {
         },
       },
     );
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
 
     if (body.Body.CreateFolderResponse.folder) {
       folderId = body.Body.CreateFolderResponse.folder[0].id;
     }
     return folderId;
-  }
+  };
 
   async GetAddressBookIdByName(user: string, addressBookName: string) {
     const addressBooksList = await super.GetFolders(user, 'contact');
     let addressBookId = '';
-    let addressBook = function findAddressBook(addressBooksList){
-      addressBooksList.forEach(addressBookElement => {
-        if(addressBookElement.name == addressBookName){
+    const addressBook = function findAddressBook(addressBooksList) {
+      addressBooksList.forEach((addressBookElement) => {
+        if (addressBookElement.name == addressBookName) {
           addressBookId = addressBookElement.id;
-        } 
-        if(!addressBookId && addressBookElement.folder){
+        }
+        if (!addressBookId && addressBookElement.folder) {
           findAddressBook(addressBookElement.folder);
-        } 
-    });
-    return addressBookId;
-  }
-  return addressBook(addressBooksList);
-  }
+        }
+      });
+      return addressBookId;
+    };
+    return addressBook(addressBooksList);
+  };
 
   async DeleteAddressBookById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
@@ -80,7 +80,7 @@ export class AddressBookAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 
   async DeleteAddressBookPermanentlyById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
@@ -105,4 +105,4 @@ export class AddressBookAPI extends BaseAPI {
       },
     });
   }
-}
+};
