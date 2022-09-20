@@ -3,7 +3,7 @@ import {BaseAPI} from './BaseAPI';
 export class ContactsAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async ContactsSearchQuery(query: string, user: string) {
     let id = '';
@@ -17,7 +17,7 @@ export class ContactsAPI extends BaseAPI {
       id = body.Body.SearchResponse.cn[0].id;
     }
     return id;
-  }
+  };
 
   async CreateContact(userFirstName: string, userMail: string) {
     let contactsId = '';
@@ -32,7 +32,7 @@ export class ContactsAPI extends BaseAPI {
       contactsId = body.Body.CreateContactResponse.cn[0].id;
     }
     return contactsId;
-  }
+  };
 
   async GetContacts(user) {
     let contacts = '';

@@ -3,7 +3,7 @@ import {BaseAPI} from './BaseAPI';
 export class ChatsAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async GetConversations() {
     let conversations = '';
@@ -15,13 +15,13 @@ export class ChatsAPI extends BaseAPI {
       conversations = body.conversations;
     }
     return conversations;
-  }
+  };
 
   async DeleteConversation(id) {
     await this.page.request.post(`${this.restServiceUrl}${this.deleteConversationRequest}`, {
       data: {"conversation_id": id},
     });
-  }
+  };
 
   async CreateConversations(title, topic, userId) {
     const response = await this.page.request.post(`${this.restServiceUrl}${this.createSpaceRequest}`, {
@@ -29,5 +29,5 @@ export class ChatsAPI extends BaseAPI {
     });
     const body = JSON.parse((await response.body()).toString());
     return body.id;
-  }
+  };
 }

@@ -1,6 +1,5 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
-import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Mails tests', async () => {
   let mailSubject;

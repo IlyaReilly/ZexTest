@@ -30,4 +30,4 @@ export class APIManager {
     this.foldersAPI = new FoldersAPI(this.page);
     this.addressBookAPI = new AddressBookAPI(this.page);
   }
-}
+};
