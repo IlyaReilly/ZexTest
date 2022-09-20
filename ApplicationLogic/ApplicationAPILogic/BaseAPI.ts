@@ -75,4 +75,13 @@ export class BaseAPI {
       },
     });
   }
+
+  async GetFolders(user: string, view: string) {
+    const response = await this.page.request.post(`${this.soapServiceUrl}${this.getFolderRequest}`, {
+      headers: {['content-type']: 'application/soap+xml'},
+      data: `<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"><soap:Header><context xmlns="urn:zimbra"><account by="name">${user}</account><format type="js"/></context></soap:Header><soap:Body><BatchRequest xmlns="urn:zimbra" onerror="stop"> <GetFolderRequest xmlns="urn:zimbraMail" visible="1" view="${view}"></GetFolderRequest></BatchRequest></soap:Body></soap:Envelope>`,
+    });
+    const body = JSON.parse((await response.body()).toString());
+    return body.Body.BatchResponse.GetFolderResponse[0].folder[0].folder;
+  }
 }

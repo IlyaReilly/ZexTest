@@ -40,6 +40,23 @@ export class AddressBookAPI extends BaseAPI {
     return folderId;
   }
 
+  async GetAddressBookIdByName(user: string, addressBookName: string) {
+    const addressBooksList = await super.GetFolders(user, 'contact');
+    let addressBookId = '';
+    let addressBook = function findAddressBook(addressBooksList){
+      addressBooksList.forEach(addressBookElement => {
+        if(addressBookElement.name == addressBookName){
+          addressBookId = addressBookElement.id;
+        } 
+        if(!addressBookId && addressBookElement.folder){
+          findAddressBook(addressBookElement.folder);
+        } 
+    });
+    return addressBookId;
+  }
+  return addressBook(addressBooksList);
+  }
+
   async DeleteAddressBookById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
       data: {
