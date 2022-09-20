@@ -12,9 +12,17 @@ export class FilesList extends BasePage {
 
   Elements = {
     File: this.Containers.ListContainer.locator('.lnXHNY'),
+    FileIcon: this.Containers.ListContainer.locator('[data-testid*="file"]'),
     Header: this.Containers.MainContainer.locator('.debCVK'),
     FileName: this.Containers.ListContainer.locator('.hiooLB'),
     FlagIcon: this.Containers.ListContainer.locator('[data-testid*="Flag"]'),
+  };
+
+  SelectionModeElements = {
+    CheckMark: this.Containers.ListContainer.locator('[data-testid*="Checkmark"]'),
+    UncheckMark: this.Containers.ListContainer.locator('[data-testid*="unCheckedAvatar"]'),
+    SelectAllButton: this.Containers.MainContainer.locator('"SELECT ALL"'),
+    DeselectAllButton: this.Containers.MainContainer.locator('"DESELECT ALL"'),
   };
 
   async OpenFileDetails(unicFileName) {

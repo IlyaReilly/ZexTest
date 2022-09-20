@@ -4,6 +4,9 @@ import {test} from '../UITests/BaseTest';
 test.describe('Files tests', async () => {
   const oldItemName = 'Test Item 123';
   const newItemName = 'Zextras Team';
+  const firstName = 'abcd';
+  const secondName = 'aavc';
+  const thirdName = 'zxys';
 
   test.beforeEach(async ({apiManager}) => {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
@@ -44,6 +47,21 @@ test.describe('Files tests', async () => {
     };
   };
 
+  async function CreateThreeDifferentFiles({pageManager}) {
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, firstName);
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewSpreadsheet, secondName);
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewPresentation, thirdName);
+  };
+
+
+  async function SelectUnselectAllFIles({pageManager}, unselect?) {
+    await pageManager.filesList.Elements.FileIcon.first().click();
+    await pageManager.filesList.SelectionModeElements.SelectAllButton.click();
+    if (unselect === pageManager.filesList.SelectionModeElements.DeselectAllButton) {
+      await pageManager.filesList.SelectionModeElements.DeselectAllButton.click();
+    };
+  };
+
   test('Create document file. Document file should be in Home tab.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
@@ -78,5 +96,33 @@ test.describe('Files tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
+  });
+
+  test('Select file. File should be selected in Home tab.', async ({pageManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
+    await pageManager.filesList.Elements.FileIcon.click();
+    await expect(pageManager.filesList.SelectionModeElements.CheckMark).toBeVisible();
+  });
+
+  test('Select all files. All files should be selected in Home tab.', async ({pageManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await CreateThreeDifferentFiles({pageManager});
+    await SelectUnselectAllFIles({pageManager});
+    await expect(pageManager.filesList.Elements.UncheckMark).not.toBeTruthy();
+  });
+
+  test('Unselect all files. All files should be unselected in Home tab.', async ({pageManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await CreateThreeDifferentFiles({pageManager});
+    await SelectUnselectAllFIles({pageManager}, pageManager.filesList.SelectionModeElements.DeselectAllButton);
+    await expect(pageManager.filesList.Elements.CheckMark).not.toBeTruthy();
+  });
+
+  test('Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
+    await pageManager.fileDetails.WriteDescription(newItemName);
+    await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
   });
 });
