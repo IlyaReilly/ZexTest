@@ -3,7 +3,7 @@ import {BaseAPI} from './BaseAPI';
 export class ContactsAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async ContactsSearchQuery(query: string, user: string) {
     let id = '';
@@ -17,7 +17,7 @@ export class ContactsAPI extends BaseAPI {
       id = body.Body.SearchResponse.cn[0].id;
     }
     return id;
-  }
+  };
 
   async CreateContact(userFirstName: string, userMail: string) {
     let contactsId = '';
@@ -32,7 +32,7 @@ export class ContactsAPI extends BaseAPI {
       contactsId = body.Body.CreateContactResponse.cn[0].id;
     }
     return contactsId;
-  }
+  };
 
   async GetContacts(user) {
     let contacts = '';
@@ -68,7 +68,7 @@ export class ContactsAPI extends BaseAPI {
       contacts = body.Body.SearchResponse.cn;
     }
     return contacts;
-  }
+  };
 
   async GetEmailedContacts(user) {
     let emailedContacts = '';
@@ -104,7 +104,7 @@ export class ContactsAPI extends BaseAPI {
       emailedContacts = body.Body.SearchResponse.cn;
     }
     return emailedContacts;
-  }
+  };
 
   async GetTrashContacts(user) {
     let trashContacts = '';
@@ -139,7 +139,7 @@ export class ContactsAPI extends BaseAPI {
       trashContacts = body.Body.SearchResponse.cn;
     }
     return trashContacts;
-  }
+  };
 
   async DeleteContactsById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.contactActionRequest}`, {
@@ -158,7 +158,7 @@ export class ContactsAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 
   async DeleteContactsPermanentlyById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.contactActionRequest}`, {
@@ -177,5 +177,5 @@ export class ContactsAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 }

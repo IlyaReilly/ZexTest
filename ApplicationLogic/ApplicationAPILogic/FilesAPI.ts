@@ -5,7 +5,7 @@ import path from "path";
 export class FilesAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async GetActiveFiles() {
     let activeFiles = '';
@@ -17,7 +17,7 @@ export class FilesAPI extends BaseAPI {
       activeFiles = body.data.getNode.children.nodes;
     }
     return activeFiles;
-  }
+  };
 
   async GetTrashFiles() {
     let trashFiles = '';
@@ -30,7 +30,7 @@ export class FilesAPI extends BaseAPI {
       trashFiles = body.data.findNodes.nodes;
     }
     return trashFiles;
-  }
+  };
 
   async FilesSearchQuery(query) {
     let fileId = '';
@@ -43,19 +43,19 @@ export class FilesAPI extends BaseAPI {
       fileId = body.data.findNodes.nodes[0].id;
     }
     return fileId;
-  }
+  };
 
   async MoveFileToTrashById(id) {
     await this.page.request.post(`${this.graphqlServiceUrl}`, {
       data: {"operationName": "trashNodes", "variables": {"node_ids": [id]}, "query": "mutation trashNodes($node_ids: [ID!]) {\n  trashNodes(node_ids: $node_ids)\n}"},
     });
-  }
+  };
 
   async DeleteFilePermanentlyById(id) {
     await this.page.request.post(`${this.graphqlServiceUrl}`, {
       data: {"operationName": "deleteNodes", "variables": {"node_ids": [id]}, "query": "mutation deleteNodes($node_ids: [ID!]) {\n  deleteNodes(node_ids: $node_ids)\n}"},
     });
-  }
+  };
 
   async UploadFileViaAPI(fileName, unicFilePrefix = '') {
     const file = path.resolve("./TestData/Files/", fileName);
@@ -77,5 +77,5 @@ export class FilesAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 }

@@ -3,7 +3,7 @@ import {BaseAPI} from './BaseAPI';
 export class UsersAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async GetUserId(userMail) {
     let userId = '';
@@ -16,5 +16,5 @@ export class UsersAPI extends BaseAPI {
       userId = body.results[userMail].user_details.id;
     }
     return userId;
-  }
+  };
 }

@@ -3,7 +3,7 @@ import {BaseAPI} from './BaseAPI';
 export class MailsAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async MailSearchQuery(query: string, user: string) {
     let id = '';
@@ -40,7 +40,7 @@ export class MailsAPI extends BaseAPI {
       id = body.Body.SearchResponse.c[0].id;
     }
     return id;
-  }
+  };
 
   async MoveMailToFolder(mailId, user, folderId) {
     await this.page.request.post(`${this.soapServiceUrl}${this.msgActionRequest}`, {
@@ -60,7 +60,7 @@ export class MailsAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 
   async MoveToTrashById(id: string) {
     await this.page.request.post(`${this.soapServiceUrl}${this.convActionRequest}`, {
@@ -80,7 +80,7 @@ export class MailsAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 
   async SendMsgRequest(subject, from, to, mailBody) {
     let id = '';
@@ -93,13 +93,13 @@ export class MailsAPI extends BaseAPI {
       id = body.Body.SendMsgResponse.m[0].id;
     }
     return id;
-  }
+  };
 
   async SaveDraftRequest(subject, from, to, body) {
     await this.page.request.post(`${this.soapServiceUrl}${this.saveDraftRequest}`, {
       data: this.FormingMsgRequestBody(this.saveDraftRequest, subject, from, to, body),
     });
-  }
+  };
 
   FormingMsgRequestBody(requestType, subject, from, to, body) {
     return {
@@ -138,5 +138,5 @@ export class MailsAPI extends BaseAPI {
         },
       },
     };
-  }
+  };
 }
