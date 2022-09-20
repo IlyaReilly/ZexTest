@@ -29,5 +29,5 @@ export class APIManager {
     this.usersAPI = new UsersAPI(this.page);
     this.foldersAPI = new FoldersAPI(this.page);
     this.addressBookAPI = new AddressBookAPI(this.page);
-  }
-};
+  };
+}

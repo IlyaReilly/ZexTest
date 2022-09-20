@@ -17,8 +17,8 @@ export class CalendarAPI extends BaseAPI {
         "Body": {"CreateAppointmentRequest": {"echo": "1", "comp": "0", "m": {"e": [{"a": attendees, "p": attendees, "t": "t"}, {"a": user, "t": "f"}], "inv": {"comp": [{"alarm": [{"action": "DISPLAY", "trigger": {"rel": {"m": "5", "related": "START", "neg": "1"}}}], "at": [{"a": attendees, "d": attendees, "role": "REQ", "ptst": "NE", "rsvp": "1"}], "allDay": "0", "fb": "B", "loc": "", "name": title, "or": {"a": user}, "recur": null, "status": "CONF", "s": {"d": currentdateISO}, "e": {"d": currentDatePlus10secISO}, "class": "PUB", "draft": false}]}, "l": "10", "mp": {"ct": "multipart/alternative", "mp": [{"ct": "text/html", "content": `<html><body id='htmlmode'>-:::_::_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_::_:_::-<h3>undefined have invited you to a new meeting!</h3><p>Subject: ${title}</p><p>Organizer: undefined</p><p>Location: </p><p>Time: ${currentdateUSFull} - ${currentdateUSTime}</p><p>Invitees: ${attendees}</p><br/>-:::_::_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_::_:_::-${body}"},{"ct":"text/plain","content":"-:::_::_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_::_:_::-\n have invited you to a new meeting!\n\nSubject: ${title} \nOrganizer: \"undefined \n\nTime: ${currentdateUSFull} - ${currentdateUSTime}\n \nInvitees: 2 \n\n\n-:::_::_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_::_:_::-\n${body}`}]}, "su": title}, "_jsns": "urn:zimbraMail"}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "117", "_content": "117"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 104.0.0.0 (Windows)", "version": "22.7.2_ZEXTRAS_202207 agent 20220726-0959 FOSS"}}},
       },
     });
-    const responceBody = JSON.parse((await response.body()).toString());
-    const id = responceBody.Body.CreateAppointmentResponse.echo[0].m[0].id;
+    const responseBody = await this.GetResponseBody(response);
+    const id = responseBody.Body.CreateAppointmentResponse.echo[0].m[0].id;
     return id;
   };
 
@@ -30,7 +30,7 @@ export class CalendarAPI extends BaseAPI {
         "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": startEndExpand.endExpand, "calExpandInstStart": startEndExpand.startExpand, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": `${query} ( inid:\"10\")`}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 45}, "session": {"id": "11151", "_content": "11151"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
     if (body.Body.SearchResponse.appt) {
       id = body.Body.SearchResponse.appt[0].invId;
     }
@@ -45,7 +45,7 @@ export class CalendarAPI extends BaseAPI {
         "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": startEndExpand.endExpand, "calExpandInstStart": startEndExpand.startExpand, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": "inid:\"10\""}}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "14020", "_content": "14020"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
     if (body.Body.SearchResponse.appt) {
       body.Body.SearchResponse.appt.forEach((appointment) => {
         id.push(appointment.invId);
@@ -82,7 +82,7 @@ export class CalendarAPI extends BaseAPI {
       headers: {['content-type']: 'application/soap+xml'},
       data: `<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"><soap:Header><context xmlns="urn:zimbra"><account by="name">${user}</account><format type="js"/></context></soap:Header><soap:Body><BatchRequest xmlns="urn:zimbra" onerror="stop"> <GetFolderRequest xmlns="urn:zimbraMail" visible="1"></GetFolderRequest></BatchRequest></soap:Body></soap:Envelope>`,
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
     return body.Body.BatchResponse.GetFolderResponse[0].folder[0].folder;
   };
 

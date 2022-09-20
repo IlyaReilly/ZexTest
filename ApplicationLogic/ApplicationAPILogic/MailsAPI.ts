@@ -3,7 +3,7 @@ import {BaseAPI} from './BaseAPI';
 export class MailsAPI extends BaseAPI {
   constructor(page) {
     super(page);
-  }
+  };
 
   async MailSearchQuery(query: string, user: string) {
     let id = '';
@@ -34,12 +34,13 @@ export class MailsAPI extends BaseAPI {
         },
       },
     });
-    const body = JSON.parse((await response.body()).toString());
+
+    const body = await this.GetResponseBody(response);
     if (body.Body.SearchResponse.c) {
       id = body.Body.SearchResponse.c[0].id;
     }
     return id;
-  }
+  };
 
   async MoveMailToFolder(mailId, user, folderId) {
     await this.page.request.post(`${this.soapServiceUrl}${this.msgActionRequest}`, {
@@ -59,7 +60,7 @@ export class MailsAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 
   async MoveToTrashById(id: string) {
     await this.page.request.post(`${this.soapServiceUrl}${this.convActionRequest}`, {
@@ -79,25 +80,26 @@ export class MailsAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 
-  async SendMsgRequest(subject, from, to, body) {
+  async SendMsgRequest(subject, from, to, mailBody) {
     let id = '';
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.sendMsgRequest}`, {
-      data: this.FormingMsgRequestBody(this.sendMsgRequest, subject, from, to, body),
+      data: this.FormingMsgRequestBody(this.sendMsgRequest, subject, from, to, mailBody),
     });
-    const responseBody = JSON.parse((await response.body()).toString());
-    if (responseBody.Body.SendMsgResponse.m) {
-      id = responseBody.Body.SendMsgResponse.m[0].id;
+
+    const body = await this.GetResponseBody(response);
+    if (body.Body.SendMsgResponse.m) {
+      id = body.Body.SendMsgResponse.m[0].id;
     }
     return id;
-  }
+  };
 
   async SaveDraftRequest(subject, from, to, body) {
     await this.page.request.post(`${this.soapServiceUrl}${this.saveDraftRequest}`, {
       data: this.FormingMsgRequestBody(this.saveDraftRequest, subject, from, to, body),
     });
-  }
+  };
 
   FormingMsgRequestBody(requestType, subject, from, to, body) {
     return {
@@ -136,5 +138,5 @@ export class MailsAPI extends BaseAPI {
         },
       },
     };
-  }
+  };
 }

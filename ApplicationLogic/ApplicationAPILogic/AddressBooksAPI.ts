@@ -32,7 +32,7 @@ export class AddressBookAPI extends BaseAPI {
         },
       },
     );
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
 
     if (body.Body.CreateFolderResponse.folder) {
       folderId = body.Body.CreateFolderResponse.folder[0].id;
@@ -55,7 +55,7 @@ export class AddressBookAPI extends BaseAPI {
       return addressBookId;
     };
     return addressBook(addressBooksList);
-  }
+  };
 
   async DeleteAddressBookById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {

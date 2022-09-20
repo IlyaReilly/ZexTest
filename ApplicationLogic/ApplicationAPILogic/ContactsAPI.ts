@@ -12,7 +12,7 @@ export class ContactsAPI extends BaseAPI {
         "Body": {"SearchRequest": {"limit": 100, "query": query, "offset": 0, "sortBy": "nameAsc", "types": "contact", "_jsns": "urn:zimbraMail"}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "1198", "_content": "1198"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
     if (body.Body.SearchResponse.cn) {
       id = body.Body.SearchResponse.cn[0].id;
     }
@@ -26,7 +26,7 @@ export class ContactsAPI extends BaseAPI {
         "Body": {"CreateContactRequest": {"_jsns": "urn:zimbraMail", "cn": {"m": [], "l": "7", "a": [{"n": "nameSuffix", "_content": ""}, {"n": "namePrefix", "_content": ""}, {"n": "firstName", "_content": userFirstName}, {"n": "lastName", "_content": ""}, {"n": "middleName", "_content": ""}, {"n": "image", "_content": ""}, {"n": "jobTitle", "_content": ""}, {"n": "department", "_content": ""}, {"n": "company", "_content": ""}, {"n": "notes", "_content": ""}, {"n": "email", "_content": userMail}]}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 3}, "session": {"id": "1662", "_content": "1662"}, "account": {"by": "name", "_content": userMail}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
       },
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
 
     if (body.Body.CreateContactResponse.cn) {
       contactsId = body.Body.CreateContactResponse.cn[0].id;
@@ -62,13 +62,13 @@ export class ContactsAPI extends BaseAPI {
         },
       },
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
 
     if (body.Body.SearchResponse.cn) {
       contacts = body.Body.SearchResponse.cn;
     }
     return contacts;
-  }
+  };
 
   async GetEmailedContacts(user) {
     let emailedContacts = '';
@@ -98,12 +98,13 @@ export class ContactsAPI extends BaseAPI {
         },
       },
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
+
     if (body.Body.SearchResponse.cn) {
       emailedContacts = body.Body.SearchResponse.cn;
     }
     return emailedContacts;
-  }
+  };
 
   async GetTrashContacts(user) {
     let trashContacts = '';
@@ -132,12 +133,13 @@ export class ContactsAPI extends BaseAPI {
         },
       },
     });
-    const body = JSON.parse((await response.body()).toString());
+    const body = await this.GetResponseBody(response);
+
     if (body.Body.SearchResponse.cn) {
       trashContacts = body.Body.SearchResponse.cn;
     }
     return trashContacts;
-  }
+  };
 
   async DeleteContactsById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.contactActionRequest}`, {
@@ -156,7 +158,7 @@ export class ContactsAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 
   async DeleteContactsPermanentlyById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.contactActionRequest}`, {
@@ -175,5 +177,5 @@ export class ContactsAPI extends BaseAPI {
         },
       },
     });
-  }
+  };
 }
