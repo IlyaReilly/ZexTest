@@ -9,6 +9,7 @@ export class MailsList extends BasePage {
   Elements = {
     Letter: this.Containers.MailsListContainer.locator('.qPmzW '),
     UnreadMessageIcon: this.Containers.MailsListContainer.locator('.gtNLsC .AyVvp'),
+    FlagIcon: this.Containers.MailsListContainer.locator('[data-testid="FlagIcon"]'),
   };
 
   constructor(page) {

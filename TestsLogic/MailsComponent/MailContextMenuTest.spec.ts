@@ -29,7 +29,22 @@ test.describe('Mails tests', async () => {
     await pageManager.mailsList.OpenMailContextMenu(mailSubject);
     await pageManager.mailsList.SelectMailContextMenuOption.MarkAsRead();
     const unreadIcon = pageManager.mailsList.Elements.UnreadMessageIcon._selector;
-    await expect(pageManager.mailsList.Elements.Letter.first()).not.toHaveClass(unreadIcon);
+    await expect(pageManager.mailsList.Elements.Letter.first(), 'Unread message icon should not be visible').not.toHaveClass(unreadIcon);
+  });
+
+  test('Flag and unflag mail', async ({pageManager, apiManager}) => {
+    await OpenMailContextMenuOptions({pageManager, apiManager});
+    await pageManager.mailsList.SelectMailContextMenuOption.AddFlag();
+    await expect(pageManager.mailsList.Elements.FlagIcon, 'Added flag should be visible').toBeVisible();
+    await pageManager.mailsList.OpenMailContextMenu(mailSubject);
+    await pageManager.mailsList.SelectMailContextMenuOption.RemoveFlag();
+    await expect(pageManager.mailsList.Elements.FlagIcon, 'Added flag should not be visible').not.toBeVisible();
+  });
+
+  test('Mark mail as spam', async ({pageManager, apiManager}) => {
+    await OpenMailContextMenuOptions({pageManager, apiManager});
+    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsSpam();
+    await expect(pageManager.mailDetails.Elements.ActionWithMailNotification, 'Mark as spam notification should be visible').toContainText('Spam');
   });
 
   async function OpenInboxMailInAnotherUser({pageManager, apiManager}) {
@@ -37,5 +52,12 @@ test.describe('Mails tests', async () => {
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
+  };
+
+  async function OpenMailContextMenuOptions({pageManager, apiManager}) {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
+    await pageManager.mailsList.OpenMailContextMenu(mailSubject);
   }
 });
