@@ -12,7 +12,7 @@ export class LoginPage extends BasePage {
   };
 
   Buttons = {
-    Login: this.page.locator('[role="button"]'),
+    Login: this.page.locator('[role="button"]:has-text("Login")'),
   };
 
   constructor(page, locator = pageLocator) {

@@ -1,6 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
 import fs from "fs";
+import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
 
 test.describe('Files tests', async () => {
   // Components
@@ -49,7 +50,7 @@ test.describe('Files tests', async () => {
     await expect((pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
   });
 
-  test('File Preview is displayed by List File clicking', async ({pageManager, apiManager, page}) => {
+  test('File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
     await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
@@ -103,5 +104,29 @@ test.describe('Files tests', async () => {
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
+  });
+
+  test('Share file', async ({browser, apiManager, pageManager}) => {
+    test.slow();
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.ShareFile.ClickSharingTab();
+    await pageManager.fileDetails.ShareFile.ClickAddNewPeopleField();
+    await pageManager.fileDetails.ShareFile.TypeIntoAddNewPeopleField(BaseTest.secondUser.login);
+    await pageManager.fileDetails.ShareFile.ClickOnItem(BaseTest.secondUser.login);
+    await pageManager.page.waitForTimeout(2000);
+    await pageManager.fileDetails.ShareFile.ClickShareButton();
+    const secondContext = await browser.newContext();
+    const secondPage = await secondContext.newPage();
+    await secondPage.goto('/');
+    const secondPageManager = new PageManager(secondPage);
+    await secondPageManager.loginPage.TextBox.Login.fill(BaseTest.secondUser.login);
+    await secondPageManager.loginPage.TextBox.Password.fill(BaseTest.secondUser.password);
+    await secondPageManager.loginPage.Buttons.Login.click();
+    await secondPageManager.sideMenu.SideMenuTabs.Files.click();
+    await secondPageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(
+      secondPageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe
+    );
+    await expect(secondPageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
+    await secondPage.close();
   });
 });
