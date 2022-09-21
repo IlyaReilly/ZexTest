@@ -25,6 +25,7 @@ export class MailsList extends BasePage {
 
   SelectMailContextMenuOption = {
     MarkAsUnread: async () => await this.Containers.MailContextMenuContainer.locator('"Mark as unread"').click(),
+    MarkAsRead: async () => await this.Containers.MailContextMenuContainer.locator('"Mark as read"').click(),
     AddFlag: async () => await this.Containers.MailContextMenuContainer.locator('"Add flag"').click(),
     RemoveFlag: async () => await this.Containers.MailContextMenuContainer.locator('"Remove flag"').click(),
     Tags: async () => await this.Containers.MailContextMenuContainer.locator('"Tags"').click(),
