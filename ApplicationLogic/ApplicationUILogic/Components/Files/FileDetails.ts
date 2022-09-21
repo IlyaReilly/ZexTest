@@ -42,7 +42,7 @@ export class FileDetails extends BasePage {
     Flag: this.Containers.FileOptionsDropdownContainer.locator('"Flag"'),
     UnFlag: this.Containers.FileOptionsDropdownContainer.locator('"Unflag"'),
     Dropdown: this.Containers.FileOptionsContainer.locator('.JzynG'),
-    MoveToTrash: this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"'),
+    MoveToTrash: this.Containers.FileOptionsDropdownContainer.locator('"Delete"'),
     DeletePermanentlyButton: this.Containers.FileOptionsContainer.locator('[data-testid*="DeletePermanentlyOutline"]'),
     RestoreButton: this.Containers.FileOptionsContainer.locator('[data-testid*="RestoreOutline"]'),
     Rename: this.Containers.FileOptionsDropdownContainer.locator('"Rename"'),
@@ -72,7 +72,7 @@ export class FileDetails extends BasePage {
   };
 
   ClickDropdownOption = {
-    MoveToTrash: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Move to Trash"')),
+    MoveToTrash: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Delete"')),
     Flag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Flag"')),
     UnFlag: async () => await this.OpenDropdown(this.Containers.FileOptionsDropdownContainer.locator('"Unflag"')),
     Rename: async () => await this.OpenDropdown(this.FileOptions.Rename),
