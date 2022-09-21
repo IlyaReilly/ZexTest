@@ -61,10 +61,9 @@ export class FileDetails extends BasePage {
   };
 
   InputFields = {
-    AddNewPeopleField: this.Containers.TabSharingContainer.locator(
-      'xpath=//div[text()="Add new people or groups"]/following-sibling::div'
-    ),
+    AddNewPeopleField: this.Containers.TabSharingContainer.locator('xpath=//div[text()="Add new people or groups"]/following-sibling::div'),
   };
+
   AddNewPeopleDropDown = {
     Item: (userMail) => this.Containers.DropDownPopperListContainer.locator(`"${userMail}"`),
   };
