@@ -123,9 +123,7 @@ test.describe('Files tests', async () => {
     await secondPageManager.loginPage.TextBox.Password.fill(BaseTest.secondUser.password);
     await secondPageManager.loginPage.Buttons.Login.click();
     await secondPageManager.sideMenu.SideMenuTabs.Files.click();
-    await secondPageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(
-      secondPageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe
-    );
+    await secondPageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(secondPageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
     await expect(secondPageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
     await secondPage.close();
   });
