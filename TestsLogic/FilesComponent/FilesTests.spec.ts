@@ -108,8 +108,8 @@ test.describe('Files tests', async () => {
   test('Share file', async ({apiManager, pageManager}) => {
     test.slow();
     await UploadFileAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.SharingFile(BaseTest.secondUser.login)
-    await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password)
+    await pageManager.fileDetails.SharingFile(BaseTest.secondUser.login);
+    await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password);
     await pageManager.sideMenu.SideMenuTabs.Files.click();
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
     await expect(pageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();

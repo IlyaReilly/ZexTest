@@ -61,7 +61,7 @@ export class FileDetails extends BasePage {
   };
 
   InputFields = {
-    AddNewPeopleField: this.Containers.TabSharingContainer.locator('.khxphZ div[contenteditable="true"]'),
+    AddNewPeopleField: this.Containers.TabSharingContainer.locator('.khxphZ'),
   };
 
   AddNewPeopleDropDown = {
@@ -116,5 +116,5 @@ export class FileDetails extends BasePage {
     await this.ShareFile.ClickOnItem(userMail);
     await this.page.waitForTimeout(2000);
     await this.Buttons.Share.click();
-  }
+  };
 }
