@@ -38,7 +38,7 @@ export class FileDetails extends BasePage {
     Download: this.Containers.HeaderContainer.locator('g[data-name="download"]'),
     EditDescriptionButton: this.Containers.InformationContainer.locator('[data-testid*="Edit2Outline"]'),
     SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
-    Share: this.Containers.TabSharingContainer.locator('div[role="button"]:has-text("SHARE")'),
+    Share: this.Containers.TabSharingContainer.locator('"SHARE"'),
   };
 
   FileOptions = {
@@ -61,7 +61,7 @@ export class FileDetails extends BasePage {
   };
 
   InputFields = {
-    AddNewPeopleField: this.Containers.TabSharingContainer.locator('xpath=//div[text()="Add new people or groups"]/following-sibling::div'),
+    AddNewPeopleField: this.Containers.TabSharingContainer.locator('.khxphZ div[contenteditable="true"]'),
   };
 
   AddNewPeopleDropDown = {
@@ -69,11 +69,8 @@ export class FileDetails extends BasePage {
   };
 
   ShareFile = {
-    ClickSharingTab: async () => await this.Tabs.Sharing.click(),
-    ClickAddNewPeopleField: async () => await this.InputFields.AddNewPeopleField.click(),
     TypeIntoAddNewPeopleField: async (person: string) => await this.InputFields.AddNewPeopleField.type(person),
-    ClickOnItem: async (userMail: string) => await this.AddNewPeopleDropDown.Item(userMail).click(),
-    ClickShareButton: async () => await this.Buttons.Share.click(),
+    ClickOnItem: async (userMail) => await this.AddNewPeopleDropDown.Item(userMail).click(),
   };
 
   ClickDropdownOption = {
@@ -111,4 +108,13 @@ export class FileDetails extends BasePage {
     await this.Elements.Description.type(text);
     await this.Buttons.SaveEditsButton.click();
   };
+
+  async SharingFile(userMail){
+    await this.Tabs.Sharing.click();
+    await this.InputFields.AddNewPeopleField.click();
+    await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
+    await this.ShareFile.ClickOnItem(userMail);
+    await this.page.waitForTimeout(2000);
+    await this.Buttons.Share.click();
+  }
 }

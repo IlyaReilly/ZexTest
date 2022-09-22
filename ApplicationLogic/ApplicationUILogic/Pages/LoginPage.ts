@@ -1,5 +1,5 @@
 import {BasePage} from './BasePage';
-import {PageManager} from '../../ApplicationUILogic/Pages/PageManager';
+import {PageManager} from './PageManager';
 
 const pageLocator: string = '.jmIrib';
 
@@ -21,6 +21,7 @@ export class LoginPage extends BasePage {
 
   async Login(login, password) {
     const pageManager = new PageManager(this.page);
+    await this.page.waitForTimeout(1000);
     await this.TextBox.Login.fill(login);
     await this.TextBox.Password.fill(password);
     await this.Buttons.Login.click();

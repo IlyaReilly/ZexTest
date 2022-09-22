@@ -1,7 +1,6 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
 import fs from "fs";
-import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
 
 test.describe('Files tests', async () => {
   // Components
@@ -106,25 +105,13 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
   });
 
-  test('Share file', async ({browser, apiManager, pageManager}) => {
+  test('Share file', async ({apiManager, pageManager}) => {
     test.slow();
     await UploadFileAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.ShareFile.ClickSharingTab();
-    await pageManager.fileDetails.ShareFile.ClickAddNewPeopleField();
-    await pageManager.fileDetails.ShareFile.TypeIntoAddNewPeopleField(BaseTest.secondUser.login);
-    await pageManager.fileDetails.ShareFile.ClickOnItem(BaseTest.secondUser.login);
-    await pageManager.page.waitForTimeout(2000);
-    await pageManager.fileDetails.ShareFile.ClickShareButton();
-    const secondContext = await browser.newContext();
-    const secondPage = await secondContext.newPage();
-    await secondPage.goto('/');
-    const secondPageManager = new PageManager(secondPage);
-    await secondPageManager.loginPage.TextBox.Login.fill(BaseTest.secondUser.login);
-    await secondPageManager.loginPage.TextBox.Password.fill(BaseTest.secondUser.password);
-    await secondPageManager.loginPage.Buttons.Login.click();
-    await secondPageManager.sideMenu.SideMenuTabs.Files.click();
-    await secondPageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(secondPageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
-    await expect(secondPageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
-    await secondPage.close();
+    await pageManager.fileDetails.SharingFile(BaseTest.secondUser.login)
+    await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password)
+    await pageManager.sideMenu.SideMenuTabs.Files.click();
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
+    await expect(pageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
   });
 });
