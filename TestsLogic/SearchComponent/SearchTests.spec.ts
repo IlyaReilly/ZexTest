@@ -53,8 +53,8 @@ test.describe('Search tests', async () => {
 
   // Unstable test due to bug
   test('Search appointment', async ({apiManager, pageManager}) => {
+    test.slow();
     const appointmentName = uniquePrefix + ' AppointmentName Name';
-
     try {
       await apiManager.calendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);

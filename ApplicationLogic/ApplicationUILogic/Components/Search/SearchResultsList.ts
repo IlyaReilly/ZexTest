@@ -9,7 +9,7 @@ export class SearchResultsList extends BasePage {
   };
 
   Elements = {
-    SearchResultMail: this.Containers.MainContainerMail.locator('.eVGFEb'),
+    SearchResultMail: this.Containers.MainContainerMail.locator('.kEfwUT'),
     SearchResultContacts: this.Containers.MainContainerContacts.locator('.cfJAcc'),
     SearchResultFiles: this.Containers.MainContainerFiles.locator('.bbLqaW'),
     SearchResultAppointments: this.Containers.MainContainerAppointments.locator('.bfkNFy'),
