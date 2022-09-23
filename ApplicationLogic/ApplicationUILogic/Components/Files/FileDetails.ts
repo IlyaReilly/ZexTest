@@ -1,4 +1,5 @@
 import {BasePage} from '../../Pages/BasePage';
+import {expect} from "@playwright/test";
 
 export class FileDetails extends BasePage {
   constructor(page) {
@@ -114,8 +115,7 @@ export class FileDetails extends BasePage {
     await this.InputFields.AddNewPeopleField.click();
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
-    for (let i = 0; i < 3; i++) {
-      await this.Buttons.Share.click();
-      };
+    await expect(this.Buttons.Share).toBeVisible();
+    await this.Buttons.Share.click();
     };
   }
