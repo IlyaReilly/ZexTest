@@ -3,7 +3,7 @@ import {BasePage} from '../../Pages/BasePage';
 export class FilesList extends BasePage {
   constructor(page) {
     super(page);
-  }
+  };
 
   Containers = {
     MainContainer: this.page.locator('.fUgMxt'),
@@ -16,6 +16,7 @@ export class FilesList extends BasePage {
     Header: this.Containers.MainContainer.locator('.debCVK'),
     FileName: this.Containers.ListContainer.locator('.hiooLB'),
     FlagIcon: this.Containers.ListContainer.locator('[data-testid*="Flag"]'),
+    DefinedByNameFile: (unicFileName) => this.page.locator('div.lnXHNY', {hasText: `${unicFileName}`}),
   };
 
   SelectionModeElements = {
@@ -26,6 +27,6 @@ export class FilesList extends BasePage {
   };
 
   async OpenFileDetails(unicFileName) {
-    await this.page.locator('div.lnXHNY', {hasText: `${unicFileName}`}).click();
+    await this.Elements.DefinedByNameFile(unicFileName).click();
   };
 }
