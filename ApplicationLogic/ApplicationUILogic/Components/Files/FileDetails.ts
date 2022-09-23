@@ -114,9 +114,8 @@ export class FileDetails extends BasePage {
     await this.InputFields.AddNewPeopleField.click();
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
-    // await this.page.waitForTimeout(2000);
-    // await this.page.waitForSelector(this.Buttons.Share);
-    await this.Buttons.Share.waitFor({state: 'attached'})
-    await this.Buttons.Share.click();
-  };
-}
+    for (let i = 0; i < 3; i++) {
+      await this.Buttons.Share.click();
+      };
+    };
+  }

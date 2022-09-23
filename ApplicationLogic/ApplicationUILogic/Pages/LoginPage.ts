@@ -21,9 +21,8 @@ export class LoginPage extends BasePage {
 
   async Login(login, password) {
     const pageManager = new PageManager(this.page);
-    await this.page.waitForTimeout(1000);
-    await this.TextBox.Login.fill(login);
     await this.TextBox.Password.fill(password);
+    await this.TextBox.Login.fill(login);
     await this.Buttons.Login.click();
     await pageManager.headerMenu.Logos.MainLogo.waitFor();
   }
