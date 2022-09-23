@@ -57,7 +57,7 @@ test.describe('Files tests', async () => {
     await expect((pageManager.fileDetails.Elements.FilePreview)).toBeVisible();
   });
 
-  test('File can be downloaded', async ({apiManager, pageManager}) => {
+  test('File can be downloaded', async ({browser, apiManager, pageManager}) => {
     try {
       await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
