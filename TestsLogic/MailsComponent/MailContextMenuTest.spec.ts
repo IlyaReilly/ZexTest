@@ -19,31 +19,28 @@ test.describe('Mails context menu options tests', async () => {
   test('Mark mail as unread', async ({pageManager, apiManager}) => {
     await OpenInboxMailInAnotherUser({pageManager, apiManager});
     await pageManager.mailsList.OpenMail(mailSubject);
-    await pageManager.mailsList.OpenMailContextMenu(mailSubject);
-    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsUnread();
+    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsUnread(mailSubject);
     await expect(pageManager.mailsList.Elements.UnreadMessageIcon.first(), 'Unread message icon should be visible').toBeVisible();
   });
 
   test('Mark mails as read', async ({pageManager, apiManager}) => {
     await OpenInboxMailInAnotherUser({pageManager, apiManager});
-    await pageManager.mailsList.OpenMailContextMenu(mailSubject);
-    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsRead();
+    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsRead(mailSubject);
     const unreadIcon = pageManager.mailsList.Elements.UnreadMessageIcon._selector;
     await expect(pageManager.mailsList.Elements.Letter.first(), 'Unread message icon should not be visible').not.toHaveClass(unreadIcon);
   });
 
   test('Flag and unflag mail', async ({pageManager, apiManager}) => {
-    await OpenMailContextMenuOptions({pageManager, apiManager});
-    await pageManager.mailsList.SelectMailContextMenuOption.AddFlag();
+    await SendMailAndOpenSentFolder({pageManager, apiManager});
+    await pageManager.mailsList.SelectMailContextMenuOption.AddFlag(mailSubject);
     await expect(pageManager.mailsList.Elements.FlagIcon, 'Added flag should be visible').toBeVisible();
-    await pageManager.mailsList.OpenMailContextMenu(mailSubject);
-    await pageManager.mailsList.SelectMailContextMenuOption.RemoveFlag();
+    await pageManager.mailsList.SelectMailContextMenuOption.RemoveFlag(mailSubject);
     await expect(pageManager.mailsList.Elements.FlagIcon, 'Added flag should not be visible').not.toBeVisible();
   });
 
   test('Mark mail as spam', async ({pageManager, apiManager}) => {
-    await OpenMailContextMenuOptions({pageManager, apiManager});
-    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsSpam();
+    await SendMailAndOpenSentFolder({pageManager, apiManager});
+    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsSpam(mailSubject);
     await expect(pageManager.mailDetails.Elements.ActionWithMailNotification, 'Mark as spam notification should be visible').toContainText('Spam');
   });
 
@@ -54,10 +51,9 @@ test.describe('Mails context menu options tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
   };
 
-  async function OpenMailContextMenuOptions({pageManager, apiManager}) {
+  async function SendMailAndOpenSentFolder({pageManager, apiManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
-    await pageManager.mailsList.OpenMailContextMenu(mailSubject);
   }
 });
