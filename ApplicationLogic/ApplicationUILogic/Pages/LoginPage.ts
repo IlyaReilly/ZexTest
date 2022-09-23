@@ -1,5 +1,5 @@
 import {BasePage} from './BasePage';
-import {PageManager} from '../../ApplicationUILogic/Pages/PageManager';
+import {PageManager} from './PageManager';
 
 const pageLocator: string = '.jmIrib';
 
@@ -12,7 +12,7 @@ export class LoginPage extends BasePage {
   };
 
   Buttons = {
-    Login: this.page.locator('[role="button"]'),
+    Login: this.page.locator('[role="button"]:has-text("Login")'),
   };
 
   constructor(page, locator = pageLocator) {
@@ -21,8 +21,8 @@ export class LoginPage extends BasePage {
 
   async Login(login, password) {
     const pageManager = new PageManager(this.page);
-    await this.TextBox.Login.fill(login);
     await this.TextBox.Password.fill(password);
+    await this.TextBox.Login.fill(login);
     await this.Buttons.Login.click();
     await pageManager.headerMenu.Logos.MainLogo.waitFor();
   }

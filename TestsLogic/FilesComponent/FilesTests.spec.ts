@@ -49,7 +49,7 @@ test.describe('Files tests', async () => {
     await expect((pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
   });
 
-  test('File Preview is displayed by List File clicking', async ({pageManager, apiManager, page}) => {
+  test('File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
     await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
@@ -57,7 +57,7 @@ test.describe('Files tests', async () => {
     await expect((pageManager.fileDetails.Elements.FilePreview)).toBeVisible();
   });
 
-  test('File can be downloaded', async ({apiManager, pageManager}) => {
+  test('File can be downloaded', async ({browser, apiManager, pageManager}) => {
     try {
       await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
@@ -103,5 +103,15 @@ test.describe('Files tests', async () => {
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
+  });
+
+  test('Share file', async ({apiManager, pageManager}) => {
+    test.slow();
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.SharingFile(BaseTest.secondUser.login);
+    await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password);
+    await pageManager.sideMenu.SideMenuTabs.Files.click();
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
+    await expect(pageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
   });
 });
