@@ -58,4 +58,13 @@ export class MailsList extends BasePage {
     Send: async (mailSubject) => await this.OpenMailContextMenu(mailSubject, this.MailContextMenuOptions.Send),
     Redirect: async (mailSubject) => await this.OpenMailContextMenu(mailSubject, this.MailContextMenuOptions.Redirect),
   };
+
+  async OpenPrintPage(mailSubject) {
+    const [newPage] = await Promise.all([
+      this.page.waitForEvent('popup'),
+      await this.SelectMailContextMenuOption.Print(mailSubject),
+    ]);
+    await newPage.waitForLoadState();
+    await newPage.locator()
+  }
 }

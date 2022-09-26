@@ -1,10 +1,10 @@
 import {BasePage} from '../../Pages/BasePage';
-import {expect} from "@playwright/test";
+import {expect} from '@playwright/test';
 
 export class FileDetails extends BasePage {
   constructor(page) {
     super(page);
-  };
+  }
 
   Containers = {
     MainContainer: this.page.locator('.jbyjRV'),
@@ -82,40 +82,37 @@ export class FileDetails extends BasePage {
   };
 
   async DownloadFile() {
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.FileOptions.Download.click(),
-    ]);
+    const [download] = await Promise.all([this.page.waitForEvent('download'), this.FileOptions.Download.click()]);
     const suggestedFileName = download.suggestedFilename();
     const downloadedfilePath = './download/' + suggestedFileName;
     await download.saveAs(downloadedfilePath);
     return downloadedfilePath;
-  };
+  }
 
   async CreateNewEntity(entityName) {
     entityName = entityName + Date.now();
     await this.CreateEntityPopup.EntityInput.click();
     await this.CreateEntityPopup.EntityInput.fill(entityName);
     await this.CreateEntityPopup.CreateButton.click();
-  };
+  }
 
   async OpenDropdown(option) {
     await this.FileOptions.Dropdown.click();
     await option.click();
-  };
+  }
 
   async WriteDescription(text) {
     await this.Buttons.EditDescriptionButton.click();
     await this.Elements.Description.type(text);
     await this.Buttons.SaveEditsButton.click();
-  };
+  }
 
-  async SharingFile(userMail){
+  async SharingFile(userMail) {
     await this.Tabs.Sharing.click();
     await this.InputFields.AddNewPeopleField.click();
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
     await expect(this.Buttons.Share).toBeVisible();
     await this.Buttons.Share.click();
-    };
   }
+}

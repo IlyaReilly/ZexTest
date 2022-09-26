@@ -44,6 +44,13 @@ test.describe('Mails context menu options tests', async () => {
     await expect(pageManager.mailDetails.Elements.ActionWithMailNotification, 'Mark as spam notification should be visible').toContainText('Spam');
   });
 
+  test('Print mail', async ({page, pageManager, apiManager}) => {
+    await SendMailAndOpenSentFolder({pageManager, apiManager});
+    await pageManager.mailsList.OpenPrintPage(mailSubject);
+    // await pageManager.mailsList.SelectMailContextMenuOption.Print(mailSubject);
+    await expect(pageManager.printPage.Elements.MailSubject).toContainText(mailSubject);
+  });
+
   async function OpenInboxMailInAnotherUser({pageManager, apiManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
