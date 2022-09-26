@@ -63,6 +63,6 @@ test.describe('New address book tests', async () => {
     await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
     await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
-  };
+  }
 });
 
