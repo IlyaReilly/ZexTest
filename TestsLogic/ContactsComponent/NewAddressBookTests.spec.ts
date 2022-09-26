@@ -33,7 +33,6 @@ test.describe('New address book tests', async () => {
   test('Move Address book to Root. New Address book should be visible on Root.', async ({pageManager}) => {
     test.slow();
     await CreateNewAddressBook({pageManager});
-    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.MoveAddressBookModal(addressBookName);
     await pageManager.moveAddressBookModal.DropDowns.Root.click();
     await pageManager.moveAddressBookModal.Buttons.Move.click();
@@ -43,17 +42,16 @@ test.describe('New address book tests', async () => {
   test('Share Address book. Share icon should be near folder name.', async ({page, pageManager}) => {
     test.slow();
     await CreateNewAddressBook({pageManager});
-    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.ShareAddressBookModal(addressBookName);
     await pageManager.shareAddressBookModal.ShareAddressBook(BaseTest.secondUser.login);
     await page.reload();
+    await page.waitForLoadState('networkidle');
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
     await expect(pageManager.sideSecondaryContactsMenu.Icons.SharedIcon.first(), 'Share icon should be near folder name').toBeVisible();
   });
 
   test('Edit Address book. New Address book name should be visible.', async ({pageManager}) => {
     await CreateNewAddressBook({pageManager});
-    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.EditAddressBookModal(addressBookName);
     await pageManager.editAddressBookModal.TextBoxes.AddressBookName.fill(newAddressBookName);
     await pageManager.editAddressBookModal.Buttons.Edit.click();
@@ -64,6 +62,7 @@ test.describe('New address book tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
     await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
+    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
   };
 });
 
