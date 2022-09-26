@@ -44,11 +44,16 @@ test.describe('Mails context menu options tests', async () => {
     await expect(pageManager.mailDetails.Elements.ActionWithMailNotification, 'Mark as spam notification should be visible').toContainText('Spam');
   });
 
-  test('Print mail', async ({page, pageManager, apiManager}) => {
+  test('Print mail', async ({pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
-    await pageManager.mailsList.OpenPrintPage(mailSubject);
-    // await pageManager.mailsList.SelectMailContextMenuOption.Print(mailSubject);
-    await expect(pageManager.printPage.Elements.MailSubject).toContainText(mailSubject);
+    const mailTitle = await pageManager.mailsList.OpenPrintPage(mailSubject);
+    await expect(mailTitle).toBe(mailSubject);
+  });
+
+  test('Show original mail', async ({pageManager, apiManager}) => {
+    await SendMailAndOpenSentFolder({pageManager, apiManager});
+    const mailContent = await pageManager.mailsList.ShowOriginal(mailSubject);
+    await expect(mailContent).toContain(mailBody);
   });
 
   async function OpenInboxMailInAnotherUser({pageManager, apiManager}) {

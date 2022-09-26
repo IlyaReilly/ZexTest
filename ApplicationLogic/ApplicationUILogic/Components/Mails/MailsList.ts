@@ -65,6 +65,17 @@ export class MailsList extends BasePage {
       await this.SelectMailContextMenuOption.Print(mailSubject),
     ]);
     await newPage.waitForLoadState();
-    await newPage.locator()
-  }
+    const mailTitle = await newPage.locator('b').last().textContent();
+    return mailTitle;
+  };
+
+  async ShowOriginal(mailSubject) {
+    const [newPage] = await Promise.all([
+      this.page.waitForEvent('popup'),
+      await this.SelectMailContextMenuOption.ShowOriginal(mailSubject),
+    ]);
+    await newPage.waitForLoadState();
+    const originalContent = await newPage.locator('pre').textContent();
+    return originalContent;
+  };
 }
