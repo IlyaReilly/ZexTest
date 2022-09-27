@@ -7,9 +7,11 @@ test.describe('Folders tests', async () => {
   let mailBody;
   let folderId;
   let newFolderName;
+  let subFolderName;
 
   test.beforeEach(async ({apiManager}) => {
     folderName = BaseTest.dateTimePrefix() + ' Folder';
+    subFolderName = BaseTest.dateTimePrefix() + ' sub Folder';
     newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
@@ -110,4 +112,12 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
     await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
   }
+
+  test.only('Create subfolder', async ({pageManager}) => {
+    await OpenSentMailSubFolderContextMenu({pageManager});
+    await pageManager.sideSecondaryMailMenu.MailfolderOption.NewFolder();
+    await pageManager.sideSecondaryMailMenu.CreateNewFolder(subFolderName);
+    await pageManager.sideSecondaryMailMenu.ExpandFolders();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${subFolderName}"`), "New folder name should be visible").toBeVisible();
+  });
 });
