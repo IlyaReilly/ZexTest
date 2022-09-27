@@ -4,7 +4,7 @@ import {expect} from '@playwright/test';
 export class FileDetails extends BasePage {
   constructor(page) {
     super(page);
-  }
+  };
 
   Containers = {
     MainContainer: this.page.locator('.jbyjRV'),
@@ -88,25 +88,25 @@ export class FileDetails extends BasePage {
     const downloadedfilePath = './download/' + suggestedFileName;
     await download.saveAs(downloadedfilePath);
     return downloadedfilePath;
-  }
+  };
 
   async CreateNewEntity(entityName) {
     entityName = entityName + Date.now();
     await this.CreateEntityPopup.EntityInput.click();
     await this.CreateEntityPopup.EntityInput.fill(entityName);
     await this.CreateEntityPopup.CreateButton.click();
-  }
+  };
 
   async OpenDropdown(option) {
     await this.FileOptions.Dropdown.click();
     await option.click();
-  }
+  };
 
   async WriteDescription(text) {
     await this.Buttons.EditDescriptionButton.click();
     await this.Elements.Description.type(text);
     await this.Buttons.SaveEditsButton.click();
-  }
+  };
 
   async SharingFile(userMail) {
     await this.Tabs.Sharing.click();
@@ -115,5 +115,5 @@ export class FileDetails extends BasePage {
     await this.ShareFile.ClickOnItem(userMail);
     await expect(this.Buttons.ShareWrapper).toHaveAttribute('tabindex', '0');
     await this.Buttons.Share.click();
-  }
+  };
 }
