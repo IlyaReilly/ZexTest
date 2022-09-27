@@ -126,7 +126,6 @@ test.describe('Files tests', async () => {
   test('Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.filesAPI.CreateDocument(oldItemName);
-    await pageManager.page.waitForTimeout(3000);
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.WriteDescription(newItemName);
     await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);

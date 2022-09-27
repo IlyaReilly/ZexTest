@@ -9,17 +9,8 @@ test.describe('Chats tests', async () => {
   const firstParticipant = 'test100';
   const secondParticipant = 'test20';
 
-  test.beforeEach(async ({apiManager}, workerInfo) => {
-    const conversations = await apiManager.chatsAPI.GetConversations();
-    await Promise.all(conversations.map(async (conversation) => {
-      return apiManager.chatsAPI.DeleteConversation(conversation.id);
-    }));
-    await Promise.all(conversations.map(async (conversation) => {
-      return apiManager.chatsAPI.KickOffUser(conversation.id);
-    }));
-    await Promise.all(conversations.map(async (conversation) => {
-      return apiManager.chatsAPI.DeleteGroup(conversation.id);
-    }));
+  test.beforeEach(async ({apiManager}) => {
+    await CleanConversationsPanel({apiManager});
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     spaceTitle = dateTimePrefix + ' Autotest Space Title';
     spaceTopic = dateTimePrefix + ' Autotest Space Topic';
@@ -27,6 +18,10 @@ test.describe('Chats tests', async () => {
   });
 
   test.afterAll(async ({apiManager}) => {
+    await CleanConversationsPanel({apiManager});
+  });
+
+  async function CleanConversationsPanel({apiManager}) {
     const conversations = await apiManager.chatsAPI.GetConversations();
     await Promise.all(conversations.map(async (conversation) => {
       return apiManager.chatsAPI.DeleteConversation(conversation.id);
@@ -37,7 +32,7 @@ test.describe('Chats tests', async () => {
     await Promise.all(conversations.map(async (conversation) => {
       return apiManager.chatsAPI.DeleteGroup(conversation.id);
     }));
-  });
+  };
 
   async function DeleteAllMembers({pageManager}) {
     const neededRemoveMember = pageManager.chatsInfo.Buttons.RemoveMember.locator('nth=0');
@@ -54,7 +49,7 @@ test.describe('Chats tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Chats();
     if (option === pageManager.headerMenu.NewItemMenu.CreateChat) {
-      pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewChat();
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewChat();
     } else if (option === pageManager.headerMenu.NewItemMenu.CreateGroup) {
       await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewGroup();
     } else if (option === pageManager.headerMenu.NewItemMenu.CreateSpace) {

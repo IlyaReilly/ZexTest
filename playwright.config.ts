@@ -61,26 +61,26 @@ const config: PlaywrightTestConfig = {
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: {height: 816, width: 1536},
-        // We can change enviroments via running special project
-        // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
-        // Ability to add variables to tests
-        // login: BaseTest.playwrightProjectsData.users.test0.login,
-        // password: BaseTest.playwrightProjectsData.users.test0.password,
-        // storageState: playwrightProjectsData.storageState,
-      },
-    },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        viewport: {height: 816, width: 1536},
-      },
-    },
+    // {
+    //   name: 'chromium',
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     viewport: {height: 816, width: 1536},
+    //     // We can change enviroments via running special project
+    //     // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
+    //     // Ability to add variables to tests
+    //     // login: BaseTest.playwrightProjectsData.users.test0.login,
+    //     // password: BaseTest.playwrightProjectsData.users.test0.password,
+    //     // storageState: playwrightProjectsData.storageState,
+    //   },
+    // },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     viewport: {height: 816, width: 1536},
+    //   },
+    // },
     {
       name: 'webkit',
       use: {
