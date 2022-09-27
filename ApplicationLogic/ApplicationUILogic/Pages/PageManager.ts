@@ -153,7 +153,9 @@ export class PageManager {
     this.deleteFolderModal = new DeleteFolderModal(page);
     // #endregion
 
+    // #region Mail Pages
     this.printPage = new PrintPage(page);
     this.showOriginalPage = new ShowOriginalPage(page);
+    // #endregion
   };
 }
