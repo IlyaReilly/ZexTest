@@ -113,7 +113,7 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
   }
 
-  test.only('Create subfolder', async ({pageManager}) => {
+  test('Create subfolder', async ({pageManager}) => {
     await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.NewFolder();
     await pageManager.sideSecondaryMailMenu.CreateNewFolder(subFolderName);
