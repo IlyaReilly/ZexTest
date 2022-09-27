@@ -40,6 +40,7 @@ export class FileDetails extends BasePage {
     EditDescriptionButton: this.Containers.InformationContainer.locator('[data-testid*="Edit2Outline"]'),
     SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
     Share: this.Containers.TabSharingContainer.locator('"SHARE"'),
+    ShareWrapper: this.Containers.TabSharingContainer.locator('.ejIaaY'),
   };
 
   FileOptions = {
@@ -112,7 +113,7 @@ export class FileDetails extends BasePage {
     await this.InputFields.AddNewPeopleField.click();
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
-    await expect(this.Buttons.Share).toBeVisible();
+    await expect(this.Buttons.ShareWrapper).toHaveAttribute('tabindex', '0');
     await this.Buttons.Share.click();
   }
 }
