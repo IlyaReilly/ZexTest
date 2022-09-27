@@ -17,7 +17,7 @@ import {CalendarAccessShareModal} from '../Components/Calendars/Modals/CalendarA
 import {NewContact} from '../Components/Contacts/NewContact';
 import {ContactsList} from '../Components/Contacts/ContactsList';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
-import {NewChatsItem} from '../Components/Chats/NewChatsItem';
+import {NewChatsItemModal} from '../Components/Chats/Modals/NewChatsItemModal';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
 import {FilesList} from '../Components/Files/FilesList';
 import {FileDetails} from '../Components/Files/FileDetails';
@@ -37,7 +37,6 @@ import {MoveFolderModal} from '../Components/Mails/Modals/MoveFolderModal';
 import {WipeFolderModal} from '../Components/Mails/Modals/WipeFolderModal';
 import {DeleteFolderModal} from '../Components/Mails/Modals/DeleteFolderModal';
 
-
 export class PageManager {
   page: Page;
   loginPage;
@@ -56,7 +55,6 @@ export class PageManager {
   newAppointment;
   sideSecondaryCalendarMenu;
   calendar;
-  newChatsItem;
   sideSecondaryChatsMenu;
   sideSecondaryFilesMenu;
   filesList;
@@ -90,6 +88,10 @@ export class PageManager {
   deleteFolderModal;
   // #endregion
 
+  // #region Chats Modal
+  newChatsItemModal;
+  // #endregion
+
   constructor(page) {
     this.page = page;
     this.loginPage = new LoginPage(page);
@@ -108,7 +110,6 @@ export class PageManager {
     this.newAppointment = new NewAppointment(page);
     this.sideSecondaryCalendarMenu = new SideSecondaryCalendarMenu(page);
     this.calendar = new Calendar(page);
-    this.newChatsItem = new NewChatsItem(page);
     this.sideSecondaryChatsMenu = new SideSecondaryChatsMenu(page);
     this.sideSecondaryFilesMenu = new SideSecondaryFilesMenu(page);
     this.filesList = new FilesList(page);
@@ -141,5 +142,9 @@ export class PageManager {
     this.wipeFolderModal = new WipeFolderModal(page);
     this.deleteFolderModal = new DeleteFolderModal(page);
     // #endregion
-  }
+
+    // #region Chats Modal
+    this.newChatsItemModal = new NewChatsItemModal(page);
+    // #endregion
+  };
 }
