@@ -1,5 +1,5 @@
 import {BasePage} from '../../Pages/BasePage';
-import {expect} from "@playwright/test";
+import {expect} from '@playwright/test';
 
 export class FileDetails extends BasePage {
   constructor(page) {
@@ -83,10 +83,7 @@ export class FileDetails extends BasePage {
   };
 
   async DownloadFile() {
-    const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
-      this.FileOptions.Download.click(),
-    ]);
+    const [download] = await Promise.all([this.page.waitForEvent('download'), this.FileOptions.Download.click()]);
     const suggestedFileName = download.suggestedFilename();
     const downloadedfilePath = './download/' + suggestedFileName;
     await download.saveAs(downloadedfilePath);
@@ -117,7 +114,7 @@ export class FileDetails extends BasePage {
     await this.InputFields.AddNewPeopleField.click();
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
-    await expect(this.Buttons.ShareWrapper).toHaveAttribute('tabindex','0')
+    await expect(this.Buttons.ShareWrapper).toHaveAttribute('tabindex', '0');
     await this.Buttons.Share.click();
   };
 }

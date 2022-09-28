@@ -44,6 +44,18 @@ test.describe('Mails context menu options tests', async () => {
     await expect(pageManager.mailDetails.Elements.ActionWithMailNotification, 'Mark as spam notification should be visible').toContainText('Spam');
   });
 
+  test('Print mail', async ({pageManager, apiManager}) => {
+    await SendMailAndOpenSentFolder({pageManager, apiManager});
+    const mailTitle = await pageManager.printPage.OpenPrintMailPage(mailSubject);
+    await expect(mailTitle, 'Mail subject should in header of printed document').toBe(mailSubject);
+  });
+
+  test('Show original mail', async ({pageManager, apiManager}) => {
+    await SendMailAndOpenSentFolder({pageManager, apiManager});
+    const mailContent = await pageManager.showOriginalPage.OpenShowOriginalPage(mailSubject);
+    await expect(mailContent, 'Original document should contain mail body text').toContain(mailBody);
+  });
+
   async function OpenInboxMailInAnotherUser({pageManager, apiManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
@@ -55,5 +67,5 @@ test.describe('Mails context menu options tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
-  }
+  };
 });

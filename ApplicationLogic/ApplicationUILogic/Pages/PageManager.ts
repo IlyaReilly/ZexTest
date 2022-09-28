@@ -36,7 +36,9 @@ import {ShareAddressBookModal} from '../Components/Contacts/Modals/ShareAddressB
 import {MoveFolderModal} from '../Components/Mails/Modals/MoveFolderModal';
 import {WipeFolderModal} from '../Components/Mails/Modals/WipeFolderModal';
 import {DeleteFolderModal} from '../Components/Mails/Modals/DeleteFolderModal';
-import { EditAddressBookModal } from '../Components/Contacts/Modals/EditAddressBookModal';
+import {PrintPage} from './MailPages/PrintPage';
+import {ShowOriginalPage} from './MailPages/ShowOriginalPage';
+import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
 
 export class PageManager {
   page: Page;
@@ -89,6 +91,12 @@ export class PageManager {
   wipeFolderModal;
   deleteFolderModal;
   // #endregion
+
+  // #region Mail Pages
+  printPage;
+  showOriginalPage;
+  // #endregion
+
 
   // #region Chats Modal
   newChatsItemModal;
@@ -146,6 +154,9 @@ export class PageManager {
     this.deleteFolderModal = new DeleteFolderModal(page);
     // #endregion
 
+    // #region Mail Pages
+    this.printPage = new PrintPage(page);
+    this.showOriginalPage = new ShowOriginalPage(page);
     // #region Chats Modal
     this.newChatsItemModal = new NewChatsItemModal(page);
     // #endregion
