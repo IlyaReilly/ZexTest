@@ -24,6 +24,12 @@ export class ChatsAPI extends BaseAPI {
     });
   };
 
+  async DeleteGroup(id) {
+    await this.page.request.post(`${this.restServiceUrl}${this.leaveConversationRequest}`, {
+      data: {"conversation_id": id},
+    });
+  };
+
   async CreateConversations(title, topic, userId) {
     const response = await this.page.request.post(`${this.restServiceUrl}${this.createSpaceRequest}`, {
       data: {"name": title, "invited_user_ids": [userId], "topic": topic},
@@ -31,5 +37,11 @@ export class ChatsAPI extends BaseAPI {
 
     const body = await this.GetResponseBody(response);
     return body.id;
+  };
+
+  async KickOffUser(id) {
+    await this.page.request.post(`${this.restServiceUrl}${this.kickFromConversationRequest}`, {
+      data: {"conversation_id": id, "kicked_user_ids": ["a4388571-2b60-400f-affe-7248f0599aa8", "0d78db1e-daaa-4d41-b38c-49eb48ea5ecc"]},
+    });
   };
 }

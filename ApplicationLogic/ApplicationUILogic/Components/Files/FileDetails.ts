@@ -103,6 +103,7 @@ export class FileDetails extends BasePage {
   };
 
   async WriteDescription(text) {
+    await this.Buttons.EditDescriptionButton.waitFor();
     await this.Buttons.EditDescriptionButton.click();
     await this.Elements.Description.type(text);
     await this.Buttons.SaveEditsButton.click();
