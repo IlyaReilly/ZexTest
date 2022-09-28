@@ -9,7 +9,7 @@ export class ShowOriginalPage extends BasePage {
     MailToShowOriginal: this.page.locator('.qPmzW'),
   };
 
-  PassToPageButton = {
+  PassToPageOption = {
     ShowOriginal: this.page.locator('"Show original"'),
   };
 
@@ -17,7 +17,7 @@ export class ShowOriginalPage extends BasePage {
     const [newPage] = await Promise.all([
       this.page.waitForEvent('popup'),
       await this.Element.MailToShowOriginal.locator(`"${mailSubject}"`).click({button: 'right'}),
-      await this.PassToPageButton.ShowOriginal.click(),
+      await this.PassToPageOption.ShowOriginal.click(),
     ]);
     await newPage.waitForLoadState();
     const originalContent = await newPage.locator('pre').textContent();

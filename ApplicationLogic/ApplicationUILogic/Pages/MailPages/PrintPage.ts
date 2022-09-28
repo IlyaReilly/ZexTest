@@ -9,7 +9,7 @@ export class PrintPage extends BasePage {
     MailToPrint: this.page.locator('.qPmzW'),
   };
 
-  PassToPageButton = {
+  PassToPageOption = {
     Print: this.page.locator('"Print"'),
   };
 
@@ -17,7 +17,7 @@ export class PrintPage extends BasePage {
     const [newPage] = await Promise.all([
       this.page.waitForEvent('popup'),
       await this.Element.MailToPrint.locator(`"${mailSubject}"`).click({button: 'right'}),
-      await this.PassToPageButton.Print.click(),
+      await this.PassToPageOption.Print.click(),
     ]);
     await newPage.waitForLoadState();
     const mailTitle = await newPage.locator('b').last().textContent();
