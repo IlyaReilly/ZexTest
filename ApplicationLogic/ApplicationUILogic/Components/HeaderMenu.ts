@@ -85,8 +85,8 @@ export class HeaderMenu extends BasePage {
     NewDocument: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewDocument),
     NewSpreadsheet: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewSpreadsheet),
     NewPresentation: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewPresentation),
-    CreateChat: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateChat),
-    CreateGroup: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateGroup),
-    CreateSpace: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateSpace),
+    CreateNewChat: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateChat),
+    CreateNewGroup: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateGroup),
+    CreateNewSpace: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateSpace),
   };
 }

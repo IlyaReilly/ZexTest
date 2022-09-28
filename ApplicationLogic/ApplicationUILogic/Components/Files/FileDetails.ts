@@ -106,17 +106,18 @@ export class FileDetails extends BasePage {
   };
 
   async WriteDescription(text) {
+    await this.Buttons.EditDescriptionButton.waitFor();
     await this.Buttons.EditDescriptionButton.click();
     await this.Elements.Description.type(text);
     await this.Buttons.SaveEditsButton.click();
   };
 
-  async SharingFile(userMail){
+  async SharingFile(userMail) {
     await this.Tabs.Sharing.click();
     await this.InputFields.AddNewPeopleField.click();
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
     await expect(this.Buttons.ShareWrapper).toHaveAttribute('tabindex','0')
     await this.Buttons.Share.click();
-    };
-  }
+  };
+}

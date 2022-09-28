@@ -23,6 +23,7 @@ export class SideSecondaryChatsMenu extends BasePage {
 
   Elements = {
     ConversationsListItem: this.Containers.MainContainer.locator('.beJmAt'),
+    ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
   };
 
   constructor(page) {

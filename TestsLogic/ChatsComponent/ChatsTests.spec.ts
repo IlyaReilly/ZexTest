@@ -5,24 +5,61 @@ test.describe('Chats tests', async () => {
   let dateTimePrefix;
   let spaceTitle;
   let spaceTopic;
+  let groupTitle;
+  const firstParticipant = 'test100';
+  const secondParticipant = 'test20';
 
-  test.beforeEach(async ({}, workerInfo) => {
+  test.beforeEach(async ({apiManager}) => {
+    await CleanConversationsPanel({apiManager});
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     spaceTitle = dateTimePrefix + ' Autotest Space Title';
     spaceTopic = dateTimePrefix + ' Autotest Space Topic';
+    groupTitle = dateTimePrefix + ' Autotest Group Topic';
   });
 
   test.afterAll(async ({apiManager}) => {
+    await CleanConversationsPanel({apiManager});
+  });
+
+  async function CleanConversationsPanel({apiManager}) {
     const conversations = await apiManager.chatsAPI.GetConversations();
     await Promise.all(conversations.map(async (conversation) => {
       return apiManager.chatsAPI.DeleteConversation(conversation.id);
     }));
-  });
+    await Promise.all(conversations.map(async (conversation) => {
+      return apiManager.chatsAPI.KickOffUser(conversation.id);
+    }));
+    await Promise.all(conversations.map(async (conversation) => {
+      return apiManager.chatsAPI.DeleteGroup(conversation.id);
+    }));
+  };
+
+  async function DeleteAllMembers({pageManager}) {
+    const neededRemoveMember = pageManager.chatsInfo.Buttons.RemoveMember.locator('nth=0');
+    await neededRemoveMember.click();
+    await pageManager.chats.DeleteSpacePopup.RemoveButton.click();
+    await pageManager.page.waitForLoadState();
+    await neededRemoveMember.click();
+    await pageManager.chats.DeleteSpacePopup.RemoveButton.click();
+    await pageManager.chatsInfo.Buttons.DeleteGroup.click();
+    await pageManager.chats.DeleteSpacePopup.LeaveButton.click();
+  };
+
+  async function OpenChatsTabAndCreateConversation({pageManager}, option) {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
+    await pageManager.sideSecondaryChatsMenu.OpenTab.Chats();
+    if (option === pageManager.headerMenu.NewItemMenu.CreateChat) {
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewChat();
+    } else if (option === pageManager.headerMenu.NewItemMenu.CreateGroup) {
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewGroup();
+    } else if (option === pageManager.headerMenu.NewItemMenu.CreateSpace) {
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewSpace();
+    };
+  };
 
   test('Create space. Space should appear in spaces list.', async ({pageManager}) => {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
-    await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateSpace();
-    await pageManager.newChatsItem.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
+    await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateSpace);
+    await pageManager.newChatsItemModal.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toBeVisible();
   });
@@ -36,5 +73,24 @@ test.describe('Chats tests', async () => {
     await pageManager.chatsInfo.Buttons.DeleteSpace.click();
     await pageManager.chats.DeleteSpacePopup.DeleteButton.click();
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toHaveCount(0);
+  });
+
+  test('Create chat. Conversation should be in Chats Tab.', async ({pageManager}) => {
+    await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateChat);
+    await pageManager.newChatsItemModal.CreatedConversations.CreateChat(firstParticipant);
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
+  });
+
+  test('Create group. Group should be in Chats Tab.', async ({pageManager}) => {
+    await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
+    await pageManager.newChatsItemModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
+  });
+
+  test('Delete group. Group should be removed from Chats Tab.', async ({pageManager}) => {
+    await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
+    await pageManager.newChatsItemModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
+    await DeleteAllMembers({pageManager});
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).not.toBeVisible();
   });
 });

@@ -48,8 +48,11 @@ export class BaseAPI {
   readonly getConversationsRequest = 'getConversations';
   readonly createSpaceRequest = 'createSpace';
   readonly deleteConversationRequest = 'deleteConversation';
+  readonly leaveConversationRequest = 'leaveConversation';
+  readonly kickFromConversationRequest = 'kickFromConversation';
   // Files
   readonly uploadFileRequest = 'services/files/upload';
+  readonly createDocumentRequest = 'services/docs/files/create';
   // Contacts
   readonly contactActionRequest = 'ContactActionRequest';
   readonly createContactRequest = 'CreateContactRequest';

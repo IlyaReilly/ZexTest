@@ -78,4 +78,31 @@ export class FilesAPI extends BaseAPI {
       },
     });
   };
+
+  async CreateDocument(name) {
+    const response = await this.page.request.post(`${this.createDocumentRequest}`, {
+      data: {"filename": name, "type": "DOCUMENT", "destinationFolderId": "LOCAL_ROOT"},
+    });
+
+    const body = await this.GetResponseBody(response);
+    return body.fileName;
+  };
+
+  async CreateSpreadsheet(name) {
+    const response = await this.page.request.post(`${this.createDocumentRequest}`, {
+      data: {"filename": name, "type": "SPREADSHEET", "destinationFolderId": "LOCAL_ROOT"},
+    });
+
+    const body = await this.GetResponseBody(response);
+    return body.fileName;
+  };
+
+  async CreatePresentation(name) {
+    const response = await this.page.request.post(`${this.createDocumentRequest}`, {
+      data: {"filename": name, "type": "PRESENTATION", "destinationFolderId": "LOCAL_ROOT"},
+    });
+
+    const body = await this.GetResponseBody(response);
+    return body.fileName;
+  };
 }
