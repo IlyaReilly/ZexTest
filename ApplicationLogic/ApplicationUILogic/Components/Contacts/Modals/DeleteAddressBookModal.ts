@@ -8,8 +8,4 @@ export class DeleteAddressBookModal extends ModalWindowBase {
   Buttons = {
     Delete: this.Containers.MainContainer.locator('"DELETE"'),
   };
-
-  async DeleteAddressBookModal() {
-    await this.Buttons.Delete.click();
-  }
 }
