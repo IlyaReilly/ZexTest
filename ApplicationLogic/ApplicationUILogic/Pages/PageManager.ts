@@ -39,6 +39,8 @@ import {DeleteFolderModal} from '../Components/Mails/Modals/DeleteFolderModal';
 import {PrintPage} from './MailPages/PrintPage';
 import {ShowOriginalPage} from './MailPages/ShowOriginalPage';
 import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
+import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddressBookModal';
+
 
 export class PageManager {
   page: Page;
