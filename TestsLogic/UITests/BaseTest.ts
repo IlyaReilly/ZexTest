@@ -43,7 +43,7 @@ export class BaseTest {
   static GetUserFromPool(index, multiplier) {
     const lastDigit2Str = String(index).slice(-1);
     return userPool[Number(parseInt(lastDigit2Str) + multiplier)];
-  }
+  };
 
   static async ApiLogin(user) {
     const storagesPath = '../../TestData/StorageStates/storageState.json';
@@ -60,7 +60,14 @@ export class BaseTest {
     const jsonData = JSON.stringify(storageStatejson);
     await fs.writeFile(`./${userStoragesPath}`, jsonData, 'utf8');
     return `./${userStoragesPath}`;
-  }
+  };
+
+  static async ApiRelogin(browser) {
+    const secondStoragesPath = await BaseTest.ApiLogin(this.userForLogin);
+    const secondPage = await browser.newPage({storageState: secondStoragesPath, strictSelectors: false});
+    await secondPage.goto('/');
+    return new PageManager(secondPage);
+  };
 
   static async waitForLoaderSpinnerHidden(page) {
     try {
@@ -68,5 +75,5 @@ export class BaseTest {
     } catch (e) {
       throw e;
     };
-  }
+  };
 }
