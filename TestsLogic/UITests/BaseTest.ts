@@ -16,7 +16,7 @@ export const test = base.extend<{pageManager: PageManager, apiManager: APIManage
     }
     BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier);
     BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier);
-    const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin);
+    const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
     await use(page);
@@ -43,10 +43,10 @@ export class BaseTest {
   static GetUserFromPool(index, multiplier) {
     const lastDigit2Str = String(index).slice(-1);
     return userPool[Number(parseInt(lastDigit2Str) + multiplier)];
-  }
+  };
 
-  static async ApiLogin(user) {
-    const storagesPath = '../../TestData/StorageStates/storageState.json';
+  static async ApiLogin(user, nameOfUserForStorageStateFile) {
+    const storagesPath = `../../TestData/StorageStates/${nameOfUserForStorageStateFile}.json`;
     const userStoragesPath = `TestData/StorageStates/${user.login}.json`;
     const authTokens = await ApiLoginMethod(user.login, user.password);
     const domain = BaseTest.baseUrl.replace('https://', '').replace('/', '');
@@ -60,7 +60,14 @@ export class BaseTest {
     const jsonData = JSON.stringify(storageStatejson);
     await fs.writeFile(`./${userStoragesPath}`, jsonData, 'utf8');
     return `./${userStoragesPath}`;
-  }
+  };
+
+  static async ApiRelogin(browser) {
+    const secondStoragesPath = await BaseTest.ApiLogin(this.secondUser, 'secondUserStorageState');
+    const secondPage = await browser.newPage({storageState: secondStoragesPath, strictSelectors: false});
+    await secondPage.goto('/');
+    return new PageManager(secondPage);
+  };
 
   static async waitForLoaderSpinnerHidden(page) {
     try {
@@ -68,5 +75,5 @@ export class BaseTest {
     } catch (e) {
       throw e;
     };
-  }
+  };
 }

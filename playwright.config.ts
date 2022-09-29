@@ -47,7 +47,7 @@ const config: PlaywrightTestConfig = {
       // We set this header per GitHub guidelines.
     },
     // Allpy storageState
-    // storageState: './storageState.json',
+    // storageState: './userForLoginStorageState.json',
     headless: process.env.CI ? true : false,
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,

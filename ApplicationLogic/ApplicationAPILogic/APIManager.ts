@@ -14,7 +14,7 @@ export class APIManager {
   calendarAPI;
   chatsAPI;
   filesAPI;
-  сontactsAPI;
+  contactsAPI;
   usersAPI;
   foldersAPI;
   addressBookAPI;
@@ -25,7 +25,7 @@ export class APIManager {
     this.calendarAPI = new CalendarAPI(this.page);
     this.chatsAPI = new ChatsAPI(this.page);
     this.filesAPI = new FilesAPI(this.page);
-    this.сontactsAPI = new ContactsAPI(this.page);
+    this.contactsAPI = new ContactsAPI(this.page);
     this.usersAPI = new UsersAPI(this.page);
     this.foldersAPI = new FoldersAPI(this.page);
     this.addressBookAPI = new AddressBookAPI(this.page);
