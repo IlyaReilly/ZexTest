@@ -41,6 +41,10 @@ export class SideSecondaryContactsMenu extends BasePage {
     EditAddressBookModal: async (addressBookName) => {
       await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
       await this.ContextMenu.EditAddressBook.click();
+    },
+    DeleteAddressBookModal: async (addressBookName) => {
+      await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
+      await this.ContextMenu.DeleteAddressBook.click();
     }
   };
 

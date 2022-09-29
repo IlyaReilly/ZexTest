@@ -64,5 +64,13 @@ test.describe('New address book tests', async () => {
     await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
   }
+
+  test('Delete Address book. New address book name is deleted', async ({pageManager}) => {
+    await CreateNewAddressBook({pageManager});
+    await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.DeleteAddressBookModal(addressBookName);
+    await pageManager.deleteAddressBookModal.DeleteAddressBookModal();
+    await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'Created new address book should not be visible').not.toBeVisible();
+  });
+
 });
 
