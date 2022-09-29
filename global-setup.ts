@@ -10,7 +10,7 @@ async function globalSetup(config: FullConfig) {
   await page.locator('#password-0').fill("assext0");
   await page.locator('[role="button"]').click();
   await page.waitForLoadState('networkidle');
-  await page.context().storageState({path: "./storageState.json" as string});
+  await page.context().storageState({path: "./userForLoginStorageState.json" as string});
   await browser.close();
 }
 
