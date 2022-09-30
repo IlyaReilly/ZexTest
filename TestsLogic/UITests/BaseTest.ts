@@ -14,7 +14,8 @@ export const test = base.extend<{secondPageManager: PageManager, pageManager: Pa
     case 'webkit': multiplier = 20; break;
     default: multiplier = 0;
     }
-    BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier);
+    BaseTest.userForLogin = userPool[1];
+    // BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier);
     BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier);
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
