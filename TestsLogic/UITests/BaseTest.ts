@@ -5,7 +5,7 @@ import {userPool} from '../../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
 
-export const test = base.extend<{pageManager: PageManager, apiManager: APIManager}>({
+export const test = base.extend<{secondPageManager: PageManager, pageManager: PageManager, apiManager: APIManager}>({
   page: async ({browser}, use, workerInfo) => {
     let multiplier;
     switch (workerInfo.project.name) {
@@ -25,6 +25,11 @@ export const test = base.extend<{pageManager: PageManager, apiManager: APIManage
   pageManager: async ({page}, use) => {
     const pageManager = new PageManager(page);
     await use(pageManager);
+  },
+
+  secondPageManager: async ({browser}, use) => {
+    const secondPageManager = await BaseTest.ApiReloginToSecondUser(browser);
+    await use(secondPageManager);
   },
 
   apiManager: async ({page}, use) => {
@@ -62,7 +67,7 @@ export class BaseTest {
     return `./${userStoragesPath}`;
   };
 
-  static async ApiRelogin(browser) {
+  static async ApiReloginToSecondUser(browser) {
     const secondStoragesPath = await BaseTest.ApiLogin(this.secondUser, 'secondUserStorageState');
     const secondPage = await browser.newPage({storageState: secondStoragesPath, strictSelectors: false});
     await secondPage.goto('/');
