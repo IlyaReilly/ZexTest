@@ -5,7 +5,7 @@ import {userPool} from '../../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
 
-export const test = base.extend<{secondPageManager: PageManager, pageManager: PageManager, apiManager: APIManager}>({
+export const test = base.extend<{pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager}>({
   page: async ({browser}, use, workerInfo) => {
     let multiplier;
     switch (workerInfo.project.name) {
@@ -14,8 +14,8 @@ export const test = base.extend<{secondPageManager: PageManager, pageManager: Pa
     case 'webkit': multiplier = 20; break;
     default: multiplier = 0;
     }
-    BaseTest.userForLogin = userPool[1];
-    // BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier);
+
+    BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier);
     BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier);
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
