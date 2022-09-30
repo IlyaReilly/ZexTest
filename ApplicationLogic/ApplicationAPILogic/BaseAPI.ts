@@ -46,7 +46,9 @@ export class BaseAPI {
   readonly cancelAppointmentRequest = 'CancelAppointmentRequest';
   // Chats
   readonly getConversationsRequest = 'getConversations';
+  readonly getConversationRequest = 'getConversation';
   readonly createSpaceRequest = 'createSpace';
+  readonly createGroupRequest = 'createGroup';
   readonly deleteConversationRequest = 'deleteConversation';
   readonly leaveConversationRequest = 'leaveConversation';
   readonly kickFromConversationRequest = 'kickFromConversation';

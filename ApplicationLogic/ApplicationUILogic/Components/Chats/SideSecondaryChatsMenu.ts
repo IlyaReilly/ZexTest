@@ -1,6 +1,10 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class SideSecondaryChatsMenu extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MainContainer: this.page.locator('.cpSZnV'),
   };
@@ -26,9 +30,10 @@ export class SideSecondaryChatsMenu extends BasePage {
     ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
   };
 
-  constructor(page) {
-    super(page);
-  }
+  ConversationItemDetails = {
+    Name: this.Elements.ConversationsItem.locator('.fAVahr'),
+    BellOffIcon: this.Elements.ConversationsListItem.locator('[data-testid*="BellOff"]'),
+  };
 
   OpenTab = {
     Chats: async () => await this.Tabs.Chats.click(),
@@ -38,5 +43,5 @@ export class SideSecondaryChatsMenu extends BasePage {
 
   async SelectConversationFromList(conversationTitle) {
     await this.Elements.ConversationsListItem.locator(`"${conversationTitle}"`).click();
-  }
+  };
 }

@@ -39,7 +39,7 @@ import {DeleteFolderModal} from '../Components/Mails/Modals/DeleteFolderModal';
 import {PrintPage} from './MailPages/PrintPage';
 import {ShowOriginalPage} from './MailPages/ShowOriginalPage';
 import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
-
+import {ChatField} from '../Components/Chats/ChatField';
 export class PageManager {
   page: Page;
   loginPage;
@@ -64,6 +64,7 @@ export class PageManager {
   fileDetails;
   chatsInfo;
   chats;
+  chatField;
 
   // #region Calendars Modal
   newCalendarModal;
@@ -126,6 +127,7 @@ export class PageManager {
     this.fileDetails = new FileDetails(page);
     this.chatsInfo = new ChatsInfo(page);
     this.chats = new Chats(page);
+    this.chatField = new ChatField(page);
 
     // #region Calendars Modal
     this.shareCalendarModal = new ShareCalendarModal(page);
