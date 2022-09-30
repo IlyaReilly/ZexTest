@@ -13,48 +13,44 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
     }));
   });
 
-  test.beforeEach(async ({pageManager, apiManager}) => {
+  test.beforeEach(async ({apiManager, secondPageManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, BaseTest.secondUser.login, appointmentBody);
-    await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
+    await secondPageManager.sideMenu.OpenMenuTab(secondPageManager.sideMenu.SideMenuTabs.Mail);
+    await secondPageManager.sideSecondaryMailMenu.OpenMailFolder(secondPageManager.sideSecondaryMailMenu.MailFolders.Inbox);
   });
 
-  test.afterEach(async ({page, apiManager, pageManager}) => {
-    await pageManager.loginPage.Relogin(BaseTest.userForLogin.login, BaseTest.userForLogin.password);
-    const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentTitle, BaseTest.userForLogin.login);
-    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+  test.afterEach(async ({page}) => {
     await page.close();
   });
 
-  test('Create new appointment. Attendee receives invitation.', async ({pageManager, apiManager}) => {
+  test('Create new appointment. Attendee receives invitation.', async ({secondPageManager}) => {
     test.slow();
-    await expect(pageManager.mailsList.Elements.Letter.locator(`"${appointmentTitle}"`), 'User receives invitation mail with appointment title in subject').toBeVisible();
+    await expect(secondPageManager.mailsList.Elements.Letter.locator(`"${appointmentTitle}"`), 'User receives invitation mail with appointment title in subject').toBeVisible();
   });
 
-  test('Create new appointment. Attendee receives invitation with options Yes, Maybe, No, Propose New Time.', async ({pageManager, apiManager}) => {
+  test('Create new appointment. Attendee receives invitation with options Yes, Maybe, No, Propose New Time.', async ({secondPageManager}) => {
     test.slow();
-    await pageManager.mailsList.OpenMail(appointmentTitle);
-    await expect(pageManager.mailDetails.AppointmentInvitationOptions.Yes, 'Appointments invitation message has option Yes').toBeVisible();
-    await expect(pageManager.mailDetails.AppointmentInvitationOptions.No, 'Appointments invitation message has option No').toBeVisible();
-    await expect(pageManager.mailDetails.AppointmentInvitationOptions.Maybe, 'Appointments invitation message has option Maybe').toBeVisible();
-    await expect(pageManager.mailDetails.AppointmentInvitationOptions.ProposeNewTime, 'Appointments invitation message has option Propose new time').toBeVisible();
+    await secondPageManager.mailsList.OpenMail(appointmentTitle);
+    await expect(secondPageManager.mailDetails.AppointmentInvitationOptions.Yes, 'Appointments invitation message has option Yes').toBeVisible();
+    await expect(secondPageManager.mailDetails.AppointmentInvitationOptions.No, 'Appointments invitation message has option No').toBeVisible();
+    await expect(secondPageManager.mailDetails.AppointmentInvitationOptions.Maybe, 'Appointments invitation message has option Maybe').toBeVisible();
+    await expect(secondPageManager.mailDetails.AppointmentInvitationOptions.ProposeNewTime, 'Appointments invitation message has option Propose new time').toBeVisible();
   });
 
-  test('Create new appointment. Attendee receives invitation with Participants.', async ({pageManager, apiManager}) => {
+  test('Create new appointment. Attendee receives invitation with Participants.', async ({secondPageManager}) => {
     test.slow();
-    await pageManager.mailsList.OpenMail(appointmentTitle);
-    await expect(pageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.userForLogin.login}"`), `Appointment has ${BaseTest.userForLogin.login} in participants`).toBeVisible();
-    await expect(pageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.secondUser.login}"`), `Appointment has ${BaseTest.secondUser.password} in participants`).toBeVisible();
+    await secondPageManager.mailsList.OpenMail(appointmentTitle);
+    await expect(secondPageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.userForLogin.login}"`), `Appointment has ${BaseTest.userForLogin.login} in participants`).toBeVisible();
+    await expect(secondPageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.secondUser.login}"`), `Appointment has ${BaseTest.secondUser.password} in participants`).toBeVisible();
   });
 
-  test('Create new appointment. Attendee receives invitation with Participants count.', async ({pageManager, apiManager}) => {
+  test.skip('Create new appointment. Attendee receives invitation with Participants count.', async ({secondPageManager}) => {
     test.fail();
     const participantsCount = '2 Participants';
-    await pageManager.mailsList.OpenMail(appointmentTitle);
-    await expect(pageManager.mailDetails.AppointmentParticipantsSection.locator(`"${participantsCount}"`), `Appointment has "${participantsCount}" count`).toBeVisible();
+    await secondPageManager.mailsList.OpenMail(appointmentTitle);
+    await expect(secondPageManager.mailDetails.AppointmentParticipantsSection.locator(`"${participantsCount}"`), `Appointment has "${participantsCount}" count`).toBeVisible();
   });
 });
