@@ -14,6 +14,7 @@ export class ChatField extends BasePage {
 
   Fields = {
     TextArea: this.Containers.SendMessageMenuContainer.locator('#team-conversation-input-text'),
+    ChatsRaw: this.Containers.MainContainer.locator('.cAwAqd'),
   };
 
   Buttons = {

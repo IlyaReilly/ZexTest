@@ -30,7 +30,7 @@ export async function ApiLoginMethod(login: string, password: string) {
 export class BaseAPI {
   readonly page: Page;
   readonly soapServiceUrl = 'service/soap/';
-  readonly restServiceUrl = 'zx/team/v20/';
+  readonly restServiceUrl = 'zx/team/v21/';
   readonly graphqlServiceUrl = 'services/files/graphql';
 
   // Endpoints

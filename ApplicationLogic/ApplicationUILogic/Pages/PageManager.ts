@@ -40,6 +40,8 @@ import {PrintPage} from './MailPages/PrintPage';
 import {ShowOriginalPage} from './MailPages/ShowOriginalPage';
 import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
 import {ChatField} from '../Components/Chats/ChatField';
+import {AddNewMembersModal} from '../Components/Chats/Modals/AddNewMembersModal';
+
 export class PageManager {
   page: Page;
   loginPage;
@@ -101,6 +103,7 @@ export class PageManager {
 
   // #region Chats Modal
   newChatsItemModal;
+  addNewMembersModal;
   // #endregion
 
   constructor(page) {
@@ -161,6 +164,7 @@ export class PageManager {
     this.showOriginalPage = new ShowOriginalPage(page);
     // #region Chats Modal
     this.newChatsItemModal = new NewChatsItemModal(page);
+    this.addNewMembersModal = new AddNewMembersModal(page);
     // #endregion
   };
 }

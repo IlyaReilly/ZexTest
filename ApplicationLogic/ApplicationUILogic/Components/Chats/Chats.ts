@@ -8,12 +8,13 @@ export class Chats extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator('.krpoNZ'),
-    DeleteSpacePopupContainer: this.page.locator('.loeZsV'),
+    DeleteSpacePopupContainer: this.page.locator('.jCXemQ'),
   };
 
   DeleteSpacePopup = {
-    DeleteButton: this.Containers.DeleteSpacePopupContainer.locator('"DELETE"'),
-    RemoveButton: this.Containers.DeleteSpacePopupContainer.locator('"REMOVE"'),
-    LeaveButton: this.Containers.DeleteSpacePopupContainer.locator('"LEAVE"'),
+    DeleteButton: this.Containers.DeleteSpacePopupContainer.locator('"Delete"'),
+    RemoveButton: this.Containers.DeleteSpacePopupContainer.locator('"Remove"'),
+    LeaveButton: this.Containers.DeleteSpacePopupContainer.locator('"Leave"'),
+    ClearHistoryButton: this.Containers.DeleteSpacePopupContainer.locator('.fzlaBC'),
   };
 }

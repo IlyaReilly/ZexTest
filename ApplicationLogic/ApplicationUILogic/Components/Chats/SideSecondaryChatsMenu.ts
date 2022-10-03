@@ -6,7 +6,7 @@ export class SideSecondaryChatsMenu extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.cpSZnV'),
+    MainContainer: this.page.locator('.dvrTVe'),
   };
 
   Buttons = {
@@ -27,11 +27,11 @@ export class SideSecondaryChatsMenu extends BasePage {
 
   Elements = {
     ConversationsListItem: this.Containers.MainContainer.locator('.beJmAt'),
-    ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
+    ConversationsItem: this.Containers.MainContainer.locator('.hrqJRI'),
   };
 
   ConversationItemDetails = {
-    Name: this.Elements.ConversationsItem.locator('.fAVahr'),
+    Name: this.Elements.ConversationsItem.locator('.iNcwac'),
     BellOffIcon: this.Elements.ConversationsListItem.locator('[data-testid*="BellOff"]'),
   };
 
