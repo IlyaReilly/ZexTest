@@ -105,13 +105,13 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
   });
 
-  test('Share file', async ({apiManager, pageManager}) => {
+  test('Share file', async ({browser, apiManager, pageManager}) => {
     test.slow();
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.SharingFile(BaseTest.secondUser.login);
-    await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password);
-    await pageManager.sideMenu.SideMenuTabs.Files.click();
-    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
-    await expect(pageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
+    const secondPageManager = await BaseTest.ApiRelogin(browser);
+    await secondPageManager.sideMenu.SideMenuTabs.Files.click();
+    await secondPageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(secondPageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
+    await expect(secondPageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
   });
 });

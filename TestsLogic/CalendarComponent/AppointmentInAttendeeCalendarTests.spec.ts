@@ -1,42 +1,40 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
 
+
 test.describe('Calendars tests. Appointment in attendee calendar.', async () => {
   let dateTimePrefix;
   let appointmentTitle;
   let appointmentBody;
 
-  test.beforeAll(async ({page, apiManager}) => {
+
+  test.beforeAll(async ({apiManager}) => {
     const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
     await Promise.all(allAppionmentsIds.map(async (id) => {
       return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
     }));
   });
 
-  test.beforeEach(async ({pageManager, apiManager}) => {
+  test.beforeEach(async ({apiManager, secondPageManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, BaseTest.secondUser.login, appointmentBody);
-    await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await secondPageManager.sideMenu.OpenMenuTab(secondPageManager.sideMenu.SideMenuTabs.Calendar);
   });
 
-  test.afterEach(async ({page, apiManager, pageManager}) => {
-    await pageManager.loginPage.Relogin(BaseTest.userForLogin.login, BaseTest.userForLogin.password);
-    const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentTitle, BaseTest.userForLogin.login);
-    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+  test.afterEach(async ({page}) => {
     await page.close();
   });
 
-  test('Create new appointment. Attendee see appointment in own calendar.', async ({pageManager}) => {
+  test('Create new appointment. Attendee see appointment in own calendar.', async ({secondPageManager}) => {
     test.slow();
-    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
+    await expect(secondPageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
-  test('Create new appointment. Attendee see appointment with need action icon.', async ({pageManager}) => {
+  test('Create new appointment. Attendee see appointment with need action icon.', async ({secondPageManager}) => {
     test.slow();
-    const appointmentElement = await pageManager.calendar.GetAppointmentWithTitle(appointmentTitle);
-    await expect(appointmentElement.locator(pageManager.calendar.Selectors.NeedActionsIconSelector)).toHaveCount(1);
+    const appointmentElement = await secondPageManager.calendar.GetAppointmentWithTitle(appointmentTitle);
+    await expect(appointmentElement.locator(secondPageManager.calendar.Selectors.NeedActionsIconSelector)).toHaveCount(1);
   });
 });

@@ -16,18 +16,18 @@ test.describe('Mails context menu options tests', async () => {
     await page.close();
   });
 
-  test('Mark mail as unread', async ({pageManager, apiManager}) => {
-    await OpenInboxMailInAnotherUser({pageManager, apiManager});
-    await pageManager.mailsList.OpenMail(mailSubject);
-    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsUnread(mailSubject);
-    await expect(pageManager.mailsList.Elements.UnreadMessageIcon.first(), 'Unread message icon should be visible').toBeVisible();
+  test('Mark mail as unread', async ({pageManager, secondPageManager, apiManager}) => {
+    await OpenInboxMailInAnotherUser({pageManager, secondPageManager, apiManager});
+    await secondPageManager.mailsList.OpenMail(mailSubject);
+    await secondPageManager.mailsList.SelectMailContextMenuOption.MarkAsUnread(mailSubject);
+    await expect(secondPageManager.mailsList.Elements.UnreadMessageIcon.first(), 'Unread message icon should be visible').toBeVisible();
   });
 
-  test('Mark mails as read', async ({pageManager, apiManager}) => {
-    await OpenInboxMailInAnotherUser({pageManager, apiManager});
-    await pageManager.mailsList.SelectMailContextMenuOption.MarkAsRead(mailSubject);
-    const unreadIcon = pageManager.mailsList.Elements.UnreadMessageIcon._selector;
-    await expect(pageManager.mailsList.Elements.Letter.first(), 'Unread message icon should not be visible').not.toHaveClass(unreadIcon);
+  test('Mark mails as read', async ({pageManager, secondPageManager, apiManager}) => {
+    await OpenInboxMailInAnotherUser({pageManager, secondPageManager, apiManager});
+    await secondPageManager.mailsList.SelectMailContextMenuOption.MarkAsRead(mailSubject);
+    const unreadIcon = secondPageManager.mailsList.Elements.UnreadMessageIcon._selector;
+    await expect(secondPageManager.mailsList.Elements.Letter.first(), 'Unread message icon should not be visible').not.toHaveClass(unreadIcon);
   });
 
   test('Flag and unflag mail', async ({pageManager, apiManager}) => {
@@ -56,11 +56,10 @@ test.describe('Mails context menu options tests', async () => {
     await expect(mailContent, 'Original document should contain mail body text').toContain(mailBody);
   });
 
-  async function OpenInboxMailInAnotherUser({pageManager, apiManager}) {
+  async function OpenInboxMailInAnotherUser({pageManager, secondPageManager, apiManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
-    await pageManager.loginPage.Relogin(BaseTest.secondUser.login, BaseTest.secondUser.password);
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Inbox);
+    await secondPageManager.sideSecondaryMailMenu.OpenMailFolder(secondPageManager.sideSecondaryMailMenu.MailFolders.Inbox);
   };
 
   async function SendMailAndOpenSentFolder({pageManager, apiManager}) {

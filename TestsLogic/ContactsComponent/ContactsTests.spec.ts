@@ -18,8 +18,8 @@ test.describe('Contacts tests', async () => {
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    const id = await apiManager.сontactsAPI.ContactsSearchQuery(firstName, BaseTest.userForLogin.login);
-    await apiManager.сontactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
+    const id = await apiManager.contactsAPI.ContactsSearchQuery(firstName, BaseTest.userForLogin.login);
+    await apiManager.contactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
     await page.close();
   });
 
@@ -51,7 +51,7 @@ test.describe('Contacts tests', async () => {
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
     test.slow();
-    await apiManager.сontactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await apiManager.contactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactsList.DeleteContact();
