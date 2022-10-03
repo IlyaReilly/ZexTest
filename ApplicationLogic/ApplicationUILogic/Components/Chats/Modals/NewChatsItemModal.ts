@@ -8,16 +8,19 @@ export class NewChatsItemModal extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator('.jCXemQ'),
+    // MainContainer: this.page.locator('.loeZsV'),
     GroupContainer: this.page.locator('.jNxpYb'),
   };
 
   Buttons = {
     Create: this.Containers.MainContainer.locator('"Create"'),
+    // Create: this.Containers.MainContainer.locator('"CREATE"'),
   };
 
   NewChatDialog = {
     UserFilterTextBox: this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
     UsersListItem: this.Containers.MainContainer.locator('.hrqJRI'),
+    // UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
   };
 
   NewSpaceDialog = {

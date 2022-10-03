@@ -3,14 +3,17 @@ import {BasePage} from '../Pages/BasePage';
 export class HeaderMenu extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.iEhnxg'),
+    // MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
     NewItemMenuContainer: this.page.locator('.hlPvDd'),
+    // NewItemMenuContainer: this.page.locator('.izBNKP'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   Buttons = {
     UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
     NewItemMenu: this.Containers.NewItemMenuContainer.locator('.fBdHMW'),
+    // NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
     NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
     Search: this.Containers.MainContainer.locator('.ikNroI'),
   };

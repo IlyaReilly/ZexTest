@@ -9,6 +9,7 @@ export class ChatsInfo extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.krpoNZ'),
     GroupContainer: this.page.locator('.jHLEFQ'),
+    // GroupContainer: this.page.locator('.dvaEfe'),
     GroupMembersContainer: this.page.locator('.djcAQq'),
   };
 
