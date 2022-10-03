@@ -3,19 +3,26 @@ import {BasePage, InheritedFields} from '../../Pages/BasePage';
 export class NewMail extends BasePage {
   Containers = {
     MainContainer: this.page.locator(InheritedFields.NewItemDefaultContainerLocator),
+    BeforeYouLeaveContainer: this.page.locator('[data-testid="modal"]'),
   };
 
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
 
   Buttons = {
-    Send: this.Containers.MainContainer.locator('"SEND"'),
-    Save: this.Containers.MainContainer.locator('"SAVE"'),
-    CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
+    Send: this.Containers.MainContainer.locator('.zZiJb :text("Send")'),
+    // Send: this.Containers.MainContainer.locator('"SEND"'),
+    Save: this.Containers.MainContainer.locator('"Save"'),
+    // Save: this.Containers.MainContainer.locator('"SAVE"'),
+    CloseCross: this.Containers.MainContainer.locator('.gwJuBI:has([data-testid*="CloseOutline"])'),
+    // CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
+    DeleteDraft: this.Containers.BeforeYouLeaveContainer.locator('"Delete Draft"'),
   };
 
   TextBox = {
-    To: this.Containers.MainContainer.locator('.jgQFDI'),
-    Subject: this.Containers.MainContainer.locator('.ewHyMN'),
+    To: this.Containers.MainContainer.locator('.iuroJp'),
+    // To: this.Containers.MainContainer.locator('.jgQFDI'),
+    Subject: this.Containers.MainContainer.locator('.YUku'),
+    // Subject: this.Containers.MainContainer.locator('.ewHyMN'),
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
 
@@ -37,6 +44,7 @@ export class NewMail extends BasePage {
 
   async SendMail() {
     await this.Buttons.Send.click();
+    await this.Buttons.DeleteDraft.click();
   }
 
   async SaveMail() {

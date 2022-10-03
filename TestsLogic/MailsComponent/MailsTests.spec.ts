@@ -46,8 +46,8 @@ test.describe('Mails tests', async () => {
     await pageManager.mailDetails.Elements.ActionWithMailNotification.waitFor();
     const elementHandle = await page.$(pageManager.mailDetails.Elements.ActionWithMailNotification._selector);
     await elementHandle?.waitForElementState('hidden');
+    await pageManager.sideSecondaryMailMenu.OpenMailFolders.Junk(); // It's a crutch
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Junk);
-    await page.reload();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Junk folder mails list').toBeVisible();
   });
 
@@ -64,7 +64,8 @@ test.describe('Mails tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
-    await pageManager.newMail.SaveMail();
+    // await pageManager.newMail.SaveMail();
+    await page.waitForTimeout(3000);
     await pageManager.newMail.CloseNewMail();
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');

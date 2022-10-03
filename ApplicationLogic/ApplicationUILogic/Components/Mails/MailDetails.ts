@@ -2,19 +2,24 @@ import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class MailDetails extends BasePage {
   Containers = {
-    MailDetailsContainer: this.page.locator('.jbyjRV'),
-    MailOptionsContainer: this.page.locator('.izBNKP'),
+    MailDetailsContainer: this.page.locator('[data-testid="third-panel"]'),
+    // MailDetailsContainer: this.page.locator('.jbyjRV'),
+    MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+    // MailOptionsContainer: this.page.locator('.izBNKP'),
     MoveConversationContainer: this.page.locator('.uSNsj'),
   };
 
   Elements = {
-    LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
-    ActionWithMailNotification: this.page.locator('.ldHDuR'),
+    LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
+    // LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
+    ActionWithMailNotification: this.page.locator('.jOvDlO'),
+    // ActionWithMailNotification: this.page.locator('.ldHDuR'),
   };
 
   EditMail = {
     DeleteMail: this.Containers.MailDetailsContainer.locator('.gbqcnY:has([data-testid*="Trash2Outline"])'),
-    SpreadOptions: this.Containers.MailDetailsContainer.locator('.JzynG:has([data-testid*="MoreVertical"])'),
+    SpreadOptions: this.Containers.MailDetailsContainer.locator('.cvrPdw:has([data-testid*="MoreVertical"])'),
+    // SpreadOptions: this.Containers.MailDetailsContainer.locator('.JzynG:has([data-testid*="MoreVertical"])'),
   };
 
   MailOptions = {
