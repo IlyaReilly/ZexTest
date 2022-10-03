@@ -8,7 +8,8 @@ export class MailsList extends BasePage {
   };
 
   Elements = {
-    Letter: this.Containers.MailsListContainer.locator('[data-testid="ConversationRow"]'),
+    Letter: this.Containers.MailsListContainer.locator('.jTMZGq'),
+    // Letter: this.Containers.MailsListContainer.locator('[data-testid="ConversationRow"]'),
     // Letter: this.Containers.MailsListContainer.locator('.qPmzW '),
     UnreadMessageIcon: this.Containers.MailsListContainer.locator('.AyVvp'),
     FlagIcon: this.Containers.MailsListContainer.locator('[data-testid="FlagIcon"]'),
