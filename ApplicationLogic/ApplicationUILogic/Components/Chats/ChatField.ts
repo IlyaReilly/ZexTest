@@ -8,21 +8,21 @@ export class ChatField extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator('.kBfhNY'),
-    SendMessageMenuContainer: this.page.locator('.fdUDLn'),
+    NewMessageContainer: this.page.locator('.fdUDLn'),
     HeaderContainer: this.page.locator('.gdfwgB'),
   };
 
-  Fields = {
-    TextArea: this.Containers.SendMessageMenuContainer.locator('#team-conversation-input-text'),
+  TextBoxes = {
+    TextArea: this.Containers.NewMessageContainer.locator('#team-conversation-input-text'),
     ChatsRaw: this.Containers.MainContainer.locator('.cAwAqd'),
   };
 
   Buttons = {
-    SendMessage: this.Containers.SendMessageMenuContainer.locator('[data-testid*="Navigation2"]'),
+    SendMessage: this.Containers.NewMessageContainer.locator('[data-testid*="Navigation2"]'),
   };
 
   async SendCurrentMessage(message) {
-    await this.Fields.TextArea.fill(message);
+    await this.TextBoxes.TextArea.fill(message);
     await this.Buttons.SendMessage.click();
   };
 }

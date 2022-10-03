@@ -1,7 +1,7 @@
 import {Page} from '@playwright/test';
-import {BasePage} from '../../../Pages/BasePage';
+import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 
-export class NewChatsItemModal extends BasePage {
+export class NewChatsItemModal extends ModalWindowBase {
   constructor(page: Page) {
     super(page);
   };
@@ -14,7 +14,6 @@ export class NewChatsItemModal extends BasePage {
 
   Buttons = {
     Create: this.Containers.MainContainer.locator('"Create"'),
-    // Create: this.Containers.MainContainer.locator('"CREATE"'),
   };
 
   NewChatDialog = {

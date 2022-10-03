@@ -26,17 +26,17 @@ export class ChatsInfo extends BasePage {
     SaveNewName: this.Containers.GroupContainer.locator('[data-testid*="SaveOutline"]'),
   };
 
-  Fields = {
+  TextBoxes = {
     EditNameField: this.Containers.GroupContainer.locator('.ldAqKl'),
   };
 
-  Participants = {
+  Items = {
     Member: this.Containers.GroupMembersContainer.locator('.jwUaOR'),
   };
 
   async RenameGroup(newName) {
     await this.Buttons.EditButton.click();
-    await this.Fields.EditNameField.fill(newName);
+    await this.TextBoxes.EditNameField.fill(newName);
     await this.Buttons.SaveNewName.click();
   };
 }

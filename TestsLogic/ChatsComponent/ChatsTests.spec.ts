@@ -31,7 +31,8 @@ test.describe('Chats tests', async () => {
       return apiManager.chatsAPI.DeleteConversation(conversation.id);
     }));
     await Promise.all(conversations.map(async (conversation) => {
-      return apiManager.chatsAPI.KickOffUser(conversation.id);
+      const users = await apiManager.chatsAPI.GetUsers();
+      return apiManager.chatsAPI.KickOffUser(conversation.id, users);
     }));
     await Promise.all(conversations.map(async (conversation) => {
       return apiManager.chatsAPI.DeleteGroup(conversation.id);
@@ -60,7 +61,9 @@ test.describe('Chats tests', async () => {
   };
 
   async function CreateGroupAndOpenDetails({pageManager, apiManager}) {
-    await apiManager.chatsAPI.CreateGroup(groupTitle);
+    const firstUserId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
+    const seconduserId = await apiManager.usersAPI.GetUserId(BaseTest.thirdUser.login);
+    await apiManager.chatsAPI.CreateGroup(groupTitle, [firstUserId, seconduserId]);
     await pageManager.page.waitForLoadState();
     await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.click();
   };
@@ -90,7 +93,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Create group. Group should be in Chats Tab.', async ({pageManager, apiManager}) => {
-    await apiManager.chatsAPI.CreateGroup(groupTitle);
+    await CreateGroupAndOpenDetails({pageManager, apiManager});
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
   });
 
@@ -123,17 +126,17 @@ test.describe('Chats tests', async () => {
   test('Clear history for current user in group. Chat field must be empty', async ({pageManager, apiManager}) => {
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatField.SendCurrentMessage(message);
-    await expect(pageManager.chatField.Fields.ChatsRaw).toContainText(message);
+    await expect(pageManager.chatField.TextBoxes.ChatsRaw).toContainText(message);
     await pageManager.chatsInfo.Buttons.ClearHistory.click();
     await pageManager.chats.DeleteSpacePopup.ClearHistoryButton.click();
     await pageManager.page.waitForLoadState();
-    await expect(pageManager.chatField.Fields.ChatsRaw).not.toBeVisible();
+    await expect(pageManager.chatField.TextBoxes.ChatsRaw).not.toBeVisible();
   });
 
   test('Add new member in group. New member must be visible in group info.', async ({pageManager, apiManager}) => {
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatsInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(thirdParticipant);
-    await expect(pageManager.chatsInfo.Participants.Member).toHaveCount(4);
+    await expect(pageManager.chatsInfo.Items.Member).toHaveCount(4);
   });
 });

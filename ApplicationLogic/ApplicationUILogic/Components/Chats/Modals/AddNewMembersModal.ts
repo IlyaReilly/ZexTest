@@ -1,7 +1,7 @@
 import {Page} from '@playwright/test';
-import {BasePage} from '../../../Pages/BasePage';
+import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 
-export class AddNewMembersModal extends BasePage {
+export class AddNewMembersModal extends ModalWindowBase {
   constructor(page: Page) {
     super(page);
   };

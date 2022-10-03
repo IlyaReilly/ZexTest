@@ -14,11 +14,8 @@ export class Chats extends BasePage {
 
   DeleteSpacePopup = {
     DeleteButton: this.Containers.DeleteSpacePopupContainer.locator('"Delete"'),
-    // DeleteButton: this.Containers.DeleteSpacePopupContainer.locator('"DELETE"'),
     RemoveButton: this.Containers.DeleteSpacePopupContainer.locator('"Remove"'),
-    // RemoveButton: this.Containers.DeleteSpacePopupContainer.locator('"REMOVE"'),
     LeaveButton: this.Containers.DeleteSpacePopupContainer.locator('"Leave"'),
-    // LeaveButton: this.Containers.DeleteSpacePopupContainer.locator('"LEAVE"'),
     ClearHistoryButton: this.Containers.DeleteSpacePopupContainer.locator('.fzlaBC'),
   };
 }
