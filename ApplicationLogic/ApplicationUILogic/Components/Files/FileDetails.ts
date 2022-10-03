@@ -7,39 +7,56 @@ export class FileDetails extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.jbyjRV'),
-    HeaderContainer: this.page.locator('.gjtssk'),
-    FileOptionsContainer: this.page.locator('.gBuoCY'),
+    // MainContainer: this.page.locator('.jbyjRV'),
+    MainContainer: this.page.locator('.cfQFxI'),
+    // HeaderContainer: this.page.locator('.gjtssk'),
+    HeaderContainer: this.page.locator('.XvnZf'),
+    // FileOptionsContainer: this.page.locator('.gBuoCY'),
+    FileOptionsContainer: this.page.locator('.hPbnub'),
     FileOptionsDropdownContainer: this.page.locator('.izBNKP'),
-    PopupContainer: this.page.locator('.loeZsV'),
-    InformationContainer: this.page.locator('.bQoEy'),
-    TabsBarContainer: this.page.locator('.gFkfve'),
-    TabDetailsContainer: this.page.locator('.iRIzkl'),
-    TabSharingContainer: this.page.locator('.gFkfve+div+div'),
-    TabVersioningContainer: this.page.locator('.imSYQj'),
+    // PopupContainer: this.page.locator('.loeZsV'),
+    PopupContainer: this.page.locator('.phlLS'),
+    // InformationContainer: this.page.locator('.bQoEy'),
+    InformationContainer: this.page.locator('.ecHMmO'),
+    // TabsBarContainer: this.page.locator('.gFkfve'),
+    TabsBarContainer: this.page.locator('.ctjCXN'),
+    // TabDetailsContainer: this.page.locator('.iRIzkl'),
+    TabDetailsContainer: this.page.locator('.jnjSqT'),
+    // TabSharingContainer: this.page.locator('.gFkfve+div+div'),
+    TabSharingContainer: this.page.locator('.bppEFE+div+div'),
+    // TabVersioningContainer: this.page.locator('.imSYQj'),
+    TabVersioningContainer: this.page.locator('.bppEFE+div+div+div'),
     DropDownPopperListContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   Elements = {
-    FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
-    FilePreview: this.page.locator('.kpwBSH'),
-    Description: this.Containers.InformationContainer.locator('.IUNTF'),
-    DescriptionText: this.Containers.InformationContainer.locator('.iRjUZP'),
+    // FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
+    FileName: this.Containers.HeaderContainer.locator('.jwMliq'),
+    // FilePreview: this.page.locator('.kpwBSH'),
+    FilePreview: this.page.locator('.OTkaZ'),
+    // Description: this.Containers.InformationContainer.locator('.IUNTF'),
+    Description: this.Containers.InformationContainer.locator('.bjWHPb'),
+    // DescriptionText: this.Containers.InformationContainer.locator('.iRjUZP'),
+    DescriptionText: this.Containers.InformationContainer.locator('.bA-dJfM'),
   };
 
   CreateEntityPopup = {
     EntityInput: this.Containers.PopupContainer.locator('.IUNTF'),
     ClosePopupButton: this.Containers.PopupContainer.locator('.cvcXyJ'),
-    CreateButton: this.Containers.PopupContainer.locator('"CREATE"'),
-    DeleteButton: this.Containers.PopupContainer.locator('"DELETE PERMANENTLY"'),
+    // CreateButton: this.Containers.PopupContainer.locator('"CREATE"'),
+    CreateButton: this.Containers.PopupContainer.locator('"Create"'),
+    // DeleteButton: this.Containers.PopupContainer.locator('"DELETE PERMANENTLY"'),
+    DeleteButton: this.Containers.PopupContainer.locator('"Delete Permanently"'),
   };
 
   Buttons = {
-    CloseDetails: this.Containers.HeaderContainer.locator('.bOlfsx'),
+    // CloseDetails: this.Containers.HeaderContainer.locator('.bOlfsx'),
+    CloseDetails: this.Containers.HeaderContainer.locator('.cuaWrH'),
     Download: this.Containers.HeaderContainer.locator('g[data-name="download"]'),
     EditDescriptionButton: this.Containers.InformationContainer.locator('[data-testid*="Edit2Outline"]'),
     SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
-    Share: this.Containers.TabSharingContainer.locator('"SHARE"'),
+    // Share: this.Containers.TabSharingContainer.locator('"SHARE"'),
+    Share: this.Containers.TabSharingContainer.locator('"Share"'),
     ShareWrapper: this.Containers.TabSharingContainer.locator('.ejIaaY'),
   };
 
@@ -63,7 +80,7 @@ export class FileDetails extends BasePage {
   };
 
   InputFields = {
-    AddNewPeopleField: this.Containers.TabSharingContainer.locator('.khxphZ'),
+    AddNewPeopleField: this.Containers.TabSharingContainer.locator('.gmxXdU'),
   };
 
   AddNewPeopleDropDown = {
