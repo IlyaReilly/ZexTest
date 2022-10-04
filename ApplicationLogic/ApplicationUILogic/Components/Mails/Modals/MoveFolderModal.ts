@@ -15,8 +15,10 @@ export class MoveFolderModal extends ModalWindowBase {
   };
 
   Buttons = {
-    Cancel: this.Containers.MainContainer.locator('"CANCEL"'),
-    Move: this.Containers.MainContainer.locator('"MOVE"'),
+    Cancel: this.Containers.MainContainer.locator('"Cancel"'),
+    // Cancel: this.Containers.MainContainer.locator('"CANCEL"'),
+    Move: this.Containers.MainContainer.locator('"Move"'),
+    // Move: this.Containers.MainContainer.locator('"MOVE"'),
   };
 
   async MoveNewFolderToInbox() {

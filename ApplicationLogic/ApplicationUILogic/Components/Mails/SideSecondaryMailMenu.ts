@@ -4,7 +4,8 @@ export class SideSecondaryMailMenu extends BasePage {
   Containers = {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    CreateNewFolderPopupContainer: this.page.locator('.lgcnRq'),
+    CreateNewFolderPopupContainer: this.page.locator('[data-testid="modal"]'),
+    // CreateNewFolderPopupContainer: this.page.locator('.lgcnRq'),
   };
 
   Buttons = {
@@ -39,8 +40,10 @@ export class SideSecondaryMailMenu extends BasePage {
   CreateNewFolderPopup = {
     FolderName: this.Containers.CreateNewFolderPopupContainer.locator('[placeholder="Enter Folder Name"]'),
     FilterFolders: this.Containers.CreateNewFolderPopupContainer.locator('[placeholder="Enter Folder Name"]'),
-    CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"CANCEL"'),
-    CreateAndMoveButton: this.Containers.CreateNewFolderPopupContainer.locator('"CREATE AND MOVE"'),
+    CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"Cancel"'),
+    // CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"CANCEL"'),
+    CreateButton: this.Containers.CreateNewFolderPopupContainer.locator('"Create"'),
+    // CreateButton: this.Containers.CreateNewFolderPopupContainer.locator('"CREATE AND MOVE"'),
   };
 
   constructor(page) {
@@ -86,7 +89,7 @@ export class SideSecondaryMailMenu extends BasePage {
 
   async CreateNewFolder(folderName) {
     await this.CreateNewFolderPopup.FolderName.fill(folderName);
-    await this.CreateNewFolderPopup.CreateAndMoveButton.click();
+    await this.CreateNewFolderPopup.CreateButton.click();
   }
 
   async ExpandFolders() {

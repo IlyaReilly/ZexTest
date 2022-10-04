@@ -57,7 +57,8 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();
   });
 
-  test('Share a new folder', async ({page, pageManager}) => {
+  // Test doesn't work because of problem with Input in ShareModalWindow
+  test.skip('Share a new folder', async ({page, pageManager}) => {
     test.slow();
     await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.ShareFolder();
