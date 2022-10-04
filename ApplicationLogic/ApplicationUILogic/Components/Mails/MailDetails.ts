@@ -1,20 +1,24 @@
-import {BasePage, InheritedFields} from '../../Pages/BasePage';
+import {BasePage} from '../../Pages/BasePage';
 
 export class MailDetails extends BasePage {
   Containers = {
-    MailDetailsContainer: this.page.locator('.jbyjRV'),
-    MailOptionsContainer: this.page.locator('.izBNKP'),
-    MoveConversationContainer: this.page.locator('.uSNsj'),
+    MailDetailsContainer: this.page.locator('[data-testid="third-panel"]'),
+    // MailDetailsContainer: this.page.locator('.jbyjRV'),
+    MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+    // MailOptionsContainer: this.page.locator('.izBNKP'),
   };
 
   Elements = {
-    LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
-    ActionWithMailNotification: this.page.locator('.ldHDuR'),
+    LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
+    // LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
+    FlagIcon: this.Containers.MailDetailsContainer.locator('[data-testid="FlagIcon"]'),
+    ActionWithMailNotification: this.page.locator('.jOvDlO'),
+    // ActionWithMailNotification: this.page.locator('.ldHDuR'),
   };
 
   EditMail = {
-    DeleteMail: this.Containers.MailDetailsContainer.locator('.gbqcnY:has([data-testid*="Trash2Outline"])'),
-    SpreadOptions: this.Containers.MailDetailsContainer.locator('.JzynG:has([data-testid*="MoreVertical"])'),
+    DeleteMail: this.Containers.MailDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
+    SpreadOptions: this.Containers.MailDetailsContainer.locator('[data-testid*="MoreVertical"]'),
   };
 
   MailOptions = {
@@ -28,13 +32,6 @@ export class MailDetails extends BasePage {
     ShowOriginal: this.Containers.MailOptionsContainer.locator('"Show original"'),
   };
 
-  MoveConversationPopup = {
-    SpreadFoldersList: this.Containers.MoveConversationContainer.locator(InheritedFields.SpreadHidenFolders),
-    FoldersListItem: this.Containers.MoveConversationContainer.locator('.kWgjwg'),
-    NewFolderButton: this.Containers.MoveConversationContainer.locator('"NEW FOLDER"'),
-    MoveButton: this.Containers.MoveConversationContainer.locator('"MOVE"'),
-  };
-
   AppointmentInvitationOptions = {
     Yes: this.Containers.MailDetailsContainer.locator('"YES"'),
     Maybe: this.Containers.MailDetailsContainer.locator('"MAYBE"'),
@@ -46,20 +43,14 @@ export class MailDetails extends BasePage {
 
   constructor(page) {
     super(page);
-  }
+  };
 
   async DeleteDraft() {
     await this.EditMail.DeleteMail.click();
-  }
+  };
 
   async MarkAsSpam() {
     await this.EditMail.SpreadOptions.click();
     await this.MailOptions.MarkAsSpam.click();
-  }
-
-  async MoveMailToFolder(folderName) {
-    await this.MoveConversationPopup.SpreadFoldersList.click();
-    await this.MoveConversationPopup.FoldersListItem.locator(`"${folderName}"`).click();
-    await this.MoveConversationPopup.MoveButton.click();
-  }
+  };
 }

@@ -5,17 +5,20 @@ export class HeaderMenu extends BasePage {
     MainContainer: this.page.locator('.iEhnxg'),
     // MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
-    NewItemMenuContainer: this.page.locator('.hlPvDd'),
+    NewItemMenuContainer: this.page.locator('.chxMDM'),
     // NewItemMenuContainer: this.page.locator('.izBNKP'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   Buttons = {
-    UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
-    NewItemMenu: this.Containers.NewItemMenuContainer.locator('.fBdHMW'),
+    UserMenu: this.Containers.MainContainer.locator('.ctJWzG'),
+    // UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
+    NewItemMenu: this.Containers.MainContainer.locator('.fBdHMW'),
     // NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
-    NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
-    Search: this.Containers.MainContainer.locator('.ikNroI'),
+    NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
+    // NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
+    Search: this.Containers.MainContainer.locator('.zZiJb '),
+    // Search: this.Containers.MainContainer.locator('.ikNroI'),
   };
 
   UserMenu = {
@@ -40,11 +43,13 @@ export class HeaderMenu extends BasePage {
   };
 
   Logos = {
-    MainLogo: this.Containers.MainContainer.locator('.heVtQH'),
+    MainLogo: this.Containers.MainContainer.locator('.jqLXEC'),
+    // MainLogo: this.Containers.MainContainer.locator('.heVtQH'),
   };
 
   TextBoxes = {
-    Search: this.Containers.MainContainer.locator('.jgQFDI'),
+    Search: this.Containers.MainContainer.locator('.iuroJp'),
+    // Search: this.Containers.MainContainer.locator('.jgQFDI'),
   };
 
   constructor(page) {

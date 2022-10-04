@@ -7,7 +7,7 @@ export class WipeFolderModal extends ModalWindowBase {
   }
 
   Buttons = {
-    Wipe: this.Containers.MainContainer.locator('"WIPE"'),
+    Wipe: this.Containers.MainContainer.locator('"Wipe"'),
   };
 
   async WipeNewFolder() {

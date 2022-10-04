@@ -6,7 +6,7 @@ export class ShareModalWindow extends ModalWindowBase {
   }
 
   Buttons = {
-    ShareButton: this.Containers.MainContainer.locator('xpath=//*[contains(text(), "SHARE")]'),
+    ShareButton: this.Containers.MainContainer.locator('xpath=//*[contains(text(), "Share")]'),
   };
 
   ShareWithDropdown = {
@@ -14,8 +14,10 @@ export class ShareModalWindow extends ModalWindowBase {
   };
 
   TextBoxes = {
-    Recipients: this.Containers.MainContainer.locator('text=e-mail addresses >> xpath=preceding-sibling::*'),
-    NoteMessage: this.Containers.MainContainer.locator('[name="Add a note to standard message"]'),
+    Recipients: this.Containers.MainContainer.locator('text=e-mail addresses'),
+    // Recipients: this.Containers.MainContainer.locator('text=e-mail addresses >> xpath=preceding-sibling::*'),
+    NoteMessage: this.Containers.MainContainer.locator('[name="Add a note to the standard message"]'),
+    // NoteMessage: this.Containers.MainContainer.locator('[name="Add a note to standard message"]'),
   };
 
   CheckBoxes = {
