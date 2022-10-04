@@ -4,11 +4,13 @@ export class SideSecondaryMailMenu extends BasePage {
   Containers = {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    CreateNewFolderPopupContainer: this.page.locator('.lgcnRq'),
+    CreateNewFolderPopupContainer: this.page.locator('[data-testid="modal"]'),
+    // CreateNewFolderPopupContainer: this.page.locator('.lgcnRq'),
   };
 
   Buttons = {
-    OpenHideMailFolders: this.Containers.MainContainer.locator('.fjrKpL .cLLOPN'),
+    OpenHideMailFolders: this.Containers.MainContainer.locator('.css-s0ezgd'),
+    // OpenHideMailFolders: this.Containers.MainContainer.locator('.fjrKpL .cLLOPN'),
     ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
@@ -22,7 +24,8 @@ export class SideSecondaryMailMenu extends BasePage {
     Sent: this.Containers.MainContainer.locator('"Sent"'),
     Drafts: this.Containers.MainContainer.locator('"Drafts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
-    SubFolder: this.Containers.MainContainer.locator('.fAVahr'),
+    SubFolder: this.Containers.MainContainer.locator('.GyzHK'),
+    // SubFolder: this.Containers.MainContainer.locator('.fAVahr'),
   };
 
   MailFolderOptions = {
@@ -37,8 +40,8 @@ export class SideSecondaryMailMenu extends BasePage {
   CreateNewFolderPopup = {
     FolderName: this.Containers.CreateNewFolderPopupContainer.locator('[placeholder="Enter Folder Name"]'),
     FilterFolders: this.Containers.CreateNewFolderPopupContainer.locator('[placeholder="Enter Folder Name"]'),
-    CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"CANCEL"'),
-    CreateAndMoveButton: this.Containers.CreateNewFolderPopupContainer.locator('"CREATE AND MOVE"'),
+    CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"Cancel"'),
+    CreateButton: this.Containers.CreateNewFolderPopupContainer.locator('"Create"'),
   };
 
   constructor(page) {
@@ -84,11 +87,11 @@ export class SideSecondaryMailMenu extends BasePage {
 
   async CreateNewFolder(folderName) {
     await this.CreateNewFolderPopup.FolderName.fill(folderName);
-    await this.CreateNewFolderPopup.CreateAndMoveButton.click();
+    await this.CreateNewFolderPopup.CreateButton.click();
   }
 
   async ExpandFolders() {
-    await this.Buttons.ExpandFolder.first().click();
+    await this.Buttons.ExpandFolder.last().click();
   }
 
   async OpenFirstSubFolder(folderName) {

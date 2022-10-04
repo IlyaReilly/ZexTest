@@ -1,6 +1,10 @@
 import {BasePage} from '../Pages/BasePage';
 
 export class SideMenu extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MainContainer: this.page.locator('.rJmuL'),
     // MainContainer: this.page.locator('.cJqpvE'),
@@ -19,11 +23,7 @@ export class SideMenu extends BasePage {
     Settings: this.Containers.MainContainer.locator('[data-testid*="SettingsModOutline"]'),
   };
 
-  constructor(page) {
-    super(page);
-  }
-
   async OpenMenuTab(tab) {
     await tab.click();
-  }
+  };
 }

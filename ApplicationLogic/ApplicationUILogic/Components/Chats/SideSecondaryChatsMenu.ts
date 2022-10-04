@@ -28,7 +28,13 @@ export class SideSecondaryChatsMenu extends BasePage {
 
   Elements = {
     ConversationsListItem: this.Containers.MainContainer.locator('.beJmAt'),
-    ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
+    ConversationsItem: this.Containers.MainContainer.locator('.hrqJRI'),
+    //  ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
+  };
+
+  ConversationItemDetails = {
+    Name: this.Elements.ConversationsItem.locator('.iNcwac'),
+    BellOffIcon: this.Elements.ConversationsListItem.locator('[data-testid*="BellOff"]'),
   };
 
   OpenTab = {

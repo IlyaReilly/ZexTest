@@ -3,19 +3,22 @@ import {BasePage} from '../Pages/BasePage';
 export class HeaderMenu extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.iEhnxg'),
-    //  MainContainer: this.page.locator('.colVne'),
+    // MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
-    NewItemMenuContainer: this.page.locator('.hlPvDd'),
+    NewItemMenuContainer: this.page.locator('.chxMDM'),
     // NewItemMenuContainer: this.page.locator('.izBNKP'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   Buttons = {
-    UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
-    NewItemMenu: this.Containers.NewItemMenuContainer.locator('.fBdHMW'),
+    UserMenu: this.Containers.MainContainer.locator('.ctJWzG'),
+    // UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
+    NewItemMenu: this.Containers.MainContainer.locator('.fBdHMW'),
     // NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
-    NewItem: this.Containers.MainContainer.locator('.cqKSJQ'),
-    Search: this.Containers.MainContainer.locator('.ikNroI'),
+    NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
+    // NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
+    Search: this.Containers.MainContainer.locator('.zZiJb '),
+    // Search: this.Containers.MainContainer.locator('.ikNroI'),
   };
 
   UserMenu = {
@@ -26,25 +29,27 @@ export class HeaderMenu extends BasePage {
   };
 
   NewItemMenu = {
-    NewEmail: this.Containers.NewItemMenuContainer.locator('"New E-mail"'),
-    NewAppointment: this.Containers.NewItemMenuContainer.locator('"New appointment"'),
-    NewContact: this.Containers.NewItemMenuContainer.locator('"New contact"'),
-    Upload: this.Containers.NewItemMenuContainer.locator('"Upload"'),
-    NewFolder: this.Containers.NewItemMenuContainer.locator(`:nth-match(:text('New Folder'), 1)`),
-    NewDocument: this.Containers.NewItemMenuContainer.locator('"New Document"'),
-    NewSpreadsheet: this.Containers.NewItemMenuContainer.locator('"New Spreadsheet"'),
-    NewPresentation: this.Containers.NewItemMenuContainer.locator('"New Presentation"'),
-    CreateChat: this.Containers.NewItemMenuContainer.locator('"Create Chat"'),
-    CreateGroup: this.Containers.NewItemMenuContainer.locator('"Create Group"'),
-    CreateSpace: this.Containers.NewItemMenuContainer.locator('"Create Space"'),
+    NewEmail: this.Containers.NewItemMenuDropdownList.locator('"New E-mail"'),
+    NewAppointment: this.Containers.NewItemMenuDropdownList.locator('"New appointment"'),
+    NewContact: this.Containers.NewItemMenuDropdownList.locator('"New contact"'),
+    Upload: this.Containers.NewItemMenuDropdownList.locator('"Upload"'),
+    NewFolder: this.Containers.NewItemMenuDropdownList.locator(`:nth-match(:text('New Folder'), 1)`),
+    NewDocument: this.Containers.NewItemMenuDropdownList.locator('"New Document"'),
+    NewSpreadsheet: this.Containers.NewItemMenuDropdownList.locator('"New Spreadsheet"'),
+    NewPresentation: this.Containers.NewItemMenuDropdownList.locator('"New Presentation"'),
+    CreateChat: this.Containers.NewItemMenuDropdownList.locator('"Create Chat"'),
+    CreateGroup: this.Containers.NewItemMenuDropdownList.locator('"Create Group"'),
+    CreateSpace: this.Containers.NewItemMenuDropdownList.locator('"Create Space"'),
   };
 
   Logos = {
-    MainLogo: this.Containers.MainContainer.locator('.heVtQH'),
+    MainLogo: this.Containers.MainContainer.locator('.jqLXEC'),
+    // MainLogo: this.Containers.MainContainer.locator('.heVtQH'),
   };
 
   TextBoxes = {
-    Search: this.Containers.MainContainer.locator('.jgQFDI'),
+    Search: this.Containers.MainContainer.locator('.iuroJp'),
+    // Search: this.Containers.MainContainer.locator('.jgQFDI'),
   };
 
   constructor(page) {

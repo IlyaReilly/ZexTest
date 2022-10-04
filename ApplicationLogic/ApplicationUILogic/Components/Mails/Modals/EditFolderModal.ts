@@ -16,8 +16,8 @@ export class EditFolderModal extends ModalWindowBase {
   };
 
   Buttons = {
-    AddShare: this.Containers.MainContainer.locator('"ADD SHARE"'),
-    Edit: this.Containers.MainContainer.locator('"EDIT"'),
+    AddShare: this.Containers.MainContainer.locator('"Add Share"'),
+    Edit: this.Containers.MainContainer.locator('"Edit"'),
   };
 
   async EditFolder(newFolderName) {

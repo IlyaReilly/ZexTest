@@ -39,9 +39,29 @@ export class ChatsAPI extends BaseAPI {
     return body.id;
   };
 
-  async KickOffUser(id) {
+  async KickOffUser(id, membersId) {
     await this.page.request.post(`${this.restServiceUrl}${this.kickFromConversationRequest}`, {
-      data: {"conversation_id": id, "kicked_user_ids": ["a4388571-2b60-400f-affe-7248f0599aa8", "0d78db1e-daaa-4d41-b38c-49eb48ea5ecc"]},
+      data: {"conversation_id": id, "kicked_user_ids": membersId},
     });
+  };
+
+  async CreateGroup(topic, userId) {
+    const response = await this.page.request.post(`${this.restServiceUrl}${this.createGroupRequest}`, {
+      data: {"invited_user_ids": userId, "topic": topic},
+    });
+    const body = await this.GetResponseBody(response);
+    return body;
+  };
+
+  async GetUsers() {
+    const response = await this.page.request.post(`${this.restServiceUrl}${this.getConversationsRequest}`, {
+      data: {},
+    });
+    const body = await this.GetResponseBody(response);
+    const arr: any = [];
+    for (let i = 0; i <= body.conversations.length; i++) {
+      arr.push(body.conversations[0].members[i].user_id);
+    };
+    return arr;
   };
 }
