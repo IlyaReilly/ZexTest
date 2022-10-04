@@ -17,10 +17,8 @@ export class MailDetails extends BasePage {
   };
 
   EditMail = {
-    DeleteMail: this.Containers.MailDetailsContainer.locator('.gwJuBw:has([data-testid*="Trash2Outline"])'),
-    // DeleteMail: this.Containers.MailDetailsContainer.locator('.gbqcnY:has([data-testid*="Trash2Outline"])'),
-    SpreadOptions: this.Containers.MailDetailsContainer.locator('.cvrPdw:has([data-testid*="MoreVertical"])'),
-    // SpreadOptions: this.Containers.MailDetailsContainer.locator('.JzynG:has([data-testid*="MoreVertical"])'),
+    DeleteMail: this.Containers.MailDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
+    SpreadOptions: this.Containers.MailDetailsContainer.locator('[data-testid*="MoreVertical"]'),
   };
 
   MailOptions = {

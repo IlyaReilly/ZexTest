@@ -11,8 +11,7 @@ export class ContactsList extends BasePage {
   };
 
   EditContact = {
-    DeleteContact: this.Containers.ContactDetailsContainer.locator('.iMKrCg .gwJuBI:has([data-testid*="Trash2Outline"])'),
-    // DeleteContact: this.Containers.ContactDetailsContainer.locator('.fHbZO .bOlfsx:has([data-testid*="Trash2Outline"])'),
+    DeleteContact: this.Containers.ContactDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
   };
 
   constructor(page) {

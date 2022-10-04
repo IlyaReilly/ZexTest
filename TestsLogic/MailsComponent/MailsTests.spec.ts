@@ -64,8 +64,7 @@ test.describe('Mails tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
-    // await pageManager.newMail.SaveMail();
-    await page.waitForTimeout(3000);
+    await pageManager.newMail.SaveMail();
     await pageManager.newMail.CloseNewMail();
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');

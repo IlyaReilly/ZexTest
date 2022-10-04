@@ -11,7 +11,7 @@ export class NewMail extends BasePage {
   Buttons = {
     Send: this.Containers.MainContainer.locator('.zZiJb :text("Send")'),
     Save: this.Containers.MainContainer.locator('"Save"'),
-    CloseCross: this.Containers.MainContainer.locator('.gwJuBI:has([data-testid*="CloseOutline"])'),
+    CloseCross: this.Containers.MainContainer.locator('[data-testid*="CloseOutline"]'),
     // CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
     DeleteDraft: this.Containers.BeforeYouLeaveContainer.locator('"Delete Draft"'),
   };
