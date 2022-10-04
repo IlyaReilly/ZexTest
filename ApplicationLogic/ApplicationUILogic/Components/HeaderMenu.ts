@@ -5,11 +5,7 @@ export class HeaderMenu extends BasePage {
     MainContainer: this.page.locator('.iEhnxg'),
     // MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
-<<<<<<< HEAD
     NewItemMenuContainer: this.page.locator('.chxMDM'),
-=======
-    NewItemMenuContainer: this.page.locator('.hlPvDd'),
->>>>>>> d99eff255a710b11f5a7a8f9467ada7474ca68d0
     // NewItemMenuContainer: this.page.locator('.izBNKP'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
