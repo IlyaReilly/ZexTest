@@ -8,9 +8,7 @@ export class DeleteFolderModal extends ModalWindowBase {
 
   Buttons = {
     Cancel: this.Containers.MainContainer.locator('"Cancel"'),
-    // Cancel: this.Containers.MainContainer.locator('"CANCEL"'),
     Ok: this.Containers.MainContainer.locator('"Ok"'),
-    // Ok: this.Containers.MainContainer.locator('"OK"'),
   };
 
   async DeleteFolder() {

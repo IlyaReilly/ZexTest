@@ -15,9 +15,7 @@ export class MoveMailToFolderModal extends ModalWindowBase {
   Buttons = {
     SpreadFoldersListButton: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
     NewFolderButton: this.Containers.MainContainer.locator('"New Folder"'),
-    // NewFolderButton: this.Containers.MoveConversationContainer.locator('"NEW FOLDER"'),
     MoveButton: this.Containers.MainContainer.locator('"Move"'),
-    // MoveButton: this.Containers.MoveConversationContainer.locator('"MOVE"'),
     CancelButton: this.Containers.MainContainer.locator('"Cancel"'),
   };
 

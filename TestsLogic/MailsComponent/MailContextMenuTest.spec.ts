@@ -31,8 +31,7 @@ test.describe('Mails context menu options tests', async () => {
     await expect(secondPageManager.mailsList.Elements.Letter.first(), 'Unread message icon should not be visible').not.toHaveClass(unreadIcon);
   });
 
-  // The logic of this test is broken
-  test('Flag mail', async ({page, pageManager, apiManager}) => {
+  test('Flag mail', async ({pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
     await pageManager.mailsList.SelectMailContextMenuOption.AddFlag(mailSubject);
     await pageManager.mailsList.OpenMail(mailSubject);

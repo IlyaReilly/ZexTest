@@ -7,7 +7,6 @@ export class NewContact extends BasePage {
 
   Buttons = {
     Save: this.Containers.MainContainer.locator('"Save"'),
-    // Save: this.Containers.MainContainer.locator('"SAVE"'),
   };
 
   Inputs = {

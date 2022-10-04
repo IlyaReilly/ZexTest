@@ -41,9 +41,7 @@ export class SideSecondaryMailMenu extends BasePage {
     FolderName: this.Containers.CreateNewFolderPopupContainer.locator('[placeholder="Enter Folder Name"]'),
     FilterFolders: this.Containers.CreateNewFolderPopupContainer.locator('[placeholder="Enter Folder Name"]'),
     CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"Cancel"'),
-    // CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"CANCEL"'),
     CreateButton: this.Containers.CreateNewFolderPopupContainer.locator('"Create"'),
-    // CreateButton: this.Containers.CreateNewFolderPopupContainer.locator('"CREATE AND MOVE"'),
   };
 
   constructor(page) {
