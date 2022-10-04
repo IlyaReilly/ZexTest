@@ -33,13 +33,13 @@ export class MailDetails extends BasePage {
   };
 
   AppointmentInvitationOptions = {
-    Yes: this.Containers.MailDetailsContainer.locator('"YES"'),
-    Maybe: this.Containers.MailDetailsContainer.locator('"MAYBE"'),
-    No: this.Containers.MailDetailsContainer.locator('"NO"'),
+    Yes: this.Containers.MailDetailsContainer.locator('"Yes"'),
+    Maybe: this.Containers.MailDetailsContainer.locator('"maybe"'),
+    No: this.Containers.MailDetailsContainer.locator('"No"'),
     ProposeNewTime: this.Containers.MailDetailsContainer.locator('"PROPOSE NEW TIME"'),
   };
 
-  AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.daaZGX');
+  AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.fixDFx');
 
   constructor(page) {
     super(page);
