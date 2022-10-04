@@ -1,4 +1,4 @@
-import {BasePage, InheritedFields} from '../../Pages/BasePage';
+import {BasePage} from '../../Pages/BasePage';
 
 export class MailDetails extends BasePage {
   Containers = {
@@ -6,12 +6,12 @@ export class MailDetails extends BasePage {
     // MailDetailsContainer: this.page.locator('.jbyjRV'),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
     // MailOptionsContainer: this.page.locator('.izBNKP'),
-    MoveConversationContainer: this.page.locator('.uSNsj'),
   };
 
   Elements = {
     LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
     // LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
+    FlagIcon: this.Containers.MailDetailsContainer.locator('[data-testid="FlagIcon"]'),
     ActionWithMailNotification: this.page.locator('.jOvDlO'),
     // ActionWithMailNotification: this.page.locator('.ldHDuR'),
   };
@@ -34,13 +34,6 @@ export class MailDetails extends BasePage {
     ShowOriginal: this.Containers.MailOptionsContainer.locator('"Show original"'),
   };
 
-  MoveConversationPopup = {
-    SpreadFoldersList: this.Containers.MoveConversationContainer.locator(InheritedFields.SpreadHidenFolders),
-    FoldersListItem: this.Containers.MoveConversationContainer.locator('.kWgjwg'),
-    NewFolderButton: this.Containers.MoveConversationContainer.locator('"NEW FOLDER"'),
-    MoveButton: this.Containers.MoveConversationContainer.locator('"MOVE"'),
-  };
-
   AppointmentInvitationOptions = {
     Yes: this.Containers.MailDetailsContainer.locator('"YES"'),
     Maybe: this.Containers.MailDetailsContainer.locator('"MAYBE"'),
@@ -52,20 +45,14 @@ export class MailDetails extends BasePage {
 
   constructor(page) {
     super(page);
-  }
+  };
 
   async DeleteDraft() {
     await this.EditMail.DeleteMail.click();
-  }
+  };
 
   async MarkAsSpam() {
     await this.EditMail.SpreadOptions.click();
     await this.MailOptions.MarkAsSpam.click();
-  }
-
-  async MoveMailToFolder(folderName) {
-    await this.MoveConversationPopup.SpreadFoldersList.click();
-    await this.MoveConversationPopup.FoldersListItem.locator(`"${folderName}"`).click();
-    await this.MoveConversationPopup.MoveButton.click();
-  }
+  };
 }

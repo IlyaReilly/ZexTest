@@ -51,7 +51,7 @@ test.describe('Folders tests', async () => {
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.EditMail.SpreadOptions.click();
     await pageManager.mailDetails.MailOptions.Move.click();
-    await pageManager.mailDetails.MoveMailToFolder(folderName);
+    await pageManager.moveMailToFolderModal.MoveMailToFolder(folderName);
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
     await pageManager.sideSecondaryMailMenu.OpenFirstSubFolder(folderName);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();

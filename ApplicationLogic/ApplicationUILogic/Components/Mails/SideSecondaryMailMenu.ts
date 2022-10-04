@@ -23,7 +23,8 @@ export class SideSecondaryMailMenu extends BasePage {
     Sent: this.Containers.MainContainer.locator('"Sent"'),
     Drafts: this.Containers.MainContainer.locator('"Drafts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
-    SubFolder: this.Containers.MainContainer.locator('.fAVahr'),
+    SubFolder: this.Containers.MainContainer.locator('.GyzHK'),
+    // SubFolder: this.Containers.MainContainer.locator('.fAVahr'),
   };
 
   MailFolderOptions = {
@@ -89,7 +90,7 @@ export class SideSecondaryMailMenu extends BasePage {
   }
 
   async ExpandFolders() {
-    await this.Buttons.ExpandFolder.first().click();
+    await this.Buttons.ExpandFolder.last().click();
   }
 
   async OpenFirstSubFolder(folderName) {

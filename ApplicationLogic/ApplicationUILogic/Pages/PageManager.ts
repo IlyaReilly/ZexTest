@@ -40,6 +40,7 @@ import {PrintPage} from './MailPages/PrintPage';
 import {ShowOriginalPage} from './MailPages/ShowOriginalPage';
 import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
 import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddressBookModal';
+import {MoveMailToFolderModal} from '../Components/Mails/Modals/MoveMailToFolderModal';
 
 
 export class PageManager {
@@ -93,6 +94,7 @@ export class PageManager {
   moveFolderModal;
   wipeFolderModal;
   deleteFolderModal;
+  moveMailToFolderModal;
   // #endregion
 
   // #region Mail Pages
@@ -156,6 +158,7 @@ export class PageManager {
     this.moveFolderModal = new MoveFolderModal(page);
     this.wipeFolderModal = new WipeFolderModal(page);
     this.deleteFolderModal = new DeleteFolderModal(page);
+    this.moveMailToFolderModal = new MoveMailToFolderModal(page);
     // #endregion
 
     // #region Mail Pages
