@@ -5,7 +5,11 @@ export class HeaderMenu extends BasePage {
     MainContainer: this.page.locator('.iEhnxg'),
     // MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
+<<<<<<< HEAD
     NewItemMenuContainer: this.page.locator('.chxMDM'),
+=======
+    NewItemMenuContainer: this.page.locator('.hlPvDd'),
+>>>>>>> d99eff255a710b11f5a7a8f9467ada7474ca68d0
     // NewItemMenuContainer: this.page.locator('.izBNKP'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
@@ -29,17 +33,17 @@ export class HeaderMenu extends BasePage {
   };
 
   NewItemMenu = {
-    NewEmail: this.Containers.NewItemMenuContainer.locator('"New E-mail"'),
-    NewAppointment: this.Containers.NewItemMenuContainer.locator('"New appointment"'),
-    NewContact: this.Containers.NewItemMenuContainer.locator('"New contact"'),
-    Upload: this.Containers.NewItemMenuContainer.locator('"Upload"'),
-    NewFolder: this.Containers.NewItemMenuContainer.locator(`:nth-match(:text('New Folder'), 1)`),
-    NewDocument: this.Containers.NewItemMenuContainer.locator('"New Document"'),
-    NewSpreadsheet: this.Containers.NewItemMenuContainer.locator('"New Spreadsheet"'),
-    NewPresentation: this.Containers.NewItemMenuContainer.locator('"New Presentation"'),
-    CreateChat: this.Containers.NewItemMenuContainer.locator('"Create Chat"'),
-    CreateGroup: this.Containers.NewItemMenuContainer.locator('"Create Group"'),
-    CreateSpace: this.Containers.NewItemMenuContainer.locator('"Create Space"'),
+    NewEmail: this.Containers.NewItemMenuDropdownList.locator('"New E-mail"'),
+    NewAppointment: this.Containers.NewItemMenuDropdownList.locator('"New appointment"'),
+    NewContact: this.Containers.NewItemMenuDropdownList.locator('"New contact"'),
+    Upload: this.Containers.NewItemMenuDropdownList.locator('"Upload"'),
+    NewFolder: this.Containers.NewItemMenuDropdownList.locator(`:nth-match(:text('New Folder'), 1)`),
+    NewDocument: this.Containers.NewItemMenuDropdownList.locator('"New Document"'),
+    NewSpreadsheet: this.Containers.NewItemMenuDropdownList.locator('"New Spreadsheet"'),
+    NewPresentation: this.Containers.NewItemMenuDropdownList.locator('"New Presentation"'),
+    CreateChat: this.Containers.NewItemMenuDropdownList.locator('"Create Chat"'),
+    CreateGroup: this.Containers.NewItemMenuDropdownList.locator('"Create Group"'),
+    CreateSpace: this.Containers.NewItemMenuDropdownList.locator('"Create Space"'),
   };
 
   Logos = {

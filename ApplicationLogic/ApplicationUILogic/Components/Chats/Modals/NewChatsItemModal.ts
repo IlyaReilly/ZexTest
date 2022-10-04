@@ -1,23 +1,25 @@
 import {Page} from '@playwright/test';
-import {BasePage} from '../../../Pages/BasePage';
+import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 
-export class NewChatsItemModal extends BasePage {
+export class NewChatsItemModal extends ModalWindowBase {
   constructor(page: Page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator('.loeZsV'),
+    MainContainer: this.page.locator('.jCXemQ'),
+    // MainContainer: this.page.locator('.loeZsV'),
     GroupContainer: this.page.locator('.jNxpYb'),
   };
 
   Buttons = {
-    Create: this.Containers.MainContainer.locator('"CREATE"'),
+    Create: this.Containers.MainContainer.locator('"Create"'),
   };
 
   NewChatDialog = {
     UserFilterTextBox: this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
-    UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
+    UsersListItem: this.Containers.MainContainer.locator('.hrqJRI'),
+    // UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
   };
 
   NewSpaceDialog = {

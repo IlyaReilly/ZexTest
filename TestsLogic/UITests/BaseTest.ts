@@ -17,6 +17,7 @@ export const test = base.extend<{pageManager: PageManager, secondPageManager: Pa
 
     BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier);
     BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier);
+    BaseTest.thirdUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 2, multiplier);
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
@@ -45,6 +46,7 @@ export class BaseTest {
   static baseUrl = BaseTest.playwrightProjectsData.baseURL.QA;
   static userForLogin;
   static secondUser;
+  static thirdUser;
 
   static GetUserFromPool(index, multiplier) {
     const lastDigit2Str = String(index).slice(-1);

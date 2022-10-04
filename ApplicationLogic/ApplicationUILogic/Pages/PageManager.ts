@@ -39,6 +39,8 @@ import {DeleteFolderModal} from '../Components/Mails/Modals/DeleteFolderModal';
 import {PrintPage} from './MailPages/PrintPage';
 import {ShowOriginalPage} from './MailPages/ShowOriginalPage';
 import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
+import {ChatField} from '../Components/Chats/ChatField';
+import {AddNewMembersModal} from '../Components/Chats/Modals/AddNewMembersModal';
 import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddressBookModal';
 import {MoveMailToFolderModal} from '../Components/Mails/Modals/MoveMailToFolderModal';
 
@@ -67,6 +69,7 @@ export class PageManager {
   fileDetails;
   chatsInfo;
   chats;
+  chatField;
 
   // #region Calendars Modal
   newCalendarModal;
@@ -105,6 +108,7 @@ export class PageManager {
 
   // #region Chats Modal
   newChatsItemModal;
+  addNewMembersModal;
   // #endregion
 
   constructor(page) {
@@ -131,6 +135,7 @@ export class PageManager {
     this.fileDetails = new FileDetails(page);
     this.chatsInfo = new ChatsInfo(page);
     this.chats = new Chats(page);
+    this.chatField = new ChatField(page);
 
     // #region Calendars Modal
     this.shareCalendarModal = new ShareCalendarModal(page);
@@ -166,6 +171,7 @@ export class PageManager {
     this.showOriginalPage = new ShowOriginalPage(page);
     // #region Chats Modal
     this.newChatsItemModal = new NewChatsItemModal(page);
+    this.addNewMembersModal = new AddNewMembersModal(page);
     // #endregion
   };
 }
