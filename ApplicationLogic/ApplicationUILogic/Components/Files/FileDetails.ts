@@ -7,66 +7,65 @@ export class FileDetails extends BasePage {
   };
 
   Containers = {
-    // MainContainer: this.page.locator('.jbyjRV'),
     MainContainer: this.page.locator('.cfQFxI'),
-    // HeaderContainer: this.page.locator('.gjtssk'),
+    // MainContainer: this.page.locator('.jbyjRV'),
     HeaderContainer: this.page.locator('.XvnZf'),
+    // HeaderContainer: this.page.locator('.gjtssk'),
+    FileOptionsContainer: this.page.locator('[data-testid="displayer-actions-header"]'),
     // FileOptionsContainer: this.page.locator('.gBuoCY'),
-    FileOptionsContainer: this.page.locator('.hPbnub'),
-    FileOptionsDropdownContainer: this.page.locator('.izBNKP'),
+    FileOptionsDropdownContainer: this.page.locator('.phlLS'),
+    // FileOptionsDropdownContainer: this.page.locator('.izBNKP'),
+    PopupContainer: this.page.locator('.jCXemQ'),
     // PopupContainer: this.page.locator('.loeZsV'),
-    PopupContainer: this.page.locator('.phlLS'),
-    // InformationContainer: this.page.locator('.bQoEy'),
     InformationContainer: this.page.locator('.ecHMmO'),
-    // TabsBarContainer: this.page.locator('.gFkfve'),
+    // InformationContainer: this.page.locator('.bQoEy'),
     TabsBarContainer: this.page.locator('.ctjCXN'),
+    // TabsBarContainer: this.page.locator('.gFkfve'),
+    TabDetailsContainer: this.page.locator('[data-testid="node-details"]'),
     // TabDetailsContainer: this.page.locator('.iRIzkl'),
-    TabDetailsContainer: this.page.locator('.jnjSqT'),
+    TabSharingContainer: this.page.locator('[data-testid="node-sharing-collaborators"]'),
     // TabSharingContainer: this.page.locator('.gFkfve+div+div'),
-    TabSharingContainer: this.page.locator('.bppEFE+div+div'),
-    // TabVersioningContainer: this.page.locator('.imSYQj'),
-    TabVersioningContainer: this.page.locator('.bppEFE+div+div+div'),
+    TabVersioningContainer: this.page.locator('.imSYQj'),
     DropDownPopperListContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   Elements = {
-    // FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
     FileName: this.Containers.HeaderContainer.locator('.jwMliq'),
-    // FilePreview: this.page.locator('.kpwBSH'),
+    // FileName: this.Containers.HeaderContainer.locator('.hiooLB'),
     FilePreview: this.page.locator('.OTkaZ'),
-    // Description: this.Containers.InformationContainer.locator('.IUNTF'),
+    // FilePreview: this.page.locator('.kpwBSH'),
     Description: this.Containers.InformationContainer.locator('.bjWHPb'),
-    // DescriptionText: this.Containers.InformationContainer.locator('.iRjUZP'),
+    // Description: this.Containers.InformationContainer.locator('.IUNTF'),
     DescriptionText: this.Containers.InformationContainer.locator('.bA-dJfM'),
+    // DescriptionText: this.Containers.InformationContainer.locator('.iRjUZP'),
   };
 
   CreateEntityPopup = {
     EntityInput: this.Containers.PopupContainer.locator('.IUNTF'),
     ClosePopupButton: this.Containers.PopupContainer.locator('.cvcXyJ'),
-    // CreateButton: this.Containers.PopupContainer.locator('"CREATE"'),
-    CreateButton: this.Containers.PopupContainer.locator('"Create"'),
-    // DeleteButton: this.Containers.PopupContainer.locator('"DELETE PERMANENTLY"'),
-    DeleteButton: this.Containers.PopupContainer.locator('"Delete Permanently"'),
+    CreateButton: this.Containers.PopupContainer.locator('"CREATE"'),
+    // DeleteButton: this.Containers.PopupContainer.locator('.dFNXvI'),
+    DeleteButton: this.Containers.PopupContainer.locator('button:has-text("Delete permanently")'),
   };
 
   Buttons = {
-    // CloseDetails: this.Containers.HeaderContainer.locator('.bOlfsx'),
     CloseDetails: this.Containers.HeaderContainer.locator('.cuaWrH'),
+    // CloseDetails: this.Containers.HeaderContainer.locator('.bOlfsx'),
     Download: this.Containers.HeaderContainer.locator('g[data-name="download"]'),
     EditDescriptionButton: this.Containers.InformationContainer.locator('[data-testid*="Edit2Outline"]'),
     SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
-    // Share: this.Containers.TabSharingContainer.locator('"SHARE"'),
     Share: this.Containers.TabSharingContainer.locator('"Share"'),
-    ShareWrapper: this.Containers.TabSharingContainer.locator('.ejIaaY'),
+    ShareWrapper: this.Containers.TabSharingContainer.locator('.zZiJb'),
+    // ShareWrapper: this.Containers.TabSharingContainer.locator('.ejIaaY'),
   };
 
   FileOptions = {
-    Download: this.Containers.FileOptionsContainer.locator('[data-testid="icon: Download"]'),
-    MaximizeOutline: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MaximizeOutline"]'),
-    MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid="icon: MoreVertical"]'),
+    Download: this.Containers.FileOptionsContainer.locator('[data-testid*="Download"]'),
+    MaximizeOutline: this.Containers.FileOptionsContainer.locator('[data-testid*="MaximizeOutline"]'),
+    MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid*="MoreVertical"]'),
     Flag: this.Containers.FileOptionsDropdownContainer.locator('"Flag"'),
     UnFlag: this.Containers.FileOptionsDropdownContainer.locator('"Unflag"'),
-    Dropdown: this.Containers.FileOptionsContainer.locator('.JzynG'),
+    Dropdown: this.Containers.FileOptionsContainer.locator('.cvrPdw'),
     MoveToTrash: this.Containers.FileOptionsDropdownContainer.locator('"Delete"'),
     DeletePermanentlyButton: this.Containers.FileOptionsContainer.locator('[data-testid*="DeletePermanentlyOutline"]'),
     RestoreButton: this.Containers.FileOptionsContainer.locator('[data-testid*="RestoreOutline"]'),
@@ -80,7 +79,8 @@ export class FileDetails extends BasePage {
   };
 
   InputFields = {
-    AddNewPeopleField: this.Containers.TabSharingContainer.locator('.gmxXdU'),
+    AddNewPeopleField: this.Containers.TabSharingContainer.locator('.fAjNkv'),
+    // AddNewPeopleField: this.Containers.TabSharingContainer.locator('.gmxXdU'),
   };
 
   AddNewPeopleDropDown = {

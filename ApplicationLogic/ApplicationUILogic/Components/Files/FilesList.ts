@@ -6,20 +6,22 @@ export class FilesList extends BasePage {
   };
 
   Containers = {
-    // MainContainer: this.page.locator('.fUgMxt'),
     MainContainer: this.page.locator('.lcolry'),
-    // ListContainer: this.page.locator('.bbLqaW'),
+    // MainContainer: this.page.locator('.fUgMxt'),
     ListContainer: this.page.locator('.jhFkis'),
+    // not a unique locator
+    // ListContainer: this.page.locator('.bbLqaW'),
   };
 
   Elements = {
-    File: this.Containers.ListContainer.locator('[data-testid*="node-item-ea19d6fd"]'),
+    File: this.Containers.ListContainer.locator('.iLcLUN'),
     FileIcon: this.Containers.ListContainer.locator('[data-testid*="file"]'),
     Header: this.Containers.MainContainer.locator('[data-testid="list-header"]'),
-    // FileName: this.Containers.ListContainer.locator('.hiooLB'),
     FileName: this.Containers.ListContainer.locator('.jwMliq'),
-    FlagIcon: this.Containers.ListContainer.locator('[data-testid*="Flag"]'),
-    DefinedByNameFile: (unicFileName) => this.page.locator('div[data-testid*="node-item-ea19d6fd"]', {hasText: `${unicFileName}`}),
+    // FileName: this.Containers.ListContainer.locator('.hiooLB'),
+    FlagIcon: this.Containers.ListContainer.locator('[data-testid="icon: Flag"]'),
+    // without "icon" doesn't find element
+    DefinedByNameFile: (unicFileName) => this.page.locator('div.iLcLUN', {hasText: `${unicFileName}`}),
   };
 
   SelectionModeElements = {
