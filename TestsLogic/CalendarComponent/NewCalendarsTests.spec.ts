@@ -13,7 +13,7 @@ test.describe('New calendar tests', async () => {
     }));
   });
 
-  test.beforeEach(async ({apiManager}) => {
+  test.beforeEach(async () => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     calendarName = dateTimePrefix + ' Calendar';
   });
@@ -24,7 +24,7 @@ test.describe('New calendar tests', async () => {
     await page.close();
   });
 
-  test('Create new Calendar. New calendar should be present in the secondary menu list', async ({page, pageManager, apiManager}) => {
+  test('Create new Calendar. New calendar should be present in the secondary menu list', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.NewCalendar();
     await pageManager.newCalendarModal.TextBoxes.CalendarName.fill(calendarName);

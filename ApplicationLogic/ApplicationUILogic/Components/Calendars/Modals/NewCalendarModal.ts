@@ -6,7 +6,7 @@ export class NewCalendarModal extends ModalWindowBase {
   }
 
   Buttons = {
-    Create: this.Containers.MainContainer.locator('"CREATE"'),
+    Create: this.Containers.MainContainer.locator('"Create"'),
   };
 
   TextBoxes = {

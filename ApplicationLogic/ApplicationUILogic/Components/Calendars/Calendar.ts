@@ -3,11 +3,14 @@ import {BasePage} from '../../Pages/BasePage';
 export class Calendar extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.cPoMlt'),
-    AppointmentPopupContainer: this.page.locator('.gqODaH'),
-    OtherActionsContainer: this.page.locator('.izBNKP'),
-    PopupContainer: this.page.locator('.loeZsV'),
+    AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
+    OtherActionsContainer: this.page.locator('.phlLS'),
+    // OtherActionsContainer: this.page.locator('.izBNKP'),
+    PopupContainer: this.page.locator('.jCXemQ'),
+    // PopupContainer: this.page.locator('.loeZsV'),
     ReminderPopupContainer: this.page.locator('.fKWHjI .loeZsV'),
-    CalendarView: this.page.locator('.dIeVeP'),
+    CalendarView: this.page.locator('.kNHjiU'),
+    // CalendarView: this.page.locator('.dIeVeP'),
   };
 
   Selectors = {
@@ -16,18 +19,22 @@ export class Calendar extends BasePage {
   };
 
   Elements = {
-    Appointment: this.Containers.MainContainer.locator('.hIcxKG'),
-    CurrentDate: this.Containers.MainContainer.locator('.iVBcdo .cGzJpD'),
+    Appointment: this.Containers.MainContainer.locator('.dZMwio'),
+    // Appointment: this.Containers.MainContainer.locator('.hIcxKG'),
+    CurrentDate: this.Containers.MainContainer.locator('.hfwWFn .fzlaBC'),
+    // CurrentDate: this.Containers.MainContainer.locator('.iVBcdo .cGzJpD'),
     Cell: this.Containers.MainContainer.locator('.rbc-day-bg'),
     Column: this.Containers.MainContainer.locator('.rbc-time-column'),
-    ActiveViewButton: this.Containers.MainContainer.locator('.iZsIAW'),
+    ActiveViewButton: this.Containers.MainContainer.locator('.kFqYzm'),
+    // ActiveViewButton: this.Containers.MainContainer.locator('.iZsIAW'),
     NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
-    TodayButton: this.Containers.MainContainer.locator('.iPEbcU'),
+    TodayButton: this.Containers.MainContainer.locator('.kgssYD'),
+    // TodayButton: this.Containers.MainContainer.locator('.iPEbcU'),
   };
 
   AppointmentPopup = {
-    EditButton: this.Containers.AppointmentPopupContainer.locator('"EDIT"'),
-    OtherActionsDropdown: this.Containers.AppointmentPopupContainer.locator('"OTHER ACTIONS"'),
+    EditButton: this.Containers.AppointmentPopupContainer.locator('"Edit"'),
+    OtherActionsDropdown: this.Containers.AppointmentPopupContainer.locator('"Other actions"'),
     OtherActionsDelete: this.Containers.OtherActionsContainer.locator('"Delete"'),
     OtherActionsDeletePermanently: this.Containers.OtherActionsContainer.locator('"Delete permanently"'),
     OtherActionsOpenInDisplayer: this.Containers.OtherActionsContainer.locator('"Open in Displayer"'),
@@ -40,51 +47,50 @@ export class Calendar extends BasePage {
   };
 
   DeletePopups = {
-    EditMessageButton: this.Containers.PopupContainer.locator('"EDIT MESSAGE"'),
-    SendCancellationButton: this.Containers.PopupContainer.locator('"SEND CANCELLATION"'),
-    DeletePermanentlyButton: this.Containers.PopupContainer.locator('"DELETE PERMANENTLY"'),
+    EditMessageButton: this.Containers.PopupContainer.locator('"Edit Message"'),
+    SendCancellationButton: this.Containers.PopupContainer.locator('"Send Cancellation"'),
+    DeletePermanentlyButton: this.Containers.PopupContainer.locator('"Delete permanently"'),
   };
 
   constructor(page) {
     super(page);
-  }
+  };
 
   async GetAppointmentWithTitle(title) {
     return await this.page.locator(this.Elements.Appointment._selector, {hasText: title});
-  }
+  };
 
   async CloseReminderPopup() {
     if (await this.Containers.ReminderPopupContainer.isVisible() === true) {
       await this.ReminderPopup.DismissButton.click();
-    }
-  }
+    };
+  };
 
   async SelectCalendarView(calendarViewTitle) {
     await this.Containers.CalendarView.locator(`"${calendarViewTitle}"`).click();
-  }
+  };
 
   async OpenAppointmentInfoPopup(appointmentTitle) {
     const appointmentLocator = this.Elements.Appointment.locator(`"${appointmentTitle}"`);
     const appointmentElement = await this.page.waitForSelector(appointmentLocator._selector, {state: 'attached'});
     await appointmentElement.evaluate((el) => el.style.display = 'inline');
     await appointmentElement.evaluate((el) => el.style.visibility = 'visible');
-    await this.CloseReminderPopup();
     await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
-  }
+  };
 
   async MoveAppointmentToTrash(appointmentTitle) {
     await this.OpenAppointmentInfoPopup(appointmentTitle);
     await this.AppointmentPopup.OtherActionsDropdown.click();
     await this.AppointmentPopup.OtherActionsDelete.click();
     await this.DeletePopups.SendCancellationButton.click();
-  }
+  };
 
   async DeleteAppointmentPermanently(appointmentTitle) {
     await this.OpenAppointmentInfoPopup(appointmentTitle);
     await this.AppointmentPopup.OtherActionsDropdown.click();
     await this.AppointmentPopup.OtherActionsDeletePermanently.click();
     await this.DeletePopups.DeletePermanentlyButton.click();
-  }
+  };
 
   async CalculateCurrentDate() {
     const today = new Date();
@@ -92,5 +98,5 @@ export class Calendar extends BasePage {
     const monthAndDate = String(today).slice(4, 10).toUpperCase();
     const weekDayMonthDate = weekDay + ' ' + monthAndDate;
     return weekDayMonthDate;
-  }
+  };
 }

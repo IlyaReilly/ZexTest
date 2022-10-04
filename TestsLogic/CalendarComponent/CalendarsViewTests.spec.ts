@@ -5,13 +5,13 @@ test.describe('Calendars view tests', async () => {
   let dateTimePrefix;
   let appointmentTitle;
   const calendarView = {
-    Day: "DAY",
-    Week: "WEEK",
-    WorkWeek: "WORK WEEK",
-    Month: "MONTH",
+    Day: "Day",
+    Week: "Week",
+    WorkWeek: "Work week",
+    Month: "Month",
   };
 
-  test.beforeAll(async ({page, apiManager}) => {
+  test.beforeAll(async ({apiManager}) => {
     const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
     await Promise.all(allAppionmentsIds.map(async (id) => {
       return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
@@ -62,7 +62,7 @@ test.describe('Calendars view tests', async () => {
 
   test('Calendar view: Month', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Month);
-    await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 35 Cell').toHaveCount(35);
+    await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 35 Cell').toHaveCount(42);
   });
 
   test('Calendar view: Current Day Schedule is displayed by "TODAY" button clicking', async ({pageManager}) => {

@@ -9,8 +9,8 @@ export class NewAppointment extends BasePage {
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
 
   Buttons = {
-    Send: this.Containers.MainContainer.locator('"SEND"'),
-    Save: this.Containers.MainContainer.locator('"SAVE"'),
+    Send: this.Containers.MainContainer.locator('"Send"'),
+    Save: this.Containers.MainContainer.locator('"Save"'),
   };
 
   Dropdowns = {
@@ -20,7 +20,7 @@ export class NewAppointment extends BasePage {
   TextBox = {
     EventTitle: this.Containers.MainContainer.locator('[name="Event title"]'),
     Location: this.Containers.MainContainer.locator('[name="Location"]'),
-    Attendees: this.Containers.MainContainer.locator('div:text("Attendees")'),
+    Attendees: this.Containers.MainContainer.locator('[name="Attendees"]'),
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
 

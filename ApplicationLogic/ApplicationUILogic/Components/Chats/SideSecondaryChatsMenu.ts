@@ -1,8 +1,13 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class SideSecondaryChatsMenu extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
-    MainContainer: this.page.locator('.cpSZnV'),
+    MainContainer: this.page.locator('.dvrTVe'),
+    // MainContainer: this.page.locator('.cpSZnV'),
   };
 
   Buttons = {
@@ -26,10 +31,6 @@ export class SideSecondaryChatsMenu extends BasePage {
     ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
   };
 
-  constructor(page) {
-    super(page);
-  }
-
   OpenTab = {
     Chats: async () => await this.Tabs.Chats.click(),
     Spaces: async () => await this.Tabs.Spaces.click(),
@@ -38,5 +39,5 @@ export class SideSecondaryChatsMenu extends BasePage {
 
   async SelectConversationFromList(conversationTitle) {
     await this.Elements.ConversationsListItem.locator(`"${conversationTitle}"`).click();
-  }
+  };
 }

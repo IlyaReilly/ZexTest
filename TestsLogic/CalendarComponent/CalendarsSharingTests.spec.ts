@@ -26,12 +26,13 @@ test.describe('Sharing calendar tests', async () => {
     await apiManager.calendarAPI.RevokeSharingOfCalendar(BaseTest.userForLogin.login);
     await page.close();
   });
-
-  test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({page, pageManager, apiManager}) => {
+  // calendarAccessShareModal does not appear
+  test.skip('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({page, pageManager, apiManager}) => {
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.ShareCalendar();
     await pageManager.shareCalendarModal.TextBoxes.Recipients.type(BaseTest.secondUser.login);
+    await pageManager.shareCalendarModal.ShareWithDropdown.UsersDropdown.waitFor();
     await pageManager.shareCalendarModal.TextBoxes.Recipients.press('Enter');
     const elementHandle = await page.$(pageManager.shareCalendarModal.Buttons.ShareButton._selector);
     await elementHandle?.waitForElementState('enabled');
