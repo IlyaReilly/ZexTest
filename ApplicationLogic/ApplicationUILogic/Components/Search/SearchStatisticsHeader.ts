@@ -1,8 +1,13 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class SearchStatisticsHeader extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
-    MainContainer: this.page.locator('.jPslbd'),
+    MainContainer: this.page.locator('.bcSCSu'),
+    // MainContainer: this.page.locator('.jPslbd'),
   };
 
   Buttons = {
@@ -10,10 +15,7 @@ export class SearchStatisticsHeader extends BasePage {
   };
 
   Elements = {
-    SearchSnippets: this.Containers.MainContainer.locator('.cNXlLm'),
+    SearchSnippets: this.Containers.MainContainer.locator('.bSzNHN'),
+    // SearchSnippets: this.Containers.MainContainer.locator('.cNXlLm'),
   };
-
-  constructor(page) {
-    super(page);
-  }
 }

@@ -7,7 +7,7 @@ test.describe('Search tests', async () => {
   // Components
   let uniquePrefix;
 
-  test.beforeEach(async ({}, workerInfo) => {
+  test.beforeEach(async () => {
     uniquePrefix = BaseTest.dateTimePrefix();
   });
 
@@ -18,7 +18,6 @@ test.describe('Search tests', async () => {
   test('Search sent email', async ({pageManager, apiManager}) => {
     const mailSubject = uniquePrefix + ' Autotest Mail Subject';
     const mailBody = uniquePrefix + ' Autotest Mail Body';
-
     try {
       await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -37,17 +36,16 @@ test.describe('Search tests', async () => {
 
   test('Search contact', async ({apiManager, pageManager}) => {
     const contactName = uniquePrefix + ' First Contact Name';
-
     try {
-      await apiManager.сontactsAPI.CreateContact(contactName, BaseTest.userForLogin.login);
+      await apiManager.contactsAPI.CreateContact(contactName, BaseTest.userForLogin.login);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
       await pageManager.headerMenu.MakeSearch(uniquePrefix);
       await expect(pageManager.searchResultsList.Elements.SearchResultContacts.locator(`"${contactName}"`)).toBeVisible();
     } catch (e) {
       throw e;
     } finally {
-      const id = await apiManager.сontactsAPI.ContactsSearchQuery(contactName, BaseTest.userForLogin.login);
-      await apiManager.сontactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
+      const id = await apiManager.contactsAPI.ContactsSearchQuery(contactName, BaseTest.userForLogin.login);
+      await apiManager.contactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
     }
   });
 
@@ -75,7 +73,6 @@ test.describe('Search tests', async () => {
     const filePathSrc = path.resolve("./TestData/Files/", templateFileName);
     const filePathDest = path.resolve("./TestData/Files/", fileNameFull);
     fs.copyFileSync(filePathSrc, filePathDest);
-
     try {
       await apiManager.filesAPI.UploadFileViaAPI(fileNameFull);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
