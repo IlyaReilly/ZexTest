@@ -81,7 +81,7 @@ export class FilesAPI extends BaseAPI {
 
   async CreateDocument(name) {
     const response = await this.page.request.post(`${this.createDocumentRequest}`, {
-      data: {"filename": name, "type": "DOCUMENT", "destinationFolderId": "LOCAL_ROOT"},
+      data: {"filename": name, "type": "LIBRE_DOCUMENT", "destinationFolderId": "LOCAL_ROOT"},
     });
 
     const body = await this.GetResponseBody(response);
@@ -90,7 +90,7 @@ export class FilesAPI extends BaseAPI {
 
   async CreateSpreadsheet(name) {
     const response = await this.page.request.post(`${this.createDocumentRequest}`, {
-      data: {"filename": name, "type": "SPREADSHEET", "destinationFolderId": "LOCAL_ROOT"},
+      data: {"filename": name, "type": "LIBRE_SPREADSHEET", "destinationFolderId": "LOCAL_ROOT"},
     });
 
     const body = await this.GetResponseBody(response);
@@ -99,7 +99,7 @@ export class FilesAPI extends BaseAPI {
 
   async CreatePresentation(name) {
     const response = await this.page.request.post(`${this.createDocumentRequest}`, {
-      data: {"filename": name, "type": "PRESENTATION", "destinationFolderId": "LOCAL_ROOT"},
+      data: {"filename": name, "type": "LIBRE_PRESENTATION", "destinationFolderId": "LOCAL_ROOT"},
     });
 
     const body = await this.GetResponseBody(response);

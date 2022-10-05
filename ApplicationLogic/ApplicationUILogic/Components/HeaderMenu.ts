@@ -40,6 +40,9 @@ export class HeaderMenu extends BasePage {
     CreateChat: this.Containers.NewItemMenuDropdownList.locator('"Create Chat"'),
     CreateGroup: this.Containers.NewItemMenuDropdownList.locator('"Create Group"'),
     CreateSpace: this.Containers.NewItemMenuDropdownList.locator('"Create Space"'),
+    OpenDocumentOdt: this.Containers.NewItemMenuDropdownList.locator('"OpenDocument (.odt)"'),
+    OpenDocumentOds: this.Containers.NewItemMenuDropdownList.locator('"OpenDocument (.ods)"'),
+    OpenDocumentOdp: this.Containers.NewItemMenuDropdownList.locator('"OpenDocument (.odp)"'),
   };
 
   Logos = {
@@ -48,7 +51,7 @@ export class HeaderMenu extends BasePage {
   };
 
   TextBoxes = {
-    Search: this.Containers.MainContainer.locator('.iuroJp'),
+    Search: this.Containers.MainContainer.locator('.fuwRhP'),
     // Search: this.Containers.MainContainer.locator('.jgQFDI'),
   };
 
@@ -71,16 +74,19 @@ export class HeaderMenu extends BasePage {
   }
 
   async MakeSearch(query) {
-    await this.TextBoxes.Search.type(query);
+    await this.TextBoxes.Search.type(query, {delay: 100});
     await this.TextBoxes.Search.locator(`"${query}"`).waitFor();
     await this.TextBoxes.Search.press('Enter');
   }
 
-  async OpenNewItemMenu(option) {
+  async OpenNewItemMenu(option, item?) {
     await this.Buttons.NewItemMenu.click();
     await this.Containers.NewItemMenuDropdownList.waitFor({state: 'visible'});
     await option.waitFor();
     await option.hover();
+    if (item) {
+      return await item.click();
+    };
     await option.click();
   }
 
@@ -90,9 +96,9 @@ export class HeaderMenu extends BasePage {
     NewContact: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewContact),
     Upload: async () => await this.OpenNewItemMenu(this.NewItemMenu.Upload),
     NewFolder: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewFolder),
-    NewDocument: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewDocument),
-    NewSpreadsheet: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewSpreadsheet),
-    NewPresentation: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewPresentation),
+    NewDocument: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewDocument, this.NewItemMenu.OpenDocumentOdt),
+    NewSpreadsheet: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewSpreadsheet, this.NewItemMenu.OpenDocumentOds),
+    NewPresentation: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewPresentation, this.NewItemMenu.OpenDocumentOdp),
     CreateNewChat: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateChat),
     CreateNewGroup: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateGroup),
     CreateNewSpace: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateSpace),

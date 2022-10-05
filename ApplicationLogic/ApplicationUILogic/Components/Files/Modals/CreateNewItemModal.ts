@@ -13,13 +13,14 @@ export class CreateNewItemModal extends ModalWindowBase {
   };
 
   Buttons = {
-    CreateButton: this.Containers.MainContainer.locator('.fzGsKw'),
+    CreateButton: this.Containers.MainContainer.locator('"Create"'),
+    RenameButton: this.Containers.MainContainer.locator('"Rename"'),
   };
 
   async CreateItem(option, name) {
     await option.selectText();
     await option.fill(name);
-    await this.Buttons.CreateButton.click();
+    await this.Buttons.RenameButton.click();
   };
 
   CreatedFilesName = {

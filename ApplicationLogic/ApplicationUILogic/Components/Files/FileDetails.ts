@@ -38,6 +38,7 @@ export class FileDetails extends BasePage {
     // Description: this.Containers.InformationContainer.locator('.IUNTF'),
     DescriptionText: this.Containers.InformationContainer.locator('.bA-dJfM'),
     // DescriptionText: this.Containers.InformationContainer.locator('.iRjUZP'),
+    FileDescription: this.Containers.InformationContainer.locator('.cQuDeW'),
   };
 
   CreateEntityPopup = {
@@ -120,9 +121,9 @@ export class FileDetails extends BasePage {
   };
 
   async WriteDescription(text) {
-    await this.Buttons.EditDescriptionButton.waitFor();
-    await this.Buttons.EditDescriptionButton.click();
-    await this.Elements.Description.type(text);
+    await this.Buttons.EditDescriptionButton.locator('nth=-1').waitFor();
+    await this.Buttons.EditDescriptionButton.locator('nth=-1').click();
+    await this.Elements.FileDescription.type(text);
     await this.Buttons.SaveEditsButton.click();
   };
 

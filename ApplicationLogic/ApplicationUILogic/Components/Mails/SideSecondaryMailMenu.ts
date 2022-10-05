@@ -1,6 +1,10 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class SideSecondaryMailMenu extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
@@ -44,22 +48,22 @@ export class SideSecondaryMailMenu extends BasePage {
     CreateButton: this.Containers.CreateNewFolderPopupContainer.locator('"Create"'),
   };
 
-  constructor(page) {
-    super(page);
-  }
+  Elements = {
+    Letter: this.Containers.MainContainer.locator('.jTMZGq'),
+  };
 
   async OpenMailFolder(folder) {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
       await this.Buttons.OpenHideMailFolders.first().click();
     }
     await folder.click();
-  }
+  };
 
   async SpreadMails() {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
       await this.Buttons.OpenHideMailFolders.first().click();
-    }
-  }
+    };
+  };
 
   OpenMailFolders = {
     Inbox: async () => await this.MailFolders.Inbox.click(),
@@ -72,9 +76,9 @@ export class SideSecondaryMailMenu extends BasePage {
   async OpenMailFolderOptions(folder) {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
       await this.Buttons.OpenHideMailFolders.first().click();
-    }
+    };
     await folder.first().click({button: "right"});
-  }
+  };
 
   MailfolderOption = {
     NewFolder: async () => await this.MailFolderOptions.NewFolder.click(),
@@ -88,13 +92,13 @@ export class SideSecondaryMailMenu extends BasePage {
   async CreateNewFolder(folderName) {
     await this.CreateNewFolderPopup.FolderName.fill(folderName);
     await this.CreateNewFolderPopup.CreateButton.click();
-  }
+  };
 
   async ExpandFolders() {
     await this.Buttons.ExpandFolder.last().click();
-  }
+  };
 
   async OpenFirstSubFolder(folderName) {
     await this.MailFolders.SubFolder.locator(`"${folderName}"`).first().click();
-  }
+  };
 }

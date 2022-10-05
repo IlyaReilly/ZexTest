@@ -27,8 +27,8 @@ export class FilesList extends BasePage {
   SelectionModeElements = {
     CheckMark: this.Containers.ListContainer.locator('[data-testid*="Checkmark"]'),
     UncheckMark: this.Containers.ListContainer.locator('[data-testid*="unCheckedAvatar"]'),
-    SelectAllButton: this.Containers.MainContainer.locator('"SELECT ALL"'),
-    DeselectAllButton: this.Containers.MainContainer.locator('"DESELECT ALL"'),
+    SelectAllButton: this.Containers.MainContainer.locator('"Select all"'),
+    DeselectAllButton: this.Containers.MainContainer.locator('"Deselect all"'),
   };
 
   async OpenFileDetails(unicFileName) {
