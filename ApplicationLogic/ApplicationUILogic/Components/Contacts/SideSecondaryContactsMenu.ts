@@ -17,7 +17,7 @@ export class SideSecondaryContactsMenu extends BasePage {
   };
 
   Icons = {
-    SharedIcon: this.Containers.MainContainer.locator('.gZYmKk'),
+    SharedIcon: this.Containers.MainContainer.locator('[data-testid*="ArrowCircleRight"]'),
   };
 
   ContextMenu = {

@@ -6,7 +6,7 @@ export class EditAddressBookModal extends ModalWindowBase {
   };
 
   Buttons = {
-    Edit: this.Containers.MainContainer.locator('"EDIT"'),
+    Edit: this.Containers.MainContainer.locator('"Edit"'),
   };
 
   TextBoxes = {
