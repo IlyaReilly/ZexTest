@@ -8,10 +8,10 @@ test.describe('Calendars tests', async () => {
   let appointmentBody;
   let runtimeAppoinmentId = '';
   const calendarView = {
-    Day: "DAY",
-    Week: "WEEK",
-    WorkWeek: "WORK WEEK",
-    Month: "MONTH",
+    Day: "Day",
+    Week: "Week",
+    WorkWeek: "Work week",
+    Month: "Month",
   };
 
   test.beforeAll(async ({page, apiManager}) => {
@@ -21,7 +21,7 @@ test.describe('Calendars tests', async () => {
     }));
   });
 
-  test.beforeEach(async ({pageManager}) => {
+  test.beforeEach(async ({pageManager, apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';

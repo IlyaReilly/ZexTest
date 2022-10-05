@@ -6,11 +6,12 @@ export class ShareModalWindow extends ModalWindowBase {
   }
 
   Buttons = {
-    ShareButton: this.Containers.MainContainer.locator('xpath=//*[contains(text(), "Share")]'),
+    ShareButton: this.Containers.MainContainer.locator('xpath=//button/*[contains(text(), "Share")]'),
   };
 
   ShareWithDropdown = {
     OpenClose: this.Containers.MainContainer.locator('"share with"'),
+    UsersDropdown: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   TextBoxes = {

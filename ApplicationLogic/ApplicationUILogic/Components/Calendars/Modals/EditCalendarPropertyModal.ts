@@ -7,18 +7,18 @@ export class EditCalendarPropertyModal extends ModalWindowBase {
   }
 
   SharingThisFolderButtonsText = {
-    Edit: "EDIT",
-    Revoke: "REVOKE",
-    Resend: "RESEND",
+    Edit: "Edit",
+    Revoke: "Revoke",
+    Resend: "Resend",
   };
 
   Locators = {
-    SharingThisFolderRow: '.iIEGPL',
+    SharingThisFolderRow: '.emTvRU',
   };
 
   Buttons = {
     Ok: this.Containers.MainContainer.locator('"OK"'),
-    AddShare: this.Containers.MainContainer.locator('"ADD SHARE"'),
+    AddShare: this.Containers.MainContainer.locator('"Add share"'),
   };
 
   SharingThisFolderActions = {

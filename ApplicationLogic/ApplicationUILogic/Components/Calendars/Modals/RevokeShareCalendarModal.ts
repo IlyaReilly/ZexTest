@@ -7,7 +7,7 @@ export class RevokeShareCalendarModal extends ModalWindowBase {
   }
 
   Buttons = {
-    GoBack: this.Containers.MainContainer.locator('"GO BACK"'),
-    Revoke: this.Containers.MainContainer.locator('"REVOKE"'),
+    GoBack: this.Containers.MainContainer.locator('"Go back"'),
+    Revoke: this.Containers.MainContainer.locator('"Revoke"'),
   };
 }
