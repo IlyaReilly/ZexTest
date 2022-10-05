@@ -7,7 +7,7 @@ export const InheritedFields = {
   NewItemBodyIframeLocator: '.tox-edit-area__iframe',
   NewItemBodyLocator: '.mce-content-body',
   ModalWindowLocator: '[data-testid="modal"]',
-  SpreadHidenFolders: '[data-testid="ExpandMoreIcon"]',
+  SpreadHidenFolders: '[data-testid*="ChevronDown"]',
   // SpreadHidenFolders: '.css-1fx8m19:has([data-testid="ExpandMoreIcon"])',
   // SpreadHidenFolders: '.cLLOPN:has([data-testid*="ChevronDown"])',
 };

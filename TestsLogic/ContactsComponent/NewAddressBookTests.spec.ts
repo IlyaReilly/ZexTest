@@ -15,12 +15,19 @@ test.describe('New address book tests', async () => {
 
   test.afterEach(async ({page, apiManager}) => {
     addressBookId = await apiManager.addressBookAPI.GetAddressBookIdByName(BaseTest.userForLogin.login, addressBookName);
-    if(!addressBookId){
+    if (!addressBookId) {
       addressBookId = await apiManager.addressBookAPI.GetAddressBookIdByName(BaseTest.userForLogin.login, newAddressBookName);
     }
     await apiManager.addressBookAPI.DeleteAddressBookPermanentlyById(addressBookId, BaseTest.userForLogin.login);
     await page.close();
   });
+
+  async function CreateNewAddressBook({pageManager}) {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
+    await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
+    await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
+    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
+  };
 
   test('Create new address book. New address book should be visible in Contacts folder.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
@@ -57,13 +64,6 @@ test.describe('New address book tests', async () => {
     await pageManager.editAddressBookModal.Buttons.Edit.click();
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${newAddressBookName}"`), 'New Address book name should be visible').toBeVisible();
   });
-
-  async function CreateNewAddressBook({pageManager}) {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
-    await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
-    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
-  };
 
   test('Delete Address book. New address book name is deleted', async ({pageManager}) => {
     await CreateNewAddressBook({pageManager});

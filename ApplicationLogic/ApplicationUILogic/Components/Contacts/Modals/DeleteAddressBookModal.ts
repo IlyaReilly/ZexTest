@@ -6,6 +6,6 @@ export class DeleteAddressBookModal extends ModalWindowBase {
   };
 
   Buttons = {
-    Delete: this.Containers.MainContainer.locator('"DELETE"'),
+    Delete: this.Containers.MainContainer.locator('"Delete"'),
   };
 }
