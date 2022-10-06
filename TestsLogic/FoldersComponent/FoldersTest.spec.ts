@@ -58,8 +58,8 @@ test.describe('Folders tests', async () => {
   });
 
   // Test doesn't work because of problem with Input in ShareModalWindow
-  test.skip('Share a new folder', async ({page, pageManager}) => {
-    test.slow();
+  test('Share a new folder', async ({page, pageManager}) => {
+    test.fail();
     await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.ShareFolder();
     await pageManager.shareFolderModal.ShareFolder(BaseTest.secondUser.login);
@@ -105,6 +105,13 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should not be visible").not.toBeVisible();
   });
 
+  test('Create subfolder', async ({page, pageManager}) => {
+    await OpenSentMailSubFolderContextMenu({pageManager});
+    await pageManager.sideSecondaryMailMenu.MailfolderOption.NewFolder();
+    await pageManager.sideSecondaryMailMenu.CreateNewFolder(subFolderName);
+    await pageManager.sideSecondaryMailMenu.ExpandSubfolderInNewFolder();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${subFolderName}"`), "New folder name should be visible").toBeVisible();
+  });
 
   async function OpenSentMailSubFolderContextMenu({pageManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -112,13 +119,5 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolders.Inbox();
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
     await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
-  }
-
-  test('Create subfolder', async ({pageManager}) => {
-    await OpenSentMailSubFolderContextMenu({pageManager});
-    await pageManager.sideSecondaryMailMenu.MailfolderOption.NewFolder();
-    await pageManager.sideSecondaryMailMenu.CreateNewFolder(subFolderName);
-    await pageManager.sideSecondaryMailMenu.ExpandFolders();
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${subFolderName}"`), "New folder name should be visible").toBeVisible();
-  });
+  };
 });
