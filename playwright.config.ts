@@ -66,12 +66,6 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         viewport: {height: 816, width: 1536},
-        // We can change enviroments via running special project
-        // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
-        // Ability to add variables to tests
-        // login: BaseTest.playwrightProjectsData.users.test0.login,
-        // password: BaseTest.playwrightProjectsData.users.test0.password,
-        // storageState: playwrightProjectsData.storageState,
       },
     },
     {
@@ -88,39 +82,6 @@ const config: PlaywrightTestConfig = {
         viewport: {height: 816, width: 1536},
       },
     },
-    // // {
-    //   name: 'Mobile Safari',
-    //   use: {
-    //     ...devices['iPad Pro 11'],
-    //     baseURL: playwrightProjectsData.baseURL.UAT,
-    //     login: playwrightProjectsData.users.bobTesting01.login,
-    //     password: playwrightProjectsData.users.bobTesting01.password,
-    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-    //     storageState: playwrightProjectsData.storageState,
-    //   },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: {
-    //     ...devices['iPhone 11'],
-    //     baseURL: playwrightProjectsData.baseURL.UAT,
-    //     login: playwrightProjectsData.users.bobTesting01.login,
-    //     password: playwrightProjectsData.users.bobTesting01.password,
-    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-    //     storageState: playwrightProjectsData.storageState,
-    //   },
-    // },
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: {
-    //     ...devices['Galaxy S9+'],
-    //     baseURL: playwrightProjectsData.baseURL.UAT,
-    //     login: playwrightProjectsData.users.bobTesting01.login,
-    //     password: playwrightProjectsData.users.bobTesting01.password,
-    //     loginWelcomMessage: playwrightProjectsData.users.bobTesting01.loginWelcomMessage,
-    //     storageState: playwrightProjectsData.storageState,
-    //   },
-    // },
 
     /* Test against mobile viewports. */
     // {

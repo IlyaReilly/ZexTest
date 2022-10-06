@@ -51,8 +51,7 @@ export class HeaderMenu extends BasePage {
   };
 
   TextBoxes = {
-    Search: this.Containers.MainContainer.locator('.fuwRhP'),
-    // Search: this.Containers.MainContainer.locator('.jgQFDI'),
+    Search: this.Containers.MainContainer.locator('[name*="Search in"]'),
   };
 
   constructor(page) {
@@ -74,9 +73,8 @@ export class HeaderMenu extends BasePage {
   }
 
   async MakeSearch(query) {
-    await this.TextBoxes.Search.type(query, {delay: 100});
-    await this.TextBoxes.Search.locator(`"${query}"`).waitFor();
-    await this.TextBoxes.Search.press('Enter');
+    await this.TextBoxes.Search.fill(query);
+    await this.page.keyboard.press('Enter');
   }
 
   async OpenNewItemMenu(option, item?) {

@@ -11,7 +11,7 @@ export class ShareFolderModal extends ShareModalWindow {
 
   async ShareFolder(recipient) {
     await this.TextBoxes.Recipients.fill(recipient);
-    await this.TextBoxes.Recipients.press('Enter');
+    await this.page.keyboard.press('Enter');
     await this.Buttons.ShareButton.click();
   }
 }

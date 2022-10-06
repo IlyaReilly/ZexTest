@@ -31,7 +31,7 @@ export class NewMail extends BasePage {
   async CreateNewMail(to, subject, body) {
     await this.TextBox.To.click();
     await this.TextBox.To.type(to);
-    await this.TextBox.To.press('Enter');
+    await this.page.keyboard.press('Enter');
     await this.TextBox.Subject.click();
     await this.TextBox.Subject.type(subject);
     await this.Containers.MainContainer.locator(`"${subject}"`).waitFor();
