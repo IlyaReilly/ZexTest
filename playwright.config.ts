@@ -49,7 +49,6 @@ const config: PlaywrightTestConfig = {
     // Allpy storageState
     // storageState: './userForLoginStorageState.json',
     headless: process.env.CI ? true : false,
-    // headless: true,
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */

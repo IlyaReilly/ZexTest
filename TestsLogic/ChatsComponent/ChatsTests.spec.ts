@@ -6,7 +6,7 @@ test.describe('Chats tests', async () => {
   let spaceTitle;
   let spaceTopic;
   let groupTitle;
-  const firstParticipant = 'test10';
+  const firstParticipant = 'test100';
   const secondParticipant = 'test20';
   const thirdParticipant = 'test19@demo.zextras.io';
   const newGroupName = 'Zextras Company 321';
