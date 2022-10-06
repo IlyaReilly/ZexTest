@@ -59,7 +59,6 @@ test.describe('Folders tests', async () => {
 
   // Test doesn't work because of problem with Input in ShareModalWindow
   test('Share a new folder', async ({page, pageManager}) => {
-    test.fail();
     await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.ShareFolder();
     await pageManager.shareFolderModal.ShareFolder(BaseTest.secondUser.login);

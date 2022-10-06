@@ -48,7 +48,6 @@ test.describe('New address book tests', async () => {
 
   // Test doesn't work because of problem with Input in ShareModalWindow
   test('Share Address book. Share icon should be near folder name.', async ({page, pageManager}) => {
-    test.fail();
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.ShareAddressBookModal(addressBookName);
     await pageManager.shareAddressBookModal.ShareAddressBook(BaseTest.secondUser.login);
