@@ -95,8 +95,12 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   async ExpandFolders() {
-    await this.Buttons.ExpandFolder.last().click();
+    await this.Buttons.ExpandFolder.locator('nth=1').click();
   };
+
+  async ExpandSubfolderInNewFolder() {
+    await this.Buttons.ExpandFolder.locator('nth=2').click();
+  }
 
   async OpenFirstSubFolder(folderName) {
     await this.MailFolders.SubFolder.locator(`"${folderName}"`).first().click();
