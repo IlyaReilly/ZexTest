@@ -11,7 +11,8 @@ export class ShareAddressBookModal extends ShareModalWindow {
 
   async ShareAddressBook(recipient) {
     await this.TextBoxes.Recipients.fill(recipient);
-    await this.page.keyboard.press('Enter');
+    await this.ShareWithDropdown.OpenClose.click();
     await this.Buttons.ShareButton.click();
   };
 };
+

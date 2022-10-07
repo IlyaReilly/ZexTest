@@ -15,7 +15,6 @@ test.describe('Search tests', async () => {
     await page.close();
   });
 
-  // This test doesn't work because of problems with Search input and pressing "Enter" button
   test('Search sent email', async ({pageManager, apiManager}) => {
     const mailSubject = uniquePrefix + ' Autotest Mail Subject';
     const mailBody = uniquePrefix + ' Autotest Mail Body';
@@ -35,7 +34,6 @@ test.describe('Search tests', async () => {
     }
   });
 
-  // This test doesn't work because of problems with Search input and pressing "Enter" button
   test('Search contact', async ({apiManager, pageManager}) => {
     const contactName = uniquePrefix + ' First Contact Name';
     try {
@@ -51,7 +49,6 @@ test.describe('Search tests', async () => {
     }
   });
 
-  // This test doesn't work because of problems with Search input and pressing "Enter" button
   test('Search appointment', async ({apiManager, pageManager}) => {
     const appointmentName = uniquePrefix + ' AppointmentName Name';
     try {
@@ -67,7 +64,6 @@ test.describe('Search tests', async () => {
     }
   });
 
-  // This test doesn't work because of problems with Search input and pressing "Enter" button
   test('Search file', async ({apiManager, pageManager}) => {
     const templateFileName = 'fileForSearch.png';
     const fileName = uniquePrefix + 'fileForSearch';

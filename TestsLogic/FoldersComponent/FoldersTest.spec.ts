@@ -57,11 +57,10 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();
   });
 
-  // Test doesn't work because of problem with Input in ShareModalWindow
   test('Share a new folder', async ({page, pageManager}) => {
     await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.ShareFolder();
-    await pageManager.shareFolderModal.ShareFolder(BaseTest.secondUser.login);
+    await pageManager.shareFolderModal.Share(BaseTest.secondUser.login);
     await expect(pageManager.mailDetails.Elements.ActionWithMailNotification.locator('"Folder shared"'), '"Folder shared" action notification appears in right bottom corner').toBeVisible();
     await page.reload();
     await expect(pageManager.sideSecondaryMailMenu.Icons.SharedIcon, 'Share icon should be near folder name').toBeVisible();
