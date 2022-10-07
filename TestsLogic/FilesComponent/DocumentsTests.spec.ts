@@ -31,7 +31,7 @@ test.describe('Files tests', async () => {
     await pageManager.filesList.Elements.File.click();
     const oldName = await pageManager.filesList.Elements.File.textContent();
     await pageManager.fileDetails.ClickDropdownOption.Rename();
-    await pageManager.createNewItemModal.CreatedFilesName.RenameFile(newItemName);
+    await pageManager.createNewItemModal.RenameItem(newItemName);
     await expect(pageManager.filesList.Elements.File).not.toHaveText(oldName);
   };
 
