@@ -20,6 +20,12 @@ export class CreateNewItemModal extends ModalWindowBase {
   async CreateItem(option, name) {
     await option.selectText();
     await option.fill(name);
+    await this.Buttons.CreateButton.click();
+  };
+
+  async RenameItem(name) {
+    await this.Fields.Rename.selectText();
+    await this.Fields.Rename.fill(name);
     await this.Buttons.RenameButton.click();
   };
 
@@ -27,6 +33,5 @@ export class CreateNewItemModal extends ModalWindowBase {
     CreateDocumentName: async (name) => await this.CreateItem(this.Fields.DocumentName, name),
     CreateSpreadsheetName: async (name) => await this.CreateItem(this.Fields.SpreadsheetName, name),
     CreatePresentationName: async (name) => await this.CreateItem(this.Fields.PresentationName, name),
-    RenameFile: async (name) => await this.CreateItem(this.Fields.Rename, name),
   };
 };
