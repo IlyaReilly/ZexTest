@@ -34,7 +34,6 @@ test.describe('Calendars tests. Appointment in attendee calendar.', async () => 
 
   test('Create new appointment. Attendee see appointment with need action icon.', async ({secondPageManager}) => {
     test.slow();
-    const appointmentElement = await secondPageManager.calendar.GetAppointmentWithTitle(appointmentTitle);
-    await expect(appointmentElement.locator(secondPageManager.calendar.Selectors.NeedActionsIconSelector)).toHaveCount(1);
+    await expect(secondPageManager.calendar.Selectors.NeedActionsIconSelector.locator('nth=0')).toBeVisible();
   });
 });

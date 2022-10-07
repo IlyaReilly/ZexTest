@@ -55,7 +55,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
-  test('Create new privete appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
+  test('Create new private appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
     test.slow();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);
@@ -63,8 +63,7 @@ test.describe('Calendars tests', async () => {
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
-    const appointmentElement = await pageManager.calendar.GetAppointmentWithTitle(appointmentTitle);
-    await expect(appointmentElement.locator(pageManager.calendar.Selectors.PrivateAppLockIconSelector)).toHaveCount(1);
+    await expect(pageManager.calendar.Selectors.PrivateAppLockIconSelector).toBeVisible();
   });
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {

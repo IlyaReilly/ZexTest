@@ -20,7 +20,10 @@ export class CreateNewItemModal extends ModalWindowBase {
   async CreateItem(option, name) {
     await option.selectText();
     await option.fill(name);
-    await this.Buttons.RenameButton.click();
+    if (option === this.Fields.Rename) {
+      return await this.Buttons.RenameButton.click();
+    }
+    await this.Buttons.CreateButton.click();
   };
 
   CreatedFilesName = {
