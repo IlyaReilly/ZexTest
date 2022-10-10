@@ -4,17 +4,17 @@ import {test, BaseTest} from '../UITests/BaseTest';
 test.describe('Chats tests', async () => {
   let dateTimePrefix;
   let groupTitle;
-  const firstParticipant = 'test100';
+  const firstParticipant = 'test10';
   const secondParticipant = 'test20';
   const thirdParticipant = 'test19@demo.zextras.io';
   const newGroupName = 'Zextras Company 321';
   const message = 'Hello! We are great team!';
 
   test.beforeEach(async ({pageManager, apiManager}) => {
-    await CleanConversationsPanel({apiManager});
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     groupTitle = dateTimePrefix + ' Autotest Group Topic';
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
+    await CleanConversationsPanel({apiManager});
   });
 
   test.afterAll(async ({apiManager}) => {
@@ -40,6 +40,7 @@ test.describe('Chats tests', async () => {
     await neededRemoveMember.click();
     await pageManager.chats.DeleteSpacePopup.RemoveButton.click();
     await pageManager.page.waitForLoadState();
+    await expect(pageManager.chatsInfo.Items.Member).toHaveCount(2);
     await neededRemoveMember.click();
     await pageManager.chats.DeleteSpacePopup.RemoveButton.click();
     await pageManager.chatsInfo.Buttons.DeleteGroup.click();
@@ -61,7 +62,7 @@ test.describe('Chats tests', async () => {
     const seconduserId = await apiManager.usersAPI.GetUserId(BaseTest.thirdUser.login);
     await apiManager.chatsAPI.CreateGroup(groupTitle, [firstUserId, seconduserId]);
     await pageManager.page.waitForLoadState();
-    await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.click();
+    await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator('nth=0').click();
   };
 
   test('Create chat. Conversation should be in Chats Tab.', async ({pageManager}) => {

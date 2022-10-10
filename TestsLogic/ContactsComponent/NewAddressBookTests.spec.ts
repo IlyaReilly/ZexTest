@@ -46,11 +46,10 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`).first(), 'New Address book should be visible on Root').toBeVisible();
   });
 
-  // Test doesn't work because of problem with Input in ShareModalWindow
   test('Share Address book. Share icon should be near folder name.', async ({page, pageManager}) => {
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.ShareAddressBookModal(addressBookName);
-    await pageManager.shareAddressBookModal.ShareAddressBook(BaseTest.secondUser.login);
+    await pageManager.shareAddressBookModal.Share(BaseTest.secondUser.login);
     await page.reload();
     await page.waitForLoadState('networkidle');
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();

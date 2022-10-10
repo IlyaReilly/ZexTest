@@ -14,8 +14,8 @@ export class Calendar extends BasePage {
   };
 
   Selectors = {
-    PrivateAppLockIconSelector: '[data-testid*="Lock"]',
-    NeedActionsIconSelector: '[data-testid*="CalendarWarning"]',
+    PrivateAppLockIconSelector: this.page.locator('[data-testid*="Lock"]'),
+    NeedActionsIconSelector: this.page.locator('[data-testid*="CalendarWarning"]'),
   };
 
   Elements = {

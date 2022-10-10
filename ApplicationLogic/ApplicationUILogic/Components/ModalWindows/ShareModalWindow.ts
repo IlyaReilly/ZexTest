@@ -10,7 +10,7 @@ export class ShareModalWindow extends ModalWindowBase {
   };
 
   ShareWithDropdown = {
-    OpenClose: this.Containers.MainContainer.locator('"share with"'),
+    OpenClose: this.Containers.MainContainer.locator('"Share with"'),
     UsersDropdown: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
@@ -23,5 +23,11 @@ export class ShareModalWindow extends ModalWindowBase {
 
   CheckBoxes = {
     NotificationAboutShare: this.Containers.MainContainer.locator('"Send notification about this share"'),
+  };
+
+  async Share(recipient) {
+    await this.TextBoxes.Recipients.fill(recipient);
+    await this.ShareWithDropdown.OpenClose.click();
+    await this.Buttons.ShareButton.click();
   };
 }
