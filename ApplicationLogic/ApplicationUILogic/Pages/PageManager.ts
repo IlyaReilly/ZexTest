@@ -17,7 +17,7 @@ import {CalendarAccessShareModal} from '../Components/Calendars/Modals/CalendarA
 import {NewContact} from '../Components/Contacts/NewContact';
 import {ContactsList} from '../Components/Contacts/ContactsList';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
-import {NewChatsItemModal} from '../Components/Chats/Modals/NewChatsItemModal';
+import {NewChatsModal} from '../Components/Chats/Modals/NewChatsModal';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
 import {FilesList} from '../Components/Files/FilesList';
 import {FileDetails} from '../Components/Files/FileDetails';
@@ -45,6 +45,7 @@ import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddres
 import {MoveMailToFolderModal} from '../Components/Mails/Modals/MoveMailToFolderModal';
 import {SpaceInfo} from '../Components/Chats/SpaceInfo';
 import {NewChannelModal} from '../Components/Chats/Modals/NewChannelModal';
+import {NewSpaceModal} from '../Components/Chats/Modals/NewSpaceModal';
 
 
 export class PageManager {
@@ -110,9 +111,10 @@ export class PageManager {
 
 
   // #region Chats Modal
-  newChatsItemModal;
+  newChatsModal;
   addNewMembersModal;
   newChannelModal;
+  newSpaceModal;
   // #endregion
 
   constructor(page) {
@@ -177,9 +179,10 @@ export class PageManager {
     // #endregion
 
     // #region Chats Modal
-    this.newChatsItemModal = new NewChatsItemModal(page);
+    this.newChatsModal = new NewChatsModal(page);
     this.addNewMembersModal = new AddNewMembersModal(page);
     this.newChannelModal = new NewChannelModal(page);
+    this.newSpaceModal = new NewSpaceModal(page);
     // #endregion
   };
 }

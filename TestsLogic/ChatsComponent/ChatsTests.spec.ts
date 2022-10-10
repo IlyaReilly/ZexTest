@@ -67,7 +67,7 @@ test.describe('Chats tests', async () => {
 
   test('Create chat. Conversation should be in Chats Tab.', async ({pageManager}) => {
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateChat);
-    await pageManager.newChatsItemModal.CreatedConversations.CreateChat(firstParticipant);
+    await pageManager.newChatsModal.CreatedConversations.CreateChat(firstParticipant);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
   });
 
@@ -78,7 +78,7 @@ test.describe('Chats tests', async () => {
 
   test('Delete group. Group should be removed from Chats Tab.', async ({pageManager}) => {
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
-    await pageManager.newChatsItemModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
+    await pageManager.newChatsModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
     await DeleteAllMembers({pageManager});
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).not.toBeVisible();
   });

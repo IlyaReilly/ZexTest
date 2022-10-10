@@ -1,7 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
 
-test.describe('Chats tests', async () => {
+test.describe('Space tests', async () => {
   let dateTimePrefix;
   let spaceTitle;
   let spaceTopic;
@@ -50,9 +50,9 @@ test.describe('Chats tests', async () => {
 
   test('Create space. Space should appear in spaces list.', async ({pageManager}) => {
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateSpace);
-    await pageManager.newChatsItemModal.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
+    await pageManager.newSpaceModal.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces(newSpaceName);
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${newSpaceName}"`)).toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
   });
 
   test('Delete space. Space should be deleted.', async ({pageManager, apiManager}) => {
@@ -60,13 +60,13 @@ test.describe('Chats tests', async () => {
     await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
     await pageManager.chatsInfo.Buttons.DeleteSpace.click();
     await pageManager.chats.DeleteSpacePopup.DeleteButton.click();
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toHaveCount(0);
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).not.toBeVisible();
   });
 
   test('Rename space. Space should be renamed in spaces list.', async ({pageManager, apiManager}) => {
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.RenameSpace(newSpaceName);
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name).toHaveText(newSpaceName);
   });
 
   test('Mute notifications in space. The space must to have a mute icon', async ({pageManager, apiManager}) => {
