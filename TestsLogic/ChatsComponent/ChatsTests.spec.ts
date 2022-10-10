@@ -3,8 +3,6 @@ import {test, BaseTest} from '../UITests/BaseTest';
 
 test.describe('Chats tests', async () => {
   let dateTimePrefix;
-  let spaceTitle;
-  let spaceTopic;
   let groupTitle;
   const firstParticipant = 'test10';
   const secondParticipant = 'test20';
@@ -14,8 +12,6 @@ test.describe('Chats tests', async () => {
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    spaceTitle = dateTimePrefix + ' Autotest Space Title';
-    spaceTopic = dateTimePrefix + ' Autotest Space Topic';
     groupTitle = dateTimePrefix + ' Autotest Group Topic';
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
     await CleanConversationsPanel({apiManager});
@@ -68,24 +64,6 @@ test.describe('Chats tests', async () => {
     await pageManager.page.waitForLoadState();
     await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator('nth=0').click();
   };
-
-  test('Create space. Space should appear in spaces list.', async ({pageManager}) => {
-    await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateSpace);
-    await pageManager.newChatsItemModal.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
-    await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toBeVisible();
-  });
-
-  test('Delete space. Space should be deleted.', async ({pageManager, apiManager}) => {
-    const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
-    await apiManager.chatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
-    await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
-    await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
-    await pageManager.chatsInfo.Buttons.DeleteSpace.click();
-    await pageManager.chats.DeleteSpacePopup.DeleteButton.click();
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${spaceTitle}"`)).toHaveCount(0);
-  });
 
   test('Create chat. Conversation should be in Chats Tab.', async ({pageManager}) => {
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateChat);

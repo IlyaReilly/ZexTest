@@ -14,6 +14,7 @@ export class SideSecondaryChatsMenu extends BasePage {
     CreateVirtualRoom: this.Containers.MainContainer.locator('"CREATE VIRTUAL ROOM"'),
     PersonalVirtualRoom: this.Containers.MainContainer.locator('"PERSONAL VIRTUAL ROOM"'),
     CopyLink: this.Containers.MainContainer.locator('"COPY LINK"'),
+    OpenDropdown: this.Containers.MainContainer.locator('[data-testid*="ArrowIosDownward"]'),
   };
 
   Tabs = {
