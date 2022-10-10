@@ -30,7 +30,7 @@ export class SpaceInfo extends BasePage {
 
   Items = {
     Member: this.Containers.SpaceMembersContainer.locator('.jwUaOR'),
-    TopicName: this.page.locator('.dRegei'),
+    TopicName: this.page.locator('[overflow="ellipsis"]+[overflow="break-word"]'),
   };
 
   async RenameSpace(newName) {
