@@ -48,7 +48,8 @@ const config: PlaywrightTestConfig = {
     },
     // Allpy storageState
     // storageState: './userForLoginStorageState.json',
-    headless: process.env.CI ? true : false,
+    headless: true,
+    // headless: process.env.CI ? true : false,
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -61,20 +62,20 @@ const config: PlaywrightTestConfig = {
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: {height: 816, width: 1536},
-      },
-    },
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        viewport: {height: 816, width: 1536},
-      },
-    },
+    // {
+    //   name: 'chromium',
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     viewport: {height: 816, width: 1536},
+    //   },
+    // },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     viewport: {height: 816, width: 1536},
+    //   },
+    // },
     {
       name: 'webkit',
       use: {

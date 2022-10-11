@@ -23,7 +23,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('Inbox mail. Mail appears in the inbox chapter', async ({page, pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
@@ -37,7 +37,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('Junk mail. Mail appears in the junk chapter', async ({page, pageManager, apiManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
@@ -51,7 +51,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('Send mail. Mail appears in the sent chapter.', async ({pageManager, apiManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
@@ -60,7 +60,7 @@ test.describe('Mails tests', async () => {
 
   // This test will not work because doesn't work SAVE button
   test.skip('Draft mail. Mail appears in the draft chapter.', async ({page, pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
@@ -74,7 +74,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('Trash mail. Mail appears in the trash chapter', async ({pageManager, apiManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Drafts);

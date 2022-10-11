@@ -84,4 +84,8 @@ export class BaseTest {
       throw e;
     };
   };
+
+  static async doubleTimeout() {
+    await test.setTimeout(80000);
+  };
 }

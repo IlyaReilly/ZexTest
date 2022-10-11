@@ -38,7 +38,7 @@ test.describe('New address book tests', async () => {
   });
 
   test('Move Address book to Root. New Address book should be visible on Root.', async ({pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.MoveAddressBookModal(addressBookName);
     await pageManager.moveAddressBookModal.DropDowns.Root.click();

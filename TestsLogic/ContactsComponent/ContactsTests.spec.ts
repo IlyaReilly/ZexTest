@@ -31,7 +31,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('Add new contact. New contact appears in contacts chapter', async ({page, pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
@@ -50,7 +50,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await apiManager.contactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();

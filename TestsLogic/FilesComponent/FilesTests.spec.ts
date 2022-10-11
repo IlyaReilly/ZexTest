@@ -76,7 +76,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be permanently removed', async ({apiManager, pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.DeletePermanentlyButton.click();
@@ -106,7 +106,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Share file', async ({browser, apiManager, pageManager, secondPageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.SharingFile(BaseTest.secondUser.login);
     await secondPageManager.sideMenu.SideMenuTabs.Files.click();

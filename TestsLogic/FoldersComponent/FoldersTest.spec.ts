@@ -43,7 +43,7 @@ test.describe('Folders tests', async () => {
   });
 
   test('Move mail to a new folder', async ({pageManager, apiManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.SpreadMails();
@@ -74,7 +74,7 @@ test.describe('Folders tests', async () => {
   });
 
   test('Move a new folder to another folder', async ({pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await OpenSentMailSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.MailfolderOption.Move();
     await pageManager.moveFolderModal.MoveNewFolderToInbox();
@@ -83,7 +83,7 @@ test.describe('Folders tests', async () => {
   });
 
   test('Folder is wiped', async ({pageManager, apiManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     const mailId = await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await apiManager.mailsAPI.MoveMailToFolder(mailId, BaseTest.userForLogin.login, folderId);

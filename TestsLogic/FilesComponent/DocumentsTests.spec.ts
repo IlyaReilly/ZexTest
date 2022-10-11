@@ -65,7 +65,7 @@ test.describe('Files tests', async () => {
   };
 
   test('Create document file. Document file should be in Home tab.', async ({pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
     await expect(pageManager.filesList.Elements.File).toBeVisible();
@@ -109,7 +109,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateThreeDifferentFiles({pageManager, apiManager});
     await SelectUnselectAllFIles({pageManager});
@@ -117,7 +117,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Unselect all files. All files should be unselected in Home tab.', async ({pageManager, apiManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateThreeDifferentFiles({pageManager, apiManager});
     await SelectUnselectAllFIles({pageManager}, pageManager.filesList.SelectionModeElements.DeselectAllButton);

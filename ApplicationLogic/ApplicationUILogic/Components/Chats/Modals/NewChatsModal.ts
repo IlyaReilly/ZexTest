@@ -24,7 +24,7 @@ export class NewChatsModal extends ModalWindowBase {
     UserInGroupFilterList: this.page.locator('.gwYxjf'),
   };
 
-  async CreateItem(participant, participant2?, title?, option?) {
+  async CreateItem(participant, option?, participant2?, title?) {
     if (option === this.NewChatDialog.UserFilterTextBox) {
       await option.fill(participant);
       await this.NewChatDialog.UsersListItem.locator('nth=-1').click();
@@ -40,7 +40,7 @@ export class NewChatsModal extends ModalWindowBase {
   };
 
   CreatedConversations = {
-    CreateChat: async (participant) => await this.CreateItem(this.NewChatDialog.UserFilterTextBox, participant),
+    CreateChat: async (participant) => await this.CreateItem(participant, this.NewChatDialog.UserFilterTextBox),
     CreateGroup: async (participant, participant2, title) => await this.CreateItem(participant, participant2, title),
   };
 }

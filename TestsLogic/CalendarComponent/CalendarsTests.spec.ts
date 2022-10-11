@@ -44,7 +44,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Create new appointment. New appoinrment is presented in calendar.', async ({page, pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
@@ -56,7 +56,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Create new private appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
@@ -67,7 +67,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await page.reload();
@@ -79,7 +79,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager, page}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();

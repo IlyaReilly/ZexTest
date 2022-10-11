@@ -29,6 +29,7 @@ test.describe('Sharing calendar tests', async () => {
   // calendarAccessShareModal does not appear
   test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({page, pageManager, apiManager}) => {
     test.fail();
+    BaseTest.doubleTimeout();
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.ShareCalendar();
