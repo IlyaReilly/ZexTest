@@ -1,5 +1,5 @@
 import {expect} from '@playwright/test';
-import {test} from '../UITests/BaseTest';
+import {test, BaseTest} from '../UITests/BaseTest';
 
 test.describe('Files tests', async () => {
   const oldItemName = 'Test Item 123';
@@ -50,7 +50,6 @@ test.describe('Files tests', async () => {
 
   async function CreateThreeDifferentFiles({pageManager, apiManager}) {
     await apiManager.filesAPI.CreateDocument(firstName);
-    await pageManager.page.waitForLoadState();
     await apiManager.filesAPI.CreateSpreadsheet(secondName);
     await apiManager.filesAPI.CreatePresentation(thirdName);
   };
@@ -111,7 +110,6 @@ test.describe('Files tests', async () => {
   test('Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await CreateThreeDifferentFiles({pageManager, apiManager});
     await SelectUnselectAllFIles({pageManager});
     await expect(pageManager.filesList.Elements.UncheckMark).not.toBeTruthy();
   });
