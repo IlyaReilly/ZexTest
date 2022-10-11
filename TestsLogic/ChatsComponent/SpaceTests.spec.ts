@@ -53,7 +53,7 @@ test.describe('Space tests', async () => {
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateSpace);
     await pageManager.newSpaceModal.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces(newSpaceName);
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.first()).toBeVisible();
   });
 
   test('Delete space. Space should be deleted.', async ({pageManager, apiManager}) => {

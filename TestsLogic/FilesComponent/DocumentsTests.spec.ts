@@ -109,6 +109,8 @@ test.describe('Files tests', async () => {
 
   test('Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
+    await apiManager.filesAPI.CreateSpreadsheet(secondName);
+    await apiManager.filesAPI.CreateDocument(firstName);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await SelectUnselectAllFIles({pageManager});
     await expect(pageManager.filesList.Elements.UncheckMark).not.toBeTruthy();
