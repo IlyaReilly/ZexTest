@@ -72,6 +72,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Create group. Group should be in Chats Tab.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
   });

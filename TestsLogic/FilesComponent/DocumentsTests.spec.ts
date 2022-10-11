@@ -6,7 +6,6 @@ test.describe('Files tests', async () => {
   const newItemName = 'Zextras Team';
   const firstName = 'abcd';
   const secondName = 'aavc';
-  const thirdName = 'zxys';
 
   test.beforeEach(async ({apiManager}) => {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
@@ -48,15 +47,9 @@ test.describe('Files tests', async () => {
     };
   };
 
-  async function CreateThreeDifferentFiles({pageManager, apiManager}) {
-    await apiManager.filesAPI.CreateDocument(firstName);
-    await apiManager.filesAPI.CreateSpreadsheet(secondName);
-    await apiManager.filesAPI.CreatePresentation(thirdName);
-  };
-
-
   async function SelectUnselectAllFIles({pageManager}, unselect?) {
     await pageManager.filesList.Elements.FileIcon.first().click();
+    await pageManager.filesList.SelectionModeElements.SelectAllButton.waitFor();
     await pageManager.filesList.SelectionModeElements.SelectAllButton.click();
     if (unselect === pageManager.filesList.SelectionModeElements.DeselectAllButton) {
       await pageManager.filesList.SelectionModeElements.DeselectAllButton.click();
@@ -118,8 +111,9 @@ test.describe('Files tests', async () => {
 
   test('Unselect all files. All files should be unselected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
+    await apiManager.filesAPI.CreateDocument(firstName);
+    await apiManager.filesAPI.CreateSpreadsheet(secondName);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await CreateThreeDifferentFiles({pageManager, apiManager});
     await SelectUnselectAllFIles({pageManager}, pageManager.filesList.SelectionModeElements.DeselectAllButton);
     await expect(pageManager.filesList.Elements.CheckMark).not.toBeTruthy();
   });

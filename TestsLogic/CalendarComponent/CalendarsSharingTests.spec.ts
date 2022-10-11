@@ -44,16 +44,14 @@ test.describe('Sharing calendar tests', async () => {
     await expect(pageManager.calendarAccessShareModal.Buttons.ViewUrl, 'Calendar access share window should contain VIEW URL button').toBeVisible();
   });
 
-  test('Share Calendar. Check shared icon and notification.', async ({page, pageManager, apiManager}) => {
+  test('Share Calendar. Check shared icon and notification.', async ({pageManager, apiManager}) => {
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await apiManager.calendarAPI.ShareCalendar(BaseTest.userForLogin.login, BaseTest.secondUser.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await expect(pageManager.sideSecondaryCalendarMenu.Icons.SharedIcon, 'Shared icon should be presented opposite calendar when it is shared').toBeVisible();
-    await page.hover(pageManager.sideSecondaryCalendarMenu.Icons.SharedIcon._selector);
-    await expect(pageManager.sideSecondaryCalendarMenu.Hints.SharedHint, 'Shared icon should display hint with the number of people for sharing').toBeVisible();
   });
 
-  test('Revoke sharing. Sharing icon should disapear.', async ({page, pageManager, apiManager}) => {
+  test('Revoke sharing. Sharing icon should disapear.', async ({pageManager, apiManager}) => {
     const regexp = /@.+/gi;
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await apiManager.calendarAPI.ShareCalendar(BaseTest.userForLogin.login, BaseTest.secondUser.login);
