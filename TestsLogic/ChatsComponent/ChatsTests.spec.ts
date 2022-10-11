@@ -76,7 +76,8 @@ test.describe('Chats tests', async () => {
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
   });
 
-  test('Delete group. Group should be removed from Chats Tab.', async ({pageManager}) => {
+  test('Delete group. Group should be removed from Chats Tab.', async ({pageManager, browserName}) => {
+    test.slow(browserName === 'webkit', 'This feature is slow on Mac');
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
     await pageManager.newChatsModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
     await DeleteAllMembers({pageManager});

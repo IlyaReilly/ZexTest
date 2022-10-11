@@ -50,7 +50,6 @@ test.describe('Files tests', async () => {
 
   async function CreateThreeDifferentFiles({pageManager, apiManager}) {
     await apiManager.filesAPI.CreateDocument(firstName);
-    await pageManager.page.waitForLoadState();
     await apiManager.filesAPI.CreateSpreadsheet(secondName);
     await apiManager.filesAPI.CreatePresentation(thirdName);
   };
@@ -110,8 +109,9 @@ test.describe('Files tests', async () => {
 
   test('Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
     test.slow();
+    await apiManager.filesAPI.CreateSpreadsheet(firstName);
+    await apiManager.filesAPI.CreateDocument(secondName);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await CreateThreeDifferentFiles({pageManager, apiManager});
     await SelectUnselectAllFIles({pageManager});
     await expect(pageManager.filesList.Elements.UncheckMark).not.toBeTruthy();
   });

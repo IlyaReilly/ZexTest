@@ -48,7 +48,8 @@ test.describe('Space tests', async () => {
     await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.click();
   };
 
-  test('Create space. Space should appear in spaces list.', async ({pageManager}) => {
+  test('Create space. Space should appear in spaces list.', async ({pageManager, browserName}) => {
+    test.slow(browserName === 'webkit', 'This feature is slow on Mac');
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateSpace);
     await pageManager.newSpaceModal.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces(newSpaceName);
@@ -56,6 +57,7 @@ test.describe('Space tests', async () => {
   });
 
   test('Delete space. Space should be deleted.', async ({pageManager, apiManager}) => {
+    test.slow();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
     await pageManager.chatsInfo.Buttons.DeleteSpace.click();
@@ -64,6 +66,7 @@ test.describe('Space tests', async () => {
   });
 
   test('Rename space. Space should be renamed in spaces list.', async ({pageManager, apiManager}) => {
+    test.slow();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.RenameSpace(newSpaceName);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name).toHaveText(newSpaceName);
