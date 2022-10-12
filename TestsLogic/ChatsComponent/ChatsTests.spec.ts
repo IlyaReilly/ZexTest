@@ -4,8 +4,8 @@ import {test, BaseTest} from '../UITests/BaseTest';
 test.describe('Chats tests', async () => {
   let dateTimePrefix;
   let groupTitle;
-  const firstParticipant = 'test10';
-  const secondParticipant = 'test20';
+  const firstParticipant = 'test10@demo.zextras.io';
+  const secondParticipant = 'test20@demo.zextras.io';
   const thirdParticipant = 'test19@demo.zextras.io';
   const newGroupName = 'Zextras Company 321';
   const message = 'Hello! We are great team!';
