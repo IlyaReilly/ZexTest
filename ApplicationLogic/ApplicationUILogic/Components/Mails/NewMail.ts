@@ -42,6 +42,7 @@ export class NewMail extends BasePage {
 
   async SendMail() {
     await this.Buttons.Send.click();
+    await this.Buttons.DeleteDraft.waitFor();
     await this.Buttons.DeleteDraft.click();
   }
 

@@ -66,6 +66,7 @@ test.describe('Chats tests', async () => {
   };
 
   test('Create chat. Conversation should be in Chats Tab.', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateChat);
     await pageManager.newChatsModal.CreatedConversations.CreateChat(firstParticipant);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
