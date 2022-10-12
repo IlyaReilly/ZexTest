@@ -49,7 +49,7 @@ test.describe('Search tests', async () => {
     }
   });
 
-  test('Search appointment while active calendar', async ({apiManager, pageManager}) => {
+  test('Search appointment while calendar is active', async ({apiManager, pageManager}) => {
     const appointmentName = uniquePrefix + ' AppointmentName Name';
     try {
       await apiManager.calendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
