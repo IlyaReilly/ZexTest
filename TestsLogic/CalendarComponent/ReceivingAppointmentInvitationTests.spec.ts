@@ -14,6 +14,7 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
   });
 
   test.beforeEach(async ({apiManager, secondPageManager}) => {
+    BaseTest.doubleTimeout();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';

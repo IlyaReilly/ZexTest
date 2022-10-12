@@ -49,13 +49,13 @@ test.describe('Search tests', async () => {
     }
   });
 
-  test('Search appointment', async ({apiManager, pageManager}) => {
+  test('Search appointment while active calendar', async ({apiManager, pageManager}) => {
     const appointmentName = uniquePrefix + ' AppointmentName Name';
     try {
       await apiManager.calendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+      await pageManager.sideSecondaryCalendarMenu.CalendarSelecting.Select();
       await pageManager.headerMenu.MakeSearch(uniquePrefix);
-      await pageManager.searchResultsList.Elements.SearchResultAppointments.locator(`"${appointmentName}"`).waitFor();
       await expect(pageManager.searchResultsList.Elements.SearchResultAppointments.locator(`"${appointmentName}"`)).toBeVisible();
     } catch (e) {
       throw e;
