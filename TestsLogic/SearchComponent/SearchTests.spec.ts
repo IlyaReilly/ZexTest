@@ -55,6 +55,7 @@ test.describe('Search tests', async () => {
       await apiManager.calendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
       await pageManager.headerMenu.MakeSearch(uniquePrefix);
+      await pageManager.searchResultsList.Elements.SearchResultAppointments.locator(`"${appointmentName}"`).waitFor();
       await expect(pageManager.searchResultsList.Elements.SearchResultAppointments.locator(`"${appointmentName}"`)).toBeVisible();
     } catch (e) {
       throw e;

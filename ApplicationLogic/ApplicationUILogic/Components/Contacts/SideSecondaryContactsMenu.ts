@@ -62,6 +62,7 @@ export class SideSecondaryContactsMenu extends BasePage {
   }
 
   async ExpandContactsFolder() {
+    await this.page.waitForLoadState('domcontentloaded');
     await this.Buttons.ExpandAddressBooks.locator('nth=0').click();
   }
 
