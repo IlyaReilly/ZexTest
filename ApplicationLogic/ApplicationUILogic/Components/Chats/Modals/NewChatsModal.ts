@@ -22,6 +22,7 @@ export class NewChatsModal extends ModalWindowBase {
   Elements = {
     UserInFilterList: this.Containers.MainContainer.locator('.fXXPYY'),
     UserInGroupFilterList: this.page.locator('.gwYxjf'),
+    CurrentUser: this.Containers.MainContainer.locator('.fWXgji'),
   };
 
   async CreateItem(participant, option, participant2?, title?) {
@@ -33,6 +34,7 @@ export class NewChatsModal extends ModalWindowBase {
       await this.NewChatDialog.TitleTextbox.fill(title);
       await this.NewChatDialog.UserFilterTextboxInGroup.type(participant);
       await this.Elements.UserInGroupFilterList.locator('nth=0').click();
+      await this.Elements.CurrentUser.waitFor();
       await this.NewChatDialog.UserFilterTextboxInGroup.type(participant2);
       await this.Elements.UserInGroupFilterList.locator('nth=0').click();
       await this.Buttons.Create.click();

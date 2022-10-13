@@ -6,7 +6,7 @@ test.describe('Sharing calendar tests', async () => {
   let appointmentTitle;
   let appointmentBody;
 
-  test.beforeAll(async ({page, apiManager}) => {
+  test.beforeAll(async ({apiManager}) => {
     const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
     await Promise.all(allAppionmentsIds.map(async (id) => {
       return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
@@ -27,18 +27,13 @@ test.describe('Sharing calendar tests', async () => {
     await page.close();
   });
   // calendarAccessShareModal does not appear
-  test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({page, pageManager, apiManager}) => {
+  test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({pageManager, apiManager}) => {
     test.fail();
     BaseTest.doubleTimeout();
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.ShareCalendar();
-    await pageManager.shareCalendarModal.TextBoxes.Recipients.type(BaseTest.secondUser.login);
-    await pageManager.shareCalendarModal.ShareWithDropdown.UsersDropdown.waitFor();
-    await pageManager.shareCalendarModal.TextBoxes.Recipients.press('Enter');
-    const elementHandle = await page.$(pageManager.shareCalendarModal.Buttons.ShareButton._selector);
-    await elementHandle?.waitForElementState('enabled');
-    await pageManager.shareCalendarModal.Buttons.ShareButton.click();
+    await pageManager.shareCalendarModal.ShareCalendar(BaseTest.secondUser.login);
     await expect(pageManager.calendarAccessShareModal.Buttons.IcsUrl, 'Calendar access share window should contain ICS URL button').toBeVisible();
     await expect(pageManager.calendarAccessShareModal.Buttons.OutlookUrl, 'Calendar access share window should contain OUTLOOK URL button').toBeVisible();
     await expect(pageManager.calendarAccessShareModal.Buttons.ViewUrl, 'Calendar access share window should contain VIEW URL button').toBeVisible();

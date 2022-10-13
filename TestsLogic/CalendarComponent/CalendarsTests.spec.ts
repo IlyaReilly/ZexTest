@@ -14,14 +14,14 @@ test.describe('Calendars tests', async () => {
     Month: "Month",
   };
 
-  test.beforeAll(async ({page, apiManager}) => {
+  test.beforeAll(async ({apiManager}) => {
     const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
     await Promise.all(allAppionmentsIds.map(async (id) => {
       return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
     }));
   });
 
-  test.beforeEach(async ({pageManager, apiManager}) => {
+  test.beforeEach(async ({pageManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
@@ -83,6 +83,7 @@ test.describe('Calendars tests', async () => {
   test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
