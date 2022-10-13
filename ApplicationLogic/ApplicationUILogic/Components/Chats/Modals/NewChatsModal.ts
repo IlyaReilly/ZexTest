@@ -36,6 +36,8 @@ export class NewChatsModal extends ModalWindowBase {
       await this.NewChatDialog.UserFilterTextboxInGroup.type(participant2);
       await this.Elements.UserInGroupFilterList.locator('nth=0').click();
       await this.Buttons.Create.click();
+    } else {
+      console.log('Incorrect option');
     };
   };
 
