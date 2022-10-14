@@ -45,7 +45,8 @@ test.describe('Space tests', async () => {
     const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
     await apiManager.chatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
-    await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.click();
+    await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.waitFor();
+    await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.first().click();
   };
 
   test('Create space. Space should appear in spaces list.', async ({pageManager, browserName}) => {
@@ -105,7 +106,7 @@ test.describe('Space tests', async () => {
   test('Rename topic in space.Topic in space should be renamed in spaces list.', async ({pageManager, apiManager}) => {
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.RenameTopicSpace(newSpaceTopic);
-    await expect(pageManager.spaceInfo.Items.TopicName.locator(`"${newSpaceTopic}"`)).toBeVisible();
+    await expect(pageManager.spaceInfo.Items.TopicName.locator(`"${newSpaceTopic}"`).first()).toBeVisible();
   });
 
   test('Add channel in space.Channel should be visible in spaces list in space.', async ({pageManager, apiManager}) => {

@@ -43,7 +43,6 @@ export class NewAppointment extends BasePage {
       await this.CheckBoxes.Private.click();
     }
     await this.TextBox.Body.type(body);
-    await this.TextBox.Body.locator(`"${body}"`).waitFor();
     await this.Buttons.Send.click();
   };
 }

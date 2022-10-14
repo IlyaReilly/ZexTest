@@ -72,7 +72,6 @@ test.describe('Calendars tests', async () => {
     runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-    await page.reload();
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     await pageManager.calendar.MoveAppointmentToTrash(appointmentTitle);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
