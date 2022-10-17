@@ -78,7 +78,7 @@ test.describe('Chats tests', async () => {
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
   });
 
-  test('Delete group. Group should be removed from Chats Tab.', async ({pageManager, browserName}) => {
+  test('Delete group. Group should be removed from Chats Tab.', async ({pageManager}) => {
     test.slow();
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
     await pageManager.newChatsModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
@@ -89,7 +89,7 @@ test.describe('Chats tests', async () => {
   test('Rename group. Group name should be changed in Chats Tab.', async ({pageManager, apiManager}) => {
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatsInfo.RenameGroup(newGroupName);
-    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name).toHaveText(newGroupName);
+    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${newGroupName}"`)).toBeVisible;
   });
 
   test('Mute notifications in group. The group must to have a mute icon', async ({pageManager, apiManager}) => {
