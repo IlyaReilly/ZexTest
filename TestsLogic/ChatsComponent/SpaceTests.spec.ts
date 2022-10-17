@@ -80,8 +80,10 @@ test.describe('Space tests', async () => {
   });
 
   test('Activate notifications in space. The space must not have a mute icon ', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.Buttons.MuteNotifications.click();
+    await pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon.waitFor();
     await pageManager.spaceInfo.Buttons.ActivateNotifications.click();
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).not.toBeVisible();
   });
@@ -100,7 +102,7 @@ test.describe('Space tests', async () => {
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(participant);
-    await expect(pageManager.chatsInfo.Items.Member).toHaveCount(3);
+    await expect(pageManager.spaceInfo.Items.Member.locator(`"${participant}"`)).toHaveCount(1);
   });
 
   test('Rename topic in space.Topic in space should be renamed in spaces list.', async ({pageManager, apiManager}) => {
@@ -110,6 +112,7 @@ test.describe('Space tests', async () => {
   });
 
   test('Add channel in space.Channel should be visible in spaces list in space.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.Buttons.AddChannel.click();
     await pageManager.newChannelModal.CreateNewChannel(titleName, topicName);

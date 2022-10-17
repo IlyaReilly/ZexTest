@@ -83,7 +83,7 @@ test.describe('Chats tests', async () => {
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
     await pageManager.newChatsModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
     await DeleteAllMembers({pageManager});
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).not.toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${groupTitle}"`)).not.toBeVisible();
   });
 
   test('Rename group. Group name should be changed in Chats Tab.', async ({pageManager, apiManager}) => {
@@ -106,6 +106,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Clear history for current user in group. Chat field must be empty', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatField.SendCurrentMessage(message);
     await expect(pageManager.chatField.TextBoxes.ChatsRaw).toContainText(message);

@@ -51,7 +51,6 @@ test.describe('Sharing calendar tests', async () => {
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await apiManager.calendarAPI.ShareCalendar(BaseTest.userForLogin.login, BaseTest.secondUser.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
-    await expect(pageManager.sideSecondaryCalendarMenu.Icons.SharedIcon, 'Shared icon should be presented opposite calendar when it is shared').toBeVisible();
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.EditCalendarProperties();
     const shredWithUserName = BaseTest.secondUser.login.replace(regexp, '');
     await pageManager.editCalendarPropertyModal.SharingThisFolderActions.Revoke(shredWithUserName);

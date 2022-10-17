@@ -105,7 +105,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
   });
 
-  test('Share file', async ({browser, apiManager, pageManager, secondPageManager}) => {
+  test('Share file', async ({apiManager, pageManager, secondPageManager}) => {
     BaseTest.doubleTimeout();
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.SharingFile(BaseTest.secondUser.login);

@@ -88,6 +88,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.filesAPI.CreateDocument(oldItemName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
