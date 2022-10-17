@@ -36,7 +36,9 @@ export class ChatsInfo extends BasePage {
 
   async RenameGroup(newName) {
     await this.Buttons.EditButton.click();
+    await this.TextBoxes.EditNameField.waitFor();
     await this.TextBoxes.EditNameField.fill(newName);
+    await this.Containers.GroupContainer.locator(`[value="${newName}"]`).waitFor();
     await this.Buttons.SaveNewName.click();
   };
 }

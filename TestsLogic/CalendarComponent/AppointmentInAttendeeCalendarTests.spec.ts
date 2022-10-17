@@ -28,12 +28,13 @@ test.describe('Calendars tests. Appointment in attendee calendar.', async () => 
   });
 
   test('Create new appointment. Attendee see appointment in own calendar.', async ({secondPageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await expect(secondPageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
   test('Create new appointment. Attendee see appointment with need action icon.', async ({secondPageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
+    await secondPageManager.page.waitForLoadState();
     await expect(secondPageManager.calendar.Selectors.NeedActionsIconSelector.locator('nth=0')).toBeVisible();
   });
 });

@@ -4,8 +4,8 @@ import {test, BaseTest} from '../UITests/BaseTest';
 test.describe('Chats tests', async () => {
   let dateTimePrefix;
   let groupTitle;
-  const firstParticipant = 'test10';
-  const secondParticipant = 'test20';
+  const firstParticipant = 'test10@demo.zextras.io';
+  const secondParticipant = 'test20@demo.zextras.io';
   const thirdParticipant = 'test19@demo.zextras.io';
   const newGroupName = 'Zextras Company 321';
   const message = 'Hello! We are great team!';
@@ -66,27 +66,30 @@ test.describe('Chats tests', async () => {
   };
 
   test('Create chat. Conversation should be in Chats Tab.', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateChat);
     await pageManager.newChatsModal.CreatedConversations.CreateChat(firstParticipant);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
   });
 
   test('Create group. Group should be in Chats Tab.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
   });
 
   test('Delete group. Group should be removed from Chats Tab.', async ({pageManager}) => {
+    test.slow();
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
     await pageManager.newChatsModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
     await DeleteAllMembers({pageManager});
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).not.toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${groupTitle}"`)).not.toBeVisible();
   });
 
   test('Rename group. Group name should be changed in Chats Tab.', async ({pageManager, apiManager}) => {
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatsInfo.RenameGroup(newGroupName);
-    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name).toHaveText(newGroupName);
+    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${newGroupName}"`)).toBeVisible;
   });
 
   test('Mute notifications in group. The group must to have a mute icon', async ({pageManager, apiManager}) => {
@@ -103,6 +106,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Clear history for current user in group. Chat field must be empty', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatField.SendCurrentMessage(message);
     await expect(pageManager.chatField.TextBoxes.ChatsRaw).toContainText(message);
@@ -113,6 +117,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Add new member in group. New member must be visible in group info.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatsInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(thirdParticipant);

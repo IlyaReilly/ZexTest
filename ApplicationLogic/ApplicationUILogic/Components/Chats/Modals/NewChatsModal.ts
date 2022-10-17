@@ -16,31 +16,35 @@ export class NewChatsModal extends ModalWindowBase {
     // UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
     TopicTextbox: this.Containers.MainContainer.locator('[name="Topic"]'),
     TitleTextbox: this.Containers.MainContainer.locator('[name="Title"]'),
-    UserFilterTextbox: this.Containers.MainContainer.locator('[name="Start typing to pick an address"]'),
+    UserFilterTextboxInGroup: this.Containers.MainContainer.locator('[name="Start typing to pick an address"]'),
   };
 
   Elements = {
     UserInFilterList: this.Containers.MainContainer.locator('.fXXPYY'),
     UserInGroupFilterList: this.page.locator('.gwYxjf'),
+    CurrentUser: this.Containers.MainContainer.locator('.fWXgji'),
   };
 
-  async CreateItem(participant, participant2?, title?, option?) {
+  async CreateItem(participant, option, participant2?, title?) {
     if (option === this.NewChatDialog.UserFilterTextBox) {
       await option.fill(participant);
       await this.NewChatDialog.UsersListItem.locator('nth=-1').click();
       await this.Buttons.Create.click();
-    } else {
-      await this.NewChatDialog .TitleTextbox.fill(title);
-      await this.NewChatDialog .UserFilterTextbox.type(participant);
+    } else if (option === this.NewChatDialog.UserFilterTextboxInGroup) {
+      await this.NewChatDialog.TitleTextbox.fill(title);
+      await this.NewChatDialog.UserFilterTextboxInGroup.type(participant);
       await this.Elements.UserInGroupFilterList.locator('nth=0').click();
-      await this.NewChatDialog .UserFilterTextbox.type(participant2);
+      await this.Elements.CurrentUser.waitFor();
+      await this.NewChatDialog.UserFilterTextboxInGroup.type(participant2);
       await this.Elements.UserInGroupFilterList.locator('nth=0').click();
       await this.Buttons.Create.click();
+    } else {
+      console.log('Incorrect option');
     };
   };
 
   CreatedConversations = {
-    CreateChat: async (participant) => await this.CreateItem(this.NewChatDialog.UserFilterTextBox, participant),
-    CreateGroup: async (participant, participant2, title) => await this.CreateItem(participant, participant2, title),
+    CreateChat: async (participant) => await this.CreateItem(participant, this.NewChatDialog.UserFilterTextBox),
+    CreateGroup: async (participant, participant2, title) => await this.CreateItem(participant, this.NewChatDialog.UserFilterTextboxInGroup, participant2, title),
   };
 }

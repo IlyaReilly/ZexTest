@@ -66,6 +66,7 @@ test.describe('Calendars view tests', async () => {
   });
 
   test('Calendar view: Current Day Schedule is displayed by "TODAY" button clicking', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     const currentMonthAndDate = await pageManager.calendar.CalculateCurrentDate();
     await pageManager.calendar.SelectCalendarView(calendarView.Day);
     await pageManager.calendar.Elements.NextDateArrow.click({clickCount: 3});

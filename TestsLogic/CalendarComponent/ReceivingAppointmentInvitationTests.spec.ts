@@ -14,6 +14,7 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
   });
 
   test.beforeEach(async ({apiManager, secondPageManager}) => {
+    BaseTest.doubleTimeout();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
@@ -27,12 +28,12 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
   });
 
   test('Create new appointment. Attendee receives invitation.', async ({secondPageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await expect(secondPageManager.mailsList.Elements.Letter.locator(`"${appointmentTitle}"`), 'User receives invitation mail with appointment title in subject').toBeVisible();
   });
 
   test('Create new appointment. Attendee receives invitation with options Yes, Maybe, No, Propose New Time.', async ({secondPageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await secondPageManager.mailsList.OpenMail(appointmentTitle);
     await expect(secondPageManager.mailDetails.AppointmentInvitationOptions.Yes, 'Appointments invitation message has option Yes').toBeVisible();
     await expect(secondPageManager.mailDetails.AppointmentInvitationOptions.No, 'Appointments invitation message has option No').toBeVisible();
@@ -41,7 +42,7 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
   });
 
   test('Create new appointment. Attendee receives invitation with Participants.', async ({secondPageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await secondPageManager.mailsList.OpenMail(appointmentTitle);
     await expect(secondPageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.userForLogin.login}"`), `Appointment has ${BaseTest.userForLogin.login} in participants`).toBeVisible();
     await expect(secondPageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.secondUser.login}"`), `Appointment has ${BaseTest.secondUser.password} in participants`).toBeVisible();

@@ -45,17 +45,20 @@ test.describe('Space tests', async () => {
     const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
     await apiManager.chatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
-    await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.click();
+    await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.waitFor();
+    await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.first().click();
   };
 
-  test('Create space. Space should appear in spaces list.', async ({pageManager}) => {
+  test('Create space. Space should appear in spaces list.', async ({pageManager, browserName}) => {
+    test.slow(browserName === 'webkit', 'This feature is slow on Mac');
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateSpace);
     await pageManager.newSpaceModal.CreateSpace(spaceTitle, spaceTopic, BaseTest.secondUser.login);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces(newSpaceName);
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.first()).toBeVisible();
   });
 
   test('Delete space. Space should be deleted.', async ({pageManager, apiManager}) => {
+    test.slow();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
     await pageManager.chatsInfo.Buttons.DeleteSpace.click();
@@ -64,6 +67,7 @@ test.describe('Space tests', async () => {
   });
 
   test('Rename space. Space should be renamed in spaces list.', async ({pageManager, apiManager}) => {
+    test.slow();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.RenameSpace(newSpaceName);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name).toHaveText(newSpaceName);
@@ -76,13 +80,16 @@ test.describe('Space tests', async () => {
   });
 
   test('Activate notifications in space. The space must not have a mute icon ', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.Buttons.MuteNotifications.click();
+    await pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon.waitFor();
     await pageManager.spaceInfo.Buttons.ActivateNotifications.click();
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).not.toBeVisible();
   });
 
   test('Clear history for current user in space. Chat field must be empty', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.chatField.SendCurrentMessage(message);
     await expect(pageManager.chatField.TextBoxes.ChatsRaw).toContainText(message);
@@ -93,19 +100,21 @@ test.describe('Space tests', async () => {
   });
 
   test('Add new member in space. New member must be visible in space info.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(participant);
-    await expect(pageManager.chatsInfo.Items.Member).toHaveCount(3);
+    await expect(pageManager.spaceInfo.Items.Member.locator(`"${participant}"`)).toHaveCount(1);
   });
 
   test('Rename topic in space.Topic in space should be renamed in spaces list.', async ({pageManager, apiManager}) => {
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.RenameTopicSpace(newSpaceTopic);
-    await expect(pageManager.spaceInfo.Items.TopicName.locator(`"${newSpaceTopic}"`)).toBeVisible();
+    await expect(pageManager.spaceInfo.Items.TopicName.locator(`"${newSpaceTopic}"`).first()).toBeVisible();
   });
 
   test('Add channel in space.Channel should be visible in spaces list in space.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.Buttons.AddChannel.click();
     await pageManager.newChannelModal.CreateNewChannel(titleName, topicName);

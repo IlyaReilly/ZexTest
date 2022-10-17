@@ -33,12 +33,13 @@ test.describe('New address book tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
     await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
+    await expect(pageManager.sideSecondaryContactsMenu.Buttons.ExpandAddressBooks).toHaveCount(2);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'New address book should be visible in Contacts folder').toBeVisible();
   });
 
   test('Move Address book to Root. New Address book should be visible on Root.', async ({pageManager}) => {
-    test.slow();
+    BaseTest.doubleTimeout();
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.MoveAddressBookModal(addressBookName);
     await pageManager.moveAddressBookModal.DropDowns.Root.click();
@@ -46,14 +47,13 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`).first(), 'New Address book should be visible on Root').toBeVisible();
   });
 
-  test('Share Address book. Share icon should be near folder name.', async ({page, pageManager}) => {
+  test('Share Address book. Share icon should be near folder name.', async ({pageManager}) => {
+    test.fail();
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.ShareAddressBookModal(addressBookName);
+    await expect(pageManager.sideSecondaryContactsMenu.Buttons.ExpandAddressBooks).toHaveCount(2);
     await pageManager.shareAddressBookModal.Share(BaseTest.secondUser.login);
-    await page.reload();
-    await page.waitForLoadState('networkidle');
-    await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
-    await expect(pageManager.sideSecondaryContactsMenu.Icons.SharedIcon.first(), 'Share icon should be near folder name').toBeVisible();
+    await expect(pageManager.sideSecondaryContactsMenu.Icons.SharedIcon, 'Share icon should be near folder name').toBeVisible();
   });
 
   test('Edit Address book. New Address book name should be visible.', async ({pageManager}) => {

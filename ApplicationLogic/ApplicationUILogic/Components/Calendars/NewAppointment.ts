@@ -15,6 +15,7 @@ export class NewAppointment extends BasePage {
 
   Dropdowns = {
     Attendee: this.Containers.AttendeesDropdown.locator('.ipOeIU'),
+    Item: this.page.locator('[value="[object Object]"]'),
   };
 
   TextBox = {
@@ -36,14 +37,12 @@ export class NewAppointment extends BasePage {
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();
     await this.TextBox.Attendees.type(attendees);
-    await this.page.keyboard.press('Enter');
+    await this.Dropdowns.Item.waitFor();
+    await this.Dropdowns.Item.click();
     if (privateApp) {
-      this.CheckBoxes.Private.click();
+      await this.CheckBoxes.Private.click();
     }
     await this.TextBox.Body.type(body);
-    await this.TextBox.Body.locator(`"${body}"`).waitFor();
-    const elementHandle = await this.page.$(this.Buttons.Send._selector);
-    await elementHandle?.waitForElementState('enabled');
     await this.Buttons.Send.click();
-  }
+  };
 }
