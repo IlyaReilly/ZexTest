@@ -79,7 +79,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Delete group. Group should be removed from Chats Tab.', async ({pageManager, browserName}) => {
-    test.slow(browserName === 'webkit', 'This feature is slow on Mac');
+    test.slow();
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
     await pageManager.newChatsModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
     await DeleteAllMembers({pageManager});
@@ -117,6 +117,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Add new member in group. New member must be visible in group info.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatsInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(thirdParticipant);

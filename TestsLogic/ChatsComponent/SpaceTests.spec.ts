@@ -89,6 +89,7 @@ test.describe('Space tests', async () => {
   });
 
   test('Clear history for current user in space. Chat field must be empty', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.chatField.SendCurrentMessage(message);
     await expect(pageManager.chatField.TextBoxes.ChatsRaw).toContainText(message);
@@ -99,6 +100,7 @@ test.describe('Space tests', async () => {
   });
 
   test('Add new member in space. New member must be visible in space info.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
     await pageManager.spaceInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(participant);

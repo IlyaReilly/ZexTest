@@ -47,6 +47,7 @@ test.describe('Sharing calendar tests', async () => {
   });
 
   test('Revoke sharing. Sharing icon should disapear.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     const regexp = /@.+/gi;
     await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await apiManager.calendarAPI.ShareCalendar(BaseTest.userForLogin.login, BaseTest.secondUser.login);
