@@ -99,6 +99,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('Activate notifications in group. The group must not have a mute icon ', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatsInfo.Buttons.MuteNotifications.click();
     await pageManager.chatsInfo.Buttons.ActivateNotifications.click();
@@ -121,6 +122,6 @@ test.describe('Chats tests', async () => {
     await CreateGroupAndOpenDetails({pageManager, apiManager});
     await pageManager.chatsInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(thirdParticipant);
-    await expect(pageManager.chatsInfo.Items.Member).toHaveCount(4);
+    await expect(pageManager.chatsInfo.Items.Member.locator(`"${thirdParticipant}"`)).toHaveCount(1);
   });
 });
