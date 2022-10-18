@@ -76,6 +76,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.filesAPI.CreatePresentation(oldItemName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
@@ -95,6 +96,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Select file. File should be selected in Home tab.', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.filesAPI.CreateDocument(oldItemName);
     await pageManager.filesList.Elements.FileIcon.click();

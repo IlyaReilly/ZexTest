@@ -94,6 +94,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File must be flagged and unflagged', async ({apiManager, pageManager}) => {
+    BaseTest.doubleTimeout();
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.Flag();
     await expect(pageManager.filesList.Elements.FlagIcon).toBeVisible();
