@@ -53,6 +53,18 @@ export class ChatsAPI extends BaseAPI {
     return body;
   };
 
+  async CreateVirtualRoom(name) {
+    const instantMeetingResponse = await this.page.request.post(`${this.restServiceUrl}${this.createInstantMeetingRequest}`, {
+      data: {"name": name},
+    });
+    const body = await this.GetResponseBody(instantMeetingResponse);
+    const id = body.id;
+
+    await this.page.request.post(`${this.restServiceUrl}${this.createMeetingRequest}`, {
+      data: {"conversation_id": id, "scheduled": true, "name": name},
+    });
+  };
+
   async GetUsers() {
     const response = await this.page.request.post(`${this.restServiceUrl}${this.getConversationsRequest}`, {
       data: {},

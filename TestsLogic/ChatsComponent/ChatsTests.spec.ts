@@ -65,6 +65,14 @@ test.describe('Chats tests', async () => {
     await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator('nth=0').click();
   };
 
+  async function CreateChats({pageManager}, participants) {
+    for (const participant of participants) {
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewChat();
+      await pageManager.newChatsModal.CreatedConversations.CreateChat(participant);
+      await pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.waitFor();
+    }
+  };
+
   test('Create chat. Conversation should be in Chats Tab.', async ({pageManager}) => {
     BaseTest.doubleTimeout();
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateChat);
@@ -123,5 +131,12 @@ test.describe('Chats tests', async () => {
     await pageManager.chatsInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(thirdParticipant);
     await expect(pageManager.chatsInfo.Items.Member.locator(`"${thirdParticipant}"`)).toHaveCount(1);
+  });
+
+  test('Filter chats list. Only needed chat should be visible in Chats Tab.', async ({pageManager}) => {
+    await CreateChats({pageManager}, [secondParticipant, thirdParticipant]);
+    await pageManager.sideSecondaryChatsMenu.Textboxes.FilterChatsList.fill(thirdParticipant);
+    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name).toHaveText(thirdParticipant);
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsListItem.locator(`"${secondParticipant}"`)).toHaveCount(0);
   });
 });
