@@ -22,6 +22,22 @@ export class CalendarAPI extends BaseAPI {
     return id;
   };
 
+  async CreateCalendarRequest(name : string, user : string) {
+    await this.page.request.post(`${this.soapServiceUrl}${this.createFolderRequest}`, {
+      data: {
+        "Body": {"CreateFolderRequest": {"_jsns": "urn:zimbraMail", "folder": {"color": "0", "f": "", "l": "1", "name": name, "view": "appointment"}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 4}, "session": {"id": "13384", "_content": "13384"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 106.0.0.0 (Windows)", "version": "22.10.0_ZEXTRAS_202210 agent 20220923-0902 FOSS"}}},
+      },
+    });
+  };
+
+  async DeleteCalendarFolderRequest(id: string, user: string) {
+    await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
+      data: {
+        "Body": {"FolderActionRequest": {"action": {"id": id, "op": "delete", "f": ""}, "_jsns": "urn:zimbraMail"}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "13415", "_content": "13415"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 104.0.0.0 (Windows)", "version": "22.7.2_ZEXTRAS_202207 agent 20220726-0959 FOSS"}}},
+      },
+    });
+  };
+
   async CalendarSearchQuery(query: string, user: string) {
     let id = '';
     const startEndExpand = this.StartEndRangeCounterForSearch();
@@ -90,14 +106,6 @@ export class CalendarAPI extends BaseAPI {
     const foldersList = await this.GetCalendarFolders(user);
     const folder = foldersList.find((x) => x.name == folderName);
     return folder.id;
-  };
-
-  async DeleteCalendarFolderRequest(id: string, user: string) {
-    await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
-      data: {
-        "Body": {"FolderActionRequest": {"action": {"id": id, "op": "delete", "f": ""}, "_jsns": "urn:zimbraMail"}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "13415", "_content": "13415"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 104.0.0.0 (Windows)", "version": "22.7.2_ZEXTRAS_202207 agent 20220726-0959 FOSS"}}},
-      },
-    });
   };
 
   ParseDateToISO(date) {
