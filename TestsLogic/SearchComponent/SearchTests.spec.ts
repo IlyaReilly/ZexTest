@@ -19,7 +19,7 @@ test.describe('Search tests', async () => {
     const mailSubject = uniquePrefix + ' Autotest Mail Subject';
     const mailBody = uniquePrefix + ' Autotest Mail Body';
     try {
-      await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
       await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
@@ -37,7 +37,7 @@ test.describe('Search tests', async () => {
   test('Search contact', async ({apiManager, pageManager}) => {
     const contactName = uniquePrefix + ' First Contact Name';
     try {
-      await apiManager.contactsAPI.CreateContact(contactName, BaseTest.userForLogin.login);
+      await apiManager.createContactsAPI.CreateContact(contactName, BaseTest.userForLogin.login);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
       await pageManager.headerMenu.MakeSearch(uniquePrefix);
       await expect(pageManager.searchResultsList.Elements.SearchResultContacts.locator(`"${contactName}"`)).toBeVisible();
@@ -45,14 +45,14 @@ test.describe('Search tests', async () => {
       throw e;
     } finally {
       const id = await apiManager.contactsAPI.ContactsSearchQuery(contactName, BaseTest.userForLogin.login);
-      await apiManager.contactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
+      await apiManager.deleteContactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
     }
   });
 
   test('Search appointment while calendar is active', async ({apiManager, pageManager}) => {
     const appointmentName = uniquePrefix + ' AppointmentName Name';
     try {
-      await apiManager.calendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
+      await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
       await pageManager.sideSecondaryCalendarMenu.CalendarSelecting.Select();
       await pageManager.headerMenu.MakeSearch(uniquePrefix);
@@ -73,7 +73,7 @@ test.describe('Search tests', async () => {
     const filePathDest = path.resolve("./TestData/Files/", fileNameFull);
     fs.copyFileSync(filePathSrc, filePathDest);
     try {
-      await apiManager.filesAPI.UploadFileViaAPI(fileNameFull);
+      await apiManager.createFilesAPI.UploadFileViaAPI(fileNameFull);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
       await pageManager.headerMenu.MakeSearch(fileName);
       await expect(pageManager.searchResultsList.Elements.SearchResultFiles.locator(`"${fileName}"`)).toBeVisible();
@@ -82,7 +82,7 @@ test.describe('Search tests', async () => {
     } finally {
       fs.unlinkSync(filePathDest);
       const id = await apiManager.filesAPI.FilesSearchQuery(fileName);
-      await apiManager.filesAPI.DeleteFilePermanentlyById(id);
+      await apiManager.deleteFilesAPI.DeleteFilePermanentlyById(id);
     }
   });
 });
