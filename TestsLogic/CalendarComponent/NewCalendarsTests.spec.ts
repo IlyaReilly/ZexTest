@@ -9,7 +9,7 @@ test.describe('New calendar tests', async () => {
     const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
     const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
     await Promise.all(allCustomFolders.map(async (folder) => {
-      return await apiManager.calendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);
+      return await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);
     }));
   });
 
@@ -20,7 +20,7 @@ test.describe('New calendar tests', async () => {
 
   test.afterEach(async ({page, apiManager}) => {
     const calendarFolderId = await apiManager.calendarAPI.GetCalendarFolderIdByName(BaseTest.userForLogin.login, calendarName);
-    await apiManager.calendarAPI.DeleteCalendarFolderRequest(calendarFolderId, BaseTest.userForLogin.login);
+    await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(calendarFolderId, BaseTest.userForLogin.login);
     await page.close();
   });
 

@@ -69,7 +69,7 @@ test.describe('Calendars tests', async () => {
 
   test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
-    await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
+    await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
@@ -82,9 +82,9 @@ test.describe('Calendars tests', async () => {
 
   test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
-    runtimeAppoinmentId = await apiManager.calendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
+    runtimeAppoinmentId = await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-    await apiManager.calendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, BaseTest.userForLogin.login);
+    await apiManager.deleteCalendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);

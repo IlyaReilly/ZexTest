@@ -24,14 +24,14 @@ test.describe('Chats tests', async () => {
   async function CleanConversationsPanel({apiManager}) {
     const conversations = await apiManager.chatsAPI.GetConversations();
     await Promise.all(conversations.map(async (conversation) => {
-      return apiManager.chatsAPI.DeleteConversation(conversation.id);
+      return apiManager.deleteChatsAPI.DeleteConversation(conversation.id);
     }));
     await Promise.all(conversations.map(async (conversation) => {
       const users = await apiManager.chatsAPI.GetUsers();
-      return apiManager.chatsAPI.KickOffUser(conversation.id, users);
+      return apiManager.deleteChatsAPI.KickOffUser(conversation.id, users);
     }));
     await Promise.all(conversations.map(async (conversation) => {
-      return apiManager.chatsAPI.DeleteGroup(conversation.id);
+      return apiManager.deleteChatsAPI.DeleteGroup(conversation.id);
     }));
   };
 
@@ -60,7 +60,7 @@ test.describe('Chats tests', async () => {
   async function CreateGroupAndOpenDetails({pageManager, apiManager}) {
     const firstUserId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
     const seconduserId = await apiManager.usersAPI.GetUserId(BaseTest.thirdUser.login);
-    await apiManager.chatsAPI.CreateGroup(groupTitle, [firstUserId, seconduserId]);
+    await apiManager.createChatsAPI.CreateGroup(groupTitle, [firstUserId, seconduserId]);
     await pageManager.page.waitForLoadState();
     await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator('nth=0').click();
   };
