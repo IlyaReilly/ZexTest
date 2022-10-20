@@ -27,6 +27,7 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   Icons = {
     CalendarUnchecked: this.Containers.MainContainer.locator('[data-name="calendar"] >> nth=0'),
+    // CalendarUnchecked: this.Containers.MainContainer.locator('[data-testid*="Calendar2"]'),
     TrashUnchecked: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
     SharedIcon: this.Containers.MainContainer.locator('[data-testid*="ArrowCircleRight"]'),
   };
@@ -44,33 +45,47 @@ export class SideSecondaryCalendarMenu extends BasePage {
     super(page);
   }
 
-  async OpenContextMenuForCalendar() {
-    await this.Tabs.Calendar.click({button: 'right'});
+  async GetCalendarColorByName(name: string) {
+    const calendarIconElement = await this.page.waitForSelector(`text=${name} >> xpath=preceding-sibling::* >> svg`);
+    const color = await calendarIconElement.evaluate((el) => {
+      return window.getComputedStyle(el).getPropertyValue('color');
+    });
+    return color;
+  }
+
+  async OpenContextMenuForCalendar(name = '') {
+    let calendar;
+    if (name) {
+      calendar = await this.Containers.MainContainer.locator(`"${name}"`);
+    } else {
+      calendar = await this.Tabs.Calendar;
+    }
+    await calendar.click({button: 'right'});
   }
 
   OpenCalendarContextMenuOption = {
-    ShareCalendar: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.ShareCalendar);
+    ShareCalendar: async (name = '') => {
+      await this.ClickContextMenuOption(this.ContextMenu.ShareCalendar, name);
     },
-    NewCalendar: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.NewCalendar);
+    NewCalendar: async (name = '') => {
+      await this.ClickContextMenuOption(this.ContextMenu.NewCalendar, name);
     },
-    MoveToRoot: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.MoveToRoot);
+    MoveToRoot: async (name = '') => {
+      await this.ClickContextMenuOption(this.ContextMenu.MoveToRoot, name);
     },
-    EditCalendarProperties: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.EditCalendarProperties);
+    EditCalendarProperties: async (name = '') => {
+      await this.ClickContextMenuOption(this.ContextMenu.EditCalendarProperties, name);
     },
-    DeleteCalendar: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.DeleteCalendar);
+    DeleteCalendar: async (name = '') => {
+      await this.ClickContextMenuOption(this.ContextMenu.DeleteCalendar, name);
     },
-    CalendarAccessShare: async () => {
-      await this.ClickContextMenuOption(this.ContextMenu.CalendarAccessShare);
+    CalendarAccessShare: async (name = '') => {
+      await this.ClickContextMenuOption(this.ContextMenu.CalendarAccessShare, name);
     },
   };
 
-  async ClickContextMenuOption(element) {
-    await this.OpenContextMenuForCalendar();
+  async ClickContextMenuOption(element, name = '') {
+    await this.OpenContextMenuForCalendar(name);
     await element.click();
   }
 

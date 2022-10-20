@@ -21,6 +21,15 @@ export class EditCalendarPropertyModal extends ModalWindowBase {
     AddShare: this.Containers.MainContainer.locator('"Add share"'),
   };
 
+  Dropdowns = {
+    Color: this.Containers.MainContainer.locator('"Calendar color"'),
+    DropdownContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+  };
+
+  TextBoxes = {
+    CalendarName: this.Containers.MainContainer.locator('[name="Calendar name"]'),
+  };
+
   SharingThisFolderActions = {
     Edit: async (user) => {
       const btn = await this.GetSharingThisFolderActionsButton(user, this.SharingThisFolderButtonsText.Edit);
@@ -35,6 +44,15 @@ export class EditCalendarPropertyModal extends ModalWindowBase {
       await btn.click();
     },
   };
+
+  async ChangeCalendarName(newName) {
+    await this.TextBoxes.CalendarName.fill(newName);
+  }
+
+  async SelectCalendarColor(color) {
+    await this.Dropdowns.Color.click();
+    await this.Dropdowns.DropdownContainer.locator(`"${color}"`).click();
+  }
 
   async GetSharingThisFolderActionsButton(user, button) {
     return await this.Containers.MainContainer.
