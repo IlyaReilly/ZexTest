@@ -19,7 +19,7 @@ test.describe('Contacts tests', async () => {
 
   test.afterEach(async ({page, apiManager}) => {
     const id = await apiManager.contactsAPI.ContactsSearchQuery(firstName, BaseTest.userForLogin.login);
-    await apiManager.contactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
+    await apiManager.deleteContactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
     await page.close();
   });
 
@@ -42,7 +42,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('Emailed contact. New email reciever appears in emailed contact chapter', async ({page, pageManager, apiManager}) => {
-    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, email, mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, email, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();
     await ScrollDownContactsList(page, pageManager);
@@ -51,7 +51,7 @@ test.describe('Contacts tests', async () => {
 
   test('Delete contact. Contact appears in trash chapter', async ({page, pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await apiManager.contactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactsList.DeleteContact();

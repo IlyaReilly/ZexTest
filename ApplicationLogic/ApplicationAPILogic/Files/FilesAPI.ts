@@ -1,6 +1,4 @@
-import {BaseAPI} from './BaseAPI';
-import fs from "fs";
-import path from "path";
+import {BaseAPI} from '../BaseAPI';
 
 export class FilesAPI extends BaseAPI {
   constructor(page) {
@@ -43,66 +41,5 @@ export class FilesAPI extends BaseAPI {
       fileId = body.data.findNodes.nodes[0].id;
     }
     return fileId;
-  };
-
-  async MoveFileToTrashById(id) {
-    await this.page.request.post(`${this.graphqlServiceUrl}`, {
-      data: {"operationName": "trashNodes", "variables": {"node_ids": [id]}, "query": "mutation trashNodes($node_ids: [ID!]) {\n  trashNodes(node_ids: $node_ids)\n}"},
-    });
-  };
-
-  async DeleteFilePermanentlyById(id) {
-    await this.page.request.post(`${this.graphqlServiceUrl}`, {
-      data: {"operationName": "deleteNodes", "variables": {"node_ids": [id]}, "query": "mutation deleteNodes($node_ids: [ID!]) {\n  deleteNodes(node_ids: $node_ids)\n}"},
-    });
-  };
-
-  async UploadFileViaAPI(fileName, unicFilePrefix = '') {
-    const file = path.resolve("./TestData/Files/", fileName);
-    const image = fs.readFileSync(file);
-    const buffer = Buffer.from(unicFilePrefix + fileName);
-    const fileNameBase64 = buffer.toString('base64');
-    await this.page.request.post(`${this.uploadFileRequest}`, {
-      headers: {
-        Accept: "*/*",
-        ContentType: "multipart/form-data",
-        Filename: fileNameBase64,
-      },
-      multipart: {
-        file:
-        {
-          name: file,
-          mimeType: "image/png",
-          buffer: image,
-        },
-      },
-    });
-  };
-
-  async CreateDocument(name) {
-    const response = await this.page.request.post(`${this.createDocumentRequest}`, {
-      data: {"filename": name, "type": "LIBRE_DOCUMENT", "destinationFolderId": "LOCAL_ROOT"},
-    });
-
-    const body = await this.GetResponseBody(response);
-    return body.fileName;
-  };
-
-  async CreateSpreadsheet(name) {
-    const response = await this.page.request.post(`${this.createDocumentRequest}`, {
-      data: {"filename": name, "type": "LIBRE_SPREADSHEET", "destinationFolderId": "LOCAL_ROOT"},
-    });
-
-    const body = await this.GetResponseBody(response);
-    return body.fileName;
-  };
-
-  async CreatePresentation(name) {
-    const response = await this.page.request.post(`${this.createDocumentRequest}`, {
-      data: {"filename": name, "type": "LIBRE_PRESENTATION", "destinationFolderId": "LOCAL_ROOT"},
-    });
-
-    const body = await this.GetResponseBody(response);
-    return body.fileName;
   };
 }

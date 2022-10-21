@@ -14,24 +14,24 @@ test.describe('Files tests', async () => {
     unicFileName = unicFilePrefix + 'testAPI';
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
-      return apiManager.filesAPI.MoveFileToTrashById(file.id);
+      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
     }));
   });
 
   test.afterEach(async ({apiManager, page}) => {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
-      return apiManager.filesAPI.MoveFileToTrashById(file.id);
+      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
     }));
     const trashFiles = await apiManager.filesAPI.GetTrashFiles();
     await Promise.all(trashFiles.map(async (file) => {
-      return apiManager.filesAPI.DeleteFilePermanentlyById(file.id);
+      return apiManager.deleteFilesAPI.DeleteFilePermanentlyById(file.id);
     }));
     await page.close();
   });
 
   async function UploadFileAndOpenDetails({apiManager, pageManager}) {
-    await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
+    await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await pageManager.filesList.OpenFileDetails(unicFileName);
@@ -50,7 +50,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
-    await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
+    await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await pageManager.filesList.OpenFileDetails(unicFileName);
@@ -59,7 +59,7 @@ test.describe('Files tests', async () => {
 
   test('File can be downloaded', async ({browser, apiManager, pageManager}) => {
     try {
-      await apiManager.filesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
+      await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
       await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
       await expect((pageManager.filesList.Elements.File.locator(`"${unicFileName}"`))).toBeVisible();

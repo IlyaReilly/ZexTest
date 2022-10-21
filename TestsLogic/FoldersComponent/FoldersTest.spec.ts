@@ -15,11 +15,11 @@ test.describe('Folders tests', async () => {
     newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
-    folderId = await apiManager.foldersAPI.CreateFolder(folderName, BaseTest.userForLogin.login);
+    folderId = await apiManager.createFoldersAPI.CreateFolder(folderName, BaseTest.userForLogin.login);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.foldersAPI.DeleteFolderPermanentlyById(folderId, BaseTest.userForLogin.login);
+    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderId, BaseTest.userForLogin.login);
     await page.close();
   });
 
@@ -45,7 +45,7 @@ test.describe('Folders tests', async () => {
   test('Move mail to a new folder', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.SpreadMails();
     await pageManager.sideSecondaryMailMenu.OpenMailFolders.Sent();
     await pageManager.mailsList.OpenMail(mailSubject);
@@ -85,7 +85,7 @@ test.describe('Folders tests', async () => {
   test('Folder is wiped', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    const mailId = await apiManager.mailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
+    const mailId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await apiManager.mailsAPI.MoveMailToFolder(mailId, BaseTest.userForLogin.login, folderId);
     await pageManager.sideSecondaryMailMenu.SpreadMails();
     await pageManager.sideSecondaryMailMenu.ExpandFolders();

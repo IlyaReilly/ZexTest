@@ -1,4 +1,4 @@
-import {BaseAPI} from './BaseAPI';
+import {BaseAPI} from '../BaseAPI';
 
 export class ContactsAPI extends BaseAPI {
   constructor(page) {
@@ -17,21 +17,6 @@ export class ContactsAPI extends BaseAPI {
       id = body.Body.SearchResponse.cn[0].id;
     }
     return id;
-  };
-
-  async CreateContact(userFirstName: string, userMail: string) {
-    let contactsId = '';
-    const response = await this.page.request.post(`${this.soapServiceUrl}${this.createContactRequest}`, {
-      data: {
-        "Body": {"CreateContactRequest": {"_jsns": "urn:zimbraMail", "cn": {"m": [], "l": "7", "a": [{"n": "nameSuffix", "_content": ""}, {"n": "namePrefix", "_content": ""}, {"n": "firstName", "_content": userFirstName}, {"n": "lastName", "_content": ""}, {"n": "middleName", "_content": ""}, {"n": "image", "_content": ""}, {"n": "jobTitle", "_content": ""}, {"n": "department", "_content": ""}, {"n": "company", "_content": ""}, {"n": "notes", "_content": ""}, {"n": "email", "_content": userMail}]}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 3}, "session": {"id": "1662", "_content": "1662"}, "account": {"by": "name", "_content": userMail}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
-      },
-    });
-    const body = await this.GetResponseBody(response);
-
-    if (body.Body.CreateContactResponse.cn) {
-      contactsId = body.Body.CreateContactResponse.cn[0].id;
-    }
-    return contactsId;
   };
 
   async GetContacts(user) {
@@ -139,43 +124,5 @@ export class ContactsAPI extends BaseAPI {
       trashContacts = body.Body.SearchResponse.cn;
     }
     return trashContacts;
-  };
-
-  async DeleteContactsById(id, user) {
-    await this.page.request.post(`${this.soapServiceUrl}${this.contactActionRequest}`, {
-      data: {
-        Body: {ContactActionRequest: {_jsns: 'urn:zimbraMail', action: {id: id, op: 'move', l: '3'}}},
-        Header: {
-          context: {
-            _jsns: 'urn:zimbra',
-            session: {id: '1266', _content: '1266'},
-            account: {by: 'name', _content: user},
-            userAgent: {
-              name: 'CarbonioWebClient - Chrome 104.0.0.0 (Windows)',
-              version: '22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS',
-            },
-          },
-        },
-      },
-    });
-  };
-
-  async DeleteContactsPermanentlyById(id, user) {
-    await this.page.request.post(`${this.soapServiceUrl}${this.contactActionRequest}`, {
-      data: {
-        Body: {ContactActionRequest: {_jsns: 'urn:zimbraMail', action: {id: id, op: 'delete'}}},
-        Header: {
-          context: {
-            _jsns: 'urn:zimbra',
-            session: {id: '1288', _content: '1288'},
-            account: {by: 'name', _content: user},
-            userAgent: {
-              name: 'CarbonioWebClient - Chrome 104.0.0.0 (Windows)',
-              version: '22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS',
-            },
-          },
-        },
-      },
-    });
   };
 }

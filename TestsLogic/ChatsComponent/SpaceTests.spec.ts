@@ -27,7 +27,7 @@ test.describe('Space tests', async () => {
   async function CleanConversationsPanel({apiManager}) {
     const conversations = await apiManager.chatsAPI.GetConversations();
     await Promise.all(conversations.map(async (conversation) => {
-      return apiManager.chatsAPI.DeleteConversation(conversation.id);
+      return apiManager.deleteChatsAPI.DeleteConversation(conversation.id);
     }));
   };
 
@@ -43,7 +43,7 @@ test.describe('Space tests', async () => {
 
   async function CreateSpaceAndOpenSpaceDetails({pageManager, apiManager}) {
     const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
-    await apiManager.chatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
+    await apiManager.createChatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
     await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.waitFor();
     await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.first().click();

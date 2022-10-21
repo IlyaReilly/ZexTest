@@ -1,11 +1,11 @@
-import {BaseAPI} from "./BaseAPI";
+import {BaseAPI} from "../BaseAPI";
 
-export class FoldersAPI extends BaseAPI {
+export class AddressBookAPI extends BaseAPI {
   constructor(page) {
     super(page);
   };
 
-  async CreateFolder(folderName: string, userMail: string) {
+  async CreateAddressBook(folderName: string, userMail: string) {
     let folderId = "";
     const response = await this.page.request.post(
       `${this.soapServiceUrl}${this.createFolderRequest}`,
@@ -14,7 +14,7 @@ export class FoldersAPI extends BaseAPI {
           Body: {
             CreateFolderRequest: {
               _jsns: "urn:zimbraMail",
-              folder: {view: "message", l: "5", name: folderName},
+              folder: {view: "contact", l: "7", name: folderName},
             },
           },
           Header: {
@@ -32,15 +32,32 @@ export class FoldersAPI extends BaseAPI {
         },
       },
     );
-
     const body = await this.GetResponseBody(response);
+
     if (body.Body.CreateFolderResponse.folder) {
       folderId = body.Body.CreateFolderResponse.folder[0].id;
     }
     return folderId;
   };
 
-  async DeleteFolderById(id, user) {
+  async GetAddressBookIdByName(user: string, addressBookName: string) {
+    const addressBooksList = await super.GetFolders(user, 'contact');
+    let addressBookId = '';
+    const addressBook = function findAddressBook(addressBooksList) {
+      addressBooksList.forEach((addressBookElement) => {
+        if (addressBookElement.name == addressBookName) {
+          addressBookId = addressBookElement.id;
+        }
+        if (!addressBookId && addressBookElement.folder) {
+          findAddressBook(addressBookElement.folder);
+        }
+      });
+      return addressBookId;
+    };
+    return addressBook(addressBooksList);
+  };
+
+  async DeleteAddressBookById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
       data: {
         Body: {
@@ -65,7 +82,7 @@ export class FoldersAPI extends BaseAPI {
     });
   };
 
-  async DeleteFolderPermanentlyById(id, user) {
+  async DeleteAddressBookPermanentlyById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
       data: {
         Body: {
@@ -87,5 +104,5 @@ export class FoldersAPI extends BaseAPI {
         },
       },
     });
-  };
-}
+  }
+};

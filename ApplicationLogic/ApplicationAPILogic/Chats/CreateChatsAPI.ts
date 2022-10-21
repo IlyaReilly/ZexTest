@@ -1,0 +1,24 @@
+import {BaseAPI} from '../BaseAPI';
+
+export class CreateChatsAPI extends BaseAPI {
+  constructor(page) {
+    super(page);
+  };
+
+  async CreateConversations(title, topic, userId) {
+    const response = await this.page.request.post(`${this.restServiceUrl}${this.createSpaceRequest}`, {
+      data: {"name": title, "invited_user_ids": [userId], "topic": topic},
+    });
+
+    const body = await this.GetResponseBody(response);
+    return body.id;
+  };
+
+  async CreateGroup(topic, userId) {
+    const response = await this.page.request.post(`${this.restServiceUrl}${this.createGroupRequest}`, {
+      data: {"invited_user_ids": userId, "topic": topic},
+    });
+    const body = await this.GetResponseBody(response);
+    return body;
+  };
+}
