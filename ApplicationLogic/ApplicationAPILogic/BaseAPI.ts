@@ -52,6 +52,8 @@ export class BaseAPI {
   readonly deleteConversationRequest = 'deleteConversation';
   readonly leaveConversationRequest = 'leaveConversation';
   readonly kickFromConversationRequest = 'kickFromConversation';
+  readonly createInstantMeetingRequest = 'createInstantMeeting';
+  readonly createMeetingRequest = 'createMeeting';
   // Files
   readonly uploadFileRequest = 'services/files/upload';
   readonly createDocumentRequest = 'services/docs/files/create';

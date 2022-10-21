@@ -21,4 +21,16 @@ export class CreateChatsAPI extends BaseAPI {
     const body = await this.GetResponseBody(response);
     return body;
   };
+
+  async CreateVirtualRoom(name) {
+    const instantMeetingResponse = await this.page.request.post(`${this.restServiceUrl}${this.createInstantMeetingRequest}`, {
+      data: {"name": name},
+    });
+    const body = await this.GetResponseBody(instantMeetingResponse);
+    const id = body.id;
+
+    await this.page.request.post(`${this.restServiceUrl}${this.createMeetingRequest}`, {
+      data: {"conversation_id": id, "scheduled": true, "name": name},
+    });
+  };
 }
