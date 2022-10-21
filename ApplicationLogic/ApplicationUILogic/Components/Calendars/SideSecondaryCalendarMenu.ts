@@ -41,8 +41,17 @@ export class SideSecondaryCalendarMenu extends BasePage {
     TrashUnchecked: '[data-name="trash-2"]',
   };
 
+  Elements = {
+    TrashChevronDown: this.Containers.MainContainer.locator(`[data-testid*="ChevronDown"]:near(:text("Trash"))`),
+    TrashChevronUp: this.Containers.MainContainer.locator(`[data-testid*="ChevronUp"]:near(:text("Trash"))`),
+  };
+
   constructor(page) {
     super(page);
+  }
+
+  async OpenTrashChevron() {
+    await this.Elements.TrashChevronDown.click();
   }
 
   async GetCalendarColorByName(name: string) {
