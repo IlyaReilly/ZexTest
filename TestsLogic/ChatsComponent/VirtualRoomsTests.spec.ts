@@ -27,7 +27,7 @@ test.describe('Virtual Rooms tests', async () => {
     await pageManager.sideSecondaryChatsMenu.Buttons.CreateVirtualRoom.click();
     await pageManager.newVirtualRoomsModal.CreateVirtualRoom(title);
   }
-
+  // Virtual room does not appear in Virtual Rooms Tab
   test('Create virtual room. Virtual room should be visible in Virtual Rooms Tab.', async ({pageManager}) => {
     test.fail();
     await CreateVirtualRoom({pageManager}, virtualRoomTitle);
