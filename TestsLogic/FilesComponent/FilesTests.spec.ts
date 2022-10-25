@@ -76,7 +76,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be permanently removed', async ({apiManager, pageManager}) => {
-    BaseTest.doubleTimeout();
+    BaseTest.doubleTimeout(); 
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.DeletePermanentlyButton.click();

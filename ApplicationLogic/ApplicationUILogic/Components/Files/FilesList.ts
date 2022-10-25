@@ -8,20 +8,23 @@ export class FilesList extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.lcolry'),
     // MainContainer: this.page.locator('.fUgMxt'),
-    ListContainer: this.page.locator('.jhFkis'),
+    ListContainer: this.page.locator('.iiwxAL'),
+    // ListContainer: this.page.locator('.jhFkis'),
     // not a unique locator
     // ListContainer: this.page.locator('.bbLqaW'),
   };
 
   Elements = {
-    File: this.Containers.ListContainer.locator('.iLcLUN'),
+    File: this.Containers.ListContainer.locator('.ijUfjh'),
+    // File: this.Containers.ListContainer.locator('.iLcLUN'),
     FileIcon: this.Containers.ListContainer.locator('[data-testid*="file"]'),
     Header: this.Containers.MainContainer.locator('[data-testid="list-header"]'),
-    FileName: this.Containers.ListContainer.locator('.jwMliq'),
+    FileName: this.Containers.ListContainer.locator('.fWfafH'),
+    // FileName: this.Containers.ListContainer.locator('.jwMliq'),
     // FileName: this.Containers.ListContainer.locator('.hiooLB'),
     FlagIcon: this.Containers.ListContainer.locator('[data-testid="icon: Flag"]'),
     // without "icon" doesn't find element
-    DefinedByNameFile: (unicFileName) => this.page.locator('div.iLcLUN', {hasText: `${unicFileName}`}),
+    DefinedByNameFile: (unicFileName) => this.page.locator('div.ijUfjh', {hasText: `${unicFileName}`}),
   };
 
   SelectionModeElements = {
