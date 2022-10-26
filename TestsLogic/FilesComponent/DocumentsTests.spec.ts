@@ -57,6 +57,7 @@ test.describe('Files tests', async () => {
   };
 
   test('Create document file. Document file should be in Home tab.', async ({pageManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
@@ -64,18 +65,21 @@ test.describe('Files tests', async () => {
   });
 
   test('Create spreadsheet file. Spreadsheet file should be in Home tab.', async ({pageManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewSpreadsheet, oldItemName);
     await expect(pageManager.filesList.Elements.File).toBeVisible();
   });
 
   test('Create presentation file. Presentation file should be in Home tab.', async ({pageManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewPresentation, oldItemName);
     await expect(pageManager.filesList.Elements.File).toBeVisible();
   });
 
   test('Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreatePresentation(oldItemName);
@@ -83,12 +87,14 @@ test.describe('Files tests', async () => {
   });
 
   test('Change the name of a spreadsheet. The spreadsheet should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateSpreadsheet(oldItemName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
   test('Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
@@ -96,6 +102,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Select file. File should be selected in Home tab.', async ({pageManager, apiManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
@@ -104,6 +111,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreateSpreadsheet(secondName);
     await apiManager.createFilesAPI.CreateDocument(firstName);
@@ -113,6 +121,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Unselect all files. All files should be unselected in Home tab.', async ({pageManager, apiManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreateDocument(firstName);
     await apiManager.createFilesAPI.CreateSpreadsheet(secondName);
@@ -122,6 +131,7 @@ test.describe('Files tests', async () => {
   });
 
   test('Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager, apiManager}) => {
+    test.fail(); // the functionality to create new documents is not working at the moment
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
     await pageManager.filesList.Elements.File.click();

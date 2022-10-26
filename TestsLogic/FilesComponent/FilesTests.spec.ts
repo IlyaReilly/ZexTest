@@ -6,6 +6,7 @@ test.describe('Files tests', async () => {
   // Components
   const fileNameJpg = 'testFile2';
   const fileNameForApi = 'testAPI.png';
+  const mailSubject = 'sendFileViaMail';
   let unicFilePrefix;
   let unicFileName;
 
@@ -41,7 +42,7 @@ test.describe('Files tests', async () => {
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.MoveToTrash();
     await pageManager.sideSecondaryFilesMenu.SelectTrashSubfolder.TrashElements();
-  };
+  };  
 
   test('File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
@@ -76,7 +77,7 @@ test.describe('Files tests', async () => {
   });
 
   test('File can be permanently removed', async ({apiManager, pageManager}) => {
-    BaseTest.doubleTimeout();
+    BaseTest.doubleTimeout(); 
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.DeletePermanentlyButton.click();

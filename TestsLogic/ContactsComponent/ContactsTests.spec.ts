@@ -37,15 +37,13 @@ test.describe('Contacts tests', async () => {
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
     const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
     await elementHandle?.waitForElementState('hidden');
-    await ScrollDownContactsList(page, pageManager);
     await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`), 'The e-mail address of a new contact is visible in Contacts list').toBeVisible();
   });
 
   test('Emailed contact. New email reciever appears in emailed contact chapter', async ({page, pageManager, apiManager}) => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, email, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
-    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();
-    await ScrollDownContactsList(page, pageManager);
+    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();    
     await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${email}"`), 'The e-mail address of a new contact is visible in Emailed contacts list').toBeVisible();
   });
 
@@ -56,14 +54,8 @@ test.describe('Contacts tests', async () => {
     await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactsList.DeleteContact();
     await page.reload();
-    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();
-    await ScrollDownContactsList(page, pageManager);
+    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();    
     await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${firstName}"`), 'The first name of a new contact is visible in Trash contacts list').toBeVisible();
   });
 });
 
-async function ScrollDownContactsList(page, pageManager) {
-  const listSelector = pageManager.contactsList.Containers.ContactsListToScrollContainer._selector;
-  await pageManager.contactsList.Containers.ContactsListToScrollContainer.waitFor();
-  await page.evaluate((locator) => document.querySelector(locator).scrollTo(0, document.body.scrollHeight), (listSelector));
-}
