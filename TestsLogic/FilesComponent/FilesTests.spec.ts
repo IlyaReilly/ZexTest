@@ -42,16 +42,7 @@ test.describe('Files tests', async () => {
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.MoveToTrash();
     await pageManager.sideSecondaryFilesMenu.SelectTrashSubfolder.TrashElements();
-  };
-
-  async function UploadFileAndSendViaMail({apiManager, pageManager}) {
-    await UploadFileAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.FileOptions.SendViaMail.click();    
-    await pageManager.newMail.TextBox.To.fill(BaseTest.secondUser.login);    
-    await pageManager.newMail.TextBox.Subject.fill(mailSubject);
-    await pageManager.newMail.Containers.MainContainer.locator(`"${mailSubject}"`).waitFor();
-    await pageManager.newMail.Buttons.Send.click();    
-  };
+  };  
 
   test('File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
@@ -124,9 +115,4 @@ test.describe('Files tests', async () => {
     await secondPageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(secondPageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
     await expect(secondPageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
   });
-
-  // test('Send File via eMail. File should be received', async ({apiManager, pageManager, secondPageManager}) => {    
-  //   await UploadFileAndSendViaMail({apiManager, pageManager});
-  //   await expect(secondPageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();    
-  // });
 });
