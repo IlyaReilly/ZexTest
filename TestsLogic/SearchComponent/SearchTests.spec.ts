@@ -16,12 +16,13 @@ test.describe('Search tests', async () => {
   });
   // Mails created in junk tab.
   test('Search sent email', async ({pageManager, apiManager}) => {
+    test.fail();
     const mailSubject = uniquePrefix + ' Autotest Mail Subject';
     const mailBody = uniquePrefix + ' Autotest Mail Body';
     try {
       await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-      // await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
+      await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
       await pageManager.headerMenu.MakeSearch(uniquePrefix);
       await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${mailSubject}"`)).toBeVisible();
