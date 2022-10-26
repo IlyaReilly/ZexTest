@@ -6,9 +6,9 @@ export class FilesList extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.lcolry'),
+    MainContainer: this.page.locator('.bQHovx'),
     // MainContainer: this.page.locator('.fUgMxt'),
-    ListContainer: this.page.locator('.iiwxAL'),
+    ListContainer: this.page.locator('.jKfOVd'),
     // ListContainer: this.page.locator('.jhFkis'),
     // not a unique locator
     // ListContainer: this.page.locator('.bbLqaW'),

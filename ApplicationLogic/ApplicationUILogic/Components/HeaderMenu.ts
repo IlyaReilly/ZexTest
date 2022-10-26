@@ -18,9 +18,11 @@ export class HeaderMenu extends BasePage {
     NewItemMenu: this.Containers.MainContainer.locator('.htoWdb'),
     // NewItemMenu: this.Containers.MainContainer.locator('.fBdHMW'),
     // NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
-    NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
+    NewItem: this.Containers.MainContainer.locator('.fUVWwl'),
+    // NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
     // NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
-    Search: this.Containers.MainContainer.locator('.zZiJb '),
+    Search: this.Containers.MainContainer.locator('.jysTJO '),
+    // Search: this.Containers.MainContainer.locator('.zZiJb '),
     // Search: this.Containers.MainContainer.locator('.ikNroI'),
   };
 

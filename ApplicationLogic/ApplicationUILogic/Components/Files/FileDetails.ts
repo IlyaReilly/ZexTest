@@ -9,17 +9,18 @@ export class FileDetails extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.cfQFxI'),
     // MainContainer: this.page.locator('.jbyjRV'),
-    HeaderContainer: this.page.locator('.dFkSra'),
+    HeaderContainer: this.page.locator('[data-testid="DisplayerHeader"]'),
     // HeaderContainer: this.page.locator('.XvnZf'),
     // HeaderContainer: this.page.locator('.gjtssk'),
     FileOptionsContainer: this.page.locator('[data-testid="displayer-actions-header"]'),
     // FileOptionsContainer: this.page.locator('.gBuoCY'),
-    //FileOptionsDropdownContainer: this.page.locator('.phlLS'),
+    // FileOptionsDropdownContainer: this.page.locator('.phlLS'),
     // FileOptionsDropdownContainer: this.page.locator('.izBNKP'),
     PopupContainer: this.page.locator('.kSniyH'),
     // PopupContainer: this.page.locator('.jCXemQ'),
     // PopupContainer: this.page.locator('.loeZsV'),
-    InformationContainer: this.page.locator('.ecHMmO'),
+    InformationContainer: this.page.locator('.eoKvNK'),
+    // InformationContainer: this.page.locator('.ecHMmO'),
     // InformationContainer: this.page.locator('.bQoEy'),
     TabsBarContainer: this.page.locator('.gnmCZc'),
     // TabsBarContainer: this.page.locator('.ctjCXN'),
@@ -28,7 +29,8 @@ export class FileDetails extends BasePage {
     // TabDetailsContainer: this.page.locator('.iRIzkl'),
     TabSharingContainer: this.page.locator('[data-testid="node-sharing-collaborators"]'),
     // TabSharingContainer: this.page.locator('.gFkfve+div+div'),
-    TabVersioningContainer: this.page.locator('.imSYQj'),
+    TabVersioningContainer: this.page.locator('.eiltIC'),
+    // TabVersioningContainer: this.page.locator('.imSYQj'),
     DropDownPopperListContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
@@ -43,7 +45,7 @@ export class FileDetails extends BasePage {
     // Description: this.Containers.InformationContainer.locator('.IUNTF'),
     DescriptionText: this.Containers.InformationContainer.locator('.bA-dJfM'),
     // DescriptionText: this.Containers.InformationContainer.locator('.iRjUZP'),
-    FileDescription: this.Containers.InformationContainer.locator('.cQuDeW'),
+    FileDescription: this.Containers.InformationContainer.locator('[id="input-3"]'),
   };
 
   CreateEntityPopup = {
@@ -55,23 +57,24 @@ export class FileDetails extends BasePage {
   };
 
   Buttons = {
-    CloseDetails: this.Containers.HeaderContainer.locator('.cuaWrH'),
+    CloseDetails: this.Containers.HeaderContainer.locator('[data-testid*="Close"]'),
     // CloseDetails: this.Containers.HeaderContainer.locator('.bOlfsx'),
     Download: this.Containers.HeaderContainer.locator('g[data-name="download"]'),
     EditDescriptionButton: this.Containers.InformationContainer.locator('[data-testid*="Edit2Outline"]'),
     SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
     Share: this.Containers.TabSharingContainer.locator('"Share"'),    
-    ShareWrapper: this.Containers.TabSharingContainer.locator('.zZiJb'),
+    ShareWrapper: this.Containers.TabSharingContainer.locator('.jBRgq'),
     // ShareWrapper: this.Containers.TabSharingContainer.locator('.ejIaaY'),
   };
 
   FileOptions = {
     Download: this.Containers.FileOptionsContainer.locator('[data-testid*="Download"]'),
     MaximizeOutline: this.Containers.FileOptionsContainer.locator('[data-testid*="MaximizeOutline"]'),
+    SendViaMail: this.Containers.FileOptionsContainer.locator('[data-testid*="EmailOutline"]'),
     MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid*="MoreVertical"]'),
     Flag: this.Containers.DropDownPopperListContainer.locator('"Flag"'),
     UnFlag: this.Containers.DropDownPopperListContainer.locator('"Unflag"'),
-    Dropdown: this.Containers.FileOptionsContainer.locator('.cvrPdw'),
+    // Dropdown: this.Containers.FileOptionsContainer.locator('.cvrPdw'),
     MoveToTrash: this.Containers.DropDownPopperListContainer.locator('"Delete"'),
     DeletePermanentlyButton: this.Containers.FileOptionsContainer.locator('[data-testid*="DeletePermanentlyOutline"]'),
     RestoreButton: this.Containers.FileOptionsContainer.locator('[data-testid*="RestoreOutline"]'),
@@ -137,7 +140,7 @@ export class FileDetails extends BasePage {
     await this.InputFields.AddNewPeopleField.click();
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
-    //await expect(this.Buttons.ShareWrapper).toHaveAttribute('tabindex', '0');
+    await expect(this.Buttons.ShareWrapper).toHaveAttribute('tabindex', '0');
     await this.Buttons.Share.click();
   };
 }
