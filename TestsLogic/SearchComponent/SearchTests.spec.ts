@@ -14,14 +14,14 @@ test.describe('Search tests', async () => {
   test.afterEach(async ({page}) => {
     await page.close();
   });
-
+  // Mails created in junk tab.
   test('Search sent email', async ({pageManager, apiManager}) => {
     const mailSubject = uniquePrefix + ' Autotest Mail Subject';
     const mailBody = uniquePrefix + ' Autotest Mail Body';
     try {
       await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-      await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
+      // await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
       await pageManager.headerMenu.MakeSearch(uniquePrefix);
       await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${mailSubject}"`)).toBeVisible();
@@ -31,7 +31,7 @@ test.describe('Search tests', async () => {
     } finally {
       const id = await apiManager.mailsAPI.MailSearchQuery(mailSubject, BaseTest.userForLogin.login);
       await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }
+    };
   });
 
   test('Search contact', async ({apiManager, pageManager}) => {

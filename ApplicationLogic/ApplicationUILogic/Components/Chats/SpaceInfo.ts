@@ -7,8 +7,8 @@ export class SpaceInfo extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.krpoNZ'),
-    SpaceMembersContainer: this.page.locator('.djcAQq'),
+    MainContainer: this.page.locator('.bKwrsc'),
+    SpaceMembersContainer: this.page.locator('.ljjqPP'),
   };
 
   Buttons = {
@@ -29,7 +29,7 @@ export class SpaceInfo extends BasePage {
   };
 
   Items = {
-    Member: this.Containers.SpaceMembersContainer.locator('.jwUaOR'),
+    Member: this.Containers.SpaceMembersContainer.locator('.dBFnCo'),
     TopicName: this.page.locator('[overflow="ellipsis"]+[overflow="break-word"]'),
   };
 

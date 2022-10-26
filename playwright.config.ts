@@ -42,9 +42,6 @@ const config: PlaywrightTestConfig = {
   // Use global setup for single login
   // globalSetup: require.resolve('./global-setup'),
   use: {
-    contextOptions: {
-      permissions: ['clipboard-read', 'clipboard-write'],
-    },
     // viewport: { height: 816, width: 1536 },
     extraHTTPHeaders: {
       // We set this header per GitHub guidelines.

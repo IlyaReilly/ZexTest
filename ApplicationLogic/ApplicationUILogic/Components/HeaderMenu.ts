@@ -1,23 +1,25 @@
 import {BasePage} from '../Pages/BasePage';
 
 export class HeaderMenu extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
-    MainContainer: this.page.locator('.iEhnxg'),
+    MainContainer: this.page.locator('.ebKkLJ'),
     // MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
-    NewItemMenuContainer: this.page.locator('.chxMDM'),
-    // NewItemMenuContainer: this.page.locator('.izBNKP'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   Buttons = {
     UserMenu: this.Containers.MainContainer.locator('.ctJWzG'),
     // UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
-    NewItemMenu: this.Containers.MainContainer.locator('.fBdHMW'),
+    NewItemMenu: this.Containers.MainContainer.locator('.htoWdb'),
     // NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
     NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
     // NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
-    Search: this.Containers.MainContainer.locator('.zZiJb '),
+    Search: this.Containers.MainContainer.locator('[name="Search in mails"]'),
     // Search: this.Containers.MainContainer.locator('.ikNroI'),
   };
 
@@ -54,14 +56,10 @@ export class HeaderMenu extends BasePage {
     Search: this.Containers.MainContainer.locator('[name*="Search in"]'),
   };
 
-  constructor(page) {
-    super(page);
-  }
-
   async OpenUserMenuSection(section) {
     await this.Buttons.UserMenu.click();
     await section.click();
-  }
+  };
 
   async UploadNewFile(filePath) {
     await this.Buttons.NewItemMenu.click();
@@ -70,12 +68,12 @@ export class HeaderMenu extends BasePage {
       this.NewItemMenu.Upload.click(),
     ]);
     await fileChooser.setFiles(filePath);
-  }
+  };
 
   async MakeSearch(query) {
     await this.TextBoxes.Search.fill(query);
     await this.page.keyboard.press('Enter');
-  }
+  };
 
   async OpenNewItemMenu(option, item?) {
     await this.Buttons.NewItemMenu.click();
@@ -86,7 +84,7 @@ export class HeaderMenu extends BasePage {
       return await item.click();
     };
     await option.click();
-  }
+  };
 
   SelectOptionInNewItemMenu = {
     NewEmail: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewEmail),

@@ -77,13 +77,13 @@ test.describe('Chats tests', async () => {
     BaseTest.doubleTimeout();
     await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateChat);
     await pageManager.newChatsModal.CreatedConversations.CreateChat(firstParticipant);
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${firstParticipant}"`)).toBeVisible();
   });
 
   test('Create group. Group should be in Chats Tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await CreateGroupAndOpenDetails({pageManager, apiManager});
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem).toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${groupTitle}"`)).toBeVisible();
   });
 
   test('Delete group. Group should be removed from Chats Tab.', async ({pageManager}) => {

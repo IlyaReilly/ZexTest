@@ -7,10 +7,10 @@ export class ChatsInfo extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.krpoNZ'),
-    GroupContainer: this.page.locator('.jHLEFQ'),
+    MainContainer: this.page.locator('.bKwrsc'),
+    GroupContainer: this.page.locator('.iPnaaZ'),
     // GroupContainer: this.page.locator('.dvaEfe'),
-    GroupMembersContainer: this.page.locator('.djcAQq'),
+    GroupMembersContainer: this.page.locator('.ljjqPP'),
   };
 
   Buttons = {
@@ -27,11 +27,11 @@ export class ChatsInfo extends BasePage {
   };
 
   TextBoxes = {
-    EditNameField: this.Containers.GroupContainer.locator('.ldAqKl'),
+    EditNameField: this.Containers.GroupContainer.locator('[name="Topic"]'),
   };
 
   Items = {
-    Member: this.Containers.GroupMembersContainer.locator('.jwUaOR'),
+    Member: this.Containers.GroupMembersContainer.locator('.dBFnCo'),
   };
 
   async RenameGroup(newName) {
