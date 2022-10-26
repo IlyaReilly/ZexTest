@@ -2,10 +2,12 @@ import {BasePage} from '../Pages/BasePage';
 
 export class HeaderMenu extends BasePage {
   Containers = {
-    MainContainer: this.page.locator('.iEhnxg'),
+    MainContainer: this.page.locator('.ebKkLJ'),
+    // MainContainer: this.page.locator('.iEhnxg'),
     // MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
-    NewItemMenuContainer: this.page.locator('.chxMDM'),
+    NewItemMenuContainer: this.page.locator('.gTnHkw'),
+    // NewItemMenuContainer: this.page.locator('.chxMDM'),
     // NewItemMenuContainer: this.page.locator('.izBNKP'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
@@ -13,11 +15,14 @@ export class HeaderMenu extends BasePage {
   Buttons = {
     UserMenu: this.Containers.MainContainer.locator('.ctJWzG'),
     // UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
-    NewItemMenu: this.Containers.MainContainer.locator('.fBdHMW'),
+    NewItemMenu: this.Containers.MainContainer.locator('.htoWdb'),
+    // NewItemMenu: this.Containers.MainContainer.locator('.fBdHMW'),
     // NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
-    NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
+    NewItem: this.Containers.MainContainer.locator('.fUVWwl'),
+    // NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
     // NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
-    Search: this.Containers.MainContainer.locator('.zZiJb '),
+    Search: this.Containers.MainContainer.locator('.jysTJO '),
+    // Search: this.Containers.MainContainer.locator('.zZiJb '),
     // Search: this.Containers.MainContainer.locator('.ikNroI'),
   };
 

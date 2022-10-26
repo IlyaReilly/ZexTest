@@ -13,7 +13,7 @@ export class NewMail extends BasePage {
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
 
   Buttons = {
-    Send: this.Containers.MainContainer.locator('.zZiJb :text("Send")'),
+    Send: this.Containers.MainContainer.locator('"Send"'),
     Save: this.Containers.MainContainer.locator('"Save"'),
     CloseCross: this.Containers.MainContainer.locator('[data-testid*="CloseOutline"]'),
     // CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
@@ -23,7 +23,7 @@ export class NewMail extends BasePage {
   TextBox = {
     To: this.Containers.MainContainer.locator('[name="To"]'),
     // To: this.Containers.MainContainer.locator('.jgQFDI'),
-    Subject: this.Containers.MainContainer.locator('"Subject"'),
+    Subject: this.Containers.MainContainer.locator('input[value=""]'),
     // Subject: this.Containers.MainContainer.locator('.ewHyMN'),
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
