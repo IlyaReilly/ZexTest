@@ -26,8 +26,8 @@ test.describe('Virtual Rooms tests', async () => {
   async function CreateVirtualRoom({pageManager}, title) {
     await pageManager.sideSecondaryChatsMenu.Buttons.CreateVirtualRoom.click();
     await pageManager.newVirtualRoomsModal.CreateVirtualRoom(title);
-  }
-  // Virtual room does not appear in Virtual Rooms Tab
+  };
+  // Virtual room does not appear in Virtual Rooms Tab,  Virtual room tab does not appear
   test('Create virtual room. Virtual room should be visible in Virtual Rooms Tab.', async ({pageManager}) => {
     test.fail();
     await CreateVirtualRoom({pageManager}, virtualRoomTitle);
@@ -35,7 +35,9 @@ test.describe('Virtual Rooms tests', async () => {
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator(`"${virtualRoomTitle}"`)).toBeVisible();
   });
 
+  // Virtual room tab does not appear
   test('Copy Virtual room link. Virtual room link should be in clipboard.', async ({page, pageManager, apiManager}) => {
+    test.fail();
     await apiManager.createChatsAPI.CreateVirtualRoom(virtualRoomTitle);
     await pageManager.sideSecondaryChatsMenu.OpenTab.VirtualRooms();
     await pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.click();

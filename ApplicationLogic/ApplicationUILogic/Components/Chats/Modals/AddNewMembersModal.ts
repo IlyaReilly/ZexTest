@@ -6,9 +6,8 @@ export class AddNewMembersModal extends ModalWindowBase {
     super(page);
   };
 
-  Containers = {
-    MainContainer: this.page.locator('.jCXemQ'),
-    MembersDropdownContainer: this.page.locator('.jfvBPE'),
+  Dropdowns = {
+    MembersDropdownContainer: this.page.locator('.kPPeDl'),
   };
 
   Fields = {
@@ -21,7 +20,7 @@ export class AddNewMembersModal extends ModalWindowBase {
   };
 
   Participans = {
-    Member: this.Containers.MembersDropdownContainer.locator('.eAqjez'),
+    Member: this.Dropdowns.MembersDropdownContainer.locator('.biutwu'),
   };
 
   async AddNewMember(member) {

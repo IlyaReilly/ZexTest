@@ -7,14 +7,14 @@ export class ChatField extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.kBfhNY'),
-    NewMessageContainer: this.page.locator('.fdUDLn'),
-    HeaderContainer: this.page.locator('.gdfwgB'),
+    MainContainer: this.page.locator('.jnbwOR'),
+    NewMessageContainer: this.page.locator('.fMMLSe'),
+    HeaderContainer: this.page.locator('.kKIfqg'),
   };
 
   TextBoxes = {
     TextArea: this.Containers.NewMessageContainer.locator('#team-conversation-input-text'),
-    ChatsRaw: this.Containers.MainContainer.locator('.cAwAqd'),
+    ChatsRaw: this.Containers.MainContainer.locator('.cyNffs'),
   };
 
   Buttons = {

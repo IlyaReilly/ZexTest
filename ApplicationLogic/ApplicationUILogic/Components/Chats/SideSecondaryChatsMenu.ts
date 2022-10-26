@@ -6,7 +6,7 @@ export class SideSecondaryChatsMenu extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.dvrTVe'),
+    MainContainer: this.page.locator('.gYbcBj'),
     // MainContainer: this.page.locator('.cpSZnV'),
   };
 
@@ -28,13 +28,13 @@ export class SideSecondaryChatsMenu extends BasePage {
   };
 
   Elements = {
-    ConversationsListItem: this.Containers.MainContainer.locator('.beJmAt'),
-    ConversationsItem: this.Containers.MainContainer.locator('.hrqJRI'),
+    ConversationsListItem: this.Containers.MainContainer.locator('.beVSSX'),
+    ConversationsItem: this.Containers.MainContainer.locator('.hXnMHQ'),
     //  ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
   };
 
   ConversationItemDetails = {
-    Name: this.Elements.ConversationsItem.locator('.iNcwac'),
+    Name: this.Elements.ConversationsItem.locator('.fCABYp'),
     BellOffIcon: this.Elements.ConversationsListItem.locator('[data-testid*="BellOff"]'),
   };
 
