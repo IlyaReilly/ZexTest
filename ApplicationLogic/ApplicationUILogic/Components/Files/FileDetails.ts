@@ -45,7 +45,7 @@ export class FileDetails extends BasePage {
     // Description: this.Containers.InformationContainer.locator('.IUNTF'),
     DescriptionText: this.Containers.InformationContainer.locator('.bA-dJfM'),
     // DescriptionText: this.Containers.InformationContainer.locator('.iRjUZP'),
-    FileDescription: this.Containers.InformationContainer.locator('[id="input-3"]'),
+    FileDescription: this.Containers.InformationContainer.locator('.dERcjk'),
   };
 
   CreateEntityPopup = {
