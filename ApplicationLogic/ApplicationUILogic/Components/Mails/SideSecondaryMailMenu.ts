@@ -53,7 +53,6 @@ export class SideSecondaryMailMenu extends BasePage {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
       await this.Buttons.OpenHideMailFolders.first().click();
     }
-    await folder.hover();
     await folder.click();
   };
 
