@@ -3,22 +3,19 @@ import {BasePage} from '../../Pages/BasePage';
 export class MailDetails extends BasePage {
   Containers = {
     MailDetailsContainer: this.page.locator('[data-testid="third-panel"]'),
-    // MailDetailsContainer: this.page.locator('.jbyjRV'),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    // MailOptionsContainer: this.page.locator('.izBNKP'),
   };
 
   Elements = {
     LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
-    // LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
     FlagIcon: this.Containers.MailDetailsContainer.locator('[data-testid="FlagIcon"]'),
-    ActionWithMailNotification: this.page.locator('.jOvDlO'),
-    // ActionWithMailNotification: this.page.locator('.ldHDuR'),
+    ActionWithMailNotification: this.page.locator('.bPRaOr'),
   };
 
   EditMail = {
     DeleteMail: this.Containers.MailDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
     SpreadOptions: this.Containers.MailDetailsContainer.locator('[data-testid*="MoreVertical"]'),
+    DeletePermanently: this.Containers.MailOptionsContainer.locator('.cuoSOn').first(),
   };
 
   MailOptions = {

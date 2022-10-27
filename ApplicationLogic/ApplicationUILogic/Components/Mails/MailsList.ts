@@ -3,13 +3,11 @@ import {BasePage} from '../../Pages/BasePage';
 export class MailsList extends BasePage {
   Containers = {
     MailsListContainer: this.page.locator('[data-testid="list-wrapper"]'),
-    // MailsListContainer: this.page.locator('.fkdseM'),
     MailContextMenuContainer: this.page.locator('[data-popper-placement="bottom-start"]'),
   };
 
   Elements = {
-    Letter: this.Containers.MailsListContainer.locator('.jTMZGq'),
-    // Letter: this.Containers.MailsListContainer.locator('.qPmzW '),
+    Letter: this.Containers.MailsListContainer.locator('.jWpoDH'),
     UnreadMessageIcon: this.Containers.MailsListContainer.locator('.AyVvp'),
   };
 

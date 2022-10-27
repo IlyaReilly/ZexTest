@@ -13,18 +13,15 @@ export class NewMail extends BasePage {
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
 
   Buttons = {
-    Send: this.Containers.MainContainer.locator('.zZiJb :text("Send")'),
+    Send: this.Containers.MainContainer.locator('.cFFlQd :text("Send")'),
     Save: this.Containers.MainContainer.locator('"Save"'),
     CloseCross: this.Containers.MainContainer.locator('[data-testid*="CloseOutline"]'),
-    // CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
     DeleteDraft: this.Containers.BeforeYouLeaveContainer.locator('"Delete Draft"'),
   };
 
   TextBox = {
     To: this.Containers.MainContainer.locator('[name="To"]'),
-    // To: this.Containers.MainContainer.locator('.jgQFDI'),
-    Subject: this.Containers.MainContainer.locator('"Subject"'),
-    // Subject: this.Containers.MainContainer.locator('.ewHyMN'),
+    Subject: this.Containers.MainContainer.locator(`input[value='']`),
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
 
@@ -34,19 +31,17 @@ export class NewMail extends BasePage {
 
   async CreateNewMail(to, subject, body) {
     await this.TextBox.To.click();
-    await this.TextBox.To.type(to);
+    await this.TextBox.To.fill(to);
     await this.Dropdowns.Item.click();
     await this.TextBox.Subject.click();
-    await this.TextBox.Subject.type(subject);
+    await this.TextBox.Subject.fill(subject);
     await this.Containers.MainContainer.locator(`"${subject}"`).waitFor();
     await this.TextBox.Body.click();
-    await this.TextBox.Body.type(body);
+    await this.TextBox.Body.fill(body);
   };
 
   async SendMail() {
     await this.Buttons.Send.click();
-    await this.Buttons.DeleteDraft.waitFor();
-    await this.Buttons.DeleteDraft.click();
   };
 
   async SaveMail() {

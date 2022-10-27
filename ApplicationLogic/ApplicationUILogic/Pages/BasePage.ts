@@ -1,14 +1,12 @@
 import {expect, Page} from '@playwright/test';
 
 export const InheritedFields = {
-  SideSecondaryDefaultBarLocator: '.fvPkpI',
-  NewItemDefaultContainerLocator: '.dIJQFo',
-  // NewItemDefaultContainerLocator: '.gOhlMI',
+  SideSecondaryDefaultBarLocator: '.jMnTrh',
+  NewItemDefaultContainerLocator: '.eRiUtJ',
   NewItemBodyIframeLocator: '.tox-edit-area__iframe',
   NewItemBodyLocator: '.mce-content-body',
   ModalWindowLocator: '[data-testid="modal"]',
   SpreadHidenFolders: '[data-testid="ExpandMoreIcon"]',
-  // SpreadHidenFolders: '.cLLOPN:has([data-testid*="ChevronDown"])',
 };
 
 export class BasePage {

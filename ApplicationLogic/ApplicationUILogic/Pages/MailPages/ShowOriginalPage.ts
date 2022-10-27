@@ -6,8 +6,7 @@ export class ShowOriginalPage extends BasePage {
   };
 
   Element = {
-    MailToShowOriginal: this.page.locator('.jTMZGq'),
-    // MailToShowOriginal: this.page.locator('.qPmzW'),
+    MailToShowOriginal: this.page.locator('.jWpoDH'),
   };
 
   PassToPageOption = {

@@ -43,6 +43,7 @@ import {ChatField} from '../Components/Chats/ChatField';
 import {AddNewMembersModal} from '../Components/Chats/Modals/AddNewMembersModal';
 import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddressBookModal';
 import {MoveMailToFolderModal} from '../Components/Mails/Modals/MoveMailToFolderModal';
+import {DeleteMailModal} from '../Components/Mails/Modals/DeleteMailModal';
 import {SpaceInfo} from '../Components/Chats/SpaceInfo';
 import {NewChannelModal} from '../Components/Chats/Modals/NewChannelModal';
 import {NewSpaceModal} from '../Components/Chats/Modals/NewSpaceModal';
@@ -102,6 +103,7 @@ export class PageManager {
   wipeFolderModal;
   deleteFolderModal;
   moveMailToFolderModal;
+  deleteMailModal;
   // #endregion
 
   // #region Mail Pages
@@ -171,6 +173,7 @@ export class PageManager {
     this.wipeFolderModal = new WipeFolderModal(page);
     this.deleteFolderModal = new DeleteFolderModal(page);
     this.moveMailToFolderModal = new MoveMailToFolderModal(page);
+    this.deleteMailModal = new DeleteMailModal(page);
     // #endregion
 
     // #region Mail Pages

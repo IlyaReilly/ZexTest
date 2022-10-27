@@ -6,8 +6,7 @@ export class PrintPage extends BasePage {
   };
 
   Element = {
-    MailToPrint: this.page.locator('.jTMZGq'),
-    // MailToPrint: this.page.locator('.qPmzW'),
+    MailToPrint: this.page.locator('.jWpoDH'),
   };
 
   PassToPageOption = {
