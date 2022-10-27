@@ -18,6 +18,7 @@ import {NewContact} from '../Components/Contacts/NewContact';
 import {ContactsList} from '../Components/Contacts/ContactsList';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
 import {NewChatsModal} from '../Components/Chats/Modals/NewChatsModal';
+import {NewVirtualRoomsModal} from '../Components/Chats/Modals/NewVirtualRoomsModal';
 import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu';
 import {FilesList} from '../Components/Files/FilesList';
 import {FileDetails} from '../Components/Files/FileDetails';
@@ -40,6 +41,7 @@ import {PrintPage} from './MailPages/PrintPage';
 import {ShowOriginalPage} from './MailPages/ShowOriginalPage';
 import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
 import {ChatField} from '../Components/Chats/ChatField';
+import {VirtualRoomField} from '../Components/Chats/VirtualRoomField';
 import {AddNewMembersModal} from '../Components/Chats/Modals/AddNewMembersModal';
 import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddressBookModal';
 import {MoveMailToFolderModal} from '../Components/Mails/Modals/MoveMailToFolderModal';
@@ -75,6 +77,7 @@ export class PageManager {
   chats;
   chatField;
   spaceInfo;
+  virtualRoomField;
 
   // #region Calendars Modal
   newCalendarModal;
@@ -117,6 +120,7 @@ export class PageManager {
   addNewMembersModal;
   newChannelModal;
   newSpaceModal;
+  newVirtualRoomsModal;
   // #endregion
 
   constructor(page) {
@@ -145,6 +149,7 @@ export class PageManager {
     this.chats = new Chats(page);
     this.chatField = new ChatField(page);
     this.spaceInfo = new SpaceInfo(page);
+    this.virtualRoomField = new VirtualRoomField(page);
 
     // #region Calendars Modal
     this.shareCalendarModal = new ShareCalendarModal(page);
@@ -186,6 +191,7 @@ export class PageManager {
     this.addNewMembersModal = new AddNewMembersModal(page);
     this.newChannelModal = new NewChannelModal(page);
     this.newSpaceModal = new NewSpaceModal(page);
+    this.newVirtualRoomsModal = new NewVirtualRoomsModal(page);
     // #endregion
   };
 }

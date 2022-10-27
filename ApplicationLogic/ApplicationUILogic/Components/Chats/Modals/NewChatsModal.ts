@@ -12,7 +12,7 @@ export class NewChatsModal extends ModalWindowBase {
 
   NewChatDialog = {
     UserFilterTextBox: this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
-    UsersListItem: this.Containers.MainContainer.locator('.hrqJRI'),
+    UsersListItem: this.Containers.MainContainer.locator('.kllKuK'),
     // UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
     TopicTextbox: this.Containers.MainContainer.locator('[name="Topic"]'),
     TitleTextbox: this.Containers.MainContainer.locator('[name="Title"]'),
@@ -21,8 +21,8 @@ export class NewChatsModal extends ModalWindowBase {
 
   Elements = {
     UserInFilterList: this.Containers.MainContainer.locator('.fXXPYY'),
-    UserInGroupFilterList: this.page.locator('.gwYxjf'),
-    CurrentUser: this.Containers.MainContainer.locator('.fWXgji'),
+    UserInGroupFilterList: this.page.locator('.fLasLO'),
+    CurrentUser: this.Containers.MainContainer.locator('.jtBPa-D'),
   };
 
   async CreateItem(participant, option, participant2?, title?) {

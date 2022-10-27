@@ -42,7 +42,7 @@ test.describe('Mails tests', async () => {
     await pageManager.mailsList.OpenMail(mailSubject);
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
   });
-  // Unexpected folder opening
+  // Unexpected Sent folder opening
   test('Junk mail. Mail appears in the junk chapter', async ({page, pageManager, apiManager}) => {
     test.fail();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -79,7 +79,7 @@ test.describe('Mails tests', async () => {
     await pageManager.mailsList.OpenMail(mailSubject);
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Draft folder mails list').toBeVisible();
   });
-  // Unexpected folder opening
+  // Unexpected Drafts folder opening
   test('Trash mail. Mail appears in the trash chapter', async ({pageManager, apiManager}) => {
     test.fail();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -98,6 +98,6 @@ test.describe('Mails tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Trash);
     await DeletePermanently({pageManager});
-    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Trash folder mails list').not.toBeVisible();
+    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject should not be visible in Trash folder mails list').not.toBeVisible();
   });
 });

@@ -13,7 +13,7 @@ export class NewMail extends BasePage {
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
 
   Buttons = {
-    Send: this.Containers.MainContainer.locator('.cFFlQd :text("Send")'),
+    Send: this.Containers.MainContainer.locator('"Send"'),
     Save: this.Containers.MainContainer.locator('"Save"'),
     CloseCross: this.Containers.MainContainer.locator('[data-testid*="CloseOutline"]'),
     DeleteDraft: this.Containers.BeforeYouLeaveContainer.locator('"Delete Draft"'),
