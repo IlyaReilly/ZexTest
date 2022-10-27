@@ -16,9 +16,7 @@ export class ShareModalWindow extends ModalWindowBase {
 
   TextBoxes = {
     Recipients: this.Containers.MainContainer.locator('text=e-mail addresses'),
-    // Recipients: this.Containers.MainContainer.locator('text=e-mail addresses >> xpath=preceding-sibling::*'),
     NoteMessage: this.Containers.MainContainer.locator('[name="Add a note to the standard message"]'),
-    // NoteMessage: this.Containers.MainContainer.locator('[name="Add a note to standard message"]'),
   };
 
   CheckBoxes = {

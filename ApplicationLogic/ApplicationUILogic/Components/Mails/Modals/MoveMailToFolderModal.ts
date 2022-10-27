@@ -9,7 +9,6 @@ export class MoveMailToFolderModal extends ModalWindowBase {
 
   Folders = {
     FoldersListItem: this.Containers.MainContainer.locator('.kcyMzv'),
-    // FoldersListItem: this.Containers.MoveConversationContainer.locator('.kWgjwg'),
   };
 
   Buttons = {

@@ -7,7 +7,6 @@ export class SideMenu extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator('.keSzwN'),
-    // MainContainer: this.page.locator('.cJqpvE'),
   };
 
   Buttons = {
