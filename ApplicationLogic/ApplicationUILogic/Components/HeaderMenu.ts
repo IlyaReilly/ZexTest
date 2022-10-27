@@ -14,14 +14,9 @@ export class HeaderMenu extends BasePage {
 
   Buttons = {
     UserMenu: this.Containers.MainContainer.locator('.ctJWzG'),
-    // UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
     NewItemMenu: this.Containers.MainContainer.locator('.htoWdb'),
-    // NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
     NewItem: this.Containers.MainContainer.locator('.fUVWwl'),
-    // NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
-    // NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
     Search: this.Containers.MainContainer.locator('[name="Search in mails"]'),
-    // Search: this.Containers.MainContainer.locator('.ikNroI'),
   };
 
   UserMenu = {
