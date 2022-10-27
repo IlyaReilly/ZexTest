@@ -3,7 +3,7 @@ import {expect, Page} from '@playwright/test';
 export const InheritedFields = {
   SideSecondaryDefaultBarLocator: '.jMnTrh',
   // SideSecondaryDefaultBarLocator: '.fvPkpI',
-  NewItemDefaultContainerLocator: '.eRiUtJ',  
+  NewItemDefaultContainerLocator: '.eRiUtJ',
   // NewItemDefaultContainerLocator: '.gOhlMI',
   NewItemBodyIframeLocator: '.tox-edit-area__iframe',
   NewItemBodyLocator: '.mce-content-body',
