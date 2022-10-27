@@ -41,7 +41,6 @@ export class FileDetails extends BasePage {
     SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
     Share: this.Containers.TabSharingContainer.locator('"Share"'),
     ShareWrapper: this.Containers.TabSharingContainer.locator('.jBRgq'),
-
   };
 
   FileOptions = {
@@ -65,7 +64,6 @@ export class FileDetails extends BasePage {
 
   InputFields = {
     AddNewPeopleField: this.Containers.TabSharingContainer.locator('[data-testid="add-sharing-chip-input"]'),
-
   };
 
   AddNewPeopleDropDown = {

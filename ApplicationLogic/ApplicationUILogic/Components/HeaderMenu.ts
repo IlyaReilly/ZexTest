@@ -44,7 +44,6 @@ export class HeaderMenu extends BasePage {
 
   Logos = {
     MainLogo: this.Containers.MainContainer.locator('.jqLXEC'),
-
   };
 
   TextBoxes = {
