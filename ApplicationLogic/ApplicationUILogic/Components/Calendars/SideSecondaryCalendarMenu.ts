@@ -27,7 +27,6 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   Icons = {
     CalendarUnchecked: this.Containers.MainContainer.locator('[data-name="calendar"] >> nth=0'),
-    // CalendarUnchecked: this.Containers.MainContainer.locator('[data-testid*="Calendar2"]'),
     TrashUnchecked: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
     SharedIcon: this.Containers.MainContainer.locator('[data-testid*="ArrowCircleRight"]'),
   };

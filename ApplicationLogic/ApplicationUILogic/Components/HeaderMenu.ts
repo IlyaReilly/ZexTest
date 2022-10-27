@@ -7,21 +7,15 @@ export class HeaderMenu extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator('.ebKkLJ'),
-    // MainContainer: this.page.locator('.colVne'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
   Buttons = {
     UserMenu: this.Containers.MainContainer.locator('.ctJWzG'),
-    // UserMenu: this.Containers.MainContainer.locator('.fxUdvh'),
     NewItemMenu: this.Containers.MainContainer.locator('.htoWdb'),
-    // NewItemMenu: this.Containers.MainContainer.locator('.byOcMA'),
     NewItem: this.Containers.MainContainer.locator('.fUVWwl'),
-    // NewItem: this.Containers.MainContainer.locator('.fzlbtr'),
-    // NewItem: this.Containers.MainContainer.locator('.ejIaaY'),
     Search: this.Containers.MainContainer.locator('[name="Search in mails"]'),
-    // Search: this.Containers.MainContainer.locator('.ikNroI'),
   };
 
   UserMenu = {
@@ -50,7 +44,6 @@ export class HeaderMenu extends BasePage {
 
   Logos = {
     MainLogo: this.Containers.MainContainer.locator('.jqLXEC'),
-    // MainLogo: this.Containers.MainContainer.locator('.heVtQH'),
   };
 
   TextBoxes = {

@@ -1,6 +1,10 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class NewContact extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MainContainer: this.page.locator(InheritedFields.NewItemDefaultContainerLocator),
   };
@@ -14,10 +18,6 @@ export class NewContact extends BasePage {
     LastName: this.Containers.MainContainer.locator('[placeholder="Last Name*"]'),
     Email: this.Containers.MainContainer.locator('[placeholder="E-mail"]'),
   };
-
-  constructor(page) {
-    super(page);
-  }
 
   async CreateNewContact(firstName, lastName, email) {
     await this.Inputs.FirstName.click();

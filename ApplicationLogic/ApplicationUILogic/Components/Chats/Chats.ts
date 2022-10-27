@@ -9,7 +9,6 @@ export class Chats extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.krpoNZ'),
     DeleteSpacePopupContainer: this.page.locator('.kSniyH'),
-    // DeleteSpacePopupContainer: this.page.locator('.loeZsV'),
   };
 
   DeleteSpacePopup = {
