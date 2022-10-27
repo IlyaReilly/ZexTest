@@ -22,7 +22,7 @@ test.describe('Mails tests', async () => {
     await pageManager.mailDetails.EditMail.SpreadOptions.click();
     await pageManager.mailDetails.EditMail.DeletePermanently.click();
     await pageManager.deleteMailModal.DeletePermanently();
-  }
+  };
 
   test('Open Mail tab. User login is presented in the secondary side bar.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
