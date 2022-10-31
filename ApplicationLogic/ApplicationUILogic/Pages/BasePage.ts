@@ -19,5 +19,5 @@ export class BasePage {
     if (!!pageLocator) {
       expect(this.page.isVisible(this.pageLocator)).toBeTruthy;
     }
-  }
+  };
 }

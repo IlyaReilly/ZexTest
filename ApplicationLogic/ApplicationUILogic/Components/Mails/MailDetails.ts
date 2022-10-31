@@ -1,6 +1,10 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class MailDetails extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MailDetailsContainer: this.page.locator('[data-testid="third-panel"]'),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
@@ -36,11 +40,7 @@ export class MailDetails extends BasePage {
     ProposeNewTime: this.Containers.MailDetailsContainer.locator('"PROPOSE NEW TIME"'),
   };
 
-  AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.fixDFx');
-
-  constructor(page) {
-    super(page);
-  };
+  AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.yOEdM');
 
   async DeleteDraft() {
     await this.EditMail.DeleteMail.click();

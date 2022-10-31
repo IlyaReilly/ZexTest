@@ -1,6 +1,10 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class SideSecondaryContactsMenu extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     ContextMenuContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
@@ -50,24 +54,20 @@ export class SideSecondaryContactsMenu extends BasePage {
 
   async OpenContextMenuForContacts() {
     await this.ContactAddressBooks.Contacts.click({button: 'right'});
-  }
+  };
 
   async ClickContextMenuOption(element) {
     await this.OpenContextMenuForContacts();
     await element.click();
-  }
+  };
 
   async OpenNewAddressBookContextMenuOption() {
     await this.ClickContextMenuOption(this.ContextMenu.NewAddressBook);
-  }
+  };
 
   async ExpandContactsFolder() {
     await this.page.waitForLoadState('domcontentloaded');
     await this.Buttons.ExpandAddressBooks.locator('nth=1').waitFor();
     await this.Buttons.ExpandAddressBooks.locator('nth=0').click();
-  }
-
-  constructor(page) {
-    super(page);
-  }
+  };
 }
