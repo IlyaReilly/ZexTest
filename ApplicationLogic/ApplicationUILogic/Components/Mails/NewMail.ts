@@ -16,15 +16,12 @@ export class NewMail extends BasePage {
     Send: this.Containers.MainContainer.locator('"Send"'),
     Save: this.Containers.MainContainer.locator('"Save"'),
     CloseCross: this.Containers.MainContainer.locator('[data-testid*="CloseOutline"]'),
-    // CloseCross: this.Containers.MainContainer.locator('.dkONEZ:has([data-testid*="CloseOutline"])'),
     DeleteDraft: this.Containers.BeforeYouLeaveContainer.locator('"Delete Draft"'),
   };
 
   TextBox = {
     To: this.Containers.MainContainer.locator('[name="To"]'),
-    // To: this.Containers.MainContainer.locator('.jgQFDI'),
     Subject: this.Containers.MainContainer.locator('input[value=""]'),
-    // Subject: this.Containers.MainContainer.locator('.ewHyMN'),
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
 

@@ -4,7 +4,7 @@ import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 export class MoveFolderModal extends ModalWindowBase {
   constructor(page) {
     super(page);
-  }
+  };
 
   TextBoxes = {
     FilterFolders: this.Containers.MainContainer.locator('[placeholder="Filter folders"]'),
@@ -22,5 +22,5 @@ export class MoveFolderModal extends ModalWindowBase {
   async MoveNewFolderToInbox() {
     await this.Folders.Inbox.click();
     await this.Buttons.Move.click();
-  }
+  };
 }

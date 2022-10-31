@@ -3,7 +3,7 @@ import {BasePage, InheritedFields} from '../../Pages/BasePage';
 export class SideSecondaryFilesMenu extends BasePage {
   constructor(page) {
     super(page);
-  }
+  };
 
   Containers = {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
@@ -30,7 +30,7 @@ export class SideSecondaryFilesMenu extends BasePage {
   async OpenSubFolder(folderNumber, option) {
     await this.Containers.MainContainer.locator(`[data-testid*="ChevronDown"] >> nth=${folderNumber}`).click();
     await option.click();
-  }
+  };
 
   Subfolders = {
     Trash: {

@@ -3,7 +3,7 @@ import {ModalWindowBase} from './ModalWindowBase';
 export class ShareModalWindow extends ModalWindowBase {
   constructor(page) {
     super(page);
-  }
+  };
 
   Buttons = {
     ShareButton: this.Containers.MainContainer.locator('xpath=//button/*[contains(text(), "Share")]'),
@@ -16,9 +16,7 @@ export class ShareModalWindow extends ModalWindowBase {
 
   TextBoxes = {
     Recipients: this.Containers.MainContainer.locator('text=e-mail addresses'),
-    // Recipients: this.Containers.MainContainer.locator('text=e-mail addresses >> xpath=preceding-sibling::*'),
     NoteMessage: this.Containers.MainContainer.locator('[name="Add a note to the standard message"]'),
-    // NoteMessage: this.Containers.MainContainer.locator('[name="Add a note to standard message"]'),
   };
 
   CheckBoxes = {
