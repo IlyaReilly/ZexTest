@@ -47,7 +47,7 @@ test.describe('Mails context menu options tests', async () => {
   test('Print mail', async ({page, pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
     const mailTitle = await getContentFromNewPage({page, pageManager}, pageManager.mailsList.MailContextMenuOptions.Print, 'b >> nth=-1');
-    await expect(mailTitle, 'Mail subject should in header of printed document').toBe(mailSubject);
+    await expect(mailTitle, 'Mail subject should be in header of printed document').toBe(mailSubject);
   });
 
   test('Show original mail', async ({page, pageManager, apiManager}) => {

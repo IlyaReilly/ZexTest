@@ -17,13 +17,6 @@ test.describe('Mails tests', async () => {
     await page.close();
   });
 
-  async function DeletePermanently({pageManager}) {
-    await pageManager.mailsList.OpenMail(mailSubject);
-    await pageManager.mailDetails.EditMail.MoreOptionsMenu.click();
-    await pageManager.mailDetails.EditMail.DeletePermanently.click();
-    await pageManager.deleteMailModal.DeletePermanently();
-  };
-
   test('Open Mail tab. User login is presented in the secondary side bar.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`), 'User`s login is visible').toBeVisible();
@@ -97,7 +90,10 @@ test.describe('Mails tests', async () => {
     await apiManager.deleteMailsAPI.MoveToTrash(id);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Trash);
-    await DeletePermanently({pageManager});
+    await pageManager.mailsList.OpenMail(mailSubject);
+    await pageManager.mailDetails.EditMail.MoreOptionsMenu.click();
+    await pageManager.mailDetails.EditMail.DeletePermanently.click();
+    await pageManager.deleteMailModal.DeletePermanently();
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject should not be visible in Trash folder mails list').not.toBeVisible();
   });
 });
