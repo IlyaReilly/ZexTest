@@ -5,7 +5,7 @@ export class DeleteMailsAPI extends BaseAPI {
     super(page);
   };
 
-  async TrashMail(id: string) {
+  async MoveToTrash(id: string) {
     await this.page.request.post(`${this.soapServiceUrl}${this.msgActionRequest}`, {
       data: {
         Body: {MsgActionRequest: {_jsns: 'urn:zimbraMail', action: {id: id, op: 'trash'}}},

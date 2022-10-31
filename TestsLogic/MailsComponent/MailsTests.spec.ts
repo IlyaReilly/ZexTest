@@ -19,7 +19,7 @@ test.describe('Mails tests', async () => {
 
   async function DeletePermanently({pageManager}) {
     await pageManager.mailsList.OpenMail(mailSubject);
-    await pageManager.mailDetails.EditMail.SpreadOptions.click();
+    await pageManager.mailDetails.EditMail.MoreOptionsMenu.click();
     await pageManager.mailDetails.EditMail.DeletePermanently.click();
     await pageManager.deleteMailModal.DeletePermanently();
   };
@@ -28,9 +28,9 @@ test.describe('Mails tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`), 'User`s login is visible').toBeVisible();
   });
-  // Contacts Dropdown does not appear
+
   test('Inbox mail. Mail appears in the inbox chapter', async ({page, pageManager}) => {
-    test.fail();
+    test.fail(true, 'Contacts Dropdown does not appear');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
@@ -42,9 +42,9 @@ test.describe('Mails tests', async () => {
     await pageManager.mailsList.OpenMail(mailSubject);
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
   });
-  // Unexpected Sent folder opening
+
   test('Junk mail. Mail appears in the junk chapter', async ({page, pageManager, apiManager}) => {
-    test.fail();
+    test.fail(true, 'Unexpected Sent folder opening');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
@@ -79,9 +79,9 @@ test.describe('Mails tests', async () => {
     await pageManager.mailsList.OpenMail(mailSubject);
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Draft folder mails list').toBeVisible();
   });
-  // Unexpected Drafts folder opening
+
   test('Trash mail. Mail appears in the trash chapter', async ({pageManager, apiManager}) => {
-    test.fail();
+    test.fail(true, 'Unexpected Drafts folder opening');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Drafts);
@@ -94,7 +94,7 @@ test.describe('Mails tests', async () => {
 
   test('Delete permanently mail. Mail disappears from the trash chapter', async ({pageManager, apiManager}) => {
     const id = await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
-    await apiManager.deleteMailsAPI.TrashMail(id);
+    await apiManager.deleteMailsAPI.MoveToTrash(id);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Trash);
     await DeletePermanently({pageManager});

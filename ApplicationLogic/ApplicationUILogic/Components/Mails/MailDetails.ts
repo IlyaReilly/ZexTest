@@ -14,8 +14,8 @@ export class MailDetails extends BasePage {
 
   EditMail = {
     DeleteMail: this.Containers.MailDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
-    SpreadOptions: this.Containers.MailDetailsContainer.locator('[data-testid*="MoreVertical"]'),
-    DeletePermanently: this.Containers.MailOptionsContainer.locator('.cuoSOn').first(),
+    MoreOptionsMenu: this.Containers.MailDetailsContainer.locator('[data-testid*="MoreVertical"]'),
+    DeletePermanently: this.Containers.MailOptionsContainer.locator('"Delete Permanently"'),
   };
 
   MailOptions = {
@@ -47,7 +47,7 @@ export class MailDetails extends BasePage {
   };
 
   async MarkAsSpam() {
-    await this.EditMail.SpreadOptions.click();
+    await this.EditMail.MoreOptionsMenu.click();
     await this.MailOptions.MarkAsSpam.click();
   };
 }
