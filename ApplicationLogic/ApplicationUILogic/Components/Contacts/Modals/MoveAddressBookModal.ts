@@ -3,7 +3,7 @@ import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 export class MoveAddressBookModal extends ModalWindowBase {
   constructor(page) {
     super(page);
-  }
+  };
 
   Buttons = {
     Move: this.Containers.MainContainer.locator('"Move"'),

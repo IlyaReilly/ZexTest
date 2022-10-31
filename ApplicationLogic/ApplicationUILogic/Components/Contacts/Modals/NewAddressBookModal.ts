@@ -3,7 +3,7 @@ import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 export class NewAddressBookModal extends ModalWindowBase {
   constructor(page) {
     super(page);
-  }
+  };
 
   Buttons = {
     Create: this.Containers.MainContainer.locator('"Create"'),
@@ -22,5 +22,5 @@ export class NewAddressBookModal extends ModalWindowBase {
   async CreateNewAddressBook(addressBookName) {
     await this.TextBoxes.AddressBookName.fill(addressBookName);
     await this.Buttons.Create.click();
-  }
+  };
 }

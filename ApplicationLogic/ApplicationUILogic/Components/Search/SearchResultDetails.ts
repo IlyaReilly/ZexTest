@@ -1,6 +1,10 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class SearchResultDetails extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MailDetailsContainer: this.page.locator('.jbyjRV'),
     MailOptionsContainer: this.page.locator('.izBNKP'),
@@ -27,16 +31,12 @@ export class SearchResultDetails extends BasePage {
 
   };
 
-  constructor(page) {
-    super(page);
-  }
-
   async DeleteDraft() {
     await this.EditMail.DeleteMail.click();
-  }
+  };
 
   async MarkAsSpam() {
     await this.EditMail.SpreadOptions.click();
     await this.MailOptions.MarkAsSpam.click();
-  }
+  };
 }

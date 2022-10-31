@@ -7,7 +7,6 @@ export class SideSecondaryChatsMenu extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator('.gYbcBj'),
-    // MainContainer: this.page.locator('.cpSZnV'),
   };
 
   Buttons = {
@@ -30,8 +29,11 @@ export class SideSecondaryChatsMenu extends BasePage {
   Elements = {
     ConversationsListItem: this.Containers.MainContainer.locator('.beVSSX'),
     ConversationsItem: this.Containers.MainContainer.locator('.hXnMHQ'),
+<<<<<<< HEAD
     VirtualRoomItem: this.Containers.MainContainer.locator('.hPoTzp'),
     //  ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
+=======
+>>>>>>> main
   };
 
   ConversationItemDetails = {
