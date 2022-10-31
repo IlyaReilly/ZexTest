@@ -1,20 +1,18 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class MailsList extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MailsListContainer: this.page.locator('[data-testid="list-wrapper"]'),
-    // MailsListContainer: this.page.locator('.fkdseM'),
     MailContextMenuContainer: this.page.locator('[data-popper-placement="bottom-start"]'),
   };
 
   Elements = {
     Letter: this.Containers.MailsListContainer.locator('.jWpoDH'),
-    // Letter: this.Containers.MailsListContainer.locator('.qPmzW '),
     UnreadMessageIcon: this.Containers.MailsListContainer.locator('.AyVvp'),
-  };
-
-  constructor(page) {
-    super(page);
   };
 
   async OpenMail(mailSubject) {

@@ -4,7 +4,7 @@ import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 export class DeleteFolderModal extends ModalWindowBase {
   constructor(page) {
     super(page);
-  }
+  };
 
   Buttons = {
     Cancel: this.Containers.MainContainer.locator('"Cancel"'),
@@ -13,5 +13,5 @@ export class DeleteFolderModal extends ModalWindowBase {
 
   async DeleteFolder() {
     await this.Buttons.Ok.click();
-  }
+  };
 }

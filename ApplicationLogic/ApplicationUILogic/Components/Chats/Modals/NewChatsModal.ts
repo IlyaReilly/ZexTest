@@ -13,7 +13,6 @@ export class NewChatsModal extends ModalWindowBase {
   NewChatDialog = {
     UserFilterTextBox: this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
     UsersListItem: this.Containers.MainContainer.locator('.kllKuK'),
-    // UsersListItem: this.Containers.MainContainer.locator('.gpDdfj'),
     TopicTextbox: this.Containers.MainContainer.locator('[name="Topic"]'),
     TitleTextbox: this.Containers.MainContainer.locator('[name="Title"]'),
     UserFilterTextboxInGroup: this.Containers.MainContainer.locator('[name="Start typing to pick an address"]'),

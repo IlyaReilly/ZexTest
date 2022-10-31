@@ -1,19 +1,19 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class MailDetails extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MailDetailsContainer: this.page.locator('[data-testid="third-panel"]'),
-    // MailDetailsContainer: this.page.locator('.jbyjRV'),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    // MailOptionsContainer: this.page.locator('.izBNKP'),
   };
 
   Elements = {
     LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
-    // LetterSubject: this.Containers.MailDetailsContainer.locator('.jalknq'),
     FlagIcon: this.Containers.MailDetailsContainer.locator('[data-testid="FlagIcon"]'),
-    ActionWithMailNotification: this.page.locator('.jOvDlO'),
-    // ActionWithMailNotification: this.page.locator('.ldHDuR'),
+    ActionWithMailNotification: this.page.locator('.bPRaOr'),
   };
 
   EditMail = {
@@ -40,10 +40,6 @@ export class MailDetails extends BasePage {
   };
 
   AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.yOEdM');
-
-  constructor(page) {
-    super(page);
-  };
 
   async DeleteDraft() {
     await this.EditMail.DeleteMail.click();

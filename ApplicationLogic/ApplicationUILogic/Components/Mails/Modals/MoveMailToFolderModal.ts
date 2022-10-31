@@ -9,7 +9,6 @@ export class MoveMailToFolderModal extends ModalWindowBase {
 
   Folders = {
     FoldersListItem: this.Containers.MainContainer.locator('.kcyMzv'),
-    // FoldersListItem: this.Containers.MoveConversationContainer.locator('.kWgjwg'),
   };
 
   Buttons = {
@@ -22,5 +21,5 @@ export class MoveMailToFolderModal extends ModalWindowBase {
   async MoveMailToFolder(folderName) {
     await this.Folders.FoldersListItem.locator(`"${folderName}"`).click();
     await this.Buttons.MoveButton.click();
-  }
+  };
 }
