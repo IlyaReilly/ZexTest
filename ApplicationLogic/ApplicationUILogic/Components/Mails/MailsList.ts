@@ -19,7 +19,7 @@ export class MailsList extends BasePage {
     await this.Elements.Letter.locator(`"${mailSubject}"`).first().click();
   };
 
-  async OpenMailContextOption(mailSubject, option) {
+  async OpenContextMenuAndSelectOption(mailSubject, option) {
     await this.Elements.Letter.locator(`"${mailSubject}"`).click({button: 'right'});
     await option.click();
   };
@@ -42,17 +42,19 @@ export class MailsList extends BasePage {
   };
 
   SelectMailContextMenuOption = {
-    MarkAsUnread: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.MarkAsUnread),
-    MarkAsRead: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.MarkAsRead),
-    AddFlag: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.AddFlag),
-    RemoveFlag: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.RemoveFlag),
-    Tags: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.Tags),
-    MarkAsSpam: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.MarkAsSpam),
-    Reply: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.Reply),
-    ReplyAll: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.ReplyAll),
-    Forward: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.Forward),
-    EditAsNew: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.EditAsNew),
-    Send: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.Send),
-    Redirect: async (mailSubject) => await this.OpenMailContextOption(mailSubject, this.MailContextMenuOptions.Redirect),
+    MarkAsUnread: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.MarkAsUnread),
+    MarkAsRead: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.MarkAsRead),
+    AddFlag: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.AddFlag),
+    RemoveFlag: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.RemoveFlag),
+    Tags: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.Tags),
+    MarkAsSpam: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.MarkAsSpam),
+    Print: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.Print),
+    ShowOriginal: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.ShowOriginal),
+    Reply: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.Reply),
+    ReplyAll: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.ReplyAll),
+    Forward: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.Forward),
+    EditAsNew: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.EditAsNew),
+    Send: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.Send),
+    Redirect: async (mailSubject) => await this.OpenContextMenuAndSelectOption(mailSubject, this.MailContextMenuOptions.Redirect),
   };
 }

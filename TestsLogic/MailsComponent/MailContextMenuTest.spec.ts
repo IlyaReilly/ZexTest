@@ -46,20 +46,20 @@ test.describe('Mails context menu options tests', async () => {
 
   test('Print mail', async ({page, pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
-    const mailTitle = await getContentFromNewPage({page, pageManager}, pageManager.mailsList.MailContextMenuOptions.Print, 'b >> nth=-1');
+    const mailTitle = await getContentFromNewPage({page, pageManager}, pageManager.mailsList.SelectMailContextMenuOption.Print, 'b >> nth=-1');
     await expect(mailTitle, 'Mail subject should be in header of printed document').toBe(mailSubject);
   });
 
   test('Show original mail', async ({page, pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
-    const mailContent = await getContentFromNewPage({page, pageManager}, pageManager.mailsList.MailContextMenuOptions.ShowOriginal, 'pre');
+    const mailContent = await getContentFromNewPage({page, pageManager}, pageManager.mailsList.SelectMailContextMenuOption.ShowOriginal, 'pre');
     await expect(mailContent, 'Original document should contain mail body text').toContain(mailBody);
   });
 
   async function getContentFromNewPage({page, pageManager}, option, locator) {
     const [newPage] = await Promise.all([
       page.waitForEvent('popup'),
-      pageManager.mailsList.OpenMailContextOption(mailSubject, option),
+      option(mailSubject),
     ]);
     await newPage.waitForLoadState();
     const content = await newPage.innerText(locator);

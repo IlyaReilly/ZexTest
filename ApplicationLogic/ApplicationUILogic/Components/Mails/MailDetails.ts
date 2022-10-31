@@ -16,13 +16,12 @@ export class MailDetails extends BasePage {
     ActionWithMailNotification: this.page.locator('.bPRaOr'),
   };
 
-  EditMail = {
-    DeleteMail: this.Containers.MailDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
+  MailOptions = {
+    Delete: this.Containers.MailDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
     MoreOptionsMenu: this.Containers.MailDetailsContainer.locator('[data-testid*="MoreVertical"]'),
-    DeletePermanently: this.Containers.MailOptionsContainer.locator('"Delete Permanently"'),
   };
 
-  MailOptions = {
+  MoreOptionsMenu = {
     Move: this.Containers.MailOptionsContainer.locator('"Move"'),
     Tags: this.Containers.MailOptionsContainer.locator('"Tags"'),
     Print: this.Containers.MailOptionsContainer.locator('"Print"'),
@@ -31,6 +30,7 @@ export class MailDetails extends BasePage {
     EditAsNew: this.Containers.MailOptionsContainer.locator('"Edit as new"'),
     MarkAsSpam: this.Containers.MailOptionsContainer.locator('"Mark as spam"'),
     ShowOriginal: this.Containers.MailOptionsContainer.locator('"Show original"'),
+    DeletePermanently: this.Containers.MailOptionsContainer.locator('"Delete Permanently"'),
   };
 
   AppointmentInvitationOptions = {
@@ -42,12 +42,23 @@ export class MailDetails extends BasePage {
 
   AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.yOEdM');
 
-  async DeleteDraft() {
-    await this.EditMail.DeleteMail.click();
+  async SelectOption(option) {
+    if (!(option in this.MailOptions)) {
+      await this.MailOptions.MoreOptionsMenu.click();
+    }
+    await option.click();
   };
 
-  async MarkAsSpam() {
-    await this.EditMail.MoreOptionsMenu.click();
-    await this.MailOptions.MarkAsSpam.click();
+  SelectMailOption = {
+    Delete: async () => await this.SelectOption(this.MailOptions.Delete),
+    Move: async () => await this.SelectOption(this.MoreOptionsMenu.Move),
+    Tags: async () => await this.SelectOption(this.MoreOptionsMenu.Tags),
+    Print: async () => await this.SelectOption(this.MoreOptionsMenu.Print),
+    AddFlag: async () => await this.SelectOption(this.MoreOptionsMenu.AddFlag),
+    Redirect: async () => await this.SelectOption(this.MoreOptionsMenu.Redirect),
+    EditAsNew: async () => await this.SelectOption(this.MoreOptionsMenu.EditAsNew),
+    MarkAsSpam: async () => await this.SelectOption(this.MoreOptionsMenu.MarkAsSpam),
+    ShowOriginal: async () => await this.SelectOption(this.MoreOptionsMenu.ShowOriginal),
+    DeletePermanently: async () => await this.SelectOption(this.MoreOptionsMenu.DeletePermanently),
   };
 }
