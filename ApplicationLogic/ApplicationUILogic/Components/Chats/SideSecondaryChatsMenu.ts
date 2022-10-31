@@ -7,7 +7,6 @@ export class SideSecondaryChatsMenu extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator('.gYbcBj'),
-    // MainContainer: this.page.locator('.cpSZnV'),
   };
 
   Buttons = {

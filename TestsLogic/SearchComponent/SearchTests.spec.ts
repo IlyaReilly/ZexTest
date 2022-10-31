@@ -14,9 +14,8 @@ test.describe('Search tests', async () => {
   test.afterEach(async ({page}) => {
     await page.close();
   });
-  // Mails created in junk tab.
+
   test('Search sent email', async ({pageManager, apiManager}) => {
-    test.fail();
     const mailSubject = uniquePrefix + ' Autotest Mail Subject';
     const mailBody = uniquePrefix + ' Autotest Mail Body';
     try {

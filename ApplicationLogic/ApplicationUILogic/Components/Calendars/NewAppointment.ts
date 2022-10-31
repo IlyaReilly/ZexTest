@@ -1,6 +1,10 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class NewAppointment extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MainContainer: this.page.locator(InheritedFields.NewItemDefaultContainerLocator),
     AttendeesDropdown: this.page.locator('.fStkje'),
@@ -28,10 +32,6 @@ export class NewAppointment extends BasePage {
   CheckBoxes = {
     Private: this.Containers.MainContainer.locator('"Private"'),
   };
-
-  constructor(page) {
-    super(page);
-  }
 
   async SendAppointment(title, body, attendees = 'test1@demo.zextras.io', privateApp = false) {
     await this.TextBox.EventTitle.fill(title);

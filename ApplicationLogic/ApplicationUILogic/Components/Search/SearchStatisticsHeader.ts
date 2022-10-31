@@ -7,7 +7,6 @@ export class SearchStatisticsHeader extends BasePage {
 
   Containers = {
     MainContainer: this.page.locator('.ftkkYz'),
-    // MainContainer: this.page.locator('.jPslbd'),
   };
 
   Buttons = {
@@ -16,6 +15,5 @@ export class SearchStatisticsHeader extends BasePage {
 
   Elements = {
     SearchSnippets: this.Containers.MainContainer.locator('.ddxlFk'),
-    // SearchSnippets: this.Containers.MainContainer.locator('.cNXlLm'),
   };
 }
