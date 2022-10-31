@@ -36,8 +36,7 @@ test.describe('Virtual Rooms tests', async () => {
   });
 
   test('Copy Virtual room link. Virtual room link should be in clipboard.', async ({page, pageManager, apiManager, browserName}) => {
-    test.skip(browserName === 'firefox', 'A bug related to permissions.');
-    test.skip(browserName === 'webkit', 'A bug related to permissions.');
+    test.skip(browserName === 'webkit' || browserName === 'firefox', 'A bug related to permissions.');
     await apiManager.createChatsAPI.CreateVirtualRoom(virtualRoomTitle);
     await pageManager.sideSecondaryChatsMenu.OpenTab.VirtualRooms();
     await pageManager.sideSecondaryChatsMenu.Elements.VirtualRoomItem.click();
