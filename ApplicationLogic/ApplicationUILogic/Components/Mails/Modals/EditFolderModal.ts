@@ -4,7 +4,7 @@ import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 export class EditFolderModal extends ModalWindowBase {
   constructor(page) {
     super(page);
-  }
+  };
 
   TextBoxes = {
     FolderName: this.Containers.MainContainer.locator('[placeholder="Folder name"]'),
@@ -23,5 +23,5 @@ export class EditFolderModal extends ModalWindowBase {
   async EditFolder(newFolderName) {
     await this.TextBoxes.FolderName.fill(newFolderName);
     await this.Buttons.Edit.click();
-  }
+  };
 }

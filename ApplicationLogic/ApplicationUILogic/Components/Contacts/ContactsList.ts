@@ -1,6 +1,10 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class ContactsList extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     ContactsListContainer: this.page.locator('.gXjrJH'),
     ContactsLisntToScrollCotainer: this.page.locator('.iyNrSn '),
@@ -11,11 +15,7 @@ export class ContactsList extends BasePage {
     DeleteContact: this.Containers.ContactDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
   };
 
-  constructor(page) {
-    super(page);
-  }
-
   async DeleteContact() {
     await this.EditContact.DeleteContact.click();
-  }
+  };
 }

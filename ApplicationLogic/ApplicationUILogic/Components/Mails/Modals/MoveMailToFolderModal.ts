@@ -21,5 +21,5 @@ export class MoveMailToFolderModal extends ModalWindowBase {
   async MoveMailToFolder(folderName) {
     await this.Folders.FoldersListItem.locator(`"${folderName}"`).click();
     await this.Buttons.MoveButton.click();
-  }
+  };
 }

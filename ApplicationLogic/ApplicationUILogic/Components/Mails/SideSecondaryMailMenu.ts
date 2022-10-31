@@ -9,12 +9,10 @@ export class SideSecondaryMailMenu extends BasePage {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
     CreateNewFolderPopupContainer: this.page.locator('[data-testid="modal"]'),
-    // CreateNewFolderPopupContainer: this.page.locator('.lgcnRq'),
   };
 
   Buttons = {
     OpenHideMailFolders: this.Containers.MainContainer.locator('.css-s0ezgd'),
-    // OpenHideMailFolders: this.Containers.MainContainer.locator('.fjrKpL .cLLOPN'),
     ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
@@ -29,7 +27,6 @@ export class SideSecondaryMailMenu extends BasePage {
     Drafts: this.Containers.MainContainer.locator('"Drafts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
     SubFolder: this.Containers.MainContainer.locator('.GyzHK'),
-    // SubFolder: this.Containers.MainContainer.locator('.fAVahr'),
   };
 
   MailFolderOptions = {

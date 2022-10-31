@@ -1,6 +1,10 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class MailDetails extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MailDetailsContainer: this.page.locator('[data-testid="third-panel"]'),
     MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
@@ -36,10 +40,6 @@ export class MailDetails extends BasePage {
   };
 
   AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.fixDFx');
-
-  constructor(page) {
-    super(page);
-  };
 
   async DeleteDraft() {
     await this.EditMail.DeleteMail.click();

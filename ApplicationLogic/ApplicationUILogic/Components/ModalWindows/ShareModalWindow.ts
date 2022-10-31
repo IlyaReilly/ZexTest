@@ -3,7 +3,7 @@ import {ModalWindowBase} from './ModalWindowBase';
 export class ShareModalWindow extends ModalWindowBase {
   constructor(page) {
     super(page);
-  }
+  };
 
   Buttons = {
     ShareButton: this.Containers.MainContainer.locator('xpath=//button/*[contains(text(), "Share")]'),

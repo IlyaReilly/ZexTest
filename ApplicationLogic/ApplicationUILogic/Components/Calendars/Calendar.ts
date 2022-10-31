@@ -1,6 +1,10 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class Calendar extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
     MainContainer: this.page.locator('.cPoMlt'),
     AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
@@ -43,10 +47,6 @@ export class Calendar extends BasePage {
     EditMessageButton: this.Containers.PopupContainer.locator('"Edit Message"'),
     SendCancellationButton: this.Containers.PopupContainer.locator('"Send Cancellation"'),
     DeletePermanentlyButton: this.Containers.PopupContainer.locator('"Delete permanently"'),
-  };
-
-  constructor(page) {
-    super(page);
   };
 
   async GetAppointmentWithTitle(title) {
