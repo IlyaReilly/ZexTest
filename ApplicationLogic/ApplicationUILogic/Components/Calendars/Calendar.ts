@@ -9,12 +9,9 @@ export class Calendar extends BasePage {
     MainContainer: this.page.locator('.kXEGgY'),
     AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
     OtherActionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    // OtherActionsContainer: this.page.locator('.izBNKP'),
     PopupContainer: this.page.locator('.gQvCeP'),
-    // PopupContainer: this.page.locator('.loeZsV'),
     ReminderPopupContainer: this.page.locator('.fKWHjI .loeZsV'),
     CalendarView: this.page.locator('.ipjITR'),
-    // CalendarView: this.page.locator('.dIeVeP'),
   };
 
   Selectors = {
@@ -24,16 +21,12 @@ export class Calendar extends BasePage {
 
   Elements = {
     Appointment: this.Containers.MainContainer.locator('.fSWXaB'),
-    // Appointment: this.Containers.MainContainer.locator('.hIcxKG'),
     CurrentDate: this.Containers.MainContainer.locator('.hOgGwK .jAbdqn'),
-    // CurrentDate: this.Containers.MainContainer.locator('.iVBcdo .cGzJpD'),
     Cell: this.Containers.MainContainer.locator('.rbc-day-bg'),
     Column: this.Containers.MainContainer.locator('.rbc-time-column'),
     ActiveViewButton: this.Containers.MainContainer.locator('.jFGWhz'),
-    // ActiveViewButton: this.Containers.MainContainer.locator('.iZsIAW'),
     NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
     TodayButton: this.Containers.MainContainer.locator('button:has-text("today")'),
-    // TodayButton: this.Containers.MainContainer.locator('.iPEbcU'),
   };
 
   AppointmentPopup = {
