@@ -13,7 +13,7 @@ export class MailDetails extends BasePage {
   Elements = {
     LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
     FlagIcon: this.Containers.MailDetailsContainer.locator('[data-testid="FlagIcon"]'),
-    ActionWithMailNotification: this.page.locator('.bPRaOr'),
+    ActionWithMailNotification: this.page.locator('.jOvDlO'),
   };
 
   EditMail = {

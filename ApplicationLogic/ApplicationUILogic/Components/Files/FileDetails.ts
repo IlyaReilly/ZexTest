@@ -23,7 +23,7 @@ export class FileDetails extends BasePage {
     FileName: this.Containers.HeaderContainer.locator('.fWfafH'),
     FilePreview: this.page.locator('.ckbqRX'),
     Description: this.Containers.InformationContainer.locator('.bjWHPb'),
-    DescriptionText: this.Containers.InformationContainer.locator('.bA-dJfM'),
+    DescriptionText: this.Containers.InformationContainer.locator('.hWkqlJ'),
     FileDescription: this.Containers.InformationContainer.locator('.dERcjk'),
   };
 
