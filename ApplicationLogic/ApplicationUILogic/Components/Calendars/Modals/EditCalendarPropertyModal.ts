@@ -13,7 +13,7 @@ export class EditCalendarPropertyModal extends ModalWindowBase {
   };
 
   Locators = {
-    SharingThisFolderRow: '.emTvRU',
+    SharingThisFolderRow: '.gKOUod',
   };
 
   Buttons = {
