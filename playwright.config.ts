@@ -66,6 +66,10 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Chrome'],
         viewport: {height: 816, width: 1536},
+        contextOptions: {
+          // chromium-specific permissions
+          permissions: ['clipboard-read', 'clipboard-write'],
+        },
       },
     },
     {
