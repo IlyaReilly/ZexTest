@@ -1,15 +1,19 @@
 import {BasePage} from '../../Pages/BasePage';
 
 export class Calendar extends BasePage {
+  constructor(page) {
+    super(page);
+  };
+
   Containers = {
-    MainContainer: this.page.locator('.cPoMlt'),
+    MainContainer: this.page.locator('.kXEGgY'),
     AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
-    OtherActionsContainer: this.page.locator('.phlLS'),
+    OtherActionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
     // OtherActionsContainer: this.page.locator('.izBNKP'),
-    PopupContainer: this.page.locator('.jCXemQ'),
+    PopupContainer: this.page.locator('.kSniyH'),
     // PopupContainer: this.page.locator('.loeZsV'),
     ReminderPopupContainer: this.page.locator('.fKWHjI .loeZsV'),
-    CalendarView: this.page.locator('.kNHjiU'),
+    CalendarView: this.page.locator('.ipjITR'),
     // CalendarView: this.page.locator('.dIeVeP'),
   };
 
@@ -19,7 +23,7 @@ export class Calendar extends BasePage {
   };
 
   Elements = {
-    Appointment: this.Containers.MainContainer.locator('.dZMwio'),
+    Appointment: this.Containers.MainContainer.locator('.fSWXaB'),
     // Appointment: this.Containers.MainContainer.locator('.hIcxKG'),
     CurrentDate: this.Containers.MainContainer.locator('.hfwWFn .fzlaBC'),
     // CurrentDate: this.Containers.MainContainer.locator('.iVBcdo .cGzJpD'),
@@ -50,10 +54,6 @@ export class Calendar extends BasePage {
     EditMessageButton: this.Containers.PopupContainer.locator('"Edit Message"'),
     SendCancellationButton: this.Containers.PopupContainer.locator('"Send Cancellation"'),
     DeletePermanentlyButton: this.Containers.PopupContainer.locator('"Delete permanently"'),
-  };
-
-  constructor(page) {
-    super(page);
   };
 
   async GetAppointmentWithTitle(title) {

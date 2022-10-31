@@ -30,6 +30,7 @@ export class SideSecondaryChatsMenu extends BasePage {
   Elements = {
     ConversationsListItem: this.Containers.MainContainer.locator('.beVSSX'),
     ConversationsItem: this.Containers.MainContainer.locator('.hXnMHQ'),
+    VirtualRoomItem: this.Containers.MainContainer.locator('.hPoTzp'),
     //  ConversationsItem: this.Containers.MainContainer.locator('.ihXgoY'),
   };
 
