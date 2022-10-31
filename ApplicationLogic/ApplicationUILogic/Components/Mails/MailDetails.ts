@@ -39,7 +39,7 @@ export class MailDetails extends BasePage {
     ProposeNewTime: this.Containers.MailDetailsContainer.locator('"PROPOSE NEW TIME"'),
   };
 
-  AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.fixDFx');
+  AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.yOEdM');
 
   async DeleteDraft() {
     await this.EditMail.DeleteMail.click();
