@@ -12,7 +12,6 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   Buttons = {
-    OpenHideMailFolders: this.Containers.MainContainer.locator('.css-s0ezgd'),
     ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
   };
 
@@ -49,30 +48,30 @@ export class SideSecondaryMailMenu extends BasePage {
     Letter: this.Containers.MainContainer.locator('.jTMZGq'),
   };
 
-  async OpenMailFolder(folder) {
-    if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
-      await this.Buttons.OpenHideMailFolders.first().click();
+  async OpenFolder(folder) {
+    if (await this.page.isHidden(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`)) {
+      await this.Buttons.ExpandFolder.first().click();
     }
     await folder.click();
   };
 
   async SpreadMails() {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
-      await this.Buttons.OpenHideMailFolders.first().click();
+      await this.Buttons.ExpandFolder.first().click();
     };
   };
 
-  OpenMailFolders = {
-    Inbox: async () => await this.MailFolders.Inbox.click(),
-    Junk: async () => await this.MailFolders.Junk.click(),
-    Sent: async () => await this.MailFolders.Sent.click(),
-    Drafts: async () => await this.MailFolders.Drafts.click(),
-    Trash: async () => await this.MailFolders.Trash.click(),
+  OpenMailFolder = {
+    Inbox: async () => await this.OpenFolder(this.MailFolders.Inbox),
+    Junk: async () => await this.OpenFolder(this.MailFolders.Junk),
+    Sent: async () => await this.OpenFolder(this.MailFolders.Sent),
+    Drafts: async () => await this.OpenFolder(this.MailFolders.Drafts),
+    Trash: async () => await await this.OpenFolder(this.MailFolders.Trash),
   };
 
   async OpenMailFolderOptions(folder) {
     if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
-      await this.Buttons.OpenHideMailFolders.first().click();
+      await this.Buttons.ExpandFolder.first().click();
     };
     await folder.first().click({button: "right"});
   };

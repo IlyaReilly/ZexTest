@@ -18,10 +18,16 @@ export class CreateMailsAPI extends BaseAPI {
     return id;
   };
 
-  async SaveDraftRequest(subject, from, to, body) {
-    await this.page.request.post(`${this.soapServiceUrl}${this.saveDraftRequest}`, {
-      data: this.FormingMsgRequestBody(this.saveDraftRequest, subject, from, to, body),
+  async SaveDraftRequest(subject, from, to, draftBody) {
+    let id = '';
+    const response = await this.page.request.post(`${this.soapServiceUrl}${this.saveDraftRequest}`, {
+      data: this.FormingMsgRequestBody(this.saveDraftRequest, subject, from, to, draftBody),
     });
+    const body = await this.GetResponseBody(response);
+    if (body.Body.SaveDraftResponse.m) {
+      id = body.Body.SaveDraftResponse.m[0].id;
+    }
+    return id;
   };
 
   FormingMsgRequestBody(requestType, subject, from, to, body) {

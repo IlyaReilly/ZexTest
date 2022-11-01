@@ -8,6 +8,7 @@ export class HeaderMenu extends BasePage {
   Containers = {
     MainContainer: this.page.locator('.ebKkLJ'),
     UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
+    NewItemMenuContainer: this.page.locator('.chxMDM'),
     NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
   };
 
