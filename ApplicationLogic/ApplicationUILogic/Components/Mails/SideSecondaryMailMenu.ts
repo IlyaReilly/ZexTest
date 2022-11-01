@@ -12,7 +12,7 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   Buttons = {
-    ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
+    ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.ExpandHidenFolders),
   };
 
   Icons = {
@@ -25,7 +25,7 @@ export class SideSecondaryMailMenu extends BasePage {
     Sent: this.Containers.MainContainer.locator('"Sent"'),
     Drafts: this.Containers.MainContainer.locator('"Drafts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
-    SubFolder: this.Containers.MainContainer.locator('.GyzHK'),
+    SubFolder: this.Containers.MainContainer.locator('.css-15u4h3'),
   };
 
   MailFolderOptions = {
@@ -55,28 +55,19 @@ export class SideSecondaryMailMenu extends BasePage {
     await folder.click();
   };
 
-  async SpreadMails() {
-    if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
-      await this.Buttons.ExpandFolder.first().click();
-    };
-  };
-
   OpenMailFolder = {
     Inbox: async () => await this.OpenFolder(this.MailFolders.Inbox),
     Junk: async () => await this.OpenFolder(this.MailFolders.Junk),
     Sent: async () => await this.OpenFolder(this.MailFolders.Sent),
     Drafts: async () => await this.OpenFolder(this.MailFolders.Drafts),
-    Trash: async () => await await this.OpenFolder(this.MailFolders.Trash),
+    Trash: async () => await this.OpenFolder(this.MailFolders.Trash),
   };
 
-  async OpenMailFolderOptions(folder) {
-    if (!(await this.page.isVisible(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`))) {
-      await this.Buttons.ExpandFolder.first().click();
-    };
+  async OpenFolderContextMenu(folder) {
     await folder.first().click({button: "right"});
   };
 
-  MailfolderOption = {
+  SelectMailFolderOption = {
     NewFolder: async () => await this.MailFolderOptions.NewFolder.click(),
     Move: async () => await this.MailFolderOptions.Move.click(),
     WipeFolder: async () => await this.MailFolderOptions.WipeFolder.click(),
@@ -90,15 +81,26 @@ export class SideSecondaryMailMenu extends BasePage {
     await this.CreateNewFolderPopup.CreateButton.click();
   };
 
-  async ExpandFolders() {
-    await this.Buttons.ExpandFolder.locator('nth=1').click();
+  async ExpandFolders(folder) {
+    if (await this.page.isHidden(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`)) {
+      await this.Buttons.ExpandFolder.first().click();
+    };
+    if (folder === 'Inbox') {
+      await this.Buttons.ExpandFolder.locator('nth=1').click();
+    } else if (folder) {
+      await this.page.click(`${InheritedFields.ExpandHidenFolders}:near(:text("${folder}"))`);
+    };
   };
 
-  async ExpandSubfolderInNewFolder() {
-    await this.Buttons.ExpandFolder.locator('nth=2').click();
-  }
+  ExpandMailFolders = {
+    Inbox: async () => await this.ExpandFolders('Inbox'),
+    Junk: async () => await this.ExpandFolders('Junk'),
+    Sent: async () => await this.ExpandFolders('Sent'),
+    Drafts: async () => await this.ExpandFolders('Drafts'),
+    Trash: async () => await this.ExpandFolders('Trash'),
+  };
 
-  async OpenFirstSubFolder(folderName) {
-    await this.MailFolders.SubFolder.locator(`"${folderName}"`).first().click();
+  async OpenSubFolder(folderName) {
+    await this.MailFolders.SubFolder.locator(`"${folderName}"`).click();
   };
 }
