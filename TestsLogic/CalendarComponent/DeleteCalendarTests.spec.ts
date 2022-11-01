@@ -4,7 +4,6 @@ import {test, BaseTest} from '../UITests/BaseTest';
 test.describe('Delete Calendar', async () => {
   let dateTimePrefix;
   let calendarName;
-  let calendarNewName;
 
   test.beforeAll(async ({apiManager}) => {
     const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
@@ -14,25 +13,18 @@ test.describe('Delete Calendar', async () => {
     }));
   });
 
-  test.beforeEach(async () => {
+  test.beforeEach(async ({apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     calendarName = dateTimePrefix + ' Calendar';
-    calendarNewName = 'New' + calendarName;
+    await apiManager.deleteCalendarAPI.EmptyTrashRequest(BaseTest.userForLogin.login);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    try {
-      const calendarFolderId = await apiManager.calendarAPI.GetCalendarFolderIdByName(BaseTest.userForLogin.login, calendarName);
-      await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(calendarFolderId, BaseTest.userForLogin.login);
-    } catch {
-      const calendarFolderId = await apiManager.calendarAPI.GetCalendarFolderIdByName(BaseTest.userForLogin.login, calendarNewName);
-      await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(calendarFolderId, BaseTest.userForLogin.login);
-    };
+    await apiManager.deleteCalendarAPI.EmptyTrashRequest(BaseTest.userForLogin.login);
     await page.close();
-    // TODO API method for clean up calendar from the trash
   });
 
-  test('Delete calendar. Calendar should be moved to Trash', async ({page, pageManager, apiManager}) => {
+  test('Delete calendar. Calendar should be moved to Trash', async ({pageManager, apiManager}) => {
     await apiManager.createCalendarAPI.CreateCalendarRequest(calendarName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.DeleteCalendar(calendarName);
