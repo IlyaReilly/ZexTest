@@ -8,11 +8,11 @@ export class MoveMailToFolderModal extends ModalWindowBase {
   };
 
   Folders = {
-    FoldersListItem: this.Containers.MainContainer.locator('.kcyMzv'),
+    FoldersListItem: this.Containers.MainContainer.locator('.bHfeiw'),
   };
 
   Buttons = {
-    SpreadFoldersListButton: this.Containers.MainContainer.locator(InheritedFields.SpreadHidenFolders),
+    ExpandFoldersListButton: this.Containers.MainContainer.locator(InheritedFields.ExpandHidenFolders),
     NewFolderButton: this.Containers.MainContainer.locator('"New Folder"'),
     MoveButton: this.Containers.MainContainer.locator('"Move"'),
     CancelButton: this.Containers.MainContainer.locator('"Cancel"'),

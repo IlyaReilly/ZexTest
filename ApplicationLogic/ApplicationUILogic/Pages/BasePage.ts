@@ -6,7 +6,7 @@ export const InheritedFields = {
   NewItemBodyIframeLocator: '.tox-edit-area__iframe',
   NewItemBodyLocator: '.mce-content-body',
   ModalWindowLocator: '[data-testid="modal"]',
-  SpreadHidenFolders: '[data-testid="ExpandMoreIcon"]',
+  ExpandHidenFolders: '[data-testid="ExpandMoreIcon"]',
 };
 
 export class BasePage {
