@@ -31,19 +31,17 @@ export class NewMail extends BasePage {
 
   async CreateNewMail(to, subject, body) {
     await this.TextBox.To.click();
-    await this.TextBox.To.type(to);
+    await this.TextBox.To.fill(to);
     await this.Dropdowns.Item.click();
     await this.TextBox.Subject.click();
-    await this.TextBox.Subject.type(subject);
+    await this.TextBox.Subject.fill(subject);
     await this.Containers.MainContainer.locator(`"${subject}"`).waitFor();
     await this.TextBox.Body.click();
-    await this.TextBox.Body.type(body);
+    await this.TextBox.Body.fill(body);
   };
 
   async SendMail() {
     await this.Buttons.Send.click();
-    await this.Buttons.DeleteDraft.waitFor();
-    await this.Buttons.DeleteDraft.click();
   };
 
   async SaveMail() {

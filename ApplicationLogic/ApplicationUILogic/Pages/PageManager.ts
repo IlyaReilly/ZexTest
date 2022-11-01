@@ -38,14 +38,13 @@ import {ShareAddressBookModal} from '../Components/Contacts/Modals/ShareAddressB
 import {MoveFolderModal} from '../Components/Mails/Modals/MoveFolderModal';
 import {WipeFolderModal} from '../Components/Mails/Modals/WipeFolderModal';
 import {DeleteFolderModal} from '../Components/Mails/Modals/DeleteFolderModal';
-import {PrintPage} from './MailPages/PrintPage';
-import {ShowOriginalPage} from './MailPages/ShowOriginalPage';
 import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
 import {ChatField} from '../Components/Chats/ChatField';
 import {VirtualRoomField} from '../Components/Chats/VirtualRoomField';
 import {AddNewMembersModal} from '../Components/Chats/Modals/AddNewMembersModal';
 import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddressBookModal';
 import {MoveMailToFolderModal} from '../Components/Mails/Modals/MoveMailToFolderModal';
+import {DeleteMailModal} from '../Components/Mails/Modals/DeleteMailModal';
 import {SpaceInfo} from '../Components/Chats/SpaceInfo';
 import {NewChannelModal} from '../Components/Chats/Modals/NewChannelModal';
 import {NewSpaceModal} from '../Components/Chats/Modals/NewSpaceModal';
@@ -107,13 +106,8 @@ export class PageManager {
   wipeFolderModal;
   deleteFolderModal;
   moveMailToFolderModal;
+  deleteMailModal;
   // #endregion
-
-  // #region Mail Pages
-  printPage;
-  showOriginalPage;
-  // #endregion
-
 
   // #region Chats Modal
   newChatsModal;
@@ -179,11 +173,7 @@ export class PageManager {
     this.wipeFolderModal = new WipeFolderModal(page);
     this.deleteFolderModal = new DeleteFolderModal(page);
     this.moveMailToFolderModal = new MoveMailToFolderModal(page);
-    // #endregion
-
-    // #region Mail Pages
-    this.printPage = new PrintPage(page);
-    this.showOriginalPage = new ShowOriginalPage(page);
+    this.deleteMailModal = new DeleteMailModal(page);
     // #endregion
 
     // #region Chats Modal

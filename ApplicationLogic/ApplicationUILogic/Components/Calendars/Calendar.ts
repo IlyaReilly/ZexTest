@@ -9,7 +9,7 @@ export class Calendar extends BasePage {
     MainContainer: this.page.locator('.kXEGgY'),
     AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
     OtherActionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    PopupContainer: this.page.locator('.gQvCeP'),
+    PopupContainer: this.page.locator('.hpDDMC'),
     ReminderPopupContainer: this.page.locator('.fKWHjI .loeZsV'),
     CalendarView: this.page.locator('.ipjITR'),
   };
@@ -72,7 +72,7 @@ export class Calendar extends BasePage {
     await this.OpenAppointmentInfoPopup(appointmentTitle);
     await this.AppointmentPopup.OtherActionsDropdown.click();
     await this.AppointmentPopup.OtherActionsDelete.click();
-    await this.DeletePopups.SendCancellationButton.click();
+    await this.DeletePopups.DeletePermanentlyButton.click();
   };
 
   async DeleteAppointmentPermanently(appointmentTitle) {
