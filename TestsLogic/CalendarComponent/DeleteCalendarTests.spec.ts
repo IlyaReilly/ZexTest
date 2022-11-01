@@ -1,7 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
 
-test.describe('Edit Calendars Properties', async () => {
+test.describe('Delete Calendar', async () => {
   let dateTimePrefix;
   let calendarName;
   let calendarNewName;
@@ -29,28 +29,16 @@ test.describe('Edit Calendars Properties', async () => {
       await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(calendarFolderId, BaseTest.userForLogin.login);
     };
     await page.close();
+    // TODO API method for clean up calendar from the trash
   });
 
-  async function CreateCalendarAndOpenEditProperties({pageManager, apiManager}) {
+  test('Delete calendar. Calendar should be moved to Trash', async ({page, pageManager, apiManager}) => {
     await apiManager.createCalendarAPI.CreateCalendarRequest(calendarName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
-    await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.EditCalendarProperties(calendarName);
-  };
-
-  test('Edit calendar color. Change to red and validate rgb colors.', async ({pageManager, apiManager}) => {
-    const rgbCalendarColor = 'rgb(239, 83, 80)';
-    await CreateCalendarAndOpenEditProperties({pageManager, apiManager});
-    await pageManager.editCalendarPropertyModal.SelectCalendarColor('red');
-    await pageManager.editCalendarPropertyModal.Buttons.Ok.click();
-    const elementColor = await pageManager.sideSecondaryCalendarMenu.GetCalendarColorByName(calendarName);
-    await expect(elementColor, 'Calendar color should be changed to red').toEqual(rgbCalendarColor);
-  });
-
-  test('Edit calendar name. New name should be applyed', async ({pageManager, apiManager}) => {
-    await CreateCalendarAndOpenEditProperties({pageManager, apiManager});
-    await pageManager.editCalendarPropertyModal.ChangeCalendarName(calendarNewName);
-    await pageManager.editCalendarPropertyModal.Buttons.Ok.click();
-    await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${calendarNewName}"`),
-      `Calendar should change name to ${calendarNewName}`).toBeVisible();
+    await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.DeleteCalendar(calendarName);
+    await pageManager.deleteCalendarModal.Buttons.Delete.click();
+    await pageManager.sideSecondaryCalendarMenu.OpenTrashChevron();
+    await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`:text("${calendarName}"):below(:text("Trash"))`),
+      `Calendar ${calendarName} should be moved to trash`).toBeVisible();
   });
 });
