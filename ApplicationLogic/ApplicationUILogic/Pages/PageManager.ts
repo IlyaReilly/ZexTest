@@ -10,6 +10,7 @@ import {SideSecondaryContactsMenu} from '../Components/Contacts/SideSecondaryCon
 import {MailsList} from '../Components/Mails/MailsList';
 import {Calendar} from '../Components/Calendars/Calendar';
 import {ShareCalendarModal} from '../Components/Calendars/Modals/ShareCalendarModal';
+import {DeleteCalendarModal} from '../Components/Calendars/Modals/DeleteCalendarModal';
 import {NewCalendarModal} from '../Components/Calendars/Modals/NewCalendarModal';
 import {RevokeShareCalendarModal} from '../Components/Calendars/Modals/RevokeShareCalendarModal';
 import {EditCalendarPropertyModal} from '../Components/Calendars/Modals/EditCalendarPropertyModal';
@@ -83,6 +84,7 @@ export class PageManager {
   editCalendarPropertyModal;
   revokeShareCalendarModal;
   shareCalendarModal;
+  deleteCalendarModal;
   // #endregion
 
   // #region Contacts Modal
@@ -149,6 +151,7 @@ export class PageManager {
     this.editCalendarPropertyModal = new EditCalendarPropertyModal(page);
     this.revokeShareCalendarModal = new RevokeShareCalendarModal(page);
     this.newCalendarModal = new NewCalendarModal(page);
+    this.deleteCalendarModal = new DeleteCalendarModal(page);
     // #endregion
 
     // #region Contacts Modal

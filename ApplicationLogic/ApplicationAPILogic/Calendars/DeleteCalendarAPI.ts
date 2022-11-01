@@ -20,4 +20,12 @@ export class DeleteCalendarAPI extends BaseAPI {
       },
     });
   };
+
+  async EmptyTrashRequest(user: string) {
+    await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
+      data: {
+        "Body": {"FolderActionRequest": {"action": {"id": "3", "op": "empty", "recursive": true, "f": ""}, "_jsns": "urn:zimbraMail"}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 9}, "session": {"id": "123277", "_content": "123277"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 106.0.0.0 (Windows)", "version": "22.10.0_ZEXTRAS_202210 agent 20220923-0902 FOSS"}}},
+      },
+    });
+  };
 }
