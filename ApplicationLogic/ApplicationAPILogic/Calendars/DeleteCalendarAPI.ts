@@ -21,6 +21,14 @@ export class DeleteCalendarAPI extends BaseAPI {
     });
   };
 
+  async MoveToTrashCalendarFolderRequest(id: string, user: string) {
+    await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
+      data: {
+        "Body": {"FolderActionRequest": {"action": {"id": id, "op": "trash", "f": ""}, "_jsns": "urn:zimbraMail"}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "13415", "_content": "13415"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 104.0.0.0 (Windows)", "version": "22.7.2_ZEXTRAS_202207 agent 20220726-0959 FOSS"}}},
+      },
+    });
+  };
+
   async EmptyTrashRequest(user: string) {
     await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
       data: {

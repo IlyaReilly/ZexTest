@@ -23,11 +23,14 @@ export class CreateCalendarAPI extends BaseAPI {
   };
 
   async CreateCalendarRequest(name : string, user : string) {
-    await this.page.request.post(`${this.soapServiceUrl}${this.createFolderRequest}`, {
+    const response = await this.page.request.post(`${this.soapServiceUrl}${this.createFolderRequest}`, {
       data: {
         "Body": {"CreateFolderRequest": {"_jsns": "urn:zimbraMail", "folder": {"color": "0", "f": "", "l": "1", "name": name, "view": "appointment"}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 4}, "session": {"id": "13384", "_content": "13384"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 106.0.0.0 (Windows)", "version": "22.10.0_ZEXTRAS_202210 agent 20220923-0902 FOSS"}}},
       },
     });
+    const body = await this.GetResponseBody(response);
+
+    return body.Body.CreateFolderResponse.folder[0].id;
   };
 
   ParseDateToISO(date) {
