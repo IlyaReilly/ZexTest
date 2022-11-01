@@ -5,9 +5,10 @@ test.describe('Mails context menu options tests', async () => {
   let mailSubject;
   let mailBody;
 
-  test.beforeEach(async () => {
+  test.beforeEach(async ({pageManager}) => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
@@ -17,15 +18,15 @@ test.describe('Mails context menu options tests', async () => {
   });
 
   // The logic of this test is broken by application changes
-  test.skip('Mark mail as unread', async ({pageManager, secondPageManager, apiManager}) => {
-    await OpenInboxMailInAnotherUser({pageManager, secondPageManager, apiManager});
+  test.skip('Mark mail as unread', async ({secondPageManager, apiManager}) => {
+    await OpenInboxMailInAnotherUser({secondPageManager, apiManager});
     await secondPageManager.mailsList.OpenMail(mailSubject);
     await secondPageManager.mailsList.SelectMailContextMenuOption.MarkAsUnread(mailSubject);
     await expect(secondPageManager.mailsList.Elements.UnreadMessageIcon.first(), 'Unread message icon should be visible').toBeVisible();
   });
   // The logic of this test is broken by application changes
   test.skip('Mark mails as read', async ({pageManager, secondPageManager, apiManager}) => {
-    await OpenInboxMailInAnotherUser({pageManager, secondPageManager, apiManager});
+    await OpenInboxMailInAnotherUser({secondPageManager, apiManager});
     await secondPageManager.mailsList.SelectMailContextMenuOption.MarkAsRead(mailSubject);
     const unreadIcon = secondPageManager.mailsList.Elements.UnreadMessageIcon._selector;
     await expect(secondPageManager.mailsList.Elements.Letter.first(), 'Unread message icon should not be visible').not.toHaveClass(unreadIcon);
@@ -66,15 +67,13 @@ test.describe('Mails context menu options tests', async () => {
     return content;
   }
 
-  async function OpenInboxMailInAnotherUser({pageManager, secondPageManager, apiManager}) {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+  async function OpenInboxMailInAnotherUser({secondPageManager, apiManager}) {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
-    await secondPageManager.sideSecondaryMailMenu.OpenMailFolder(secondPageManager.sideSecondaryMailMenu.MailFolders.Inbox);
+    await secondPageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
   };
 
   async function SendMailAndOpenSentFolder({pageManager, apiManager}) {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
   };
 });
