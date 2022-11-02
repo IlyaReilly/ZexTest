@@ -20,7 +20,7 @@ pipeline {
                   failure {
                      sh 'tar -czvf playwright-report-webkit.tar.gz playwright-report'
                      sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
-                     archiveArtifacts 'playwright-report-webkit.tar.gz, playwright-report/index.html'
+                     archiveArtifacts 'playwright-report-webkit.tar.gz, index-webkit.tar.gz'
                      emailext attachmentsPattern: 'index-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Webkit tests", to: "andrei.artsiukouski@zextras.com"                     
                   }
                }
@@ -35,7 +35,7 @@ pipeline {
                   failure {
                      sh 'tar -czvf playwright-report-chromium.tar.gz playwright-report'
                      sh 'tar -czvf index-chromium.tar.gz playwright-report/index.html'
-                     archiveArtifacts 'playwright-report-chromium.tar.gz, playwright-report/index.html'
+                     archiveArtifacts 'playwright-report-chromium.tar.gz, index-chromium.tar.gz'
                      emailext attachmentsPattern: 'index-chromium.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Chromium tests", to: "andrei.artsiukouski@zextras.com"
                   }
                }
@@ -50,7 +50,7 @@ pipeline {
                   failure {
                      sh 'tar -czvf playwright-report-firefox.tar.gz playwright-report'
                      sh 'tar -czvf index-firefox.tar.gz playwright-report/index.html'
-                     archiveArtifacts 'playwright-report-firefox.tar.gz, playwright-report/index.html'
+                     archiveArtifacts 'playwright-report-firefox.tar.gz, index-firefox.tar.gz'
                      emailext attachmentsPattern: 'index-firefox.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Firefox tests", to: "andrei.artsiukouski@zextras.com"                     
                   }
                }
