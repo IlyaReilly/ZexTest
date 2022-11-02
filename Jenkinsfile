@@ -19,8 +19,8 @@ pipeline {
                post {
                   failure {
                      sh 'tar -czvf playwright-report-webkit.tar.gz playwright-report'
-                     archiveArtifacts 'playwright-report-webkit.tar.gz'
-                     emailext attachmentsPattern: 'playwright-report-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Webkit tests", to: "andrei.artsiukouski@zextras.com"                     
+                     archiveArtifacts 'playwright-report-webkit.tar.gz, playwright-report/index.html'
+                     emailext attachmentsPattern: '**/index.html', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Webkit tests", to: "andrei.artsiukouski@zextras.com"                     
                   }
                }
             }
@@ -33,8 +33,8 @@ pipeline {
                post {
                   failure {
                      sh 'tar -czvf playwright-report-chromium.tar.gz playwright-report'
-                     archiveArtifacts 'playwright-report-chromium.tar.gz'
-                     emailext attachmentsPattern: 'playwright-report-chromium.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Chromium tests", to: "andrei.artsiukouski@zextras.com"
+                     archiveArtifacts 'playwright-report-chromium.tar.gz, playwright-report/index.html'
+                     emailext attachmentsPattern: '**/index.html', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Chromium tests", to: "andrei.artsiukouski@zextras.com"
                   }
                }
             }
@@ -47,8 +47,8 @@ pipeline {
                post {
                   failure {
                      sh 'tar -czvf playwright-report-firefox.tar.gz playwright-report'
-                     archiveArtifacts 'playwright-report-firefox.tar.gz'
-                     emailext attachmentsPattern: 'playwright-report-firefox.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Firefox tests", to: "andrei.artsiukouski@zextras.com"                     
+                     archiveArtifacts 'playwright-report-firefox.tar.gz, playwright-report/index.html'
+                     emailext attachmentsPattern: '**/index.html', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Firefox tests", to: "andrei.artsiukouski@zextras.com"                     
                   }
                }
             }
