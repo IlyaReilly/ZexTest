@@ -72,7 +72,7 @@ export class Calendar extends BasePage {
     await this.OpenAppointmentInfoPopup(appointmentTitle);
     await this.AppointmentPopup.OtherActionsDropdown.click();
     await this.AppointmentPopup.OtherActionsDelete.click();
-    await this.DeletePopups.DeletePermanentlyButton.click();
+    await this.DeletePopups.SendCancellationButton.click();
   };
 
   async DeleteAppointmentPermanently(appointmentTitle) {
