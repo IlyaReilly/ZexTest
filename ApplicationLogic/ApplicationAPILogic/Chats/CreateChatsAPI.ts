@@ -33,4 +33,13 @@ export class CreateChatsAPI extends BaseAPI {
       data: {"conversation_id": id, "scheduled": true, "name": name},
     });
   };
+
+  async CreateChannel(spaceId, name, topic) {
+    const response = await this.page.request.post(`${this.restServiceUrl}${this.createChannelRequest}`, {
+      data: {"space_id": spaceId, "name": name, "topic": topic},
+    });
+
+    const body = await this.GetResponseBody(response);
+    return body.id;
+  };
 }
