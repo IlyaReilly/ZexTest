@@ -14,6 +14,7 @@ export class ChatsInfo extends BasePage {
 
   Buttons = {
     DeleteSpace: this.Containers.MainContainer.locator('"Delete Space"'),
+    DeleteChannel: this.Containers.MainContainer.locator('"Delete Channel"'),
     RemoveMember: this.Containers.GroupContainer.locator('[data-testid*="Trash2Outline"]'),
     DeleteGroup: this.Containers.GroupContainer.locator('"Delete Group"'),
     EditButton: this.Containers.GroupContainer.locator('[data-testid*="Edit2Outline"]'),

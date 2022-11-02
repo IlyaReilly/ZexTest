@@ -49,6 +49,7 @@ export class BaseAPI {
   readonly getConversationRequest = 'getConversation';
   readonly createSpaceRequest = 'createSpace';
   readonly createGroupRequest = 'createGroup';
+  readonly createChannelRequest = 'createChannel';
   readonly deleteConversationRequest = 'deleteConversation';
   readonly leaveConversationRequest = 'leaveConversation';
   readonly kickFromConversationRequest = 'kickFromConversation';
