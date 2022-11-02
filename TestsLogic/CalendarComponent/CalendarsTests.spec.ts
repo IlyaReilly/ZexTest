@@ -67,20 +67,32 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Selectors.PrivateAppLockIconSelector).toBeVisible();
   });
 
-  test('Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
+  test('TC320. Delete appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
-    await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
-    await page.waitForLoadState('domcontentloaded');
-    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
-    await pageManager.calendar.MoveAppointmentToTrash(appointmentTitle);
+    await pageManager.calendar.DeleteAppointmentToTrash(appointmentTitle);
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
-  test('Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager, page}) => {
+  test('TC321. Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
+    BaseTest.doubleTimeout();
+    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
+    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    await pageManager.calendar.OpenAppointmentOtherActions(appointmentTitle);
+    await pageManager.calendar.AppointmentPopup.OtherActionsMove.click();
+    await pageManager.moveAppointmentModal.Elements.Trash.click();
+    await pageManager.moveAppointmentModal.Buttons.Move.click();
+    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
+    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
+  });
+
+  test('TC322. Delete permanently. Appoinrment is not presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
     runtimeAppoinmentId = await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
@@ -91,4 +103,10 @@ test.describe('Calendars tests', async () => {
     await page.reload(); // temporary step due to a bug on Firefox UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
   });
+
+  async function CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page}) {
+    await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
+    await page.waitForLoadState('domcontentloaded');
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+  };
 });

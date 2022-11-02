@@ -14,11 +14,13 @@ test.describe('Delete Calendar', async () => {
     }));
   });
 
-  test.beforeEach(async ({apiManager}) => {
+  test.beforeEach(async ({apiManager, pageManager, page}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     calendarName = dateTimePrefix + ' Calendar';
     await apiManager.deleteCalendarAPI.EmptyTrashRequest(BaseTest.userForLogin.login);
     calendarId = await apiManager.createCalendarAPI.CreateCalendarRequest(calendarName, BaseTest.userForLogin.login);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test.afterEach(async ({page, apiManager}) => {
@@ -26,8 +28,7 @@ test.describe('Delete Calendar', async () => {
     await page.close();
   });
 
-  test('TC318. Delete calendar. Calendar should be moved to Trash', async ({pageManager, apiManager}) => {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+  test('TC318. Delete calendar. Calendar should be moved to Trash', async ({page, pageManager, apiManager}) => {
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.DeleteCalendar(calendarName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();
     await pageManager.sideSecondaryCalendarMenu.OpenTrashChevron();
@@ -37,7 +38,6 @@ test.describe('Delete Calendar', async () => {
 
   test('TC319. Delete calendar permanently. Calendar should be disappear from Trash', async ({pageManager, apiManager}) => {
     await apiManager.deleteCalendarAPI.MoveToTrashCalendarFolderRequest(calendarId, BaseTest.userForLogin.login);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.OpenTrashChevron();
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.DeleteCalendar(calendarName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();

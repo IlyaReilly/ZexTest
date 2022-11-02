@@ -35,6 +35,7 @@ export class Calendar extends BasePage {
     OtherActionsDelete: this.Containers.OtherActionsContainer.locator('"Delete"'),
     OtherActionsDeletePermanently: this.Containers.OtherActionsContainer.locator('"Delete permanently"'),
     OtherActionsOpenInDisplayer: this.Containers.OtherActionsContainer.locator('"Open in Displayer"'),
+    OtherActionsMove: this.Containers.OtherActionsContainer.locator('"Move"'),
     OtherActionsTags: this.Containers.OtherActionsContainer.locator('"Tags"'),
   };
 
@@ -68,9 +69,13 @@ export class Calendar extends BasePage {
     await this.Elements.Appointment.locator(`"${appointmentTitle}"`).click();
   };
 
-  async MoveAppointmentToTrash(appointmentTitle) {
+  async OpenAppointmentOtherActions(appointmentTitle) {
     await this.OpenAppointmentInfoPopup(appointmentTitle);
     await this.AppointmentPopup.OtherActionsDropdown.click();
+  };
+
+  async DeleteAppointmentToTrash(appointmentTitle) {
+    await this.OpenAppointmentOtherActions(appointmentTitle);
     await this.AppointmentPopup.OtherActionsDelete.click();
     await this.DeletePopups.SendCancellationButton.click();
   };
