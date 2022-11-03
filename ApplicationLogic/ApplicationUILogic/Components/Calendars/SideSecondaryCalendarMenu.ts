@@ -27,6 +27,7 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   Icons = {
     CalendarUnchecked: this.Containers.MainContainer.locator('[data-name="calendar"] >> nth=0'),
+    CalendarСhecked: this.Containers.MainContainer.locator('[data-testid*="Calendar2"] >> nth=0'),
     TrashUnchecked: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
     SharedIcon: this.Containers.MainContainer.locator('[data-testid*="ArrowCircleRight"]'),
   };
@@ -37,6 +38,7 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   Locators = {
     CalendarUnchecked: '[data-name="calendar"]',
+    CalendarСhecked: '[data-testid*="Calendar2"]',
     TrashUnchecked: '[data-name="trash-2"]',
   };
 
@@ -131,6 +133,19 @@ export class SideSecondaryCalendarMenu extends BasePage {
       }
     },
   };
+
+  async SelectOnlyCalendarWithName(calendarName) {
+    await this.CalendarSelecting.Unselect();
+    await this.TrashSelecting.Unselect();
+    await this.page.locator(`${this.Locators.CalendarUnchecked}:near(:text("${calendarName}"))`).click();
+  }
+
+  async UnselectAllCalendars() {
+    await this.Tabs.Calendar.waitFor();
+    while (await this.Icons.CalendarСhecked.isVisible()) {
+      await this.Icons.CalendarСhecked.click();
+    }
+  }
 
   async SelectOnlyTrash() {
     await this.CalendarSelecting.Unselect();
