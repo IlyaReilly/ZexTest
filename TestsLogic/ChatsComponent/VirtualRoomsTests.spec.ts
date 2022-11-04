@@ -53,7 +53,7 @@ test.describe('Virtual Rooms tests', async () => {
     expect(clipboardContent).toBe(meetingPage.url());
   });
 
-  test('Delete Virtual room. Virtual room should not be visible in Virtual Rooms Tab.', async ({pageManager, apiManager}) => {
+  test('TC427. Delete Virtual room. Virtual room should not be visible in Virtual Rooms Tab.', async ({pageManager, apiManager}) => {
     await CreateVirtualRoomAndOpenDetails({apiManager, pageManager});
     await pageManager.virtualRoomField.Buttons.DeleteVirtualRoom.click();
     await pageManager.chats.DeleteSpacePopup.DeleteButton.click();

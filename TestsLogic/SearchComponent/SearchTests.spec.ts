@@ -92,7 +92,7 @@ test.describe('Search tests', async () => {
   });
 
   // Bug with copypaste in mail folder. Dropdown does not appear.
-  test.skip('Search by “Attachment” option found mail with attachment. The sent email should be found by attachments', async ({apiManager, pageManager, page}) => {
+  test.skip('TC705. Search by “Attachment” option found mail with attachment. The sent email should be found by attachments', async ({apiManager, pageManager, page}) => {
     BaseTest.doubleTimeout();
     const templateFileName = 'fileForSearch.png';
     const fileName = uniquePrefix + 'fileForSearch';
