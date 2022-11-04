@@ -12,7 +12,7 @@ test.describe('Contacts tests', async () => {
 
   test.beforeEach(async ({pageManager}) => {
     firstName = BaseTest.dateTimePrefix();
-    newFirstName = BaseTest.dateTimePrefix() + ' New';
+    newFirstName = BaseTest.dateTimePrefix() + 'New';
     lastName = BaseTest.dateTimePrefix() + 'LName';
     email = BaseTest.dateTimePrefix() + '@test.com';
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
@@ -57,7 +57,6 @@ test.describe('Contacts tests', async () => {
   });
 
   test('TC605. Delete contact permanently. Contact disappears from Trash folder', async ({pageManager, apiManager}) => {
-    BaseTest.doubleTimeout();
     const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();
@@ -67,7 +66,6 @@ test.describe('Contacts tests', async () => {
   });
 
   test('TC606. Edit contact data. Edited contact data is visible in Contacts folder', async ({pageManager, apiManager}) => {
-    BaseTest.doubleTimeout();
     await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.contactsList.Containers.ContactsListContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactDetails.ContactOptions.Edit.click();
