@@ -72,10 +72,7 @@ test.describe('Calendars tests', async () => {
     await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     await pageManager.calendar.DeleteAppointmentToTrash(appointmentTitle);
-    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
-    await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
-    await pageManager.calendar.SelectCalendarView(calendarView.Week);
-    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
+    await AppointmentInTheTrashValidation({pageManager});
   });
 
   test('TC321. Move appointment to trash. Appoinrment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
@@ -86,8 +83,23 @@ test.describe('Calendars tests', async () => {
     await pageManager.calendar.AppointmentPopup.OtherActionsMove.click();
     await pageManager.moveAppointmentModal.Elements.Trash.click();
     await pageManager.moveAppointmentModal.Buttons.Move.click();
-    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
-    await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
+    await AppointmentInTheTrashValidation({pageManager});
+  });
+
+  // Isn't finished due to bug
+  test.skip('TC323. Move appointment to the new Calendar. Appoinrment in new Calendar.', async ({pageManager, apiManager, page}) => {
+    const newCalendarName = dateTimePrefix + 'NewCalendar';
+    BaseTest.doubleTimeout();
+    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
+    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    await pageManager.calendar.OpenAppointmentOtherActions(appointmentTitle);
+    await pageManager.calendar.AppointmentPopup.OtherActionsMove.click();
+    await pageManager.moveAppointmentModal.Buttons.NewCalendar.click();
+    await pageManager.newCalendarModal.TextBoxes.CalendarName.fill(newCalendarName);
+    // Next step doesn't work for now due to problem with Create button.
+    // Now instead create we have Empty button.
+    await pageManager.newCalendarModal.Buttons.Create.click();
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendarWithName(newCalendarName);
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
@@ -103,6 +115,13 @@ test.describe('Calendars tests', async () => {
     await page.reload(); // temporary step due to a bug on Firefox UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
   });
+
+  async function AppointmentInTheTrashValidation({pageManager}) {
+    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
+    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
+  };
 
   async function CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page}) {
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);

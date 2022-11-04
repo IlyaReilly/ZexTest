@@ -18,4 +18,8 @@ export class MoveAppointmentModal extends ModalWindowBase {
   Elements = {
     Trash: this.Containers.MainContainer.locator('"Trash"'),
   };
+
+  Textbox = {
+    FilterCalendars: this.Containers.MainContainer.locator('[name="Filter calendars"]'),
+  };
 }
