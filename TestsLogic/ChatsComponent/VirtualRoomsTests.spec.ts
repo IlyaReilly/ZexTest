@@ -48,4 +48,13 @@ test.describe('Virtual Rooms tests', async () => {
     ]);
     expect(clipboardContent).toBe(meetingPage.url());
   });
+
+  test('Delete Virtual room. Virtual room should not be visible in Virtual Rooms Tab.', async ({pageManager, apiManager}) => {
+    await apiManager.createChatsAPI.CreateVirtualRoom(virtualRoomTitle);
+    await pageManager.sideSecondaryChatsMenu.OpenTab.VirtualRooms();
+    await pageManager.sideSecondaryChatsMenu.Elements.VirtualRoomItem.click();
+    await pageManager.virtualRoomField.Buttons.DeleteVirtualRoom.click();
+    await pageManager.chats.DeleteSpacePopup.DeleteButton.click();
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator(`"${virtualRoomTitle}"`)).not.toBeVisible();
+  });
 });

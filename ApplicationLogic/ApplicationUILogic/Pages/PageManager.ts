@@ -49,6 +49,7 @@ import {DeleteMailModal} from '../Components/Mails/Modals/DeleteMailModal';
 import {SpaceInfo} from '../Components/Chats/SpaceInfo';
 import {NewChannelModal} from '../Components/Chats/Modals/NewChannelModal';
 import {NewSpaceModal} from '../Components/Chats/Modals/NewSpaceModal';
+import {AdvancedFiltersModal} from '../Components/Search/Modals/AdvancedFiltersModal';
 
 
 export class PageManager {
@@ -119,6 +120,10 @@ export class PageManager {
   newVirtualRoomsModal;
   // #endregion
 
+  // #region Search Modal
+  advancedFiltersModal;
+  // #endregion
+
   constructor(page) {
     this.page = page;
     this.loginPage = new LoginPage(page);
@@ -185,6 +190,10 @@ export class PageManager {
     this.newChannelModal = new NewChannelModal(page);
     this.newSpaceModal = new NewSpaceModal(page);
     this.newVirtualRoomsModal = new NewVirtualRoomsModal(page);
+    // #endregion
+
+    // #region Search Modal
+    this.advancedFiltersModal = new AdvancedFiltersModal(page);
     // #endregion
   };
 }
