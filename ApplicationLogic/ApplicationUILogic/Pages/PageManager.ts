@@ -18,6 +18,7 @@ import {EditCalendarPropertyModal} from '../Components/Calendars/Modals/EditCale
 import {CalendarAccessShareModal} from '../Components/Calendars/Modals/CalendarAccessShareModal';
 import {NewContact} from '../Components/Contacts/NewContact';
 import {ContactsList} from '../Components/Contacts/ContactsList';
+import {ContactDetails} from '../Components/Contacts/ContactDetails';
 import {SideSecondaryChatsMenu} from '../Components/Chats/SideSecondaryChatsMenu';
 import {NewChatsModal} from '../Components/Chats/Modals/NewChatsModal';
 import {NewVirtualRoomsModal} from '../Components/Chats/Modals/NewVirtualRoomsModal';
@@ -44,6 +45,7 @@ import {ChatField} from '../Components/Chats/ChatField';
 import {VirtualRoomField} from '../Components/Chats/VirtualRoomField';
 import {AddNewMembersModal} from '../Components/Chats/Modals/AddNewMembersModal';
 import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddressBookModal';
+import {DeleteContactPermanentlyModal} from '../Components/Contacts/Modals/DeleteContactPermanentlyModal';
 import {MoveMailToFolderModal} from '../Components/Mails/Modals/MoveMailToFolderModal';
 import {DeleteMailModal} from '../Components/Mails/Modals/DeleteMailModal';
 import {SpaceInfo} from '../Components/Chats/SpaceInfo';
@@ -59,6 +61,7 @@ export class PageManager {
   searchStatisticsHeader;
   newContact;
   contactsList;
+  contactDetails;
   sideSecondaryContactsMenu;
   headerMenu;
   sideMenu;
@@ -95,6 +98,7 @@ export class PageManager {
   shareAddressBookModal;
   editAddressBookModal;
   deleteAddressBookModal;
+  deleteContactPermanentlyModal;
   // #endregion
 
   // #region Files Modal
@@ -127,6 +131,7 @@ export class PageManager {
     this.searchStatisticsHeader = new SearchStatisticsHeader(page);
     this.newContact = new NewContact(page);
     this.contactsList = new ContactsList(page);
+    this.contactDetails = new ContactDetails(page);
     this.sideSecondaryContactsMenu = new SideSecondaryContactsMenu(page);
     this.headerMenu = new HeaderMenu(page);
     this.sideMenu = new SideMenu(page);
@@ -163,6 +168,7 @@ export class PageManager {
     this.shareAddressBookModal = new ShareAddressBookModal(page);
     this.editAddressBookModal = new EditAddressBookModal(page);
     this.deleteAddressBookModal = new DeleteAddressBookModal(page);
+    this.deleteContactPermanentlyModal = new DeleteContactPermanentlyModal(page);
     // #endregion
 
     // #region Files Modal
