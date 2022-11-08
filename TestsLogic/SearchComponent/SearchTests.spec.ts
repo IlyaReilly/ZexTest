@@ -2,7 +2,6 @@ import {expect} from '@playwright/test';
 import fs from "fs";
 import path from "path";
 import {test, BaseTest} from '../UITests/BaseTest';
-import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Search tests', async () => {
   // Components
@@ -10,12 +9,14 @@ test.describe('Search tests', async () => {
   let mailSubject;
   let mailBody;
   let subjectWithFile;
+  let unicFileName;
 
   test.beforeEach(async () => {
     uniquePrefix = BaseTest.dateTimePrefix();
     mailSubject = 'Autotest Mail Subject';
     mailBody = 'Autotest Mail Body';
-    subjectWithFile = 'File in this mail';
+    subjectWithFile = uniquePrefix + 'File in this mail';
+    unicFileName = uniquePrefix + 'Zextras File';
   });
 
   test.afterEach(async ({page}) => {
@@ -91,35 +92,16 @@ test.describe('Search tests', async () => {
     }
   });
 
-  // Bug with copypaste in mail folder. Dropdown does not appear.
-  test.skip('TC705. Search by “Attachment” option found mail with attachment. The sent email should be found by attachments', async ({apiManager, pageManager, page}) => {
+  test('TC705. Search by “Attachment” option found mail with attachment. The sent email should be found by attachments', async ({apiManager, pageManager}) => {
     BaseTest.doubleTimeout();
-    const templateFileName = 'fileForSearch.png';
-    const fileName = uniquePrefix + 'fileForSearch';
-    const fileNameFull = fileName + '.png';
-    const filePathSrc = path.resolve("./TestData/Files/", templateFileName);
-    const filePathDest = path.resolve("./TestData/Files/", fileNameFull);
-    fs.copyFileSync(filePathSrc, filePathDest);
-    try {
-      await apiManager.createFilesAPI.UploadFileViaAPI(fileNameFull);
-      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-      await pageManager.filesList.OpenFileDetails(fileName);
-      await pageManager.fileDetails.FileOptions.SendViaMail.click();
-      await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, subjectWithFile, mailBody);
-      await pageManager.newMail.SendMail();
-      const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
-      await elementHandle?.waitForElementState('hidden');
-      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
-      await pageManager.searchResultsList.Elements.AdvancedFilters.click();
-      await pageManager.advancedFiltersModal.AdvancedFiltersOptions.EnableAttachment();
-      await pageManager.advancedFiltersModal.Buttons.Search.click();
-      await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${subjectWithFile}"`).first()).toBeVisible();
-    } catch (e) {
-      throw e;
-    } finally {
-      fs.unlinkSync(filePathDest);
-      const id = await apiManager.filesAPI.FilesSearchQuery(fileName);
-      await apiManager.deleteFilesAPI.DeleteFilePermanentlyById(id);
-    }
+    const nodeId = await apiManager.createFilesAPI.CreateDocumentForUpload(unicFileName);
+    const uploadId = await apiManager.filesAPI.UploadTo(nodeId);
+    const draftId = await apiManager.createMailsAPI.SaveDraftWithFileRequest(subjectWithFile, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, uploadId);
+    await apiManager.createMailsAPI.SendMsgRequestWithFile(subjectWithFile, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, draftId);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
+    await pageManager.searchResultsList.Elements.AdvancedFilters.click();
+    await pageManager.advancedFiltersModal.AdvancedFiltersOptions.EnableAttachment();
+    await pageManager.advancedFiltersModal.Buttons.Search.click();
+    await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${subjectWithFile}"`).first()).toBeVisible();
   });
 });

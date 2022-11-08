@@ -21,7 +21,7 @@ export class NewMail extends BasePage {
 
   TextBox = {
     To: this.Containers.MainContainer.locator('[name="To"]'),
-    Subject: this.Containers.MainContainer.locator('[role="textbox"] input'),
+    Subject: this.Containers.MainContainer.locator('[name="Subject"]'),
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
 
