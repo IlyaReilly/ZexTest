@@ -55,4 +55,13 @@ export class CreateFilesAPI extends BaseAPI {
     const body = await this.GetResponseBody(response);
     return body.fileName;
   };
+
+  async CreateDocumentForUpload(name) {
+    const response = await this.page.request.post(`${this.createDocumentRequest}`, {
+      data: {"filename": name, "type": "LIBRE_DOCUMENT", "destinationFolderId": "LOCAL_ROOT"},
+    });
+
+    const body = await this.GetResponseBody(response);
+    return body.nodeId;
+  };
 }

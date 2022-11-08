@@ -27,6 +27,12 @@ test.describe('Virtual Rooms tests', async () => {
     await pageManager.sideSecondaryChatsMenu.Buttons.CreateVirtualRoom.click();
     await pageManager.newVirtualRoomsModal.CreateVirtualRoom(title);
   };
+
+  async function CreateVirtualRoomAndOpenDetails({apiManager, pageManager}) {
+    await apiManager.createChatsAPI.CreateVirtualRoom(virtualRoomTitle);
+    await pageManager.sideSecondaryChatsMenu.OpenTab.VirtualRooms();
+    await pageManager.sideSecondaryChatsMenu.Elements.VirtualRoomItem.click();
+  };
   // Virtual room does not appear in Virtual Rooms Tab,  Virtual room tab does not appear
   test('Create virtual room. Virtual room should be visible in Virtual Rooms Tab.', async ({pageManager}) => {
     test.fail(true, 'Virtual room does not appear in Virtual Rooms Tab,  Virtual room tab does not appear');
@@ -37,9 +43,7 @@ test.describe('Virtual Rooms tests', async () => {
 
   test('Copy Virtual room link. Virtual room link should be in clipboard.', async ({page, pageManager, apiManager, browserName}) => {
     test.skip(browserName === 'webkit' || browserName === 'firefox', 'A bug related to permissions.');
-    await apiManager.createChatsAPI.CreateVirtualRoom(virtualRoomTitle);
-    await pageManager.sideSecondaryChatsMenu.OpenTab.VirtualRooms();
-    await pageManager.sideSecondaryChatsMenu.Elements.VirtualRoomItem.click();
+    await CreateVirtualRoomAndOpenDetails({apiManager, pageManager});
     await pageManager.virtualRoomField.Buttons.VirtualRoomLink.click();
     const clipboardContent = await page.evaluate(() => navigator.clipboard.readText());
     const [meetingPage] = await Promise.all([
@@ -47,5 +51,12 @@ test.describe('Virtual Rooms tests', async () => {
       pageManager.virtualRoomField.Buttons.JoinVirtualRoom.click(),
     ]);
     expect(clipboardContent).toBe(meetingPage.url());
+  });
+
+  test('TC427. Delete Virtual room. Virtual room should not be visible in Virtual Rooms Tab.', async ({pageManager, apiManager}) => {
+    await CreateVirtualRoomAndOpenDetails({apiManager, pageManager});
+    await pageManager.virtualRoomField.Buttons.DeleteVirtualRoom.click();
+    await pageManager.chats.DeleteSpacePopup.DeleteButton.click();
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator(`"${virtualRoomTitle}"`)).not.toBeVisible();
   });
 });

@@ -17,5 +17,6 @@ export class SearchResultsList extends BasePage {
     SearchResultContacts: this.Containers.MainContainerContacts.locator('.vEXXw'),
     SearchResultFiles: this.Containers.MainContainerFiles.locator('.cNpbyA'),
     SearchResultAppointments: this.Containers.MainContainerAppointments.locator('.jTMZGq'),
+    AdvancedFilters: this.Containers.MainContainerMail.locator('"Advanced Filters"'),
   };
 }

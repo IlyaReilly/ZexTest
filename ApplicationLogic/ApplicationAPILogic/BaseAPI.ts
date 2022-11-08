@@ -58,6 +58,7 @@ export class BaseAPI {
   // Files
   readonly uploadFileRequest = 'services/files/upload';
   readonly createDocumentRequest = 'services/docs/files/create';
+  readonly uploadToRequest = 'services/files/upload-to';
   // Contacts
   readonly contactActionRequest = 'ContactActionRequest';
   readonly createContactRequest = 'CreateContactRequest';
