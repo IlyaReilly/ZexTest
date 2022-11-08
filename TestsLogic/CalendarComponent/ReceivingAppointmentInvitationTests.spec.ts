@@ -20,7 +20,7 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, BaseTest.secondUser.login, appointmentBody);
     await secondPageManager.sideMenu.OpenMenuTab(secondPageManager.sideMenu.SideMenuTabs.Mail);
-    await secondPageManager.sideSecondaryMailMenu.OpenMailFolder(secondPageManager.sideSecondaryMailMenu.MailFolders.Inbox);
+    await secondPageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
   });
 
   test.afterEach(async ({page}) => {
