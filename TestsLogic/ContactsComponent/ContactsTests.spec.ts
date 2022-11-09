@@ -9,6 +9,7 @@ test.describe('Contacts tests', async () => {
   let newFirstName;
   let lastName;
   let email;
+  let tagName;
 
   test.beforeEach(async ({pageManager}) => {
     firstName = BaseTest.dateTimePrefix();
@@ -17,6 +18,7 @@ test.describe('Contacts tests', async () => {
     email = BaseTest.dateTimePrefix() + '@test.com';
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
+    tagName = BaseTest.dateTimePrefix() + 'Tag';
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
   });
 
@@ -73,5 +75,43 @@ test.describe('Contacts tests', async () => {
     await pageManager.contactDetails.EditContactView.Save.click();
     await expect(pageManager.contactsList.Containers.ContactsListContainer.locator(`"${newFirstName}"`), 'The edited last name of contact is visible in Contacts list').toBeVisible();
   });
-});
 
+  test('TC607. Sent email to contact. New E-mail board is visible', async ({pageManager, apiManager}) => {
+    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await pageManager.contactsList.SelectContactContextMenuOption.SendEmail(BaseTest.userForLogin.login);
+    await expect(pageManager.newMail.Containers.MainContainer.locator(`//*[starts-with(text(),"${firstName}")]`), `New E-mail board with Contact's first name is visible`).toBeVisible();
+  });
+
+  test('TC608. Check the contact count is correct. The count matches Contact list length', async ({page, pageManager, apiManager}) => {
+    const contactId = await EditContactListAndCheckCount({page, pageManager, apiManager});
+    await EditContactListAndCheckCount({page, pageManager, apiManager}, contactId);
+  });
+
+  test('TC609. Move contact. Contact appears in Emailed contacts folder', async ({pageManager, apiManager}) => {
+    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await pageManager.contactsList.SelectContactContextMenuOption.Move(BaseTest.userForLogin.login);
+    await pageManager.moveAddressBookModal.DropDowns.EmailedContacts.click();
+    await pageManager.moveAddressBookModal.Buttons.Move.click();
+    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();
+    await expect(pageManager.contactsList.ContactList.ContactListItem.locator(`"${firstName}"`), 'Contact appears in Emailed contacts folder').toBeVisible();
+  });
+
+  test('TC610. Add tag to contact. Tag icon is visible in Contact list item', async ({page, pageManager, apiManager}) => {
+    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await pageManager.contactsList.SelectContactContextMenuOption.NewTag(BaseTest.userForLogin.login);
+    await pageManager.newTagModal.CreateTag(tagName);
+    await expect(pageManager.contactsList.ContactList.ContactTag, 'Tag icon is visible in Contact list item').toBeVisible();
+  });
+
+  async function EditContactListAndCheckCount({page, pageManager, apiManager}, contactId?) {
+    if (contactId) {
+      await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
+    } else {
+      contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    }
+    await page.reload();
+    const count = async () => +await pageManager.contactsList.ContactList.ContactCount.innerText();
+    await expect(pageManager.contactsList.ContactList.ContactListItem, 'The count matches Contact list length').toHaveCount(await count());
+    return contactId;
+  };
+});
