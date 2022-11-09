@@ -14,6 +14,7 @@ export class MailDetails extends BasePage {
     LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
     FlagIcon: this.Containers.MailDetailsContainer.locator('[data-testid="FlagIcon"]'),
     ActionWithMailNotification: this.page.locator('.bPRaOr'),
+    AttachmentFile: this.Containers.MailDetailsContainer.locator('.hnmMOG'),
   };
 
   MailOptions = {

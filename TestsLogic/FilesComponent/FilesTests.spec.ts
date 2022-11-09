@@ -1,6 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../UITests/BaseTest';
 import fs from "fs";
+import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Files tests', async () => {
   // Components
@@ -8,10 +9,14 @@ test.describe('Files tests', async () => {
   const fileNameForApi = 'testAPI.png';
   let unicFilePrefix;
   let unicFileName;
+  let subjectWithFile;
+  let mailBody;
 
   test.beforeEach(async ({apiManager}) => {
     unicFilePrefix = BaseTest.dateTimePrefix();
     unicFileName = unicFilePrefix + 'testAPI';
+    subjectWithFile = unicFilePrefix + 'File in this mail';
+    mailBody = 'Autotest Mail Body';
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
@@ -57,7 +62,7 @@ test.describe('Files tests', async () => {
     await expect((pageManager.fileDetails.Elements.FilePreview)).toBeVisible();
   });
 
-  test('File can be downloaded', async ({browser, apiManager, pageManager}) => {
+  test('File can be downloaded', async ({apiManager, pageManager}) => {
     try {
       await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
@@ -113,5 +118,20 @@ test.describe('Files tests', async () => {
     await secondPageManager.sideMenu.SideMenuTabs.Files.click();
     await secondPageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(secondPageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
     await expect(secondPageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
+  });
+
+  // Bug with copypaste in mail folder. Dropdown does not appear.
+  test.skip('TS522. Send mail with attached file. The attached file must be in incoming mail.', async ({apiManager, pageManager, page}) => {
+    test.slow();
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.FileOptions.SendViaMail.click();
+    await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, subjectWithFile, mailBody);
+    await pageManager.newMail.SendMail();
+    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    await elementHandle?.waitForElementState('hidden');
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await pageManager.mailsList.Elements.Letter.locator(`"${subjectWithFile}"`);
+    await pageManager.mailsList.OpenMail(subjectWithFile);
+    await expect(pageManager.mailDetails.Elements.AttachmentFile).toContainText(unicFileName);
   });
 });
