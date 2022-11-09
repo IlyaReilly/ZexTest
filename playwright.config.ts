@@ -52,7 +52,8 @@ const config: PlaywrightTestConfig = {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
+    // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
+    baseURL: process.env.STAGING ? process.env.STAGING : BaseTest.playwrightProjectsData.baseURL.QA,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
