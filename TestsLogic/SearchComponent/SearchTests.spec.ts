@@ -13,8 +13,8 @@ test.describe('Search tests', async () => {
 
   test.beforeEach(async () => {
     uniquePrefix = BaseTest.dateTimePrefix();
-    mailSubject = 'Autotest Mail Subject';
-    mailBody = 'Autotest Mail Body';
+    mailSubject = uniquePrefix + 'Autotest Mail Subject';
+    mailBody = uniquePrefix + 'Autotest Mail Body';
     subjectWithFile = uniquePrefix + 'File in this mail';
     unicFileName = uniquePrefix + 'Zextras File';
   });
@@ -22,6 +22,11 @@ test.describe('Search tests', async () => {
   test.afterEach(async ({page}) => {
     await page.close();
   });
+
+  async function OpenSearchTabAndOpenAdvancedFilters({pageManager}) {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
+    await pageManager.searchResultsList.Elements.AdvancedFilters.click();
+  }
 
   test('Search sent email', async ({pageManager, apiManager}) => {
     try {
@@ -98,10 +103,48 @@ test.describe('Search tests', async () => {
     const uploadId = await apiManager.filesAPI.UploadTo(nodeId);
     const draftId = await apiManager.createMailsAPI.SaveDraftWithFileRequest(subjectWithFile, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, uploadId);
     await apiManager.createMailsAPI.SendMsgRequestWithFile(subjectWithFile, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, draftId);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
-    await pageManager.searchResultsList.Elements.AdvancedFilters.click();
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
     await pageManager.advancedFiltersModal.AdvancedFiltersOptions.EnableAttachment();
     await pageManager.advancedFiltersModal.Buttons.Search.click();
     await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${subjectWithFile}"`).first()).toBeVisible();
+  });
+
+  test('TC706. Search by “Unread” option found mail. The sent email should be found by unread', async ({apiManager, pageManager}) => {
+    BaseTest.doubleTimeout();
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
+    await pageManager.advancedFiltersModal.AdvancedFiltersOptions.EnableUnread();
+    await pageManager.advancedFiltersModal.Buttons.Search.click();
+    await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${mailSubject}"`).first()).toBeVisible();
+  });
+
+  test('TC707. Search by “Flagged” option found mail. The sent email should be found by flagged', async ({apiManager, pageManager}) => {
+    BaseTest.doubleTimeout();
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await pageManager.mailsList.SelectMailContextMenuOption.AddFlag(mailSubject);
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
+    await pageManager.advancedFiltersModal.AdvancedFiltersOptions.EnableFlagged();
+    await pageManager.advancedFiltersModal.Buttons.Search.click();
+    await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${mailSubject}"`).first()).toBeVisible();
+  });
+
+  test('TC708. Search by “Keywords” option found mail. The sent email should be found by Keywords', async ({apiManager, pageManager}) => {
+    BaseTest.doubleTimeout();
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
+    await pageManager.advancedFiltersModal.AdvancedFiltersFields.KeywordsField(mailBody);
+    await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${mailSubject}"`).first()).toBeVisible();
+  });
+
+  test('TC709. Search by “Subject” option found mail. The sent email should be found by Subject', async ({apiManager, pageManager}) => {
+    BaseTest.doubleTimeout();
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
+    await pageManager.advancedFiltersModal.AdvancedFiltersFields.SubjectField(mailBody);
+    await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 });
