@@ -135,7 +135,7 @@ test.describe('Search tests', async () => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
-    await pageManager.advancedFiltersModal.AdvancedFiltersFields.KeywordsField(mailBody);
+    await pageManager.advancedFiltersModal.FillAdvancedFiltersFields.KeywordsField(mailBody);
     await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 
@@ -144,7 +144,7 @@ test.describe('Search tests', async () => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
-    await pageManager.advancedFiltersModal.AdvancedFiltersFields.SubjectField(mailBody);
+    await pageManager.advancedFiltersModal.FillAdvancedFiltersFields.SubjectField(mailBody);
     await expect(pageManager.searchResultsList.Elements.SearchResultMail.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 });

@@ -84,7 +84,7 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     await this.Buttons.Search.click();
   };
 
-  AdvancedFiltersFields = {
+  FillAdvancedFiltersFields = {
     KeywordsField: async (text) => await this.SearchByFields(this.Fields.Keywords, text),
     SubjectField: async (text) => await this.SearchByFields(this.Fields.Subject, text),
     ReceivedFromAddressField: async (text) => await this.SearchByFields(this.Fields.ReceivedFromAddress, text),
