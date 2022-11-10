@@ -48,6 +48,10 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     Search: this.Containers.MainContainer.locator('"Search"'),
   };
 
+  Elements = {
+    Title: this.Containers.MainContainer.locator('"Advanced Filters"'),
+  };
+
   async SelectingDesiredOptions(option, toggler) {
     if (toggler === this.Togglers.TogglerOn) {
       if (`${this.Togglers.TogglerOff}:near(:text("${option}"))`) {
@@ -69,5 +73,23 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     DisableFlagged: async () => await this.SelectingDesiredOptions('Flagged', this.Togglers.TogglerOff),
     EnableIncludesharedfolders: async () => await this.SelectingDesiredOptions('Include shared folders', this.Togglers.TogglerOn),
     DisableIncludesharedfolders: async () => await this.SelectingDesiredOptions('Include shared folders', this.Togglers.TogglerOff),
+  };
+
+  async SearchByFields(option, text, secondOption?, secondText?) {
+    await option.fill(text);
+    if (secondOption) {
+      await secondOption.fill(secondText);
+    };
+    await this.Elements.Title.click();
+    await this.Buttons.Search.click();
+  };
+
+  FillAdvancedFiltersFields = {
+    KeywordsField: async (text) => await this.SearchByFields(this.Fields.Keywords, text),
+    SubjectField: async (text) => await this.SearchByFields(this.Fields.Subject, text),
+    ReceivedFromAddressField: async (text) => await this.SearchByFields(this.Fields.ReceivedFromAddress, text),
+    SentToAddressField: async (text) => await this.SearchByFields(this.Fields.SentToAddress, text),
+    SizeSmallerThanField: async (text) => await this.SearchByFields(this.Fields.SizeSmallerThan, text),
+    SizeLargerThanField: async (text) => await this.SearchByFields(this.Fields.SizeLargerThan, text),
   };
 }
