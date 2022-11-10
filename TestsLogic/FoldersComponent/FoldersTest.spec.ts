@@ -34,12 +34,12 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should be visible").toBeVisible();
   });
 
-  test('Create new folder with API', async ({pageManager}) => {
+  test('TC801. Create new folder with API', async ({pageManager}) => {
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`).first(), "Created folder should be visible").toBeVisible();
   });
 
-  test('Move mail to a new folder', async ({pageManager, apiManager}) => {
+  test('TC802. Move mail to a new folder', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
@@ -51,7 +51,7 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();
   });
 
-  test('Share a new folder', async ({page, pageManager}) => {
+  test('TC803. Share a new folder', async ({page, pageManager}) => {
     await OpenSentSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.ShareFolder();
     await pageManager.shareFolderModal.Share(BaseTest.secondUser.login);
@@ -60,14 +60,14 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.sideSecondaryMailMenu.Icons.SharedIcon, 'Share icon should be near folder name').toBeVisible();
   });
 
-  test('Edit a new folder', async ({pageManager}) => {
+  test('TC804. Edit a new folder', async ({pageManager}) => {
     await OpenSentSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.Edit();
     await pageManager.editFolderModal.EditFolder(newFolderName);
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${newFolderName}"`), "New folder name should be visible").toBeVisible();
   });
 
-  test('Move a new folder to another folder', async ({page, pageManager}) => {
+  test('TC805. Move a new folder to another folder', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();
     await OpenSentSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.Move();
@@ -76,7 +76,7 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`).first(), "Moved folder should be visible").toBeVisible();
   });
 
-  test('Folder is wiped', async ({pageManager, apiManager}) => {
+  test('TC806. Folder is wiped', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     const mailId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await apiManager.mailsAPI.MoveMailToFolder(mailId, BaseTest.userForLogin.login, folderId);
@@ -87,14 +87,14 @@ test.describe('Folders tests', async () => {
     await expect(pageManager.mailsList.Elements.Letter, 'Mails list should be empty').toHaveCount(0);
   });
 
-  test('Folder is deleted', async ({pageManager}) => {
+  test('TC807. Folder is deleted', async ({pageManager}) => {
     await OpenSentSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.Delete();
     await pageManager.deleteFolderModal.DeleteFolder();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should not be visible").not.toBeVisible();
   });
 
-  test('Create subfolder', async ({pageManager}) => {
+  test('TC808. Create subfolder', async ({pageManager}) => {
     await OpenSentSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.NewFolder();
     await pageManager.sideSecondaryMailMenu.CreateNewFolder(subFolderName);

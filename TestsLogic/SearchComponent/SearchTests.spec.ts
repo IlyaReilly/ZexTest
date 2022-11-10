@@ -28,7 +28,7 @@ test.describe('Search tests', async () => {
     await pageManager.searchResultsList.Elements.AdvancedFilters.click();
   }
 
-  test('Search sent email', async ({pageManager, apiManager}) => {
+  test('TC701. Search sent email', async ({pageManager, apiManager}) => {
     try {
       await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -45,7 +45,7 @@ test.describe('Search tests', async () => {
     };
   });
 
-  test('Search contact', async ({apiManager, pageManager}) => {
+  test('TC702. Search contact', async ({apiManager, pageManager}) => {
     const contactName = uniquePrefix + ' First Contact Name';
     try {
       await apiManager.createContactsAPI.CreateContact(contactName, BaseTest.userForLogin.login);
@@ -60,7 +60,7 @@ test.describe('Search tests', async () => {
     }
   });
 
-  test('Search appointment while calendar is active', async ({apiManager, pageManager}) => {
+  test('TC704. Search appointment while calendar is active', async ({apiManager, pageManager}) => {
     const appointmentName = uniquePrefix + ' AppointmentName Name';
     try {
       await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
@@ -76,7 +76,7 @@ test.describe('Search tests', async () => {
     }
   });
 
-  test('Search file', async ({apiManager, pageManager}) => {
+  test('TC703. Search file', async ({apiManager, pageManager}) => {
     const templateFileName = 'fileForSearch.png';
     const fileName = uniquePrefix + 'fileForSearch';
     const fileNameFull = fileName + '.png';

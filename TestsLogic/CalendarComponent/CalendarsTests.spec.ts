@@ -35,7 +35,7 @@ test.describe('Calendars tests', async () => {
     await page.close();
   });
 
-  test('Open Calendars tab. All calendars tabs display.', async ({pageManager}) => {
+  test('TC301. Open Calendars tab. All calendars tabs display.', async ({pageManager}) => {
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.AllCalendars, 'All calendars tab should be presented').toBeVisible();
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.Calendar, 'Calendar tab should be presented').toBeVisible();
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.Trash, 'Trash tab should be presented').toBeVisible();
@@ -43,7 +43,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.SharedCalendars, 'Shared Calendars tab should be presented').toBeVisible();
   });
 
-  test('Create new appointment. New appoinrment is presented in calendar.', async ({page, pageManager}) => {
+  test('TC302. Create new appointment. New appoinrment is presented in calendar.', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
@@ -55,7 +55,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
-  test('Create new private appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
+  test('TC305. Create new private appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);
