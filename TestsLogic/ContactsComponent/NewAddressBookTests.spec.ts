@@ -29,7 +29,7 @@ test.describe('New address book tests', async () => {
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
   };
 
-  test('Create new address book. New address book should be visible in Contacts folder.', async ({pageManager}) => {
+  test('TC901. Create new address book. New address book should be visible in Contacts folder.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
     await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
@@ -38,7 +38,7 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'New address book should be visible in Contacts folder').toBeVisible();
   });
 
-  test('Move Address book to Root. New Address book should be visible on Root.', async ({pageManager}) => {
+  test('TC902. Move Address book to Root. New Address book should be visible on Root.', async ({pageManager}) => {
     BaseTest.doubleTimeout();
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.MoveAddressBookModal(addressBookName);
@@ -47,7 +47,7 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`).first(), 'New Address book should be visible on Root').toBeVisible();
   });
 
-  test('Share Address book. Share icon should be near folder name.', async ({pageManager}) => {
+  test('TC903. Share Address book. Share icon should be near folder name.', async ({pageManager}) => {
     test.fail();
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.ShareAddressBookModal(addressBookName);
@@ -56,7 +56,7 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryContactsMenu.Icons.SharedIcon, 'Share icon should be near folder name').toBeVisible();
   });
 
-  test('Edit Address book. New Address book name should be visible.', async ({pageManager}) => {
+  test('TC905. Edit Address book. New Address book name should be visible.', async ({pageManager}) => {
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.EditAddressBookModal(addressBookName);
     await pageManager.editAddressBookModal.TextBoxes.AddressBookName.fill(newAddressBookName);
@@ -64,7 +64,7 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${newAddressBookName}"`), 'New Address book name should be visible').toBeVisible();
   });
 
-  test('Delete Address book. New address book name is deleted', async ({page, pageManager}) => {
+  test('TC906. Delete Address book. New address book name is deleted', async ({page, pageManager}) => {
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.DeleteAddressBookModal(addressBookName);
     await pageManager.deleteAddressBookModal.Buttons.Delete.click();

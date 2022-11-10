@@ -27,12 +27,12 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
     await page.close();
   });
 
-  test('Create new appointment. Attendee receives invitation.', async ({secondPageManager}) => {
+  test('TC1101. Create new appointment. Attendee receives invitation.', async ({secondPageManager}) => {
     BaseTest.doubleTimeout();
     await expect(secondPageManager.mailsList.Elements.Letter.locator(`"${appointmentTitle}"`), 'User receives invitation mail with appointment title in subject').toBeVisible();
   });
 
-  test('Create new appointment. Attendee receives invitation with options Yes, Maybe, No, Propose New Time.', async ({secondPageManager}) => {
+  test('TC1102. Create new appointment. Attendee receives invitation with options Yes, Maybe, No, Propose New Time.', async ({secondPageManager}) => {
     BaseTest.doubleTimeout();
     await secondPageManager.mailsList.OpenMail(appointmentTitle);
     await expect(secondPageManager.mailDetails.AppointmentInvitationOptions.Yes, 'Appointments invitation message has option Yes').toBeVisible();
@@ -41,14 +41,14 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
     await expect(secondPageManager.mailDetails.AppointmentInvitationOptions.ProposeNewTime, 'Appointments invitation message has option Propose new time').toBeVisible();
   });
 
-  test('Create new appointment. Attendee receives invitation with Participants.', async ({secondPageManager}) => {
+  test('TC1103. Create new appointment. Attendee receives invitation with Participants.', async ({secondPageManager}) => {
     BaseTest.doubleTimeout();
     await secondPageManager.mailsList.OpenMail(appointmentTitle);
     await expect(secondPageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.userForLogin.login}"`), `Appointment has ${BaseTest.userForLogin.login} in participants`).toBeVisible();
     await expect(secondPageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.secondUser.login}"`), `Appointment has ${BaseTest.secondUser.password} in participants`).toBeVisible();
   });
 
-  test.skip('Create new appointment. Attendee receives invitation with Participants count.', async ({secondPageManager}) => {
+  test.skip('TC1104. Create new appointment. Attendee receives invitation with Participants count.', async ({secondPageManager}) => {
     test.fail();
     const participantsCount = '2 Participants';
     await secondPageManager.mailsList.OpenMail(appointmentTitle);

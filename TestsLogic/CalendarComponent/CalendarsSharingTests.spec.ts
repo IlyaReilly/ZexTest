@@ -27,7 +27,7 @@ test.describe('Sharing calendar tests', async () => {
     await page.close();
   });
   // calendarAccessShareModal does not appear
-  test('Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({pageManager, apiManager}) => {
+  test('TC313. Share Calendar. Calendar access share window has ICS OUTLOOK VIEW urls.', async ({pageManager, apiManager}) => {
     test.fail();
     BaseTest.doubleTimeout();
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
@@ -39,14 +39,14 @@ test.describe('Sharing calendar tests', async () => {
     await expect(pageManager.calendarAccessShareModal.Buttons.ViewUrl, 'Calendar access share window should contain VIEW URL button').toBeVisible();
   });
 
-  test('Share Calendar. Check shared icon and notification.', async ({pageManager, apiManager}) => {
+  test('TC314. Share Calendar. Check shared icon and notification.', async ({pageManager, apiManager}) => {
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await apiManager.shareCalendarAPI.ShareCalendar(BaseTest.userForLogin.login, BaseTest.secondUser.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await expect(pageManager.sideSecondaryCalendarMenu.Icons.SharedIcon, 'Shared icon should be presented opposite calendar when it is shared').toBeVisible();
   });
 
-  test('Revoke sharing. Sharing icon should disapear.', async ({pageManager, apiManager}) => {
+  test('TC304. Revoke sharing. Sharing icon should disapear.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     const regexp = /@.+/gi;
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);

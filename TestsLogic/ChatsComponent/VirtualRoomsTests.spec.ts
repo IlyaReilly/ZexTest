@@ -34,14 +34,14 @@ test.describe('Virtual Rooms tests', async () => {
     await pageManager.sideSecondaryChatsMenu.Elements.VirtualRoomItem.click();
   };
   // Virtual room does not appear in Virtual Rooms Tab,  Virtual room tab does not appear
-  test('Create virtual room. Virtual room should be visible in Virtual Rooms Tab.', async ({pageManager}) => {
+  test('TC419. Create virtual room. Virtual room should be visible in Virtual Rooms Tab.', async ({pageManager}) => {
     test.fail(true, 'Virtual room does not appear in Virtual Rooms Tab,  Virtual room tab does not appear');
     await CreateVirtualRoom({pageManager}, virtualRoomTitle);
     await pageManager.sideSecondaryChatsMenu.OpenTab.VirtualRooms();
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator(`"${virtualRoomTitle}"`)).toBeVisible();
   });
 
-  test('Copy Virtual room link. Virtual room link should be in clipboard.', async ({page, pageManager, apiManager, browserName}) => {
+  test('TC420. Copy Virtual room link. Virtual room link should be in clipboard.', async ({page, pageManager, apiManager, browserName}) => {
     test.skip(browserName === 'webkit' || browserName === 'firefox', 'A bug related to permissions.');
     await CreateVirtualRoomAndOpenDetails({apiManager, pageManager});
     await pageManager.virtualRoomField.Buttons.VirtualRoomLink.click();

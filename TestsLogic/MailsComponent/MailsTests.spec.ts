@@ -18,12 +18,12 @@ test.describe('Mails tests', async () => {
     await page.close();
   });
 
-  test('Open Mail tab. User login is presented in the secondary side bar.', async ({pageManager}) => {
+  test('TC201. Open Mail tab. User login is presented in the secondary side bar.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`), 'User`s login is visible').toBeVisible();
   });
   // Contacts Dropdown does not appear
-  test.skip('Get mail. Mail appears in the Inbox folder', async ({page, pageManager}) => {
+  test.skip('TC202. Get mail. Mail appears in the Inbox folder', async ({page, pageManager}) => {
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
     await pageManager.newMail.SendMail();
@@ -35,7 +35,7 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
   });
 
-  test('Mark mail as spam. Mail appears in the Junk folder', async ({page, pageManager, apiManager}) => {
+  test('TC203. Mark mail as spam. Mail appears in the Junk folder', async ({page, pageManager, apiManager}) => {
     test.fail(true, 'Unexpected Sent folder opening');
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent, mailSubject);
@@ -47,7 +47,7 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Junk folder mails list').toBeVisible();
   });
 
-  test('Send mail. Mail appears in the Sent folder.', async ({pageManager, apiManager}) => {
+  test('TC204. Send mail. Mail appears in the Sent folder.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
@@ -55,7 +55,7 @@ test.describe('Mails tests', async () => {
   });
 
   // This test will not work because doesn't work SAVE button
-  test.skip('Save mail draft. Mail appears in the Drafts folder.', async ({page, pageManager}) => {
+  test.skip('TC205. Save mail draft. Mail appears in the Drafts folder.', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
@@ -67,7 +67,7 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Draft folder mails list').toBeVisible();
   });
 
-  test('Move mail to trash. Mail appears in the Trash folder', async ({pageManager, apiManager}) => {
+  test('TC206. Move mail to trash. Mail appears in the Trash folder', async ({pageManager, apiManager}) => {
     test.fail(true, 'Unexpected Drafts folder opening');
     await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts, mailSubject);
@@ -76,7 +76,7 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Trash folder mails list').toBeVisible();
   });
 
-  test('Delete mail permanently. Mail disappears from the Trash folder', async ({pageManager, apiManager}) => {
+  test('TC213. Delete mail permanently. Mail disappears from the Trash folder', async ({pageManager, apiManager}) => {
     const id = await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await apiManager.deleteMailsAPI.MoveToTrash(id);
     await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Trash, mailSubject);
