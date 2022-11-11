@@ -35,7 +35,7 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
   });
 
-  // 'Unexpected Sent folder opening'
+  // 137 'Unexpected Sent folder opening'
   test.skip('TC203. Mark mail as spam. Mail appears in the Junk folder', async ({page, pageManager, apiManager}) => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent, mailSubject);
