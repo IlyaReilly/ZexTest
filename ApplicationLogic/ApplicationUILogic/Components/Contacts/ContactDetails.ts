@@ -6,17 +6,17 @@ export class ContactDetails extends BasePage {
   };
 
   Containers = {
-    ContactDetailsContainer: this.page.locator('_react=[path*="contactId"]'),
-    ContactEditContainer: this.page.locator('_react=[path*="editId"]'),
+    MainContainer: this.page.locator('_react=[path*="contactId"]'),
+    EditContainer: this.page.locator('_react=[path*="editId"]'),
   };
 
   ContactOptions = {
-    Edit: this.Containers.ContactDetailsContainer.locator('"Edit"'),
+    Edit: this.Containers.MainContainer.locator('"Edit"'),
   };
 
   EditContactView = {
-    Save: this.Containers.ContactEditContainer.locator('"Save"'),
-    FirstName: this.Containers.ContactEditContainer.locator('[name="firstName"]'),
+    Save: this.Containers.EditContainer.locator('"Save"'),
+    FirstName: this.Containers.EditContainer.locator('[name="firstName"]'),
   };
 }
 

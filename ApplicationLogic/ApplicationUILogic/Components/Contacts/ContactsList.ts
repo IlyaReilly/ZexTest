@@ -6,24 +6,24 @@ export class ContactsList extends BasePage {
   };
 
   Containers = {
-    ContactsListContainer: this.page.locator('_react=[path*="itemId"]'),
-    ContactsListContextMenu: this.page.locator('[data-testid*="dropdown-popper-list"]'),
+    MainContainer: this.page.locator('_react=[path*="itemId"]'),
+    ContactContextMenu: this.page.locator('[data-testid*="dropdown-popper-list"]'),
   };
 
-  ContactList = {
-    ContactCount: this.Containers.ContactsListContainer.locator('[data-testid*="BreadcrumbCount"]'),
-    ContactListItem: this.Containers.ContactsListContainer.locator('_react=[ItemComponent][item]'),
-    ContactTag: this.Containers.ContactsListContainer.locator('[data-testid="TagIcon"]'),
+  Elements = {
+    Count: this.Containers.MainContainer.locator('[data-testid*="BreadcrumbCount"]'),
+    Contact: this.Containers.MainContainer.locator('_react=[ItemComponent][item]'),
+    ContactTag: this.Containers.MainContainer.locator('[data-testid="TagIcon"]'),
   };
 
   ContactContextMenuOptions = {
-    Delete: this.Containers.ContactsListContextMenu.locator('"Delete"'),
-    SendEmail: this.Containers.ContactsListContextMenu.locator('"Send e-mail"'),
-    Move: this.Containers.ContactsListContextMenu.locator('"Move"'),
-    DeletePermanently: this.Containers.ContactsListContextMenu.locator('"Delete Permanently"'),
-    Tags: this.Containers.ContactsListContextMenu.locator('"Tags"'),
+    Delete: this.Containers.ContactContextMenu.locator('"Delete"'),
+    SendEmail: this.Containers.ContactContextMenu.locator('"Send e-mail"'),
+    Move: this.Containers.ContactContextMenu.locator('"Move"'),
+    DeletePermanently: this.Containers.ContactContextMenu.locator('"Delete Permanently"'),
+    Tags: this.Containers.ContactContextMenu.locator('"Tags"'),
     TagMenu: {
-      NewTag: this.Containers.ContactsListContextMenu.locator('"New Tag"'),
+      NewTag: this.Containers.ContactContextMenu.locator('"New Tag"'),
     },
   };
 
@@ -36,7 +36,7 @@ export class ContactsList extends BasePage {
   };
 
   async OpenContextMenuAndSelectOption(userMail, option, tags?) {
-    await this.Containers.ContactsListContainer.locator(`"${userMail}"`).click({button: 'right'});
+    await this.Containers.MainContainer.locator(`"${userMail}"`).click({button: 'right'});
     if (tags) {
       tags.hover();
     }
