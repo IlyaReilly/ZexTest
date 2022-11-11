@@ -52,6 +52,7 @@ import {SpaceInfo} from '../Components/Chats/SpaceInfo';
 import {NewChannelModal} from '../Components/Chats/Modals/NewChannelModal';
 import {NewSpaceModal} from '../Components/Chats/Modals/NewSpaceModal';
 import {AdvancedFiltersModal} from '../Components/Search/Modals/AdvancedFiltersModal';
+import {NewTagModal} from '../Components/ModalWindows/NewTagModal';
 
 
 export class PageManager {
@@ -82,6 +83,7 @@ export class PageManager {
   chatField;
   spaceInfo;
   virtualRoomField;
+  newTagModal;
 
   // #region Calendars Modal
   newCalendarModal;
@@ -156,6 +158,7 @@ export class PageManager {
     this.chatField = new ChatField(page);
     this.spaceInfo = new SpaceInfo(page);
     this.virtualRoomField = new VirtualRoomField(page);
+    this.newTagModal = new NewTagModal(page);
 
     // #region Calendars Modal
     this.shareCalendarModal = new ShareCalendarModal(page);
