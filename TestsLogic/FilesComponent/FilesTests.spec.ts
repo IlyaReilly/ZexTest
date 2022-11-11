@@ -48,13 +48,13 @@ test.describe('Files tests', async () => {
     await pageManager.sideSecondaryFilesMenu.SelectTrashSubfolder.TrashElements();
   };
 
-  test('File with JPG extension can be uploaded', async ({pageManager}) => {
+  test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await expect((pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
   });
 
-  test('File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
+  test('TC502. File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
     await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
@@ -62,7 +62,7 @@ test.describe('Files tests', async () => {
     await expect((pageManager.fileDetails.Elements.FilePreview)).toBeVisible();
   });
 
-  test('File can be downloaded', async ({apiManager, pageManager}) => {
+  test('TC503. File can be downloaded', async ({apiManager, pageManager}) => {
     try {
       await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
@@ -75,12 +75,12 @@ test.describe('Files tests', async () => {
     }
   });
 
-  test('File must be moved to trash', async ({apiManager, pageManager}) => {
+  test('TC507. File must be moved to trash', async ({apiManager, pageManager}) => {
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
   });
 
-  test('File can be permanently removed', async ({apiManager, pageManager}) => {
+  test('TC504. File can be permanently removed', async ({apiManager, pageManager}) => {
     BaseTest.doubleTimeout();
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
@@ -90,7 +90,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible();
   });
 
-  test('File can be restored from trash', async ({apiManager, pageManager}) => {
+  test('TC505. File can be restored from trash', async ({apiManager, pageManager}) => {
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.RestoreButton.click();
@@ -98,7 +98,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).toBeVisible();
   });
 
-  test('File must be flagged and unflagged', async ({apiManager, pageManager}) => {
+  test('TC506. File must be flagged and unflagged', async ({apiManager, pageManager}) => {
     BaseTest.doubleTimeout();
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.ClickDropdownOption.Flag();
@@ -111,7 +111,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.FlagIcon).not.toBeVisible();
   });
 
-  test('Share file', async ({apiManager, pageManager, secondPageManager}) => {
+  test('TC508. Share file', async ({apiManager, pageManager, secondPageManager}) => {
     BaseTest.doubleTimeout();
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.SharingFile(BaseTest.secondUser.login);

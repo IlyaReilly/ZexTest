@@ -37,7 +37,7 @@ test.describe('Edit Calendars Properties', async () => {
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.EditCalendarProperties(calendarName);
   };
 
-  test('Edit calendar color. Change to red and validate rgb colors.', async ({pageManager, apiManager}) => {
+  test('TC315. Edit calendar color. Change to red and validate rgb colors.', async ({pageManager, apiManager}) => {
     const rgbCalendarColor = 'rgb(239, 83, 80)';
     await CreateCalendarAndOpenEditProperties({pageManager, apiManager});
     await pageManager.editCalendarPropertyModal.SelectCalendarColor('red');
@@ -46,7 +46,7 @@ test.describe('Edit Calendars Properties', async () => {
     await expect(elementColor, 'Calendar color should be changed to red').toEqual(rgbCalendarColor);
   });
 
-  test('Edit calendar name. New name should be applyed', async ({pageManager, apiManager}) => {
+  test('TC317. Edit calendar name. New name should be applyed', async ({pageManager, apiManager}) => {
     await CreateCalendarAndOpenEditProperties({pageManager, apiManager});
     await pageManager.editCalendarPropertyModal.ChangeCalendarName(calendarNewName);
     await pageManager.editCalendarPropertyModal.Buttons.Ok.click();

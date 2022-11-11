@@ -11,7 +11,7 @@ test.describe.skip('Login tests', async () => {
   test.beforeAll(async ({}, workerInfo) => {
   });
 
-  test('Success login.', async ({browser}) => {
+  test('TC101. Success login.', async ({browser}) => {
     const page = await browser.newPage();
     await page.goto('/');
     const pageManager = new PageManager(page);
@@ -19,7 +19,7 @@ test.describe.skip('Login tests', async () => {
     await expect(pageManager.headerMenu.Logos.MainLogo).toBeVisible();
   });
 
-  test('Logout.', async ({browser}) => {
+  test('TC102. Logout.', async ({browser}) => {
     const page = await browser.newPage();
     await page.goto('/');
     const pageManager = new PageManager(page);

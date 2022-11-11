@@ -30,42 +30,42 @@ test.describe('Calendars view tests', async () => {
     await page.close();
   });
 
-  test('Calendar view: "Work week" is a default view', async ({pageManager}) => {
+  test('TC306. Calendar view: "Work week" is a default view', async ({pageManager}) => {
     await expect(await pageManager.calendar.Elements.ActiveViewButton, '"Work Week" button should be preselected by default').toBeVisible();
   });
 
-  test('Calendar view: Current Date is selected on the Calendar', async ({pageManager}) => {
+  test('TC307. Calendar view: Current Date is selected on the Calendar', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Day);
     const currentMonthAndDateOnUI = await pageManager.calendar.Elements.CurrentDate.innerText().valueOf();
     const currentMonthAndDate = await pageManager.calendar.CalculateCurrentDate();
     await expect(currentMonthAndDateOnUI).toBe(currentMonthAndDate);
   });
 
-  test('Calendar view: Day', async ({pageManager}) => {
+  test('TC308. Calendar view: Day', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Day);
     await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 1 Cell').toHaveCount(1);
     await expect(pageManager.calendar.Elements.Column, 'Calendar have to consist of 2 Columns').toHaveCount(2);
   });
 
-  test('Calendar view: Week', async ({pageManager}) => {
+  test('TC309. Calendar view: Week', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
     await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 7 Cell').toHaveCount(7);
     await expect(pageManager.calendar.Elements.Column, 'Calendar have to consist of 8 Columns').toHaveCount(8);
   });
 
-  test('Calendar view: Work Week', async ({pageManager, page}) => {
+  test('TC310. Calendar view: Work Week', async ({pageManager, page}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     await BaseTest.waitForLoaderSpinnerHidden(page);
     await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 5 Cell').toHaveCount(5);
     await expect(pageManager.calendar.Elements.Column, 'Calendar have to consist of 6 Columns').toHaveCount(6);
   });
 
-  test('Calendar view: Month', async ({pageManager}) => {
+  test('TC311. Calendar view: Month', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Month);
     await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 35 Cell').toHaveCount(42);
   });
 
-  test('Calendar view: Current Day Schedule is displayed by "TODAY" button clicking', async ({pageManager}) => {
+  test('TC312. Calendar view: Current Day Schedule is displayed by "TODAY" button clicking', async ({pageManager}) => {
     BaseTest.doubleTimeout();
     const currentMonthAndDate = await pageManager.calendar.CalculateCurrentDate();
     await pageManager.calendar.SelectCalendarView(calendarView.Day);

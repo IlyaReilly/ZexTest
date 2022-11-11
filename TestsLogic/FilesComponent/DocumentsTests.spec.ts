@@ -56,46 +56,46 @@ test.describe('Files tests', async () => {
     };
   };
 
-  test('Create document file. Document file should be in Home tab.', async ({pageManager}) => {
+  test('TS512. Create document file. Document file should be in Home tab.', async ({pageManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
     await expect(pageManager.filesList.Elements.File).toBeVisible();
   });
 
-  test('Create spreadsheet file. Spreadsheet file should be in Home tab.', async ({pageManager}) => {
+  test('TS513. Create spreadsheet file. Spreadsheet file should be in Home tab.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewSpreadsheet, oldItemName);
     await expect(pageManager.filesList.Elements.File).toBeVisible();
   });
 
-  test('Create presentation file. Presentation file should be in Home tab.', async ({pageManager}) => {
+  test('TS514. Create presentation file. Presentation file should be in Home tab.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewPresentation, oldItemName);
     await expect(pageManager.filesList.Elements.File).toBeVisible();
   });
 
-  test('Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+  test('TS515. Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreatePresentation(oldItemName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
-  test('Change the name of a spreadsheet. The spreadsheet should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+  test('TS516. Change the name of a spreadsheet. The spreadsheet should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateSpreadsheet(oldItemName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
-  test('Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+  test('TS517. Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
-  test('Select file. File should be selected in Home tab.', async ({pageManager, apiManager}) => {
+  test('TS518. Select file. File should be selected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
@@ -103,7 +103,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.SelectionModeElements.CheckMark).toBeVisible();
   });
 
-  test('Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
+  test('TS519. Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreateSpreadsheet(secondName);
     await apiManager.createFilesAPI.CreateDocument(firstName);
@@ -112,7 +112,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.UncheckMark).not.toBeTruthy();
   });
 
-  test('Unselect all files. All files should be unselected in Home tab.', async ({pageManager, apiManager}) => {
+  test('TS520. Unselect all files. All files should be unselected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreateDocument(firstName);
     await apiManager.createFilesAPI.CreateSpreadsheet(secondName);
@@ -121,7 +121,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.filesList.Elements.CheckMark).not.toBeTruthy();
   });
 
-  test('Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager, apiManager}) => {
+  test('TS521. Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
     await pageManager.filesList.Elements.File.click();
