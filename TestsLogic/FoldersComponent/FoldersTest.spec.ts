@@ -81,6 +81,7 @@ test.describe('Folders tests', async () => {
     const mailId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await apiManager.mailsAPI.MoveMailToFolder(mailId, BaseTest.userForLogin.login, folderId);
     await OpenSentSubFolderContextMenu({pageManager});
+    await pageManager.mailsList.Elements.Letter.waitFor();
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.WipeFolder();
     await pageManager.wipeFolderModal.WipeNewFolder();
     await pageManager.sideSecondaryMailMenu.OpenSubFolder(folderName);
