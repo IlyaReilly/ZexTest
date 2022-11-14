@@ -62,7 +62,7 @@ test.describe('Calendars view tests', async () => {
 
   test('TC311. Calendar view: Month', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Month);
-    await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 35 Cell').toHaveCount(42);
+    await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 35 Cell').toHaveCount(35);
   });
 
   test('TC312. Calendar view: Current Day Schedule is displayed by "TODAY" button clicking', async ({pageManager}) => {

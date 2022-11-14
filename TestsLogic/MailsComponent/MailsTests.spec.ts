@@ -35,8 +35,8 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
   });
 
-  test('TC203. Mark mail as spam. Mail appears in the Junk folder', async ({page, pageManager, apiManager}) => {
-    test.fail(true, 'Unexpected Sent folder opening');
+  // 137 'Unexpected Sent folder opening'
+  test.skip('TC203. Mark mail as spam. Mail appears in the Junk folder', async ({page, pageManager, apiManager}) => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent, mailSubject);
     await pageManager.mailDetails.SelectMailOption.MarkAsSpam();
@@ -68,7 +68,6 @@ test.describe('Mails tests', async () => {
   });
 
   test('TC206. Move mail to trash. Mail appears in the Trash folder', async ({pageManager, apiManager}) => {
-    test.fail(true, 'Unexpected Drafts folder opening');
     await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts, mailSubject);
     await pageManager.mailDetails.SelectMailOption.Delete();
