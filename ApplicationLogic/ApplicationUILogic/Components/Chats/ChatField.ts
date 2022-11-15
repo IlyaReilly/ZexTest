@@ -7,14 +7,17 @@ export class ChatField extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.jnbwOR'),
-    NewMessageContainer: this.page.locator('.fMMLSe'),
-    HeaderContainer: this.page.locator('.kKIfqg'),
+    MainContainer: this.page.locator('[class*="InnerConversation"]'),
+    NewMessageContainer: this.page.locator('[class^="ConversationCompose"]'),
+    HeaderContainer: this.page.locator('[class*="ConversationHeader"]'),
   };
 
   TextBoxes = {
-    TextArea: this.Containers.NewMessageContainer.locator('#team-conversation-input-text'),
-    ChatsRaw: this.Containers.MainContainer.locator('.cyNffs'),
+    MessageInput: this.Containers.NewMessageContainer.locator('#team-conversation-input-text'),
+  };
+
+  Elements = {
+    MessageBubble: this.Containers.MainContainer.locator('_react=MessageBubble'),
   };
 
   Buttons = {
@@ -22,7 +25,7 @@ export class ChatField extends BasePage {
   };
 
   async SendCurrentMessage(message) {
-    await this.TextBoxes.TextArea.fill(message);
+    await this.TextBoxes.MessageInput.fill(message);
     await this.Buttons.SendMessage.click();
   };
 }

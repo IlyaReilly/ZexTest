@@ -6,7 +6,7 @@ export class SearchStatisticsHeader extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.ftkkYz'),
+    MainContainer: this.page.locator('_react=ci'),
   };
 
   Buttons = {
@@ -14,6 +14,6 @@ export class SearchStatisticsHeader extends BasePage {
   };
 
   Elements = {
-    SearchSnippets: this.Containers.MainContainer.locator('.ddxlFk'),
+    SearchSnippet: this.Containers.MainContainer.locator('_react=[key]'),
   };
 }

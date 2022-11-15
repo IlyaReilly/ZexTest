@@ -6,8 +6,8 @@ export class SideSecondaryContactsMenu extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
-    ContextMenuContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+    MainContainer: this.page.locator(InheritedFields.SideSecondaryBarLocator),
+    ContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   Buttons = {

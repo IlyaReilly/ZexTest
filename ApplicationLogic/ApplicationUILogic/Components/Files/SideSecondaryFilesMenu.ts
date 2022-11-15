@@ -6,7 +6,7 @@ export class SideSecondaryFilesMenu extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
+    MainContainer: this.page.locator(InheritedFields.SideSecondaryBarLocator),
   };
 
   Tabs = {
@@ -18,9 +18,6 @@ export class SideSecondaryFilesMenu extends BasePage {
     TrashElements: this.Containers.MainContainer.locator('"My elements"'),
     FiltersFlagged: this.Containers.MainContainer.locator('"Flagged"'),
     FiltersSharedByMe: this.Containers.MainContainer.locator('"Shared by me"'),
-  };
-
-  Buttons = {
   };
 
   async OpenSecondaryMenuTab(tab) {
