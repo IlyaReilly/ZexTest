@@ -22,6 +22,7 @@ export class FileDetails extends BasePage {
   Elements = {
     FileName: this.Containers.HeaderContainer.locator('.fWfafH'),
     FilePreview: this.page.locator('.ckbqRX'),
+    FileSize: this.Containers.InformationContainer.locator('.fWfafH'),
     Description: this.Containers.InformationContainer.locator('.bjWHPb'),
     DescriptionText: this.Containers.InformationContainer.locator('.hWkqlJ'),
     FileDescription: this.Containers.InformationContainer.locator('.dERcjk'),
@@ -47,6 +48,7 @@ export class FileDetails extends BasePage {
     Download: this.Containers.FileOptionsContainer.locator('[data-testid*="Download"]'),
     MaximizeOutline: this.Containers.FileOptionsContainer.locator('[data-testid*="MaximizeOutline"]'),
     SendViaMail: this.Containers.FileOptionsContainer.locator('[data-testid*="EmailOutline"]'),
+    Edit: this.Containers.FileOptionsContainer.locator('[data-testid*="Edit2Outline"]'),
     MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid*="MoreVertical"]'),
     Flag: this.Containers.DropDownPopperListContainer.locator('"Flag"'),
     UnFlag: this.Containers.DropDownPopperListContainer.locator('"Unflag"'),

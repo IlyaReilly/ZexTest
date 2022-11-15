@@ -6,6 +6,7 @@ test.describe('Files tests', async () => {
   const newItemName = 'Zextras Team';
   const firstName = 'abcd';
   const secondName = 'aavc';
+  const documentBody = 'Hello, this is my awesome doc!';
 
   test.beforeEach(async ({apiManager}) => {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
@@ -127,5 +128,31 @@ test.describe('Files tests', async () => {
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.WriteDescription(newItemName);
     await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
+  });
+
+  test('TC523. The document created must be editable', async ({pageManager, page, browserName}) => { 
+    test.skip(browserName === 'webkit' || browserName === 'firefox', 'A bug related to permissions.');  
+    BaseTest.doubleTimeout();    
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
+    await pageManager.fileDetails.FileOptions.Edit.click();
+    const [firstEditorPage] = await Promise.all([
+      page.waitForEvent('popup'),
+      pageManager.fileDetails.Containers.FileOptionsContainer.first().click(),
+    ]);
+    await firstEditorPage.locator('.leaflet-layer').click();    
+    await firstEditorPage.locator('textarea').fill(documentBody);
+    await firstEditorPage.locator('textarea').press('Control+s');
+    await firstEditorPage.close();
+    await page.reload();
+    await pageManager.fileDetails.FileOptions.Edit.click();
+    const [secondEditorPage] = await Promise.all([
+      page.waitForEvent('popup'),
+      pageManager.fileDetails.Containers.FileOptionsContainer.first().click(),
+    ]);    
+    await secondEditorPage.locator('textarea').press('Control+a');
+    await secondEditorPage.locator('textarea').press('Control+c');    
+    const currentDocumentText = await page.evaluate(() => navigator.clipboard.readText());    
+    await expect(currentDocumentText).toEqual(documentBody);
   });
 });
