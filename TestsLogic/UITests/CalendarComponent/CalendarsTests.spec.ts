@@ -1,6 +1,6 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from '../UITests/BaseTest';
-import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
+import {test, BaseTest} from '../../UITests/BaseTest';
+import {InheritedFields} from '../../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Calendars tests', async () => {
   let dateTimePrefix;
