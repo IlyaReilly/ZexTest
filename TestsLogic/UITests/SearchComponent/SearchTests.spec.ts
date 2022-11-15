@@ -1,7 +1,7 @@
 import {expect} from '@playwright/test';
 import fs from "fs";
 import path from "path";
-import {test, BaseTest} from '../UITests/BaseTest';
+import {test, BaseTest} from '../BaseTest';
 
 test.describe('Search tests', async () => {
   // Components

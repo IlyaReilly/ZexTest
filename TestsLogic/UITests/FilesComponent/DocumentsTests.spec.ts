@@ -1,5 +1,5 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from '../UITests/BaseTest';
+import {test, BaseTest} from '../../UITests/BaseTest';
 
 test.describe('Documents tests', async () => {
   const oldItemName = 'Test Item 123';
