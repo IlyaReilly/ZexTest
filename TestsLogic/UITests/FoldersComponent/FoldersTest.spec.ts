@@ -7,11 +7,9 @@ test.describe('Folders tests', async () => {
   let mailBody;
   let folderId;
   let newFolderName;
-  let subFolderName;
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     folderName = BaseTest.dateTimePrefix() + ' Folder';
-    subFolderName = BaseTest.dateTimePrefix() + ' sub Folder';
     newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
@@ -92,14 +90,6 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.Delete();
     await pageManager.deleteFolderModal.DeleteFolder();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should not be visible").not.toBeVisible();
-  });
-
-  test('TC808. Create subfolder', async ({pageManager}) => {
-    await OpenSentSubFolderContextMenu({pageManager});
-    await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.NewFolder();
-    await pageManager.sideSecondaryMailMenu.CreateNewFolder(subFolderName);
-    await pageManager.sideSecondaryMailMenu.ExpandFolders(folderName);
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${subFolderName}"`), "New folder name should be visible").toBeVisible();
   });
 
   async function OpenSentSubFolderContextMenu({pageManager}) {

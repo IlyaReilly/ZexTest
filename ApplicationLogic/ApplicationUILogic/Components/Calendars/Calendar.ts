@@ -1,4 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class Calendar extends BasePage {
   constructor(page) {
@@ -6,12 +6,11 @@ export class Calendar extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.kXEGgY'),
+    MainContainer: this.page.locator(InheritedFields.WorkspaceContainerLocator),
     AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
-    OtherActionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
-    PopupContainer: this.page.locator('.hpDDMC'),
-    ReminderPopupContainer: this.page.locator('.fKWHjI .loeZsV'),
-    CalendarView: this.page.locator('.ipjITR'),
+    OtherActionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    ModalContainer: this.page.locator(InheritedFields.ModalWindowLocator),
+    CalendarView: this.page.locator('div:has([class^="custom-toolbar"])'),
   };
 
   Selectors = {
@@ -20,11 +19,11 @@ export class Calendar extends BasePage {
   };
 
   Elements = {
-    Appointment: this.Containers.MainContainer.locator('.fSWXaB'),
-    CurrentDate: this.Containers.MainContainer.locator('.hOgGwK .jAbdqn'),
+    Appointment: this.Containers.MainContainer.locator('[class="rbc-event"]'),
+    CurrentDate: this.Containers.MainContainer.locator('[class^="Text__Comp"] >> nth=1'),
     Cell: this.Containers.MainContainer.locator('.rbc-day-bg'),
     Column: this.Containers.MainContainer.locator('.rbc-time-column'),
-    ActiveViewButton: this.Containers.MainContainer.locator('.jFGWhz'),
+    ActiveViewButton: this.Containers.MainContainer.locator('_react=Ie[backgroundColor="highlight"]'),
     NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
     TodayButton: this.Containers.MainContainer.locator('button:has-text("today")'),
   };
@@ -40,14 +39,14 @@ export class Calendar extends BasePage {
   };
 
   ReminderPopup = {
-    DismissButton: this.Containers.ReminderPopupContainer.locator('"DISMISS"'),
-    SetNewTime: this.Containers.ReminderPopupContainer.locator('.bOlfsx'),
+    Dismiss: this.Containers.ModalContainer.locator('"DISMISS"'),
+    SetNewTime: this.Containers.ModalContainer.locator('_react=[icon="ClockOutline"]'),
   };
 
   DeletePopups = {
-    EditMessageButton: this.Containers.PopupContainer.locator('"Edit Message"'),
-    SendCancellationButton: this.Containers.PopupContainer.locator('"Send Cancellation"'),
-    DeletePermanentlyButton: this.Containers.PopupContainer.locator('"Delete permanently"'),
+    EditMessageButton: this.Containers.ModalContainer.locator('"Edit Message"'),
+    SendCancellationButton: this.Containers.ModalContainer.locator('"Send Cancellation"'),
+    DeletePermanentlyButton: this.Containers.ModalContainer.locator('"Delete permanently"'),
   };
 
   async GetAppointmentWithTitle(title) {
@@ -55,8 +54,8 @@ export class Calendar extends BasePage {
   };
 
   async CloseReminderPopup() {
-    if (await this.Containers.ReminderPopupContainer.isVisible() === true) {
-      await this.ReminderPopup.DismissButton.click();
+    if (await this.Containers.ModalContainer.isVisible() === true) {
+      await this.ReminderPopup.Dismiss.click();
     };
   };
 

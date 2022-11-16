@@ -1,7 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../UITests/BaseTest';
 
-test.describe('Files tests', async () => {
+test.describe('Documents tests', async () => {
   const oldItemName = 'Test Item 123';
   const newItemName = 'Zextras Team';
   const firstName = 'abcd';

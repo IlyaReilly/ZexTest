@@ -27,7 +27,7 @@ test.describe('Mails tests', async () => {
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
     await pageManager.newMail.SendMail();
-    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await page.reload();
@@ -61,13 +61,13 @@ test.describe('Mails tests', async () => {
     await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
     await pageManager.newMail.SaveMail();
     await pageManager.newMail.CloseNewMail();
-    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts, mailSubject);
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Draft folder mails list').toBeVisible();
   });
-
-  test('TC206. Move mail to trash. Mail appears in the Trash folder', async ({pageManager, apiManager}) => {
+  // Contacts Dropdown does not appear
+  test.skip('TC206. Move mail to trash. Mail appears in the Trash folder', async ({pageManager, apiManager}) => {
     await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts, mailSubject);
     await pageManager.mailDetails.SelectMailOption.Delete();

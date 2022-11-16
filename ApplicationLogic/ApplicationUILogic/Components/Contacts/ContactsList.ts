@@ -1,4 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class ContactsList extends BasePage {
   constructor(page) {
@@ -6,14 +6,15 @@ export class ContactsList extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('_react=[path*="itemId"]'),
-    ContactContextMenu: this.page.locator('[data-testid*="dropdown-popper-list"]'),
+    MainContainer: this.page.locator(InheritedFields.WorkspaceContainerLocator),
+    ListContainer: this.page.locator(InheritedFields.ListContainerLocator),
+    ContactContextMenu: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   Elements = {
     Count: this.Containers.MainContainer.locator('[data-testid*="BreadcrumbCount"]'),
-    Contact: this.Containers.MainContainer.locator('_react=[ItemComponent][item]'),
-    ContactTag: this.Containers.MainContainer.locator('[data-testid="TagIcon"]'),
+    Contact: this.Containers.ListContainer.locator(InheritedFields.ListItemReactLocator),
+    ContactTag: this.Containers.ListContainer.locator('[data-testid="TagIcon"]'),
   };
 
   ContactContextMenuOptions = {
@@ -36,7 +37,7 @@ export class ContactsList extends BasePage {
   };
 
   async OpenContextMenuAndSelectOption(userMail, option, tags?) {
-    await this.Containers.MainContainer.locator(`"${userMail}"`).click({button: 'right'});
+    await this.Containers.ListContainer.locator(`"${userMail}"`).click({button: 'right'});
     if (tags) {
       tags.hover();
     }

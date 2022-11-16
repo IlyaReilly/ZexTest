@@ -1,4 +1,4 @@
-import {BasePage} from '../Pages/BasePage';
+import {BasePage, InheritedFields} from '../Pages/BasePage';
 
 export class HeaderMenu extends BasePage {
   constructor(page) {
@@ -6,45 +6,43 @@ export class HeaderMenu extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.ebKkLJ'),
-    UserMenuContainer: this.page.locator('[data-popper-placement="bottom-end"]'),
-    NewItemMenuContainer: this.page.locator('.chxMDM'),
-    NewItemMenuDropdownList: this.page.locator('[data-testid="dropdown-popper-list"]'),
+    MainContainer: this.page.locator('[class*="Background"] >> [class*="Container"]'),
+    DropdownList: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   Buttons = {
-    UserMenu: this.Containers.MainContainer.locator('.ctJWzG'),
-    NewItemMenu: this.Containers.MainContainer.locator('.htoWdb'),
-    NewItem: this.Containers.MainContainer.locator('.fUVWwl'),
+    UserMenu: this.Containers.MainContainer.locator('[data-testid*="PersonOutline"]'),
+    NewItemMenu: this.Containers.MainContainer.locator('button[class*="SecondaryAction"]'),
+    NewItem: this.Containers.MainContainer.locator('[class*="MultiButton"]'),
     Search: this.Containers.MainContainer.locator('[name="Search in mails"]'),
   };
 
   UserMenu = {
-    Feedback: this.Containers.UserMenuContainer.locator('"Feedback"'),
-    UpdateView: this.Containers.UserMenuContainer.locator('"Update view"'),
-    Documentation: this.Containers.UserMenuContainer.locator('"Documentation"'),
-    Logout: this.Containers.UserMenuContainer.locator('"Logout"'),
+    Feedback: this.Containers.DropdownList.locator('"Feedback"'),
+    UpdateView: this.Containers.DropdownList.locator('"Update view"'),
+    Documentation: this.Containers.DropdownList.locator('"Documentation"'),
+    Logout: this.Containers.DropdownList.locator('"Logout"'),
   };
 
   NewItemMenu = {
-    NewEmail: this.Containers.NewItemMenuDropdownList.locator('"New E-mail"'),
-    NewAppointment: this.Containers.NewItemMenuDropdownList.locator('"New appointment"'),
-    NewContact: this.Containers.NewItemMenuDropdownList.locator('"New contact"'),
-    Upload: this.Containers.NewItemMenuDropdownList.locator('"Upload"'),
-    NewFolder: this.Containers.NewItemMenuDropdownList.locator(`:nth-match(:text('New Folder'), 1)`),
-    NewDocument: this.Containers.NewItemMenuDropdownList.locator('"New Document"'),
-    NewSpreadsheet: this.Containers.NewItemMenuDropdownList.locator('"New Spreadsheet"'),
-    NewPresentation: this.Containers.NewItemMenuDropdownList.locator('"New Presentation"'),
-    CreateChat: this.Containers.NewItemMenuDropdownList.locator('"Create Chat"'),
-    CreateGroup: this.Containers.NewItemMenuDropdownList.locator('"Create Group"'),
-    CreateSpace: this.Containers.NewItemMenuDropdownList.locator('"Create Space"'),
-    OpenDocumentOdt: this.Containers.NewItemMenuDropdownList.locator('"OpenDocument (.odt)"'),
-    OpenDocumentOds: this.Containers.NewItemMenuDropdownList.locator('"OpenDocument (.ods)"'),
-    OpenDocumentOdp: this.Containers.NewItemMenuDropdownList.locator('"OpenDocument (.odp)"'),
+    NewEmail: this.Containers.DropdownList.locator('"New E-mail"'),
+    NewAppointment: this.Containers.DropdownList.locator('"New appointment"'),
+    NewContact: this.Containers.DropdownList.locator('"New contact"'),
+    Upload: this.Containers.DropdownList.locator('"Upload"'),
+    NewFolder: this.Containers.DropdownList.locator(`:nth-match(:text('New Folder'), 1)`),
+    NewDocument: this.Containers.DropdownList.locator('"New Document"'),
+    NewSpreadsheet: this.Containers.DropdownList.locator('"New Spreadsheet"'),
+    NewPresentation: this.Containers.DropdownList.locator('"New Presentation"'),
+    CreateChat: this.Containers.DropdownList.locator('"Create Chat"'),
+    CreateGroup: this.Containers.DropdownList.locator('"Create Group"'),
+    CreateSpace: this.Containers.DropdownList.locator('"Create Space"'),
+    OpenDocumentOdt: this.Containers.DropdownList.locator('"OpenDocument (.odt)"'),
+    OpenDocumentOds: this.Containers.DropdownList.locator('"OpenDocument (.ods)"'),
+    OpenDocumentOdp: this.Containers.DropdownList.locator('"OpenDocument (.odp)"'),
   };
 
   Logos = {
-    MainLogo: this.Containers.MainContainer.locator('.jqLXEC'),
+    MainLogo: this.Containers.MainContainer.locator('[class*="Background"] >> _react=l'),
   };
 
   TextBoxes = {
@@ -72,7 +70,7 @@ export class HeaderMenu extends BasePage {
 
   async OpenNewItemMenu(option, item?) {
     await this.Buttons.NewItemMenu.click();
-    await this.Containers.NewItemMenuDropdownList.waitFor({state: 'visible'});
+    await this.Containers.DropdownList.waitFor({state: 'visible'});
     await option.waitFor();
     await option.hover();
     if (item) {

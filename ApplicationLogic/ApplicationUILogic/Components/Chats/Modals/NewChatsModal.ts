@@ -10,32 +10,37 @@ export class NewChatsModal extends ModalWindowBase {
     Create: this.Containers.MainContainer.locator('"Create"'),
   };
 
-  NewChatDialog = {
-    UserFilterTextBox: this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
-    UsersListItem: this.Containers.MainContainer.locator('.kllKuK'),
-    TopicTextbox: this.Containers.MainContainer.locator('[name="Topic"]'),
-    TitleTextbox: this.Containers.MainContainer.locator('[name="Title"]'),
-    UserFilterTextboxInGroup: this.Containers.MainContainer.locator('[name="Start typing to pick an address"]'),
+  Textboxes = {
+    NewChatUserListFilter: this.Containers.MainContainer.locator('[name="Type to filter the list"]'),
+    UserListFilter: this.Containers.MainContainer.locator('[name="Start typing to pick an address"]'),
+    Title: this.Containers.MainContainer.locator('[name="Title"]'),
+    Topic: this.Containers.MainContainer.locator('[name="Topic"]'),
   };
 
   Elements = {
-    UserInFilterList: this.Containers.MainContainer.locator('.fXXPYY'),
-    UserInGroupFilterList: this.page.locator('.fLasLO'),
-    CurrentUser: this.Containers.MainContainer.locator('.jtBPa-D'),
+    NewChatFilteredListItem: this.Containers.MainContainer.locator('[class*="SearchCard"]'),
+    FilteredListItem: this.page.locator('[class*="SearchedContact"]'),
+    SelectedUser: this.Containers.MainContainer.locator('[class*="CustomChip"]'),
   };
 
-  async CreateItem(participant, option, participant2?, title?) {
-    if (option === this.NewChatDialog.UserFilterTextBox) {
-      await option.fill(participant);
-      await this.NewChatDialog.UsersListItem.locator('nth=-1').click();
+  async CreateItem(participant, participant2?, title?, topic?) {
+    if (topic) {
+      await this.Textboxes.Title.fill(title);
+      await this.Textboxes.Topic.fill(topic);
+      await this.Textboxes.UserListFilter.type(participant);
+      await this.Elements.FilteredListItem.locator('nth=0').click();
       await this.Buttons.Create.click();
-    } else if (option === this.NewChatDialog.UserFilterTextboxInGroup) {
-      await this.NewChatDialog.TitleTextbox.fill(title);
-      await this.NewChatDialog.UserFilterTextboxInGroup.type(participant);
-      await this.Elements.UserInGroupFilterList.locator('nth=0').click();
-      await this.Elements.CurrentUser.waitFor();
-      await this.NewChatDialog.UserFilterTextboxInGroup.type(participant2);
-      await this.Elements.UserInGroupFilterList.locator('nth=0').click();
+    } else if (title) {
+      await this.Textboxes.Title.fill(title);
+      await this.Textboxes.UserListFilter.type(participant);
+      await this.Elements.FilteredListItem.locator('nth=0').click();
+      await this.Elements.SelectedUser.waitFor();
+      await this.Textboxes.UserListFilter.type(participant2);
+      await this.Elements.FilteredListItem.locator('nth=0').click();
+      await this.Buttons.Create.click();
+    } else if (participant) {
+      await this.Textboxes.NewChatUserListFilter.fill(participant);
+      await this.Elements.NewChatFilteredListItem.locator('nth=-1').click();
       await this.Buttons.Create.click();
     } else {
       console.log('Incorrect option');
@@ -43,7 +48,8 @@ export class NewChatsModal extends ModalWindowBase {
   };
 
   CreatedConversations = {
-    CreateChat: async (participant) => await this.CreateItem(participant, this.NewChatDialog.UserFilterTextBox),
-    CreateGroup: async (participant, participant2, title) => await this.CreateItem(participant, this.NewChatDialog.UserFilterTextboxInGroup, participant2, title),
+    CreateChat: async (participant) => await this.CreateItem(participant),
+    CreateGroup: async (participant, participant2, title) => await this.CreateItem(participant, participant2, title),
+    CreateSpace: async (participant, title, topic) => await this.CreateItem(participant, undefined, title, topic),
   };
 }

@@ -1,12 +1,19 @@
 import {expect, Page} from '@playwright/test';
 
 export const InheritedFields = {
-  SideSecondaryDefaultBarLocator: '.jMnTrh',
-  NewItemDefaultContainerLocator: '.eRiUtJ',
+  SideSecondaryBarLocator: '[class*="SidebarContainer"]',
+  WorkspaceContainerLocator: '[class*="BoardsRouterContainer"]',
+  ListContainerLocator: '[class*="List"][class*="Container"]',
+  ListItemReactLocator: '_react=[key][item]',
+  ListFileReactLocator: '_react=[id]',
+  NewItemBoardLocator: '[class*="BoardContainer"] >> [class*="Board"]',
   NewItemBodyIframeLocator: '.tox-edit-area__iframe',
   NewItemBodyLocator: '.mce-content-body',
   ModalWindowLocator: '[data-testid="modal"]',
-  ExpandHidenFolders: '[data-testid="ExpandMoreIcon"]',
+  ExpandFoldersLocator: '[data-testid="ExpandMoreIcon"]',
+  DropdownListLocator: '[data-testid="dropdown-popper-list"]',
+  ChatInfoContainerLocator: '[class*="InfoPanelContainer"]',
+  ChatMembersContainerLocator: '[class*="ParticipantsListWidget"]',
 };
 
 export class BasePage {

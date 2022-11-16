@@ -51,7 +51,7 @@ test.describe('Files tests', async () => {
   test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await expect((pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`))).toContainText('testFile2');
+    await expect(pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`)).toBeVisible();
   });
 
   test('TC502. File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
@@ -84,8 +84,8 @@ test.describe('Files tests', async () => {
     BaseTest.doubleTimeout();
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
-    await pageManager.fileDetails.FileOptions.DeletePermanentlyButton.click();
-    await pageManager.fileDetails.CreateEntityPopup.DeleteButton.click();
+    await pageManager.fileDetails.FileOptions.DeletePermanently.click();
+    await pageManager.fileDetails.Modal.DeletePermanentlyButton.click();
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await expect(pageManager.filesList.Elements.File.locator(`"${unicFileName}"`)).not.toBeVisible();
   });
@@ -127,7 +127,7 @@ test.describe('Files tests', async () => {
     await pageManager.fileDetails.FileOptions.SendViaMail.click();
     await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, subjectWithFile, mailBody);
     await pageManager.newMail.SendMail();
-    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.mailsList.Elements.Letter.locator(`"${subjectWithFile}"`);
