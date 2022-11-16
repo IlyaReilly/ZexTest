@@ -1,7 +1,7 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from '../UITests/BaseTest';
+import {test, BaseTest} from '../../UITests/BaseTest';
 import fs from "fs";
-import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
+import {InheritedFields} from '../../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Files tests', async () => {
   // Components
