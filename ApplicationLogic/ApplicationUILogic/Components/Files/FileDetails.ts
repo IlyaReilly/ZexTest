@@ -139,6 +139,7 @@ export class FileDetails extends BasePage {
 
     await editorPage.locator('#menu-editmenu').click();
     await editorPage.locator('text=Select All (Ctrl + A)').click();
+    await editorPage.locator('.save').click();
     await editorPage.locator('#menu-editmenu').click();
     await editorPage.locator('text=Copy (Ctrl + C)').click();
     const documentText = await this.page.evaluate(() => navigator.clipboard.readText());
