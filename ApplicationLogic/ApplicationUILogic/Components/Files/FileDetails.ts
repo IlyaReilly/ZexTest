@@ -116,7 +116,7 @@ export class FileDetails extends BasePage {
     await this.Buttons.Share.click();
   };
 
-  async openEditorAndAddDocumentText(text) {
+  async OpenEditorAndAddDocumentText(text) {
     const [editorPage] = await Promise.all([
       this.page.waitForEvent('popup'),
       this.Containers.FileOptionsContainer.first().click(),
@@ -128,7 +128,7 @@ export class FileDetails extends BasePage {
     await editorPage.close();
   };
 
-  async openEditorAndGetDocumentText() {
+  async OpenEditorAndGetDocumentText() {
     const [editorPage] = await Promise.all([
       this.page.waitForEvent('popup'),
       this.Containers.FileOptionsContainer.first().click(),

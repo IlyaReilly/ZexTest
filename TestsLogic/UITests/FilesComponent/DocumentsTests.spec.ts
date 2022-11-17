@@ -136,10 +136,10 @@ test.describe('Documents tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
     await pageManager.fileDetails.FileOptions.Edit.click();
-    await pageManager.fileDetails.openEditorAndAddDocumentText(documentBody);
+    await pageManager.fileDetails.OpenEditorAndAddDocumentText(documentBody);
     await page.reload();
     await pageManager.fileDetails.FileOptions.Edit.click();
-    const currentDocumentText = await pageManager.fileDetails.openEditorAndGetDocumentText();
+    const currentDocumentText = await pageManager.fileDetails.OpenEditorAndGetDocumentText();
     await expect(currentDocumentText).toContain(documentBody);
   });
 });
