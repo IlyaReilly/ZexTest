@@ -1,11 +1,11 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class SideSecondaryCalendarMenu extends BasePage {
-  readonly sideSecondaryDefaultBarLocator = InheritedFields.SideSecondaryDefaultBarLocator;
+  readonly SideSecondaryBarLocator = InheritedFields.SideSecondaryBarLocator;
 
   Containers = {
-    MainContainer: this.page.locator(this.sideSecondaryDefaultBarLocator),
-    ContextMenuContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+    MainContainer: this.page.locator(this.SideSecondaryBarLocator),
+    ContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   ContextMenu = {
@@ -27,7 +27,7 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   Icons = {
     CalendarUnchecked: this.Containers.MainContainer.locator('[data-name="calendar"] >> nth=0'),
-    CalendarСhecked: this.Containers.MainContainer.locator('[data-testid*="Calendar2"] >> nth=0'),
+    CalendarChecked: this.Containers.MainContainer.locator('[data-testid*="Calendar2"] >> nth=0'),
     TrashUnchecked: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
     SharedIcon: this.Containers.MainContainer.locator('[data-testid*="ArrowCircleRight"]'),
   };
@@ -38,7 +38,7 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   Locators = {
     CalendarUnchecked: '[data-name="calendar"]',
-    CalendarСhecked: '[data-testid*="Calendar2"]',
+    CalendarChecked: '[data-testid*="Calendar2"]',
     TrashUnchecked: '[data-name="trash-2"]',
   };
 
@@ -142,8 +142,8 @@ export class SideSecondaryCalendarMenu extends BasePage {
 
   async UnselectAllCalendars() {
     await this.Tabs.Calendar.waitFor();
-    while (await this.Icons.CalendarСhecked.isVisible()) {
-      await this.Icons.CalendarСhecked.click();
+    while (await this.Icons.CalendarChecked.isVisible()) {
+      await this.Icons.CalendarChecked.click();
     }
   }
 

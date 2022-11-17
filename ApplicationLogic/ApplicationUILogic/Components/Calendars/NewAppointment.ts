@@ -6,8 +6,8 @@ export class NewAppointment extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.NewItemDefaultContainerLocator),
-    AttendeesDropdown: this.page.locator('.fStkje'),
+    MainContainer: this.page.locator(InheritedFields.NewItemBoardLocator),
+    AttendeesDropdown: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
@@ -18,7 +18,6 @@ export class NewAppointment extends BasePage {
   };
 
   Dropdowns = {
-    Attendee: this.Containers.AttendeesDropdown.locator('.ipOeIU'),
     Item: this.page.locator('[value="[object Object]"]'),
   };
 

@@ -1,5 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
-import {expect} from '@playwright/test';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class FileDetails extends BasePage {
   constructor(page) {
@@ -7,31 +6,31 @@ export class FileDetails extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.cfQFxI'),
+    MainContainer: this.page.locator('[data-testid="displayer"]'),
     HeaderContainer: this.page.locator('[data-testid="DisplayerHeader"]'),
     FileOptionsContainer: this.page.locator('[data-testid="displayer-actions-header"]'),
-    PopupContainer: this.page.locator('.kSniyH'),
-    InformationContainer: this.page.locator('.eoKvNK'),
-    TabsBarContainer: this.page.locator('.gnmCZc'),
+    ModalContainer: this.page.locator(InheritedFields.ModalWindowLocator),
+    InformationContainer: this.page.locator('[data-testid="node-details"]>>[class*="Components"]'),
+    TabsBarContainer: this.page.locator('div:has(>[class*="TabBar"])'),
     TabDetailsContainer: this.page.locator('[data-testid="node-details"]'),
     TabSharingContainer: this.page.locator('[data-testid="node-sharing-collaborators"]'),
-    TabVersioningContainer: this.page.locator('.eiltIC'),
-    DropDownPopperListContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+    TabVersioningContainer: this.page.locator('[class*="Versioning"]'),
+    DropDownPopperListContainer: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   Elements = {
-    FileName: this.Containers.HeaderContainer.locator('.fWfafH'),
-    FilePreview: this.page.locator('.ckbqRX'),
-    Description: this.Containers.InformationContainer.locator('.bjWHPb'),
-    DescriptionText: this.Containers.InformationContainer.locator('.hWkqlJ'),
-    FileDescription: this.Containers.InformationContainer.locator('.dERcjk'),
+    FileName: this.Containers.HeaderContainer.locator('[class*="Text__Comp"]'),
+    FilePreview: this.page.locator('[class*="DisplayerPreview"]'),
+    Description: this.Containers.InformationContainer.locator('_react=[key*="Description"]'),
+    DescriptionText: this.Containers.InformationContainer.locator('_react=[key*="Description"]>>[color="text"]'),
+    DescriptionInput: this.Containers.InformationContainer.locator('input'),
   };
 
-  CreateEntityPopup = {
-    EntityInput: this.Containers.PopupContainer.locator('.IUNTF'),
-    ClosePopupButton: this.Containers.PopupContainer.locator('.cvcXyJ'),
-    CreateButton: this.Containers.PopupContainer.locator('"CREATE"'),
-    DeleteButton: this.Containers.PopupContainer.locator('button:has-text("Delete permanently")'),
+  Modal = {
+    DocumentNameTextbox: this.Containers.ModalContainer.locator('[name="Document name"]'),
+    ClosePopupButton: this.Containers.ModalContainer.locator('button:has([data-testid*="Close"])'),
+    CreateButton: this.Containers.ModalContainer.locator('"CREATE"'),
+    DeletePermanentlyButton: this.Containers.ModalContainer.locator('button:has-text("Delete permanently")'),
   };
 
   Buttons = {
@@ -39,8 +38,7 @@ export class FileDetails extends BasePage {
     Download: this.Containers.HeaderContainer.locator('g[data-name="download"]'),
     EditDescriptionButton: this.Containers.InformationContainer.locator('[data-testid*="Edit2Outline"]'),
     SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
-    Share: this.Containers.TabSharingContainer.locator('"Share"'),
-    ShareWrapper: this.Containers.TabSharingContainer.locator('.jBRgq'),
+    Share: this.Containers.TabSharingContainer.locator('button:has-text("Share")'),
   };
 
   FileOptions = {
@@ -52,7 +50,7 @@ export class FileDetails extends BasePage {
     Flag: this.Containers.DropDownPopperListContainer.locator('"Flag"'),
     UnFlag: this.Containers.DropDownPopperListContainer.locator('"Unflag"'),
     MoveToTrash: this.Containers.DropDownPopperListContainer.locator('"Delete"'),
-    DeletePermanentlyButton: this.Containers.FileOptionsContainer.locator('[data-testid*="DeletePermanentlyOutline"]'),
+    DeletePermanently: this.Containers.FileOptionsContainer.locator('[data-testid*="DeletePermanentlyOutline"]'),
     RestoreButton: this.Containers.FileOptionsContainer.locator('[data-testid*="RestoreOutline"]'),
     Rename: this.Containers.DropDownPopperListContainer.locator('"Rename"'),
   };
@@ -91,11 +89,11 @@ export class FileDetails extends BasePage {
     return downloadedfilePath;
   };
 
-  async CreateNewEntity(entityName) {
-    entityName = entityName + Date.now();
-    await this.CreateEntityPopup.EntityInput.click();
-    await this.CreateEntityPopup.EntityInput.fill(entityName);
-    await this.CreateEntityPopup.CreateButton.click();
+  async CreateNewDocument(documentName) {
+    documentName = documentName + Date.now();
+    await this.Modal.DocumentNameTextbox.click();
+    await this.Modal.DocumentNameTextbox.fill(documentName);
+    await this.Modal.CreateButton.click();
   };
 
   async OpenDropdown(option) {
@@ -106,7 +104,7 @@ export class FileDetails extends BasePage {
   async WriteDescription(text) {
     await this.Buttons.EditDescriptionButton.locator('nth=-1').waitFor();
     await this.Buttons.EditDescriptionButton.locator('nth=-1').click();
-    await this.Elements.FileDescription.type(text);
+    await this.Elements.DescriptionInput.type(text);
     await this.Buttons.SaveEditsButton.click();
   };
 
@@ -115,7 +113,6 @@ export class FileDetails extends BasePage {
     await this.InputFields.AddNewPeopleField.click();
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
-    await expect(this.Buttons.ShareWrapper).toHaveAttribute('tabindex', '0');
     await this.Buttons.Share.click();
   };
 

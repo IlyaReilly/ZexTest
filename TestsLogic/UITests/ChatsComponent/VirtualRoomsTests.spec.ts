@@ -1,5 +1,5 @@
 import {expect} from '@playwright/test';
-import {test} from '../UITests/BaseTest';
+import {test} from '../../UITests/BaseTest';
 
 test.describe('Virtual Rooms tests', async () => {
   let dateTimePrefix;
@@ -56,7 +56,7 @@ test.describe('Virtual Rooms tests', async () => {
   test('TC427. Delete Virtual room. Virtual room should not be visible in Virtual Rooms Tab.', async ({pageManager, apiManager}) => {
     await CreateVirtualRoomAndOpenDetails({apiManager, pageManager});
     await pageManager.virtualRoomField.Buttons.DeleteVirtualRoom.click();
-    await pageManager.chats.DeleteSpacePopup.DeleteButton.click();
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationsItem.locator(`"${virtualRoomTitle}"`)).not.toBeVisible();
+    await pageManager.chatsActionsModal.Buttons.Delete.click();
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.VirtualRoomItem.locator(`"${virtualRoomTitle}"`)).not.toBeVisible();
   });
 });

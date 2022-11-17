@@ -1,4 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class MailsList extends BasePage {
   constructor(page) {
@@ -6,13 +6,13 @@ export class MailsList extends BasePage {
   };
 
   Containers = {
-    MailsListContainer: this.page.locator('[data-testid="list-wrapper"]'),
-    MailContextMenuContainer: this.page.locator('[data-popper-placement="bottom-start"]'),
+    MainContainer: this.page.locator(InheritedFields.ListContainerLocator),
+    MailContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   Elements = {
-    Letter: this.Containers.MailsListContainer.locator('.jWpoDH'),
-    UnreadMessageIcon: this.Containers.MailsListContainer.locator('.AyVvp'),
+    Letter: this.Containers.MainContainer.locator(InheritedFields.ListItemReactLocator),
+    UnreadMessageIcon: this.Containers.MainContainer.locator('_react=[isRead=false]'),
   };
 
   async OpenMail(mailSubject) {

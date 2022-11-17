@@ -1,7 +1,7 @@
 import {BasePage} from './BasePage';
 import {PageManager} from './PageManager';
 
-const pageLocator: string = '.jmIrib';
+const pageLocator: string = '[class*="FormContainer"]';
 
 export class LoginPage extends BasePage {
   constructor(page, locator = pageLocator) {

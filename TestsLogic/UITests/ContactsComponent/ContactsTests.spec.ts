@@ -1,6 +1,6 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from '../UITests/BaseTest';
-import {InheritedFields} from '../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
+import {test, BaseTest} from '../../UITests/BaseTest';
+import {InheritedFields} from '../../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Contacts tests', async () => {
   let mailSubject;
@@ -38,7 +38,7 @@ test.describe('Contacts tests', async () => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
-    const elementHandle = await page.$(InheritedFields.NewItemDefaultContainerLocator);
+    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${email}"`), 'The e-mail address of a new contact is visible in Contacts list').toBeVisible();
   });
@@ -73,7 +73,7 @@ test.describe('Contacts tests', async () => {
     await pageManager.contactDetails.ContactOptions.Edit.click();
     await pageManager.contactDetails.EditContactView.FirstName.fill(newFirstName);
     await pageManager.contactDetails.EditContactView.Save.click();
-    await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${newFirstName}"`), 'The edited last name of contact is visible in Contacts list').toBeVisible();
+    await expect(pageManager.contactsList.Containers.ListContainer.locator(`"${newFirstName}"`), 'The edited last name of contact is visible in Contacts list').toBeVisible();
   });
 
   test('TC607. Sent email to contact. New E-mail board is visible', async ({pageManager, apiManager}) => {
