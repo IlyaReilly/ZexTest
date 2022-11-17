@@ -115,4 +115,31 @@ export class FileDetails extends BasePage {
     await this.ShareFile.ClickOnItem(userMail);
     await this.Buttons.Share.click();
   };
+
+  async openEditorAndAddDocumentText(text) {
+    const [editorPage] = await Promise.all([
+      this.page.waitForEvent('popup'),
+      this.Containers.FileOptionsContainer.first().click(),
+    ]);
+
+    await editorPage.locator('.leaflet-layer').click();
+    await editorPage.locator('textarea').fill(text);
+    await editorPage.locator('.save').click();
+    await editorPage.close();
+  };
+
+  async openEditorAndGetDocumentText() {
+    const [editorPage] = await Promise.all([
+      this.page.waitForEvent('popup'),
+      this.Containers.FileOptionsContainer.first().click(),
+    ]);
+
+    await editorPage.locator('#menu-editmenu').click();
+    await editorPage.locator('text=Select All (Ctrl + A)').click();
+    await editorPage.locator('.save').click();
+    await editorPage.locator('#menu-editmenu').click();
+    await editorPage.locator('text=Copy (Ctrl + C)').click();
+    const documentText = await this.page.evaluate(() => navigator.clipboard.readText());
+    return documentText;
+  };
 }
