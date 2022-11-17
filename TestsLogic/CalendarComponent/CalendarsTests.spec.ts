@@ -7,6 +7,7 @@ test.describe('Calendars tests', async () => {
   let appointmentTitle;
   let appointmentBody;
   let runtimeAppoinmentId = '';
+  let appointmentTag;
   const calendarView = {
     Day: "Day",
     Week: "Week",
@@ -25,6 +26,7 @@ test.describe('Calendars tests', async () => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
+    appointmentTag = dateTimePrefix + ' Autotest Appointment Tag';
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
   });
 
@@ -114,6 +116,15 @@ test.describe('Calendars tests', async () => {
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);
     await page.reload(); // temporary step due to a bug on Firefox UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
+  });
+
+  test('TS1001. Create tag in appointment. Tag icon should be visible in appointment.', async ({pageManager, apiManager, page}) => {
+    test.fail(true, '138 When we create tag in appointment, window take error');
+    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
+    await pageManager.calendar.CreateTagForAppointment(appointmentTitle);
+    await pageManager.newTagModal.CreateTag(appointmentTag);
+    await pageManager.sideSecondaryCalendarMenu.OpenTagChevron();
+    await expect(pageManager.calendar.Selectors.TagIconSelector).toBeVisible();
   });
 
   async function AppointmentInTheTrashValidation({pageManager}) {
