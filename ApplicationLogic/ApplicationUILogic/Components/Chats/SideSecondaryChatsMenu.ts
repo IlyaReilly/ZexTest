@@ -1,4 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class SideSecondaryChatsMenu extends BasePage {
   constructor(page) {
@@ -6,7 +6,8 @@ export class SideSecondaryChatsMenu extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.gYbcBj'),
+    MainContainer: this.page.locator('_react=[defaultTab]'),
+    ListContainer: this.page.locator(InheritedFields.ListContainerLocator),
   };
 
   Buttons = {
@@ -27,14 +28,13 @@ export class SideSecondaryChatsMenu extends BasePage {
   };
 
   Elements = {
-    ConversationsListItem: this.Containers.MainContainer.locator('.beVSSX'),
-    ConversationsItem: this.Containers.MainContainer.locator('.hXnMHQ'),
-    VirtualRoomItem: this.Containers.MainContainer.locator('.hPoTzp'),
+    ConversationItem: this.Containers.ListContainer.locator('_react=[conversationId]'),
+    VirtualRoomItem: this.Containers.ListContainer.locator('[class*="MeetingListItem"]'),
   };
 
   ConversationItemDetails = {
-    Name: this.Elements.ConversationsItem.locator('.fCABYp'),
-    BellOffIcon: this.Elements.ConversationsListItem.locator('[data-testid*="BellOff"]'),
+    Name: this.Elements.ConversationItem.locator('[color="text"]'),
+    BellOffIcon: this.Elements.ConversationItem.locator('[data-testid*="BellOff"]'),
   };
 
   OpenTab = {
@@ -44,6 +44,6 @@ export class SideSecondaryChatsMenu extends BasePage {
   };
 
   async SelectConversationFromList(conversationTitle) {
-    await this.Elements.ConversationsListItem.locator(`"${conversationTitle}"`).click();
+    await this.Elements.ConversationItem.locator(`"${conversationTitle}"`).click();
   };
 }

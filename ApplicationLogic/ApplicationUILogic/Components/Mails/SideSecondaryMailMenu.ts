@@ -6,13 +6,13 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.SideSecondaryDefaultBarLocator),
-    MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+    MainContainer: this.page.locator(InheritedFields.SideSecondaryBarLocator),
+    MailOptionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
     CreateNewFolderPopupContainer: this.page.locator('[data-testid="modal"]'),
   };
 
   Buttons = {
-    ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.ExpandHidenFolders),
+    ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.ExpandFoldersLocator),
   };
 
   Icons = {
@@ -49,7 +49,7 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   async OpenFolder(folder) {
-    if (await this.page.isHidden(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`)) {
+    if (await this.page.isHidden(`${InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
       await this.Buttons.ExpandFolder.first().click();
     }
     await folder.click();
@@ -82,13 +82,13 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   async ExpandFolders(folder) {
-    if (await this.page.isHidden(`${InheritedFields.SideSecondaryDefaultBarLocator} >> text=Inbox`)) {
+    if (await this.page.isHidden(`${InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
       await this.Buttons.ExpandFolder.first().click();
     };
     if (folder === 'Inbox') {
       await this.Buttons.ExpandFolder.locator('nth=1').click();
     } else if (folder) {
-      await this.page.click(`${InheritedFields.ExpandHidenFolders}:near(:text("${folder}"))`);
+      await this.page.click(`${InheritedFields.ExpandFoldersLocator}:near(:text("${folder}"))`);
     };
   };
 

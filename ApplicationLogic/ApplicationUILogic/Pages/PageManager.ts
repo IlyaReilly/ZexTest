@@ -26,11 +26,10 @@ import {SideSecondaryFilesMenu} from '../Components/Files/SideSecondaryFilesMenu
 import {FilesList} from '../Components/Files/FilesList';
 import {FileDetails} from '../Components/Files/FileDetails';
 import {MailDetails} from '../Components/Mails/MailDetails';
-import {SearchResultDetails} from '../Components/Search/SearchResultDetails';
 import {SearchResultsList} from '../Components/Search/SearchResultsList';
 import {SearchStatisticsHeader} from '../Components/Search/SearchStatisticsHeader';
 import {ChatsInfo} from '../Components/Chats/ChatsInfo';
-import {Chats} from '../Components/Chats/Chats';
+import {ChatsActionsModal} from '../Components/Chats/Modals/ChatsActionsModal';
 import {ShareFolderModal} from '../Components/Mails/Modals/ShareFolderModal';
 import {EditFolderModal} from '../Components/Mails/Modals/EditFolderModal';
 import {CreateNewItemModal} from '../Components/Files/Modals/CreateNewItemModal';
@@ -48,9 +47,7 @@ import {DeleteAddressBookModal} from '../Components/Contacts/Modals/DeleteAddres
 import {DeleteContactPermanentlyModal} from '../Components/Contacts/Modals/DeleteContactPermanentlyModal';
 import {MoveMailToFolderModal} from '../Components/Mails/Modals/MoveMailToFolderModal';
 import {DeleteMailModal} from '../Components/Mails/Modals/DeleteMailModal';
-import {SpaceInfo} from '../Components/Chats/SpaceInfo';
 import {NewChannelModal} from '../Components/Chats/Modals/NewChannelModal';
-import {NewSpaceModal} from '../Components/Chats/Modals/NewSpaceModal';
 import {AdvancedFiltersModal} from '../Components/Search/Modals/AdvancedFiltersModal';
 import {NewTagModal} from '../Components/ModalWindows/NewTagModal';
 import {EditTagModal} from '../Components/ModalWindows/EditTagModal';
@@ -59,7 +56,6 @@ import {EditTagModal} from '../Components/ModalWindows/EditTagModal';
 export class PageManager {
   page: Page;
   loginPage;
-  searchResultDetails;
   searchResultsList;
   searchStatisticsHeader;
   newContact;
@@ -80,9 +76,7 @@ export class PageManager {
   filesList;
   fileDetails;
   chatsInfo;
-  chats;
   chatField;
-  spaceInfo;
   virtualRoomField;
   newTagModal;
   editTagModal;
@@ -124,8 +118,8 @@ export class PageManager {
   newChatsModal;
   addNewMembersModal;
   newChannelModal;
-  newSpaceModal;
   newVirtualRoomsModal;
+  chatsActionsModal;
   // #endregion
 
   // #region Search Modal
@@ -135,7 +129,6 @@ export class PageManager {
   constructor(page) {
     this.page = page;
     this.loginPage = new LoginPage(page);
-    this.searchResultDetails = new SearchResultDetails(page);
     this.searchResultsList = new SearchResultsList(page);
     this.searchStatisticsHeader = new SearchStatisticsHeader(page);
     this.newContact = new NewContact(page);
@@ -156,9 +149,7 @@ export class PageManager {
     this.filesList = new FilesList(page);
     this.fileDetails = new FileDetails(page);
     this.chatsInfo = new ChatsInfo(page);
-    this.chats = new Chats(page);
     this.chatField = new ChatField(page);
-    this.spaceInfo = new SpaceInfo(page);
     this.virtualRoomField = new VirtualRoomField(page);
     this.newTagModal = new NewTagModal(page);
     this.editTagModal = new EditTagModal(page);
@@ -200,8 +191,8 @@ export class PageManager {
     this.newChatsModal = new NewChatsModal(page);
     this.addNewMembersModal = new AddNewMembersModal(page);
     this.newChannelModal = new NewChannelModal(page);
-    this.newSpaceModal = new NewSpaceModal(page);
     this.newVirtualRoomsModal = new NewVirtualRoomsModal(page);
+    this.chatsActionsModal = new ChatsActionsModal(page);
     // #endregion
 
     // #region Search Modal

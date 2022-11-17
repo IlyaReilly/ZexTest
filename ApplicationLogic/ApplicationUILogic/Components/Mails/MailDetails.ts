@@ -1,4 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class MailDetails extends BasePage {
   constructor(page) {
@@ -6,15 +6,15 @@ export class MailDetails extends BasePage {
   };
 
   Containers = {
-    MailDetailsContainer: this.page.locator('[data-testid="third-panel"]'),
-    MailOptionsContainer: this.page.locator('[data-testid="dropdown-popper-list"]'),
+    MailDetailsContainer: this.page.locator('_react=[path$="Id"]'),
+    MailOptionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   Elements = {
     LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
     FlagIcon: this.Containers.MailDetailsContainer.locator('[data-testid="FlagIcon"]'),
-    ActionWithMailNotification: this.page.locator('.bPRaOr'),
-    AttachmentFile: this.Containers.MailDetailsContainer.locator('.hnmMOG'),
+    ActionWithMailNotification: this.page.locator('[data-testid="snackbar"]'),
+    AttachmentFile: this.Containers.MailDetailsContainer.locator('_react=[att]'),
   };
 
   MailOptions = {

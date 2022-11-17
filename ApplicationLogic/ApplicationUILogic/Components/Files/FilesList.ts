@@ -1,4 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class FilesList extends BasePage {
   constructor(page) {
@@ -6,22 +6,21 @@ export class FilesList extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.bQHovx'),
-    ListContainer: this.page.locator('.jKfOVd'),
+    MainContainer: this.page.locator(InheritedFields.ListContainerLocator),
   };
 
   Elements = {
-    File: this.Containers.ListContainer.locator('.ijUfjh'),
-    FileIcon: this.Containers.ListContainer.locator('[data-testid*="file"]'),
+    File: this.Containers.MainContainer.locator(InheritedFields.ListFileReactLocator),
+    FileIcon: this.Containers.MainContainer.locator('[data-testid*="file"]'),
     Header: this.Containers.MainContainer.locator('[data-testid="list-header"]'),
-    FileName: this.Containers.ListContainer.locator('.fWfafH'),
-    FlagIcon: this.Containers.ListContainer.locator('[data-testid="icon: Flag"]'),
-    DefinedByNameFile: (unicFileName) => this.page.locator('div.ijUfjh', {hasText: `${unicFileName}`}),
+    FileName: this.Containers.MainContainer.locator(`${InheritedFields.ListFileReactLocator} >> [color="text"]`),
+    FlagIcon: this.Containers.MainContainer.locator('[data-testid="icon: Flag"]'),
+    DefinedByNameFile: (unicFileName) => this.page.locator(InheritedFields.ListFileReactLocator, {hasText: `${unicFileName}`}),
   };
 
   SelectionModeElements = {
-    CheckMark: this.Containers.ListContainer.locator('[data-testid*="Checkmark"]'),
-    UncheckMark: this.Containers.ListContainer.locator('[data-testid*="unCheckedAvatar"]'),
+    CheckMark: this.Containers.MainContainer.locator('[data-testid*="Checkmark"]'),
+    UncheckMark: this.Containers.MainContainer.locator('[data-testid*="unCheckedAvatar"]'),
     SelectAllButton: this.Containers.MainContainer.locator('"Select all"'),
     DeselectAllButton: this.Containers.MainContainer.locator('"Deselect all"'),
   };

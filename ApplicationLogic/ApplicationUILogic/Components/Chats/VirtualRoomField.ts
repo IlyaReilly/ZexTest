@@ -7,7 +7,7 @@ export class VirtualRoomField extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('.iXsBey'),
+    MainContainer: this.page.locator('[class*="PageContainer"]'),
   };
 
   Buttons = {
