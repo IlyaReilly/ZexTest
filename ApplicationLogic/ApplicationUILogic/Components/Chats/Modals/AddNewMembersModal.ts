@@ -7,7 +7,7 @@ export class AddNewMembersModal extends ModalWindowBase {
   };
 
   Dropdowns = {
-    MembersDropdownContainer: this.page.locator('.kPPeDl'),
+    MembersDropdownContainer: this.page.locator('[data-testid="popper"]'),
   };
 
   Fields = {
@@ -20,7 +20,7 @@ export class AddNewMembersModal extends ModalWindowBase {
   };
 
   Participans = {
-    Member: this.Dropdowns.MembersDropdownContainer.locator('.biutwu'),
+    Member: this.Dropdowns.MembersDropdownContainer.locator('[class*="SearchedContact"]'),
   };
 
   async AddNewMember(member) {

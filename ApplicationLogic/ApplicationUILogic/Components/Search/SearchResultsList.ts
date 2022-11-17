@@ -1,4 +1,4 @@
-import {BasePage} from '../../Pages/BasePage';
+import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class SearchResultsList extends BasePage {
   constructor(page) {
@@ -6,17 +6,16 @@ export class SearchResultsList extends BasePage {
   };
 
   Containers = {
-    MainContainerMail: this.page.locator('.ereURg'),
-    MainContainerContacts: this.page.locator('.dLDkZK'),
-    MainContainerFiles: this.page.locator('.gcSrJU'),
-    MainContainerAppointments: this.page.locator('.ereURg'),
+    MainContainer: this.page.locator(InheritedFields.WorkspaceContainerLocator),
+    ListContainer: this.page.locator(InheritedFields.ListContainerLocator),
+  };
+
+  Buttons = {
+    AdvancedFilters: this.Containers.MainContainer.locator('"Advanced Filters"'),
   };
 
   Elements = {
-    SearchResultMail: this.Containers.MainContainerMail.locator('.fbCbGB'),
-    SearchResultContacts: this.Containers.MainContainerContacts.locator('.vEXXw'),
-    SearchResultFiles: this.Containers.MainContainerFiles.locator('.cNpbyA'),
-    SearchResultAppointments: this.Containers.MainContainerAppointments.locator('.hPLMBr'),
-    AdvancedFilters: this.Containers.MainContainerMail.locator('"Advanced Filters"'),
+    SearchResult: this.Containers.ListContainer.locator(InheritedFields.ListItemReactLocator),
+    FileSearchResult: this.Containers.ListContainer.locator(InheritedFields.ListFileReactLocator),
   };
 }

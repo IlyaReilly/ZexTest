@@ -6,7 +6,7 @@ export class NewMail extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.NewItemDefaultContainerLocator),
+    MainContainer: this.page.locator(InheritedFields.NewItemBoardLocator),
     BeforeYouLeaveContainer: this.page.locator('[data-testid="modal"]'),
   };
 
