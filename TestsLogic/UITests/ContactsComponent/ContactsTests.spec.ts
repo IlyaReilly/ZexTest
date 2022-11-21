@@ -59,9 +59,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('TC605. Delete contact permanently. Contact disappears from Trash folder', async ({pageManager, apiManager}) => {
-    const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
-    await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
-    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();
+    await DeleteContactAndOpenTrashFolder({apiManager, pageManager});
     await pageManager.contactsList.SelectContactContextMenuOption.DeletePermanently(BaseTest.userForLogin.login);
     await pageManager.deleteContactPermanentlyModal.Buttons.DeletePermanently.click();
     await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${firstName}"`), 'The first name of a new contact is not visible in Trash contacts list').not.toBeVisible();
@@ -89,10 +87,7 @@ test.describe('Contacts tests', async () => {
 
   test('TC609. Move contact. Contact appears in Emailed contacts folder', async ({pageManager, apiManager}) => {
     await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
-    await pageManager.contactsList.SelectContactContextMenuOption.Move(BaseTest.userForLogin.login);
-    await pageManager.moveAddressBookModal.DropDowns.EmailedContacts.click();
-    await pageManager.moveAddressBookModal.Buttons.Move.click();
-    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();
+    await MoveContactAndOpenDestinationFolder({pageManager}, pageManager.contactsList.SelectContactContextMenuOption.Move);
     await expect(pageManager.contactsList.Elements.Contact.locator(`"${firstName}"`), 'Contact appears in Emailed contacts folder').toBeVisible();
   });
 
@@ -102,6 +97,29 @@ test.describe('Contacts tests', async () => {
     await pageManager.newTagModal.CreateTag(tagName);
     await expect(pageManager.contactsList.Elements.ContactTag, 'Tag icon is visible in Contact list item').toBeVisible();
   });
+
+  test('TC611. Restore contact from Trash. Contact appears in Emailed contacts folder', async ({pageManager, apiManager}) => {
+    await DeleteContactAndOpenTrashFolder({apiManager, pageManager});
+    await MoveContactAndOpenDestinationFolder({pageManager}, pageManager.contactsList.SelectContactContextMenuOption.Restore);
+    await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${firstName}"`), 'Contact appears in Emailed contacts folder').toBeVisible();
+  });
+
+  async function DeleteContactAndOpenTrashFolder({apiManager, pageManager}) {
+    const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
+    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();
+  };
+
+  async function MoveContactAndOpenDestinationFolder({pageManager}, option) {
+    await option(BaseTest.userForLogin.login);
+    await pageManager.moveAddressBookModal.DropDowns.EmailedContacts.click();
+    if (option === pageManager.contactsList.SelectContactContextMenuOption.Move) {
+      await pageManager.moveAddressBookModal.Buttons.Move.click();
+    } else {
+      await pageManager.moveAddressBookModal.Buttons.Restore.click();
+    }
+    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();
+  };
 
   async function EditContactListAndCheckCount({page, pageManager, apiManager}, contactId?) {
     if (contactId) {

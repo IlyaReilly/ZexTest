@@ -7,6 +7,7 @@ export class MoveAddressBookModal extends ModalWindowBase {
 
   Buttons = {
     Move: this.Containers.MainContainer.locator('"Move"'),
+    Restore: this.Containers.MainContainer.locator('"Restore"'),
   };
 
   TextBoxes = {
