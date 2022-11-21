@@ -126,7 +126,7 @@ export class FileDetails extends BasePage {
     await this.Buttons.Share.click();
   };
 
-  async OpenEditorAndAddDocumentText(text) {
+  async GetOnlineEditorPage() {
     const [editorPage] = await Promise.all([
       this.page.waitForEvent('popup'),
       this.Containers.FileOptionsContainer.first().click(),
@@ -141,17 +141,13 @@ export class FileDetails extends BasePage {
     await editorPage.close();
   };
 
-  async OpenEditorAndGetDocumentText() {
-    const [editorPage] = await Promise.all([
-      this.page.waitForEvent('popup'),
-      this.Containers.FileOptionsContainer.first().click(),
-    ]);
-
-    await editorPage.locator('#menu-editmenu').click();
-    await editorPage.locator('text=Select All (Ctrl + A)').click();
-    await editorPage.locator('.save').click();
-    await editorPage.locator('#menu-editmenu').click();
-    await editorPage.locator('text=Copy (Ctrl + C)').click();
+  async GetTextFromOnlineEditor(editorPage) {
+    await editorPage.locator(this.OnlineEditorLocators.EditMenu).click();
+    await editorPage.locator(this.OnlineEditorLocators.SelectAllOption).click();
+    await editorPage.locator(this.OnlineEditorLocators.FileMenu).click();
+    await editorPage.locator(this.OnlineEditorLocators.SaveOption).click();
+    await editorPage.locator(this.OnlineEditorLocators.EditMenu).click();
+    await editorPage.locator(this.OnlineEditorLocators.CopyOption).click();
     const documentText = await this.page.evaluate(() => navigator.clipboard.readText());
     return documentText;
   };

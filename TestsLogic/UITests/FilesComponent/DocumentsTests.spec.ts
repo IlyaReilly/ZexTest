@@ -137,10 +137,12 @@ test.describe('Documents tests', async () => {
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.FileOptions.Edit.click();
-    await pageManager.fileDetails.OpenEditorAndAddDocumentText(documentBody);
+    const firstEditorPage = await pageManager.fileDetails.GetOnlineEditorPage();
+    await pageManager.fileDetails.AddTextToOnlineEditor(firstEditorPage, documentBody);
     await page.reload();
     await pageManager.fileDetails.FileOptions.Edit.click();
-    const currentDocumentText = await pageManager.fileDetails.OpenEditorAndGetDocumentText();
+    const secondEditorPage = await pageManager.fileDetails.GetOnlineEditorPage();
+    const currentDocumentText = await pageManager.fileDetails.GetTextFromOnlineEditor(secondEditorPage);
     await expect(currentDocumentText).toContain(documentBody);
   });
 });
