@@ -101,7 +101,7 @@ test.describe('Contacts tests', async () => {
   test('TC611. Restore contact from Trash. Contact appears in Emailed contacts folder', async ({pageManager, apiManager}) => {
     await DeleteContactAndOpenTrashFolder({apiManager, pageManager});
     await MoveContactAndOpenDestinationFolder({pageManager}, pageManager.contactsList.SelectContactContextMenuOption.Restore);
-    await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${firstName}"`), 'The first name of a new contact is visible in Emailed contacts folder').toBeVisible();
+    await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${firstName}"`), 'Contact appears in Emailed contacts folder').toBeVisible();
   });
 
   async function DeleteContactAndOpenTrashFolder({apiManager, pageManager}) {
