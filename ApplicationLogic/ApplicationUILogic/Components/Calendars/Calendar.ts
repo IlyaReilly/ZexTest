@@ -88,7 +88,7 @@ export class Calendar extends BasePage {
     await this.DeletePopups.DeletePermanentlyButton.click();
   };
 
-  async CreateTagForAppointment(appointmentTitle) {
+  async OpenModalForCreateTag(appointmentTitle) {
     await this.OpenAppointmentOtherActions(appointmentTitle);
     await this.AppointmentPopup.OtherActionsTags.hover();
     await this.AppointmentPopup.NewTagButton.click();

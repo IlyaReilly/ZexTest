@@ -121,7 +121,7 @@ test.describe('Calendars tests', async () => {
   test('TS1001. Create tag in appointment. Tag icon should be visible in appointment.', async ({pageManager, apiManager, page}) => {
     test.fail(true, '138 When we create tag in appointment, window take error');
     await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
-    await pageManager.calendar.CreateTagForAppointment(appointmentTitle);
+    await pageManager.calendar.OpenModalForCreateTag(appointmentTitle);
     await pageManager.newTagModal.CreateTag(appointmentTag);
     await pageManager.sideSecondaryCalendarMenu.OpenTagChevron();
     await expect(pageManager.calendar.Selectors.TagIconSelector).toBeVisible();

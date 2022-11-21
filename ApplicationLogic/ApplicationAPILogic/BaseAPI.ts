@@ -37,6 +37,7 @@ export class BaseAPI {
   readonly searchRequest = 'SearchRequest';
   readonly itemActionRequest = 'ItemActionRequest';
   readonly tagActionRequest = 'TagActionRequest';
+  readonly getInfoRequest = 'GetInfoRequest';
   // Mails
   readonly convActionRequest = 'ConvActionRequest';
   readonly saveDraftRequest = 'SaveDraftRequest';

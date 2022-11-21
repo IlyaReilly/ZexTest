@@ -1,10 +1,9 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from '../UITests/BaseTest';
+import {test, BaseTest} from '../../UITests/BaseTest';
 
 test.describe('Calendars tests', async () => {
   let dateTimePrefix;
   let tagName;
-  let id;
   const newTagName = 'New zextras tag';
 
   test.beforeAll(async ({apiManager}) => {
@@ -17,23 +16,40 @@ test.describe('Calendars tests', async () => {
   test.beforeEach(async ({pageManager, apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     tagName = dateTimePrefix + ' Autotest Tag';
-    id = await apiManager.createCalendarAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    try {
+      await DeleteAllTagsViaAPI({apiManager});
+    } catch (e) {
+      e;
+    } finally {
+      await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
+      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    };
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.deleteCalendarAPI.DeleteTagRequest(id, BaseTest.userForLogin.login);
-    await page.close();
+    try {
+      await DeleteAllTagsViaAPI({apiManager});
+    } catch (e) {
+      e;
+    } finally {
+      await page.close();
+    };
   });
 
+  async function DeleteAllTagsViaAPI({apiManager}) {
+    const id = await apiManager.tagsAPI.GetTags();
+    const idsString = id.join(',');
+    await apiManager.deleteTagsAPI.DeleteTagRequest(idsString, BaseTest.userForLogin.login);
+  }
+
   test('TC1002. Create tag in side calendar menu. Tag should be in Tags tab.', async ({pageManager}) => {
+    await pageManager.sideSecondaryCalendarMenu.OpenTagContextMenuOption.CreateTagButton();
+    await pageManager.newTagModal.CreateTag(tagName);
     await pageManager.sideSecondaryCalendarMenu.OpenTagChevron();
     await expect(pageManager.sideSecondaryCalendarMenu.Elements.Item.locator(`"${tagName}"`)).toBeVisible();
   });
 
   test('TC1003. Delete tag in side calendar menu. Tag should not be in Tags tab.', async ({pageManager}) => {
-    await pageManager.sideSecondaryCalendarMenu.OpenTagContextMenuOption.CreateTagButton();
-    await pageManager.newTagModal.CreateTag(tagName);
     await pageManager.sideSecondaryCalendarMenu.OpenTagChevron();
     await pageManager.sideSecondaryCalendarMenu.OpenTagContextMenuOption.DeleteTagButton(tagName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();
