@@ -10,12 +10,13 @@ export class TagsAPI extends BaseAPI {
       data: {"Body": {"GetInfoRequest": {"_jsns": "urn:zimbraAccount", "rights": "sendAs,sendAsDistList,viewFreeBusy,sendOnBehalfOf,sendOnBehalfOfDistList"}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {}, "userAgent": {"name": "CarbonioWebClient - Chrome 104.0.5112.20 (Windows)"}}}},
     });
     const body = await this.GetResponseBody(response);
-    if (body.Header) {
-      const arr = body.Header.context.refresh.tags.tag;
-      const arr2 = await Promise.all(arr.map(async (conversation) => {
+    if (body.Header.context.refresh.tags) {
+      const tagObjects = body.Header.context.refresh.tags.tag;
+      const tagId = await Promise.all(tagObjects.map(async (conversation) => {
         return conversation.id;
       }));
-      return arr2;
+      const idsString = tagId.join(',');
+      return idsString;
     };
   };
 }

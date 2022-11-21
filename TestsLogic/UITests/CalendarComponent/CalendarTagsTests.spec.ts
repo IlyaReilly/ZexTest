@@ -16,30 +16,19 @@ test.describe('Calendars tests', async () => {
   test.beforeEach(async ({pageManager, apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     tagName = dateTimePrefix + ' Autotest Tag';
-    try {
-      await DeleteAllTagsViaAPI({apiManager});
-    } catch (e) {
-      e;
-    } finally {
-      await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
-      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
-    };
+    await DeleteAllTagsViaAPI({apiManager});
+    await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    try {
-      await DeleteAllTagsViaAPI({apiManager});
-    } catch (e) {
-      e;
-    } finally {
-      await page.close();
-    };
+    await DeleteAllTagsViaAPI({apiManager});
+    await page.close();
   });
 
   async function DeleteAllTagsViaAPI({apiManager}) {
     const id = await apiManager.tagsAPI.GetTags();
-    const idsString = id.join(',');
-    await apiManager.deleteTagsAPI.DeleteTagRequest(idsString, BaseTest.userForLogin.login);
+    await apiManager.deleteTagsAPI.DeleteTagRequest(id, BaseTest.userForLogin.login);
   }
 
   test('TC1002. Create tag in side calendar menu. Tag should be in Tags tab.', async ({pageManager}) => {
