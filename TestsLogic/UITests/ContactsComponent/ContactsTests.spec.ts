@@ -108,7 +108,7 @@ test.describe('Contacts tests', async () => {
     const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();
-  }
+  };
 
   async function MoveContactAndOpenDestinationFolder({pageManager}, option) {
     await option(BaseTest.userForLogin.login);
