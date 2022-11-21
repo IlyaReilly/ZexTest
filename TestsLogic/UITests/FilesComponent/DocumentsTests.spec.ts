@@ -130,16 +130,19 @@ test.describe('Documents tests', async () => {
     await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
   });
 
-  test('TC523. The document created must be editable', async ({pageManager, page, browserName}) => {
+  test('TC523. The document created must be editable', async ({pageManager, apiManager, page, browserName}) => {
     test.skip(browserName === 'webkit' || browserName === 'firefox', 'A bug related to permissions.');
 
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
+    await apiManager.createFilesAPI.CreateDocument(oldItemName);
+    await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.FileOptions.Edit.click();
-    await pageManager.fileDetails.openEditorAndAddDocumentText(documentBody);
+    const firstEditorPage = await pageManager.fileDetails.GetOnlineEditorPage();
+    await pageManager.fileDetails.AddTextToOnlineEditor(firstEditorPage, documentBody);
     await page.reload();
     await pageManager.fileDetails.FileOptions.Edit.click();
-    const currentDocumentText = await pageManager.fileDetails.openEditorAndGetDocumentText();
+    const secondEditorPage = await pageManager.fileDetails.GetOnlineEditorPage();
+    const currentDocumentText = await pageManager.fileDetails.GetTextFromOnlineEditor(secondEditorPage);
     await expect(currentDocumentText).toContain(documentBody);
   });
 });
