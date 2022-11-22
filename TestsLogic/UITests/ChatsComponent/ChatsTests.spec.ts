@@ -47,22 +47,20 @@ test.describe('Chats tests', async () => {
     await pageManager.chatsActionsModal.Buttons.Leave.click();
   };
 
-  async function OpenChatsTabAndCreateConversation({pageManager}, option) {
-    if (option === pageManager.headerMenu.NewItemMenu.CreateChat) {
+  async function CreateConversation({pageManager, apiManager}, mark) {
+    if (mark === groupTitle) {
+      const userIds = [await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login), await apiManager.usersAPI.GetUserId(BaseTest.thirdUser.login)];
+      await apiManager.createChatsAPI.CreateGroup(groupTitle, userIds);
+      await pageManager.page.waitForLoadState();
+    } else {
       await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewChat();
-    } else if (option === pageManager.headerMenu.NewItemMenu.CreateGroup) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewGroup();
-    } else if (option === pageManager.headerMenu.NewItemMenu.CreateSpace) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewSpace();
+      await pageManager.newChatsModal.CreatedConversations.CreateChat(mark);
     };
   };
 
-  async function CreateGroupAndOpenDetails({pageManager, apiManager}) {
-    const firstUserId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
-    const seconduserId = await apiManager.usersAPI.GetUserId(BaseTest.thirdUser.login);
-    await apiManager.createChatsAPI.CreateGroup(groupTitle, [firstUserId, seconduserId]);
-    await pageManager.page.waitForLoadState();
-    await pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator('nth=0').click();
+  async function CreateConversationAndOpenDetails({pageManager, apiManager}, mark) {
+    await CreateConversation({pageManager, apiManager}, mark);
+    await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(mark);
   };
 
   async function CreateChats({pageManager}, participants) {
@@ -73,61 +71,77 @@ test.describe('Chats tests', async () => {
     }
   };
 
-  test('TC403. Create chat. Conversation should be in Chats Tab.', async ({pageManager}) => {
+  async function CreateConversationAndSendMessage({pageManager, apiManager}, mark) {
+    await CreateConversationAndOpenDetails({pageManager, apiManager}, mark);
+    await pageManager.chatField.SendCurrentMessage(message);
+  };
+
+  async function SendMessageAndClearHistory({pageManager, apiManager}, mark) {
+    await CreateConversationAndSendMessage({pageManager, apiManager}, mark);
+    await pageManager.chatsInfo.Buttons.ClearHistory.click();
+    await pageManager.chatsActionsModal.Buttons.ClearHistory.click();
+    await pageManager.page.waitForLoadState();
+  };
+
+  async function MuteNotificationAndActivate({pageManager, apiManager}, mark) {
+    await CreateConversationAndOpenDetails({pageManager, apiManager}, mark);
+    await pageManager.chatsInfo.Buttons.MuteNotifications.click();
+    await pageManager.chatsInfo.Buttons.ActivateNotifications.click();
+  };
+
+  async function SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, mark) {
+    await CreateConversationAndSendMessage({pageManager, apiManager}, mark);
+    await secondPageManager.sideMenu.OpenMenuTab(secondPageManager.sideMenu.SideMenuTabs.Chats);
+    await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList(mark);
+  };
+
+  test('TC403. Create chat. Conversation should be in Chats Tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateChat);
-    await pageManager.newChatsModal.CreatedConversations.CreateChat(firstParticipant);
+    await CreateConversation({pageManager, apiManager}, firstParticipant);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${firstParticipant}"`)).toBeVisible();
   });
 
-  test('TC404. Create group. Group should be in Chats Tab.', async ({pageManager, apiManager}) => {
+  test('TC404. Create group. Group should be in Chats Tab.', async ({pageManager}) => {
     BaseTest.doubleTimeout();
-    await CreateGroupAndOpenDetails({pageManager, apiManager});
+    await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewGroup();
+    await pageManager.newChatsModal.CreatedConversations.CreateGroup(BaseTest.secondUser.login, BaseTest.thirdUser.login, groupTitle);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${groupTitle}"`)).toBeVisible();
   });
 
-  test('TC405. Delete group. Group should be removed from Chats Tab.', async ({pageManager}) => {
+  test('TC405. Delete group. Group should be removed from Chats Tab.', async ({pageManager, apiManager}) => {
     test.slow();
-    await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateGroup);
-    await pageManager.newChatsModal.CreatedConversations.CreateGroup(firstParticipant, secondParticipant, groupTitle);
+    await CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
     await DeleteAllMembers({pageManager});
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${groupTitle}"`)).not.toBeVisible();
   });
 
   test('TC406. Change group topic. Group topic should be changed in Chats Tab.', async ({pageManager, apiManager}) => {
-    await CreateGroupAndOpenDetails({pageManager, apiManager});
+    await CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
     await pageManager.chatsInfo.ChangeTopic(newGroupTitle);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${newGroupTitle}"`)).toBeVisible;
   });
 
-  test('TC407. Mute notifications in group. The group must to have a mute icon', async ({pageManager, apiManager}) => {
-    await CreateGroupAndOpenDetails({pageManager, apiManager});
+  test('TC407. Mute notifications in group. The group should to have a mute icon', async ({pageManager, apiManager}) => {
+    await CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
     await pageManager.chatsInfo.Buttons.MuteNotifications.click();
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).toBeVisible();
   });
 
-  test('TC408. Activate notifications in group. The group must not have a mute icon ', async ({pageManager, apiManager}) => {
+  test('TC408. Activate notifications in group. The group should not have a mute icon ', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await CreateGroupAndOpenDetails({pageManager, apiManager});
-    await pageManager.chatsInfo.Buttons.MuteNotifications.click();
-    await pageManager.chatsInfo.Buttons.ActivateNotifications.click();
+    await MuteNotificationAndActivate({pageManager, apiManager}, groupTitle);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).not.toBeVisible();
   });
 
   test('TC409. Clear history for current user in group. Chat field must be empty', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await CreateGroupAndOpenDetails({pageManager, apiManager});
-    await pageManager.chatField.SendCurrentMessage(message);
-    await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
-    await pageManager.chatsInfo.Buttons.ClearHistory.click();
-    await pageManager.chatsActionsModal.Buttons.ClearHistory.click();
-    await pageManager.page.waitForLoadState();
+    await SendMessageAndClearHistory({pageManager, apiManager}, groupTitle);
     await expect(pageManager.chatField.Elements.MessageBubble).not.toBeVisible();
   });
 
-  test('TC410. Add new member in group. New member must be visible in group info.', async ({pageManager, apiManager}) => {
+  test('TC410. Add new member in group. New member should be visible in group info.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await CreateGroupAndOpenDetails({pageManager, apiManager});
+    await CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
     await pageManager.chatsInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(thirdParticipant);
     await expect(pageManager.chatsInfo.Items.Member.locator(`"${thirdParticipant}"`)).toHaveCount(1);
@@ -138,5 +152,31 @@ test.describe('Chats tests', async () => {
     await pageManager.sideSecondaryChatsMenu.Textboxes.FilterChatsList.fill(thirdParticipant);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name).toHaveText(thirdParticipant);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"${secondParticipant}"`)).toHaveCount(0);
+  });
+
+  test('TC429. Send a message in chat. Sent message should be visible in Chat field.', async ({pageManager, apiManager}) => {
+    await CreateConversationAndSendMessage({pageManager, apiManager}, BaseTest.secondUser.login);
+    await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
+  });
+
+  test('TC430. Get a message in chat. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    await SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, BaseTest.secondUser.login);
+    await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
+  });
+
+  test('TC438. Clear history for current user in chat. Chat field should be empty', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
+    await SendMessageAndClearHistory({pageManager, apiManager}, firstParticipant);
+    await expect(pageManager.chatField.Elements.MessageBubble).not.toBeVisible();
+  });
+
+  test('TC439. Send a message in group. Sent message should be visible in Chat field.', async ({pageManager, apiManager}) => {
+    await CreateConversationAndSendMessage({pageManager, apiManager}, groupTitle);
+    await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
+  });
+
+  test('TC440. Get a message in group. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    await SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, groupTitle);
+    await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
   });
 });

@@ -24,6 +24,7 @@ test.describe('Space tests', async () => {
     channelTitle = dateTimePrefix + ' Autotest Channel Title';
     channelTopic = dateTimePrefix + ' Autotest Channel Topic';
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
+    await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
   });
 
   test.afterAll(async ({apiManager}) => {
@@ -37,100 +38,118 @@ test.describe('Space tests', async () => {
     }));
   };
 
-  async function OpenChatsTabAndCreateConversation({pageManager}, option) {
-    if (option === pageManager.headerMenu.NewItemMenu.CreateChat) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewChat();
-    } else if (option === pageManager.headerMenu.NewItemMenu.CreateGroup) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewGroup();
-    } else if (option === pageManager.headerMenu.NewItemMenu.CreateSpace) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewSpace();
+  async function CreateSpace({apiManager}, title) {
+    const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
+    const spaceId = await apiManager.createChatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
+    if (title === channelTitle) {
+      await apiManager.createChatsAPI.CreateChannel(spaceId, channelTitle, channelTopic);
     };
   };
 
-  async function CreateSpaceAndOpenSpaceDetails({pageManager, apiManager}) {
-    const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
-    await apiManager.createChatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
-    await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
-    await pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.waitFor();
-    await pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.first().click();
+  async function CreateSpaceAndOpenDetails({pageManager, apiManager}, title) {
+    await CreateSpace({apiManager}, title);
+    if (title === channelTitle) {
+      await pageManager.sideSecondaryChatsMenu.Buttons.OpenDropdown.click();
+      title = '#' + title;
+    };
+    await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(title);
   };
 
-  async function CreateChannelAndOpenChannelDetails({pageManager, apiManager}) {
-    const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
-    const spaceId = await apiManager.createChatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
-    await apiManager.createChatsAPI.CreateChannel(spaceId, channelTitle, channelTopic);
-    await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
-    await pageManager.sideSecondaryChatsMenu.Buttons.OpenDropdown.click();
-    await pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"#${channelTitle}"`).click();
+  async function MuteNotificationsAndActivate({pageManager, apiManager}, title) {
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, title);
+    await pageManager.chatsInfo.Buttons.MuteNotifications.click();
+    await pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon.waitFor();
+    await pageManager.chatsInfo.Buttons.ActivateNotifications.click();
+  };
+
+  async function CreateSpaceAndSendMessage({pageManager, apiManager}, title) {
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, title);
+    await pageManager.chatField.SendCurrentMessage(message);
+  };
+
+  async function SendMessageAndClearHistory({pageManager, apiManager}, title) {
+    await CreateSpaceAndSendMessage({pageManager, apiManager}, title);
+    await pageManager.chatsInfo.Buttons.ClearHistory.click();
+    await pageManager.chatsActionsModal.Buttons.ClearHistory.click();
+    await pageManager.page.waitForLoadState();
+  };
+
+  async function CreateAndDeleteSpace({pageManager, apiManager}, title) {
+    await CreateSpaceAndSendMessage({pageManager, apiManager}, title);
+    if (title === channelTitle) {
+      await pageManager.chatsInfo.Buttons.DeleteChannel.click();
+    } else {
+      await pageManager.chatsInfo.Buttons.DeleteSpace.click();
+    }
+    await pageManager.chatsActionsModal.Buttons.Delete.click();
+  };
+
+  async function SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, title) {
+    await CreateSpaceAndSendMessage({pageManager, apiManager}, title);
+    await secondPageManager.sideMenu.OpenMenuTab(secondPageManager.sideMenu.SideMenuTabs.Chats);
+    await secondPageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
+    if (title === channelTitle) {
+      await secondPageManager.sideSecondaryChatsMenu.Buttons.OpenDropdown.click();
+      title = '#' + title;
+    };
+    await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList(title);
   };
 
   test('TC401. Create space. Space should appear in spaces list.', async ({pageManager, browserName}) => {
     test.slow(browserName === 'webkit', 'This feature is slow on Mac');
-    await OpenChatsTabAndCreateConversation({pageManager}, pageManager.headerMenu.NewItemMenu.CreateSpace);
+    await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewSpace();
     await pageManager.newChatsModal.CreatedConversations.CreateSpace(BaseTest.secondUser.login, spaceTitle, spaceTopic);
-    await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces(newSpaceName);
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.first()).toBeVisible();
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"${spaceTitle}"`)).toBeVisible();
   });
 
   test('TC402. Delete space. Space should be deleted.', async ({pageManager, apiManager}) => {
     test.slow();
-    await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
-    await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
-    await pageManager.chatsInfo.Buttons.DeleteSpace.click();
-    await pageManager.chatsActionsModal.Buttons.Delete.click();
+    await CreateAndDeleteSpace({pageManager, apiManager}, spaceTitle);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem).not.toBeVisible();
   });
 
   test('TC412. Rename space. Space should be renamed in spaces list.', async ({pageManager, apiManager}) => {
     test.slow();
-    await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, spaceTitle);
     await pageManager.chatsInfo.Rename(newSpaceName);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name).toHaveText(newSpaceName);
   });
 
   test('TC413. Mute notifications in space. The space must to have a mute icon', async ({pageManager, apiManager}) => {
-    await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager}); ;
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, spaceTitle);
     await pageManager.chatsInfo.Buttons.MuteNotifications.click();
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).toBeVisible();
   });
 
   test('TC414. Activate notifications in space. The space must not have a mute icon ', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
-    await pageManager.chatsInfo.Buttons.MuteNotifications.click();
-    await pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon.waitFor();
-    await pageManager.chatsInfo.Buttons.ActivateNotifications.click();
+    await MuteNotificationsAndActivate({pageManager, apiManager}, spaceTitle);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).not.toBeVisible();
   });
 
   test('TC415. Clear history for current user in space. Chat field must be empty', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
-    await pageManager.chatField.SendCurrentMessage(message);
-    await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
-    await pageManager.chatsInfo.Buttons.ClearHistory.click();
-    await pageManager.chatsActionsModal.Buttons.ClearHistory.click();
-    await pageManager.page.waitForLoadState();
+    await SendMessageAndClearHistory({pageManager, apiManager}, spaceTitle);
     await expect(pageManager.chatField.Elements.MessageBubble).not.toBeVisible();
   });
 
   test('TC416. Add new member in space. New member must be visible in space info.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, spaceTitle);
     await pageManager.chatsInfo.Buttons.AddNewMembers.click();
     await pageManager.addNewMembersModal.AddNewMember(participant);
     await expect(pageManager.chatsInfo.Items.Member.locator(`"${participant}"`)).toHaveCount(1);
   });
 
   test('TC417. Change topic in space. Topic in space should be changed in spaces list.', async ({pageManager, apiManager}) => {
-    await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, spaceTitle);
     await pageManager.chatsInfo.ChangeTopic(newSpaceTopic);
     await expect(pageManager.chatsInfo.Items.TopicName.locator(`"${newSpaceTopic}"`).first()).toBeVisible();
   });
 
-  test('TC418. Add channel in space.Channel should be visible in spaces list in space.', async ({pageManager, apiManager}) => {
+  test('TC418. Add channel in space. Channel should be visible in spaces list in space.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await CreateSpaceAndOpenSpaceDetails({pageManager, apiManager});
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, spaceTitle);
     await pageManager.chatsInfo.Buttons.AddChannel.click();
     await pageManager.newChannelModal.CreateNewChannel(titleName, topicName);
     await pageManager.sideSecondaryChatsMenu.Buttons.OpenDropdown.click();
@@ -138,45 +157,55 @@ test.describe('Space tests', async () => {
   });
 
   test('TC421. Mute notifications in channel. The channel must to have a mute icon', async ({pageManager, apiManager}) => {
-    await CreateChannelAndOpenChannelDetails({pageManager, apiManager});
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, channelTitle);
     await pageManager.chatsInfo.Buttons.MuteNotifications.click();
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).toBeVisible();
   });
 
   test('TC422. Activate notifications in channel. The channel must not have a mute icon', async ({pageManager, apiManager}) => {
-    await CreateChannelAndOpenChannelDetails({pageManager, apiManager});
-    await pageManager.chatsInfo.Buttons.MuteNotifications.click();
-    await pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon.waitFor();
-    await pageManager.chatsInfo.Buttons.ActivateNotifications.click();
+    await MuteNotificationsAndActivate({pageManager, apiManager}, channelTitle);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).not.toBeVisible();
   });
 
-  test('TC423. Change topic in channel.Topic in channel should be changed in spaces list.', async ({pageManager, apiManager}) => {
-    await CreateChannelAndOpenChannelDetails({pageManager, apiManager});
+  test('TC423. Change topic in channel. Topic in channel should be changed in spaces list.', async ({pageManager, apiManager}) => {
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, channelTitle);
     await pageManager.chatsInfo.ChangeTopic(newChannelTopic);
     await expect(pageManager.chatsInfo.Items.TopicName.locator(`"${newChannelTopic}"`).first()).toBeVisible();
   });
 
   test('TC424. Rename channel. Channel should be renamed in spaces list.', async ({pageManager, apiManager}) => {
-    await CreateChannelAndOpenChannelDetails({pageManager, apiManager});
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, channelTitle);
     await pageManager.chatsInfo.Rename(newChannelName);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"#${newChannelName}"`)).toBeVisible();
   });
 
   test('TC425. Clear history for current user in channel. Chat field must be empty', async ({pageManager, apiManager}) => {
-    await CreateChannelAndOpenChannelDetails({pageManager, apiManager});
-    await pageManager.chatField.SendCurrentMessage(message);
-    await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
-    await pageManager.chatsInfo.Buttons.ClearHistory.click();
-    await pageManager.chatsActionsModal.Buttons.ClearHistory.click();
-    await pageManager.page.waitForLoadState();
+    await SendMessageAndClearHistory({pageManager, apiManager}, channelTitle);
     await expect(pageManager.chatField.Elements.MessageBubble).not.toBeVisible();
   });
 
   test('TC426. Delete channel. Channel should be deleted from space tab.', async ({pageManager, apiManager}) => {
-    await CreateChannelAndOpenChannelDetails({pageManager, apiManager});
-    await pageManager.chatsInfo.Buttons.DeleteChannel.click();
-    await pageManager.chatsActionsModal.Buttons.Delete.click();
-    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"#${newChannelName}"`)).not.toBeVisible();
+    await CreateAndDeleteSpace({pageManager, apiManager}, channelTitle);
+    await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"#${channelTitle}"`)).not.toBeVisible();
+  });
+
+  test('TC434. Send a message in space. Sent message should be visible in Chat field.', async ({pageManager, apiManager}) => {
+    await CreateSpaceAndSendMessage({pageManager, apiManager}, spaceTitle);
+    await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
+  });
+
+  test('TC435. Get a message in space. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, spaceTitle);
+    await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
+  });
+
+  test('TC436. Send a message in channel. Sent message should be visible in Chat field.', async ({pageManager, apiManager}) => {
+    await CreateSpaceAndSendMessage({pageManager, apiManager}, channelTitle);
+    await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
+  });
+
+  test('TC437. Get a message in channel. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, channelTitle);
+    await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
   });
 });
