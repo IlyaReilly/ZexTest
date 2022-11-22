@@ -45,6 +45,7 @@ export class FileDetails extends BasePage {
     Download: this.Containers.FileOptionsContainer.locator('[data-testid*="Download"]'),
     MaximizeOutline: this.Containers.FileOptionsContainer.locator('[data-testid*="MaximizeOutline"]'),
     SendViaMail: this.Containers.FileOptionsContainer.locator('[data-testid*="EmailOutline"]'),
+    Edit: this.Containers.FileOptionsContainer.locator('[data-testid*="Edit2Outline"]'),
     MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid*="MoreVertical"]'),
     Flag: this.Containers.DropDownPopperListContainer.locator('"Flag"'),
     UnFlag: this.Containers.DropDownPopperListContainer.locator('"Unflag"'),
@@ -113,5 +114,14 @@ export class FileDetails extends BasePage {
     await this.ShareFile.TypeIntoAddNewPeopleField(userMail);
     await this.ShareFile.ClickOnItem(userMail);
     await this.Buttons.Share.click();
+  };
+
+  async GetOnlineEditorPage() {
+    const [editorPage] = await Promise.all([
+      this.page.waitForEvent('popup'),
+      this.Containers.FileOptionsContainer.first().click(),
+    ]);
+    await editorPage.waitForLoadState();
+    return editorPage;
   };
 }

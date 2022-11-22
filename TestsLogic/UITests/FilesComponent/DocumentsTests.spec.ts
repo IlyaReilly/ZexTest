@@ -128,4 +128,13 @@ test.describe('Documents tests', async () => {
     await pageManager.fileDetails.WriteDescription(newItemName);
     await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
   });
+
+  test('TC523. Open Online Editor. Online Editor should be opened by clicking the “Edit” button.', async ({pageManager, apiManager}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await apiManager.createFilesAPI.CreateDocument(oldItemName);
+    await pageManager.filesList.Elements.File.click();
+    await pageManager.fileDetails.FileOptions.Edit.click();
+    const editorPage = await pageManager.fileDetails.GetOnlineEditorPage();
+    await expect(editorPage).toHaveTitle('Online Editor');
+  });
 });
