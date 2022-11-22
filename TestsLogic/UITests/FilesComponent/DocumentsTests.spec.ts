@@ -6,7 +6,6 @@ test.describe('Documents tests', async () => {
   const newItemName = 'Zextras Team';
   const firstName = 'abcd';
   const secondName = 'aavc';
-  const documentBody = 'Hello, this is my awesome doc!';
 
   test.beforeEach(async ({apiManager}) => {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
@@ -130,19 +129,12 @@ test.describe('Documents tests', async () => {
     await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
   });
 
-  test('TC523. The document created must be editable', async ({pageManager, apiManager, page, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'A bug related to permissions.');
-
+  test('TC523. Online Editor should opens by clicking the “Edit” button.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.FileOptions.Edit.click();
-    const firstEditorPage = await pageManager.fileDetails.GetOnlineEditorPage();
-    await pageManager.fileDetails.AddTextToOnlineEditor(firstEditorPage, documentBody);
-    await page.reload();
-    await pageManager.fileDetails.FileOptions.Edit.click();
-    const secondEditorPage = await pageManager.fileDetails.GetOnlineEditorPage();
-    const currentDocumentText = await pageManager.fileDetails.GetTextFromOnlineEditor(secondEditorPage);
-    await expect(currentDocumentText).toContain(documentBody);
+    const editorPage = await pageManager.fileDetails.GetOnlineEditorPage();
+    await expect(editorPage).toHaveTitle('Online Editor');
   });
 });

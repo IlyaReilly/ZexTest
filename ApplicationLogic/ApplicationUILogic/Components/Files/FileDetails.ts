@@ -65,16 +65,6 @@ export class FileDetails extends BasePage {
     AddNewPeopleField: this.Containers.TabSharingContainer.locator('[data-testid="add-sharing-chip-input"]'),
   };
 
-  OnlineEditorLocators = {
-    Textarea: 'textarea',
-    SaveIcon: '.save',
-    FileMenu: '#menu-file',
-    EditMenu: '#menu-editmenu',
-    SelectAllOption: 'text=Select All (Ctrl + A)',
-    CopyOption: 'text=Copy (Ctrl + C)',
-    SaveOption: 'text=Save (Ctrl + S)',
-  };
-
   AddNewPeopleDropDown = {
     Item: (userMail) => this.Containers.DropDownPopperListContainer.locator(`"${userMail}"`),
   };
@@ -133,22 +123,5 @@ export class FileDetails extends BasePage {
     ]);
     await editorPage.waitForLoadState();
     return editorPage;
-  }
-
-  async AddTextToOnlineEditor(editorPage, text) {
-    await editorPage.locator(this.OnlineEditorLocators.Textarea).fill(text);
-    await editorPage.locator(this.OnlineEditorLocators.SaveIcon).click();
-    await editorPage.close();
-  };
-
-  async GetTextFromOnlineEditor(editorPage) {
-    await editorPage.locator(this.OnlineEditorLocators.EditMenu).click();
-    await editorPage.locator(this.OnlineEditorLocators.SelectAllOption).click();
-    await editorPage.locator(this.OnlineEditorLocators.FileMenu).click();
-    await editorPage.locator(this.OnlineEditorLocators.SaveOption).click();
-    await editorPage.locator(this.OnlineEditorLocators.EditMenu).click();
-    await editorPage.locator(this.OnlineEditorLocators.CopyOption).click();
-    const documentText = await this.page.evaluate(() => navigator.clipboard.readText());
-    return documentText;
   };
 }
