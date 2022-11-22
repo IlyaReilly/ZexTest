@@ -75,7 +75,7 @@ test.describe('Space tests', async () => {
   };
 
   async function CreateAndDeleteSpace({pageManager, apiManager}, title) {
-    await CreateSpaceAndSendMessage({pageManager, apiManager}, title);
+    await CreateSpaceAndOpenDetails({pageManager, apiManager}, title);
     if (title === channelTitle) {
       await pageManager.chatsInfo.Buttons.DeleteChannel.click();
     } else {
