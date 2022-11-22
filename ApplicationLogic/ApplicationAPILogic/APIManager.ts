@@ -19,6 +19,10 @@ import {UsersAPI} from './UsersAPI';
 import {CreateFoldersAPI} from './Folders/CreateFoldersAPI';
 import {DeleteFoldersAPI} from './Folders/DeleteFoldersAPI';
 import {AddressBookAPI} from './Contacts/AddressBooksAPI';
+import {DeleteTagsAPI} from './Tags/DeleteTagsAPI';
+import {TagsAPI} from './Tags/TagsAPI';
+import {CreateTagsAPI} from './Tags/CreateTagsAPI';
+
 
 export class APIManager {
   page: Page;
@@ -42,6 +46,9 @@ export class APIManager {
   createFoldersAPI;
   deleteFoldersAPI;
   addressBookAPI;
+  deleteTagsAPI;
+  tagsAPI;
+  createTagsAPI;
 
   constructor(page) {
     this.page = page;
@@ -65,5 +72,8 @@ export class APIManager {
     this.createFoldersAPI = new CreateFoldersAPI(this.page);
     this.deleteFoldersAPI = new DeleteFoldersAPI(this.page);
     this.addressBookAPI = new AddressBookAPI(this.page);
+    this.deleteTagsAPI = new DeleteTagsAPI(this.page);
+    this.tagsAPI = new TagsAPI(this.page);
+    this.createTagsAPI = new CreateTagsAPI(this.page);
   };
 }

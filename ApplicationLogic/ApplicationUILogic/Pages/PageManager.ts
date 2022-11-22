@@ -50,6 +50,7 @@ import {DeleteMailModal} from '../Components/Mails/Modals/DeleteMailModal';
 import {NewChannelModal} from '../Components/Chats/Modals/NewChannelModal';
 import {AdvancedFiltersModal} from '../Components/Search/Modals/AdvancedFiltersModal';
 import {NewTagModal} from '../Components/ModalWindows/NewTagModal';
+import {EditTagModal} from '../Components/ModalWindows/EditTagModal';
 
 
 export class PageManager {
@@ -78,6 +79,7 @@ export class PageManager {
   chatField;
   virtualRoomField;
   newTagModal;
+  editTagModal;
 
   // #region Calendars Modal
   newCalendarModal;
@@ -150,6 +152,7 @@ export class PageManager {
     this.chatField = new ChatField(page);
     this.virtualRoomField = new VirtualRoomField(page);
     this.newTagModal = new NewTagModal(page);
+    this.editTagModal = new EditTagModal(page);
 
     // #region Calendars Modal
     this.shareCalendarModal = new ShareCalendarModal(page);

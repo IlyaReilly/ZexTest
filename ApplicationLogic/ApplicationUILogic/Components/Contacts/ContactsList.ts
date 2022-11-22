@@ -22,6 +22,7 @@ export class ContactsList extends BasePage {
     SendEmail: this.Containers.ContactContextMenu.locator('"Send e-mail"'),
     Move: this.Containers.ContactContextMenu.locator('"Move"'),
     DeletePermanently: this.Containers.ContactContextMenu.locator('"Delete Permanently"'),
+    Restore: this.Containers.ContactContextMenu.locator('"Restore"'),
     Tags: this.Containers.ContactContextMenu.locator('"Tags"'),
     TagMenu: {
       NewTag: this.Containers.ContactContextMenu.locator('"New Tag"'),
@@ -33,6 +34,7 @@ export class ContactsList extends BasePage {
     SendEmail: async (userMail) => await this.OpenContextMenuAndSelectOption(userMail, this.ContactContextMenuOptions.SendEmail),
     Move: async (userMail) => await this.OpenContextMenuAndSelectOption(userMail, this.ContactContextMenuOptions.Move),
     DeletePermanently: async (userMail) => await this.OpenContextMenuAndSelectOption(userMail, this.ContactContextMenuOptions.DeletePermanently),
+    Restore: async (userMail) => await this.OpenContextMenuAndSelectOption(userMail, this.ContactContextMenuOptions.Restore),
     NewTag: async (userMail) => await this.OpenContextMenuAndSelectOption(userMail, this.ContactContextMenuOptions.TagMenu.NewTag, this.ContactContextMenuOptions.Tags),
   };
 

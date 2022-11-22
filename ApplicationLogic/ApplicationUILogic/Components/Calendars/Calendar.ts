@@ -16,6 +16,7 @@ export class Calendar extends BasePage {
   Selectors = {
     PrivateAppLockIconSelector: this.page.locator('[data-testid*="Lock"]'),
     NeedActionsIconSelector: this.page.locator('[data-testid*="CalendarWarning"]'),
+    TagIconSelector: this.page.locator('[data-testid="TagIcon"]'),
   };
 
   Elements = {
@@ -36,6 +37,7 @@ export class Calendar extends BasePage {
     OtherActionsOpenInDisplayer: this.Containers.OtherActionsContainer.locator('"Open in Displayer"'),
     OtherActionsMove: this.Containers.OtherActionsContainer.locator('"Move"'),
     OtherActionsTags: this.Containers.OtherActionsContainer.locator('"Tags"'),
+    NewTagButton: this.Containers.OtherActionsContainer.locator('"New Tag"'),
   };
 
   ReminderPopup = {
@@ -84,6 +86,12 @@ export class Calendar extends BasePage {
     await this.AppointmentPopup.OtherActionsDropdown.click();
     await this.AppointmentPopup.OtherActionsDeletePermanently.click();
     await this.DeletePopups.DeletePermanentlyButton.click();
+  };
+
+  async OpenModalForCreateTag(appointmentTitle) {
+    await this.OpenAppointmentOtherActions(appointmentTitle);
+    await this.AppointmentPopup.OtherActionsTags.hover();
+    await this.AppointmentPopup.NewTagButton.click();
   };
 
   async CalculateCurrentDate() {
