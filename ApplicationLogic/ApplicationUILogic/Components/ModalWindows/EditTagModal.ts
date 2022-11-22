@@ -1,16 +1,12 @@
 import {ModalWindowBase} from './ModalWindowBase';
 
-export class NewTagModal extends ModalWindowBase {
+export class EditTagModal extends ModalWindowBase {
   constructor(page) {
     super(page);
   };
 
-  Containers = {
-    MainContainer: this.page.locator('[class*="ModalComponents__ModalContent"]'),
-  };
-
   Buttons = {
-    Create: this.Containers.MainContainer.locator('"Create"'),
+    Edit: this.Containers.MainContainer.locator('"Edit"'),
   };
 
   Textboxes = {
@@ -22,8 +18,8 @@ export class NewTagModal extends ModalWindowBase {
     YellowColor: this.page.locator('"yellow"'),
   };
 
-  async CreateTag(tagName) {
-    await this.Textboxes.TagName.fill(tagName);
-    await this.Buttons.Create.click();
+  async EditNameTag(newTagName) {
+    await this.Textboxes.TagName.fill(newTagName);
+    await this.Buttons.Edit.click();
   };
 }

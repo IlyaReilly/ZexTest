@@ -36,6 +36,8 @@ export class BaseAPI {
   // Endpoints
   readonly searchRequest = 'SearchRequest';
   readonly itemActionRequest = 'ItemActionRequest';
+  readonly tagActionRequest = 'TagActionRequest';
+  readonly getInfoRequest = 'GetInfoRequest';
   // Mails
   readonly convActionRequest = 'ConvActionRequest';
   readonly saveDraftRequest = 'SaveDraftRequest';
@@ -44,6 +46,7 @@ export class BaseAPI {
   // Calendar
   readonly createAppointmentRequest = 'CreateAppointmentRequest';
   readonly cancelAppointmentRequest = 'CancelAppointmentRequest';
+  readonly createTagRequest = 'CreateTagRequest';
   // Chats
   readonly getConversationsRequest = 'getConversations';
   readonly getConversationRequest = 'getConversation';
