@@ -129,7 +129,7 @@ test.describe('Documents tests', async () => {
     await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
   });
 
-  test('TC523. Online Editor should opens by clicking the “Edit” button.', async ({pageManager, apiManager}) => {
+  test('TC523. Open Online Editor. Online Editor should opens by clicking the “Edit” button.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
     await pageManager.filesList.Elements.File.click();
