@@ -8,6 +8,7 @@ export class FilesList extends BasePage {
   Containers = {
     MainContainer: this.page.locator(InheritedFields.ListContainerLocator),
     DropdownContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    EmptyListContainer: this.page.locator('[data-testid="emptyFolder"]'),
   };
 
   Elements = {
@@ -19,6 +20,7 @@ export class FilesList extends BasePage {
     FlagIcon: this.Containers.MainContainer.locator('[data-testid="icon: Flag"]'),
     DefinedByNameFile: (unicFileName) => this.page.locator(InheritedFields.ListFileReactLocator, {hasText: `${unicFileName}`}),
     SelectOrder: this.Containers.MainContainer.locator('button:has(>[data-testid$="ListOutline"])'),
+    CleanCompletedUploads: this.page.locator('button:has-text("Clean completed uploads")'),
   };
 
   SelectOrderDropdown = {

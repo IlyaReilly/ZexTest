@@ -157,4 +157,20 @@ test.describe('Files tests', async () => {
     await pageManager.mailsList.OpenMail(subjectWithFile);
     await expect(pageManager.mailDetails.Elements.AttachmentFile).toContainText(unicFileName);
   });
+
+  test('TC524. Upload file and check it exists in the “Uploads”. The downloaded file should be displayed in the “Uploads”', async ({pageManager}) => {
+    await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Uploads);
+    await expect(pageManager.filesList.Containers.MainContainer.locator(`"testFile2.jpg"`)).toBeVisible();
+  });
+
+  test('TC525. Clean up the “Uploads” list. The “Uploads” list should be empty', async ({pageManager}) => {
+    await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Uploads);
+    await expect(pageManager.filesList.Containers.MainContainer.locator(`"testFile2.jpg"`)).toBeVisible();
+    await pageManager.filesList.Elements.CleanCompletedUploads.click();
+    await expect(pageManager.filesList.Containers.EmptyListContainer).toBeVisible();
+  });
 });
