@@ -58,6 +58,12 @@ test.describe('Files tests', async () => {
     await sort();
   };
 
+  async function UploadFileAndOpenUploads({pageManager}) {
+    await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Uploads);
+  };
+
   test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
@@ -156,5 +162,16 @@ test.describe('Files tests', async () => {
     await pageManager.mailsList.Elements.Letter.locator(`"${subjectWithFile}"`);
     await pageManager.mailsList.OpenMail(subjectWithFile);
     await expect(pageManager.mailDetails.Elements.AttachmentFile).toContainText(unicFileName);
+  });
+
+  test('TC524. Upload file and check it exists in the “Uploads”. The downloaded file should be displayed in the “Uploads”', async ({pageManager}) => {
+    await UploadFileAndOpenUploads({pageManager});
+    await expect(pageManager.filesList.Containers.MainContainer.locator(`"${jpgFile}"`)).toBeVisible();
+  });
+
+  test('TC525. Clean up the “Uploads” list. The “Uploads” list should be empty', async ({pageManager}) => {
+    await UploadFileAndOpenUploads({pageManager});
+    await pageManager.filesList.Elements.CleanCompletedUploads.click();
+    await expect(pageManager.filesList.Containers.EmptyListContainer).toBeVisible();
   });
 });
