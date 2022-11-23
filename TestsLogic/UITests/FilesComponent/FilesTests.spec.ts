@@ -5,8 +5,11 @@ import {InheritedFields} from '../../../ApplicationLogic/ApplicationUILogic/Page
 
 test.describe('Files tests', async () => {
   // Components
-  const fileNameJpg = 'testFile2';
-  const fileNameForApi = 'testAPI.png';
+  const pngFileName = 'testFile';
+  const jpgFileName = 'testFile2';
+  const pngFile = 'testFile.png';
+  const jpgFile = 'testFile2.jpg';
+  const pngFile2 = 'testAPI.png';
   let unicFilePrefix;
   let unicFileName;
   let subjectWithFile;
@@ -36,7 +39,7 @@ test.describe('Files tests', async () => {
   });
 
   async function UploadFileAndOpenDetails({apiManager, pageManager}) {
-    await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
+    await apiManager.createFilesAPI.UploadFileViaAPI(pngFile2, unicFilePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await pageManager.filesList.OpenFileDetails(unicFileName);
@@ -48,14 +51,21 @@ test.describe('Files tests', async () => {
     await pageManager.sideSecondaryFilesMenu.SelectTrashSubfolder.TrashElements();
   };
 
+  async function UploadFilesAndSortList({pageManager, apiManager}, sort) {
+    await apiManager.createFilesAPI.UploadFileViaAPI(pngFile);
+    await apiManager.createFilesAPI.UploadFileViaAPI(jpgFile);
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await sort();
+  };
+
   test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await expect(pageManager.filesList.Elements.File.locator(`"${fileNameJpg}"`)).toBeVisible();
+    await expect(pageManager.filesList.Elements.File.locator(`"${jpgFileName}"`)).toBeVisible();
   });
 
   test('TC502. File Preview is displayed by List File clicking', async ({pageManager, apiManager}) => {
-    await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
+    await apiManager.createFilesAPI.UploadFileViaAPI(pngFile2, unicFilePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
     await pageManager.filesList.OpenFileDetails(unicFileName);
@@ -64,7 +74,7 @@ test.describe('Files tests', async () => {
 
   test('TC503. File can be downloaded', async ({apiManager, pageManager}) => {
     try {
-      await apiManager.createFilesAPI.UploadFileViaAPI(fileNameForApi, unicFilePrefix);
+      await apiManager.createFilesAPI.UploadFileViaAPI(pngFile2, unicFilePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
       await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Home);
       await expect((pageManager.filesList.Elements.File.locator(`"${unicFileName}"`))).toBeVisible();
@@ -118,6 +128,19 @@ test.describe('Files tests', async () => {
     await secondPageManager.sideMenu.SideMenuTabs.Files.click();
     await secondPageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(secondPageManager.sideSecondaryFilesMenu.Tabs.SharedWithMe);
     await expect(secondPageManager.filesList.Elements.DefinedByNameFile(unicFileName)).toBeVisible();
+  });
+
+  test('TC509. Sort file list by last update. The last updated file should be first in the list', async ({pageManager, apiManager}) => {
+    await UploadFilesAndSortList({pageManager, apiManager}, pageManager.filesList.SelectListOrder.LastUpdateDescending);
+    await expect(pageManager.filesList.Elements.FileName.nth(0)).toHaveText(jpgFileName);
+    await expect(pageManager.filesList.Elements.FileName.nth(1)).toHaveText(pngFileName);
+  });
+
+  test('TC510. Sort file list by size. The larger file should be first in the list', async ({pageManager, apiManager}) => {
+    await UploadFilesAndSortList({pageManager, apiManager}, pageManager.filesList.SelectListOrder.SizeDescending);
+    const firstFileSize = parseFloat(await pageManager.filesList.Elements.FileSize.nth(0).innerText());
+    const secondFileSize = parseFloat(await pageManager.filesList.Elements.FileSize.nth(1).innerText());
+    expect(firstFileSize).toBeGreaterThan(secondFileSize);
   });
 
   // Bug with copypaste in mail folder. Dropdown does not appear.
