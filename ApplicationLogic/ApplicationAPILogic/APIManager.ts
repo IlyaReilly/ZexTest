@@ -22,6 +22,7 @@ import {AddressBookAPI} from './Contacts/AddressBooksAPI';
 import {DeleteTagsAPI} from './Tags/DeleteTagsAPI';
 import {TagsAPI} from './Tags/TagsAPI';
 import {CreateTagsAPI} from './Tags/CreateTagsAPI';
+import {FoldersAPI} from './Folders/FoldersAPI';
 
 
 export class APIManager {
@@ -49,6 +50,7 @@ export class APIManager {
   deleteTagsAPI;
   tagsAPI;
   createTagsAPI;
+  foldersAPI;
 
   constructor(page) {
     this.page = page;
@@ -75,5 +77,6 @@ export class APIManager {
     this.deleteTagsAPI = new DeleteTagsAPI(this.page);
     this.tagsAPI = new TagsAPI(this.page);
     this.createTagsAPI = new CreateTagsAPI(this.page);
+    this.foldersAPI = new FoldersAPI(this.page);
   };
 }
