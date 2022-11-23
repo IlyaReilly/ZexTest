@@ -157,4 +157,12 @@ test.describe('Files tests', async () => {
     await pageManager.mailsList.OpenMail(subjectWithFile);
     await expect(pageManager.mailDetails.Elements.AttachmentFile).toContainText(unicFileName);
   });
+
+  test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager}) => {
+    test.slow();
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    await pageManager.fileDetails.Buttons.UploadVersion.click();
+    await pageManager.fileDetails.UploadNewFileVersion('./TestData/Files/testFile2.jpg');
+  });
 });

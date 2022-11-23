@@ -39,6 +39,8 @@ export class FileDetails extends BasePage {
     EditDescriptionButton: this.Containers.InformationContainer.locator('[data-testid*="Edit2Outline"]'),
     SaveEditsButton: this.Containers.InformationContainer.locator('[data-testid*="SaveOutline"]'),
     Share: this.Containers.TabSharingContainer.locator('button:has-text("Share")'),
+    UploadVersion: this.Containers.TabVersioningContainer.locator('button:has-text("Upload version")'),
+    PurgeAllVersions: this.Containers.TabVersioningContainer.locator('button:has-text("Purge all versions")'),
   };
 
   FileOptions = {
@@ -123,5 +125,13 @@ export class FileDetails extends BasePage {
     ]);
     await editorPage.waitForLoadState();
     return editorPage;
+  };
+
+  async UploadNewFileVersion(filePath) {
+    const [fileChooser] = await Promise.all([
+      this.page.waitForEvent('filechooser'),
+      this.Buttons.UploadVersion.click(),
+    ]);
+    await fileChooser.setFiles(filePath);
   };
 }
