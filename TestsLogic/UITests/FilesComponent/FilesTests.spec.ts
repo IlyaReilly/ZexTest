@@ -10,6 +10,7 @@ test.describe('Files tests', async () => {
   const pngFile = 'testFile.png';
   const jpgFile = 'testFile2.jpg';
   const pngFile2 = 'testAPI.png';
+  const filePath = './TestData/Files/testFile2.jpg';
   let unicFilePrefix;
   let unicFileName;
   let subjectWithFile;
@@ -56,6 +57,16 @@ test.describe('Files tests', async () => {
     await apiManager.createFilesAPI.UploadFileViaAPI(jpgFile);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await sort();
+  };
+
+  async function UploadNewFileVersion({apiManager, pageManager}, filePath) {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    const [fileChooser] = await Promise.all([
+      this.page.waitForEvent('filechooser'),
+      pageManager.fileDetails.Buttons.UploadVersion.click(),
+    ]);
+    await fileChooser.setFiles(filePath);
   };
 
   test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
@@ -160,9 +171,10 @@ test.describe('Files tests', async () => {
 
   test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager}) => {
     test.slow();
-    await UploadFileAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.Tabs.Versioning.click();
-    await pageManager.fileDetails.Buttons.UploadVersion.click();
-    await pageManager.fileDetails.UploadNewFileVersion('./TestData/Files/testFile2.jpg');
+    await UploadNewFileVersion({apiManager, pageManager}, filePath);
+    // await UploadFileAndOpenDetails({apiManager, pageManager});
+    // await pageManager.fileDetails.Tabs.Versioning.click();
+    // await pageManager.fileDetails.UploadNewFileVersion('./TestData/Files/testFile2.jpg');
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
   });
 });

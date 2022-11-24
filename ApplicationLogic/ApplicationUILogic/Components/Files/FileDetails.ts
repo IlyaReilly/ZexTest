@@ -24,6 +24,7 @@ export class FileDetails extends BasePage {
     Description: this.Containers.InformationContainer.locator('_react=[key*="Description"]'),
     DescriptionText: this.Containers.InformationContainer.locator('_react=[key*="Description"]>>[color="text"]'),
     DescriptionInput: this.Containers.InformationContainer.locator('input'),
+    FileVersionNumber: (number) => this.Containers.TabVersioningContainer.locator(`"Version ${number}"`),
   };
 
   Modal = {
@@ -127,11 +128,11 @@ export class FileDetails extends BasePage {
     return editorPage;
   };
 
-  async UploadNewFileVersion(filePath) {
-    const [fileChooser] = await Promise.all([
-      this.page.waitForEvent('filechooser'),
-      this.Buttons.UploadVersion.click(),
-    ]);
-    await fileChooser.setFiles(filePath);
-  };
+  // async UploadNewFileVersion(filePath) {
+  //   const [fileChooser] = await Promise.all([
+  //     this.page.waitForEvent('filechooser'),
+  //     this.Buttons.UploadVersion.click(),
+  //   ]);
+  //   await fileChooser.setFiles(filePath);
+  // };
 }
