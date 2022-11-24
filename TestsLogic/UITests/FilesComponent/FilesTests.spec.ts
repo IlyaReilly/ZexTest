@@ -75,7 +75,7 @@ test.describe('Files tests', async () => {
     await fileChooser.setFiles(filePath);
   };
 
-  /* test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
+  test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await expect(pageManager.filesList.Elements.File.locator(`"${jpgFileName}"`)).toBeVisible();
@@ -184,7 +184,7 @@ test.describe('Files tests', async () => {
     await UploadFileAndOpenUploads({pageManager});
     await pageManager.filesList.Elements.CleanCompletedUploads.click();
     await expect(pageManager.filesList.Containers.EmptyListContainer).toBeVisible();
-  }); */
+  });
 
   test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager, page}) => {
     await UploadNewFileVersion({apiManager, pageManager, page}, filePath);
