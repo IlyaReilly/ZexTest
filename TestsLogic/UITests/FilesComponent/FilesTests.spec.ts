@@ -10,7 +10,7 @@ test.describe('Files tests', async () => {
   const pngFile = 'testFile.png';
   const jpgFile = 'testFile2.jpg';
   const pngFile2 = 'testAPI.png';
-  const filePath = './TestData/Files/testFile2.jpg';
+  const filePath = './TestData/Files/';
   let unicFilePrefix;
   let unicFileName;
   let subjectWithFile;
@@ -65,14 +65,14 @@ test.describe('Files tests', async () => {
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Uploads);
   };
 
-  async function UploadNewFileVersion({apiManager, pageManager, page}, filePath) {
+  async function UploadNewFileVersion({apiManager, pageManager, page}) {
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.Tabs.Versioning.click();
     const [fileChooser] = await Promise.all([
       page.waitForEvent('filechooser'),
       pageManager.fileDetails.Buttons.UploadVersion.click(),
     ]);
-    await fileChooser.setFiles(filePath);
+    await fileChooser.setFiles(`${filePath}${jpgFile}`);
   };
 
   test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
@@ -187,7 +187,7 @@ test.describe('Files tests', async () => {
   });
 
   test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager, page}) => {
-    await UploadNewFileVersion({apiManager, pageManager, page}, filePath);
+    await UploadNewFileVersion({apiManager, pageManager, page});
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
   });
 
@@ -207,7 +207,7 @@ test.describe('Files tests', async () => {
   });
 
   test('TC529. Delete the file version. The deleted version should disappear from the list', async ({pageManager, apiManager, page}) => {
-    await UploadNewFileVersion({apiManager, pageManager, page}, filePath);
+    await UploadNewFileVersion({apiManager, pageManager, page});
     await pageManager.fileDetails.Elements.FileVersionNumber(2).waitFor();
     await pageManager.fileDetails.ClickVersioningDropdownOption.DeleteVersion(1);
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(1)).toBeHidden();
