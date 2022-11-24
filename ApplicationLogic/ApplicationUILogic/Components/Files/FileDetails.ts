@@ -24,7 +24,8 @@ export class FileDetails extends BasePage {
     Description: this.Containers.InformationContainer.locator('_react=[key*="Description"]'),
     DescriptionText: this.Containers.InformationContainer.locator('_react=[key*="Description"]>>[color="text"]'),
     DescriptionInput: this.Containers.InformationContainer.locator('input'),
-    FileVersionNumber: (number) => this.Containers.TabVersioningContainer.locator(`"Version ${number}"`),
+    FileVersionNumber: (versionNumber) => this.Containers.TabVersioningContainer.locator(`"Version ${versionNumber}"`),
+    KeptForeverIcon: this.Containers.TabVersioningContainer.locator('[data-testid="icon: InfinityOutline"]'),
   };
 
   Modal = {
@@ -42,6 +43,7 @@ export class FileDetails extends BasePage {
     Share: this.Containers.TabSharingContainer.locator('button:has-text("Share")'),
     UploadVersion: this.Containers.TabVersioningContainer.locator('button:has-text("Upload version")'),
     PurgeAllVersions: this.Containers.TabVersioningContainer.locator('button:has-text("Purge all versions")'),
+    MoreOptionsVersioningDropdown: (versionNumber) => this.Containers.TabVersioningContainer.locator(`[data-testid="version${versionNumber}-icons"] button`),
   };
 
   FileOptions = {
@@ -84,6 +86,14 @@ export class FileDetails extends BasePage {
     Rename: async () => await this.OpenDropdown(this.FileOptions.Rename),
   };
 
+  ClickVersioningDropdownOption = {
+    OpenDocumentVersion: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Open document version"'), versionNumber),
+    KeepVersionForever: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Keep this version forever"'), versionNumber),
+    RemoveKeepForever: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Remove keep forever"'), versionNumber),
+    CloneAsCurrent: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Clone as current"'), versionNumber),
+    DeleteVersion: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Delete version"'), versionNumber),
+  };
+
   async DownloadFile() {
     const [download] = await Promise.all([this.page.waitForEvent('download'), this.FileOptions.Download.click()]);
     const suggestedFileName = download.suggestedFilename();
@@ -101,6 +111,11 @@ export class FileDetails extends BasePage {
 
   async OpenDropdown(option) {
     await this.FileOptions.MoreOptions.click();
+    await option.click();
+  };
+
+  async OpenVersioningDropdown(option, versionNumber) {
+    await this.Buttons.MoreOptionsVersioningDropdown(versionNumber).click();
     await option.click();
   };
 
@@ -127,12 +142,4 @@ export class FileDetails extends BasePage {
     await editorPage.waitForLoadState();
     return editorPage;
   };
-
-  // async UploadNewFileVersion(filePath) {
-  //   const [fileChooser] = await Promise.all([
-  //     this.page.waitForEvent('filechooser'),
-  //     this.Buttons.UploadVersion.click(),
-  //   ]);
-  //   await fileChooser.setFiles(filePath);
-  // };
 }

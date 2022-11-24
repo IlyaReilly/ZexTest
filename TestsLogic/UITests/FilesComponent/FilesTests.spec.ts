@@ -59,23 +59,23 @@ test.describe('Files tests', async () => {
     await sort();
   };
 
-  async function UploadNewFileVersion({apiManager, pageManager}, filePath) {
-    await UploadFileAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.Tabs.Versioning.click();
-    const [fileChooser] = await Promise.all([
-      this.page.waitForEvent('filechooser'),
-      pageManager.fileDetails.Buttons.UploadVersion.click(),
-    ]);
-    await fileChooser.setFiles(filePath);
-  };
-
   async function UploadFileAndOpenUploads({pageManager}) {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Uploads);
   };
 
-  test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
+  async function UploadNewFileVersion({apiManager, pageManager, page}, filePath) {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    const [fileChooser] = await Promise.all([
+      page.waitForEvent('filechooser'),
+      pageManager.fileDetails.Buttons.UploadVersion.click(),
+    ]);
+    await fileChooser.setFiles(filePath);
+  };
+
+  /* test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await expect(pageManager.filesList.Elements.File.locator(`"${jpgFileName}"`)).toBeVisible();
@@ -175,15 +175,6 @@ test.describe('Files tests', async () => {
     await expect(pageManager.mailDetails.Elements.AttachmentFile).toContainText(unicFileName);
   });
 
-  test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager}) => {
-    test.slow();
-    await UploadNewFileVersion({apiManager, pageManager}, filePath);
-    // await UploadFileAndOpenDetails({apiManager, pageManager});
-    // await pageManager.fileDetails.Tabs.Versioning.click();
-    // await pageManager.fileDetails.UploadNewFileVersion('./TestData/Files/testFile2.jpg');
-    await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
-  });
-
   test('TC524. Upload file and check it exists in the “Uploads”. The downloaded file should be displayed in the “Uploads”', async ({pageManager}) => {
     await UploadFileAndOpenUploads({pageManager});
     await expect(pageManager.filesList.Containers.MainContainer.locator(`"${jpgFile}"`)).toBeVisible();
@@ -193,5 +184,32 @@ test.describe('Files tests', async () => {
     await UploadFileAndOpenUploads({pageManager});
     await pageManager.filesList.Elements.CleanCompletedUploads.click();
     await expect(pageManager.filesList.Containers.EmptyListContainer).toBeVisible();
+  }); */
+
+  test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager, page}) => {
+    await UploadNewFileVersion({apiManager, pageManager, page}, filePath);
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
+  });
+
+  test('TC527. Mark a file version as “Keep forever”. The infinity icon should appear to the left of the dropdown', async ({pageManager, apiManager}) => {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(1);
+    await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeVisible();
+  });
+
+  test('TC528. Remove tag “Keep forever” for a file version. The infinity icon should disappear to the left of the dropdown', async ({pageManager, apiManager}) => {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(1);
+    await pageManager.fileDetails.ClickVersioningDropdownOption.RemoveKeepForever(1);
+    await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeHidden();
+  });
+
+  test('TC529. Delete the file version. The deleted version should disappear from the list', async ({pageManager, apiManager, page}) => {
+    await UploadNewFileVersion({apiManager, pageManager, page}, filePath);
+    await pageManager.fileDetails.Elements.FileVersionNumber(2).waitFor();
+    await pageManager.fileDetails.ClickVersioningDropdownOption.DeleteVersion(1);
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(1)).toBeHidden();
   });
 });
