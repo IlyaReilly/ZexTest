@@ -5,7 +5,7 @@ export class FoldersAPI extends BaseAPI {
     super(page);
   };
 
-  async GetFolderIds() {
+  async GetAllCustomFoldersId() {
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.getInfoRequest}`, {
       data: {"Body": {"GetInfoRequest": {"_jsns": "urn:zimbraAccount", "rights": "sendAs,sendAsDistList,viewFreeBusy,sendOnBehalfOf,sendOnBehalfOfDistList"}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {}, "userAgent": {"name": "CarbonioWebClient - Chrome 104.0.5112.20 (Windows)"}}}},
     });
@@ -20,9 +20,9 @@ export class FoldersAPI extends BaseAPI {
         const folderIds = await Promise.all(existingFolders.map(async (conversation) => {
           return conversation.id;
         }));
-        const idsString = folderIds.join(',');
-        return idsString;
+        return folderIds;
       };
+      return [];
     };
   };
 }

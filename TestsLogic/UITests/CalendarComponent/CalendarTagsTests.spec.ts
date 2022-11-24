@@ -28,7 +28,7 @@ test.describe('Calendars tests', async () => {
 
   async function DeleteAllTagsViaAPI({apiManager}) {
     const id = await apiManager.tagsAPI.GetTags();
-    await apiManager.deleteTagsAPI.DeleteTagRequest(id, BaseTest.userForLogin.login);
+    await apiManager.deleteTagsAPI.DeleteTagRequest(id.join(','), BaseTest.userForLogin.login);
   };
 
   test('TC1002. Create tag in side calendar menu. Tag should be in Tags tab.', async ({pageManager}) => {
