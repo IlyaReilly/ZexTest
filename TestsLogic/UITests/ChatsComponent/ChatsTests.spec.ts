@@ -89,10 +89,14 @@ test.describe('Chats tests', async () => {
     await pageManager.chatsInfo.Buttons.ActivateNotifications.click();
   };
 
-  async function SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, mark) {
+  async function SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, mark, secondMark?) {
     await CreateConversationAndSendMessage({pageManager, apiManager}, mark);
     await secondPageManager.sideMenu.OpenMenuTab(secondPageManager.sideMenu.SideMenuTabs.Chats);
-    await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList(mark);
+    if (secondMark) {
+      await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList(secondMark);
+    } else {
+      await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList(mark);
+    };
   };
 
   test('TC403. Create chat. Conversation should be in Chats Tab.', async ({pageManager, apiManager}) => {
@@ -156,12 +160,12 @@ test.describe('Chats tests', async () => {
 
   test('TC429. Send a message in chat. Sent message should be visible in Chat field.', async ({pageManager, apiManager}) => {
     await CreateConversationAndSendMessage({pageManager, apiManager}, BaseTest.secondUser.login);
-    await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
+    await expect(pageManager.chatField.Elements.MessageBubble.last()).toContainText(message);
   });
 
   test('TC430. Get a message in chat. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
-    await SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, BaseTest.secondUser.login);
-    await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
+    await SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, BaseTest.secondUser.login, BaseTest.userForLogin.login);
+    await expect(secondPageManager.chatField.Elements.MessageBubble.last()).toContainText(message);
   });
 
   test('TC438. Clear history for current user in chat. Chat field should be empty', async ({pageManager, apiManager}) => {
