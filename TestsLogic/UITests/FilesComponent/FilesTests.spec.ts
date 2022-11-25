@@ -65,14 +65,18 @@ test.describe('Files tests', async () => {
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Uploads);
   };
 
-  async function UploadNewFileVersion({apiManager, pageManager, page}) {
+  async function UploadNewFileVersions({apiManager, pageManager, page}, versionsCount = 1) {
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.Tabs.Versioning.click();
-    const [fileChooser] = await Promise.all([
-      page.waitForEvent('filechooser'),
-      pageManager.fileDetails.Buttons.UploadVersion.click(),
-    ]);
-    await fileChooser.setFiles(`${filePath}${jpgFile}`);
+    let i = 1;
+    do {
+      const [fileChooser] = await Promise.all([
+        page.waitForEvent('filechooser'),
+        pageManager.fileDetails.Buttons.UploadVersion.click(),
+      ]);
+      await fileChooser.setFiles(`${filePath}${jpgFile}`);
+      i++;
+    } while (i <= versionsCount);
   };
 
   test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
@@ -187,7 +191,7 @@ test.describe('Files tests', async () => {
   });
 
   test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager, page}) => {
-    await UploadNewFileVersion({apiManager, pageManager, page});
+    await UploadNewFileVersions({apiManager, pageManager, page});
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
   });
 
@@ -207,9 +211,18 @@ test.describe('Files tests', async () => {
   });
 
   test('TC529. Delete the file version. The deleted version should disappear from the list', async ({pageManager, apiManager, page}) => {
-    await UploadNewFileVersion({apiManager, pageManager, page});
+    await UploadNewFileVersions({apiManager, pageManager, page});
     await pageManager.fileDetails.Elements.FileVersionNumber(2).waitFor();
     await pageManager.fileDetails.ClickVersioningDropdownOption.DeleteVersion(1);
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(1)).toBeHidden();
+  });
+
+  test('TC530. Purge all versions except the current one. Only current version should remain in the list', async ({pageManager, apiManager, page}) => {
+    await UploadNewFileVersions({apiManager, pageManager, page}, 2);
+    await pageManager.fileDetails.Elements.FileVersionNumber(3).waitFor();
+    await pageManager.fileDetails.Buttons.PurgeAllVersions.click();
+    await pageManager.fileDetails.Modal.PurgeAllVersionsButton.click();
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(1)).toBeHidden();
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeHidden();
   });
 });

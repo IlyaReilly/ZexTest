@@ -33,6 +33,7 @@ export class FileDetails extends BasePage {
     ClosePopupButton: this.Containers.ModalContainer.locator('button:has([data-testid*="Close"])'),
     CreateButton: this.Containers.ModalContainer.locator('"CREATE"'),
     DeletePermanentlyButton: this.Containers.ModalContainer.locator('button:has-text("Delete permanently")'),
+    PurgeAllVersionsButton: this.Containers.ModalContainer.locator('button:has-text("Purge all versions")'),
   };
 
   Buttons = {
