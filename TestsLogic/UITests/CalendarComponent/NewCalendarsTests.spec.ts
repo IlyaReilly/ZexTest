@@ -25,6 +25,7 @@ test.describe('New calendar tests', async () => {
   });
 
   test('Create new Calendar. New calendar should be present in the secondary menu list', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.NewCalendar();
     await pageManager.newCalendarModal.TextBoxes.CalendarName.fill(calendarName);
