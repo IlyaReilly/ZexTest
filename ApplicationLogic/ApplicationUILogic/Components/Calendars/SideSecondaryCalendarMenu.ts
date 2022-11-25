@@ -79,7 +79,7 @@ export class SideSecondaryCalendarMenu extends BasePage {
     if (name) {
       calendar = await this.Containers.MainContainer.locator(`"${name}"`);
     } else {
-      calendar = await this.Tabs.Tags;
+      calendar = await this.Tabs.Calendar;
     }
     await calendar.click({button: 'right'});
   };

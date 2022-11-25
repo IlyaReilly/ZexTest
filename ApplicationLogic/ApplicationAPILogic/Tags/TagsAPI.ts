@@ -15,8 +15,8 @@ export class TagsAPI extends BaseAPI {
       const tagId = await Promise.all(tagObjects.map(async (conversation) => {
         return conversation.id;
       }));
-      const idsString = tagId.join(',');
-      return idsString;
+      return tagId;
     };
+    return [];
   };
 }

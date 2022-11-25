@@ -7,34 +7,41 @@ test.describe('Folders tests', async () => {
   let mailBody;
   let folderId;
   let newFolderName;
+  let folderNameViaAPI;
 
   test.beforeEach(async ({pageManager, apiManager}) => {
-    folderName = BaseTest.dateTimePrefix() + ' Folder';
+    folderName = BaseTest.dateTimePrefix() + ' New Folder';
+    folderNameViaAPI = BaseTest.dateTimePrefix() + ' Folder';
     newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
-    folderId = await apiManager.createFoldersAPI.CreateFolder(folderName, BaseTest.userForLogin.login);
+    await DeleteAllFoldersViaAPI({apiManager});
+    await apiManager.createFoldersAPI.CreateFolder(folderNameViaAPI, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderId, BaseTest.userForLogin.login);
+    await DeleteAllFoldersViaAPI({apiManager});
     await page.close();
   });
 
-  // Test skipped due to problems with folder deletion afterhook.
-  // It can not be implemented with UI folder creation. Impossible to get folder's id for deletion
-  test.skip('Create new folder', async ({pageManager}) => {
-    await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
-    await pageManager.sideSecondaryMailMenu.MailfolderOption.NewFolder();
-    await pageManager.sideSecondaryMailMenu.CreateNewFolder(folderName);
+  async function DeleteAllFoldersViaAPI({apiManager}) {
+    const folderIds = await apiManager.foldersAPI.GetAllCustomFoldersId();
+    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderIds.join(','), BaseTest.userForLogin.login);
+  };
+
+  test('Create new folder', async ({pageManager}) => {
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
+    await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
+    await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.NewFolder();
+    await pageManager.sideSecondaryMailMenu.CreateNewFolder(folderName);
+    await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should be visible").toBeVisible();
   });
 
   test('TC801. Create new folder with API', async ({pageManager}) => {
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`).first(), "Created folder should be visible").toBeVisible();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderNameViaAPI}"`).first(), "Created folder should be visible").toBeVisible();
   });
 
   test('TC802. Move mail to a new folder', async ({pageManager, apiManager}) => {
@@ -43,9 +50,9 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.SelectMailOption.Move();
-    await pageManager.moveMailToFolderModal.MoveMailToFolder(folderName);
+    await pageManager.moveMailToFolderModal.MoveMailToFolder(folderNameViaAPI);
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
-    await pageManager.sideSecondaryMailMenu.OpenSubFolder(folderName);
+    await pageManager.sideSecondaryMailMenu.OpenSubFolder(folderNameViaAPI);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), "The mail placed in created folder should be visible").toBeVisible();
   });
 
@@ -71,7 +78,7 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.Move();
     await pageManager.moveFolderModal.MoveNewFolderToInbox();
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Inbox();
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`).first(), "Moved folder should be visible").toBeVisible();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderNameViaAPI}"`).first(), "Moved folder should be visible").toBeVisible();
   });
 
   test('TC806. Folder is wiped', async ({pageManager, apiManager}) => {
@@ -81,7 +88,7 @@ test.describe('Folders tests', async () => {
     await OpenSentSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.WipeFolder();
     await pageManager.wipeFolderModal.WipeNewFolder();
-    await pageManager.sideSecondaryMailMenu.OpenSubFolder(folderName);
+    await pageManager.sideSecondaryMailMenu.OpenSubFolder(folderNameViaAPI);
     await expect(pageManager.mailsList.Elements.Letter, 'Mails list should be empty').toHaveCount(0);
   });
 
@@ -89,11 +96,11 @@ test.describe('Folders tests', async () => {
     await OpenSentSubFolderContextMenu({pageManager});
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.Delete();
     await pageManager.deleteFolderModal.DeleteFolder();
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should not be visible").not.toBeVisible();
+    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderNameViaAPI}"`), "Created folder should not be visible").not.toBeVisible();
   });
 
   async function OpenSentSubFolderContextMenu({pageManager}) {
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
-    await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderName}"`));
+    await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderNameViaAPI}"`));
   };
 });

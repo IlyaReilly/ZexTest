@@ -122,6 +122,7 @@ test.describe('Files tests', async () => {
   });
 
   test('TC505. File can be restored from trash', async ({apiManager, pageManager}) => {
+    BaseTest.doubleTimeout();
     await UploadFileAndMoveToTrash({apiManager, pageManager});
     await pageManager.filesList.OpenFileDetails(unicFileName);
     await pageManager.fileDetails.FileOptions.RestoreButton.click();
