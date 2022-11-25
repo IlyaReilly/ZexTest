@@ -241,7 +241,7 @@ test.describe('Files tests', async () => {
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.Tabs.Versioning.click();
     await pageManager.fileDetails.ClickVersioningDropdownOption.CloneAsCurrent(1);
-    await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeVisible();
-    await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeHidden();
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
+    await expect(pageManager.fileDetails.Elements.ClonedVersionIcon).toBeVisible();
   });
 });

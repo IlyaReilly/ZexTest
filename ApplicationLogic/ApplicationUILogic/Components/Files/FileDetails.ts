@@ -26,7 +26,7 @@ export class FileDetails extends BasePage {
     DescriptionInput: this.Containers.InformationContainer.locator('input'),
     FileVersionNumber: (versionNumber) => this.Containers.TabVersioningContainer.locator(`"Version ${versionNumber}"`),
     KeptForeverIcon: this.Containers.TabVersioningContainer.locator('[data-testid="icon: InfinityOutline"]'),
-    ClonedVersionIcon: this.Containers.TabVersioningContainer.locator('[data-testid="icon: InfinityOutline"]'),
+    ClonedVersionIcon: this.Containers.TabVersioningContainer.locator('[data-testid="icon: Copy"]'),
   };
 
   Modal = {
