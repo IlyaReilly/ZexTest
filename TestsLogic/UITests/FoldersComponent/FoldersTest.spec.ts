@@ -26,8 +26,8 @@ test.describe('Folders tests', async () => {
   });
 
   async function DeleteAllFoldersViaAPI({apiManager}) {
-    const folderId = await apiManager.foldersAPI.GetAllCustomFoldersId();
-    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderId.join(','), BaseTest.userForLogin.login);
+    const folderIds = await apiManager.foldersAPI.GetAllCustomFoldersId();
+    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderIds.join(','), BaseTest.userForLogin.login);
   };
 
   test('Create new folder', async ({pageManager}) => {
