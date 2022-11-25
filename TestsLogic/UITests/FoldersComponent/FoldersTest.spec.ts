@@ -7,28 +7,35 @@ test.describe('Folders tests', async () => {
   let mailBody;
   let folderId;
   let newFolderName;
+  let folderNameViaAPI;
 
   test.beforeEach(async ({pageManager, apiManager}) => {
-    folderName = BaseTest.dateTimePrefix() + ' Folder';
+    folderName = BaseTest.dateTimePrefix() + ' New Folder';
+    folderNameViaAPI = BaseTest.dateTimePrefix() + ' Folder';
     newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
-    folderId = await apiManager.createFoldersAPI.CreateFolder(folderName, BaseTest.userForLogin.login);
+    await DeleteAllFoldersViaAPI({apiManager});
+    await apiManager.createFoldersAPI.CreateFolder(folderNameViaAPI, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderId, BaseTest.userForLogin.login);
+    await DeleteAllFoldersViaAPI({apiManager});
     await page.close();
   });
 
-  // Test skipped due to problems with folder deletion afterhook.
-  // It can not be implemented with UI folder creation. Impossible to get folder's id for deletion
-  test.skip('Create new folder', async ({pageManager}) => {
-    await pageManager.sideSecondaryMailMenu.OpenMailFolderOptions(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
-    await pageManager.sideSecondaryMailMenu.MailfolderOption.NewFolder();
-    await pageManager.sideSecondaryMailMenu.CreateNewFolder(folderName);
+  async function DeleteAllFoldersViaAPI({apiManager}) {
+    const folderIds = await apiManager.foldersAPI.GetAllCustomFoldersId();
+    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderIds.join(','), BaseTest.userForLogin.login);
+  };
+
+  test('Create new folder', async ({pageManager}) => {
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
+    await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
+    await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.NewFolder();
+    await pageManager.sideSecondaryMailMenu.CreateNewFolder(folderName);
+    await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should be visible").toBeVisible();
   });
 
