@@ -1,7 +1,7 @@
 import {test as base} from '@playwright/test';
 import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
 import {APIManager} from '../../ApplicationLogic/ApplicationAPILogic/APIManager';
-import {userPool} from '../../TestData/UserPool';
+import {userPool, User} from '../../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
 
@@ -57,8 +57,7 @@ export class BaseTest {
   static GetUserFromPool(index, multiplier, domain) {
     const lastDigit2Str = String(index).slice(-1);
     const user = userPool[Number(parseInt(lastDigit2Str) + multiplier)];
-    user.login = user.login + "@" + domain;
-    return user;
+    return new User(user.login + '@' + domain, user.password);
   };
 
   static async ApiLogin(user, nameOfUserForStorageStateFile) {

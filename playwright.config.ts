@@ -54,7 +54,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
     baseURL: process.env.STAGING ? process.env.STAGING : BaseTest.playwrightProjectsData.baseURL.QA,
-
+    domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     ignoreHTTPSErrors: true,
@@ -71,7 +71,6 @@ const config: PlaywrightTestConfig<TestOptions> = {
           // chromium-specific permissions
           permissions: ['clipboard-read', 'clipboard-write'],
         },
-        domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
       },
     },
     {
@@ -79,7 +78,6 @@ const config: PlaywrightTestConfig<TestOptions> = {
       use: {
         ...devices['Desktop Firefox'],
         viewport: {height: 816, width: 1536},
-        domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
       },
     },
     {
@@ -87,7 +85,6 @@ const config: PlaywrightTestConfig<TestOptions> = {
       use: {
         ...devices['Desktop Safari'],
         viewport: {height: 816, width: 1536},
-        domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
       },
     },
 
