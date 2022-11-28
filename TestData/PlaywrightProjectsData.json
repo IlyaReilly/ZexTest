@@ -3,156 +3,160 @@
     {
       "QA": "https://2150.demo.zextras.io/"
     },
+  "domain":
+    {
+      "QA": "demo.zextras.io"
+    },
   "users":
     {
       "test0":
         {
-          "login": "test0@demo.zextras.io",
+          "login": "test0",
           "password": "assext0"
         },
       "test1":
         {
-          "login": "test1@demo.zextras.io",
+          "login": "test1",
           "password": "assext1"
         },
       "test2":
         {
-          "login": "test2@demo.zextras.io",
+          "login": "test2",
           "password": "assext2"
         },
       "test3":
         {
-          "login": "test3@demo.zextras.io",
+          "login": "test3",
           "password": "assext3"
         },
       "test4":
         {
-          "login": "test4@demo.zextras.io",
+          "login": "test4",
           "password": "assext4"
         },
       "test5":
         {
-          "login": "test5@demo.zextras.io",
+          "login": "test5",
           "password": "assext5"
         },
       "test6":
         {
-          "login": "test6@demo.zextras.io",
+          "login": "test6",
           "password": "assext6"
         },
       "test7":
         {
-          "login": "test7@demo.zextras.io",
+          "login": "test7",
           "password": "assext7"
         },
       "test8":
         {
-          "login": "test8@demo.zextras.io",
+          "login": "test8",
           "password": "assext8"
         },
       "test9":
         {
-          "login": "test9@demo.zextras.io",
+          "login": "test9",
           "password": "assext9"
         },
       "test10":
         {
-          "login": "test10@demo.zextras.io",
+          "login": "test10",
           "password": "assext10"
         },
         "test11":
         {
-          "login": "test11@demo.zextras.io",
+          "login": "test11",
           "password": "assext11"
         },
       "test12":
         {
-          "login": "test12@demo.zextras.io",
+          "login": "test12",
           "password": "assext12"
         },
       "test13":
         {
-          "login": "test13@demo.zextras.io",
+          "login": "test13",
           "password": "assext13"
         },
       "test14":
         {
-          "login": "test14@demo.zextras.io",
+          "login": "test14",
           "password": "assext14"
         },
         "test15":
         {
-          "login": "test15@demo.zextras.io",
+          "login": "test15",
           "password": "assext15"
         },
       "test16":
         {
-          "login": "test16@demo.zextras.io",
+          "login": "test16",
           "password": "assext16"
         },
       "test17":
         {
-          "login": "test17@demo.zextras.io",
+          "login": "test17",
           "password": "assext17"
         },
       "test18":
         {
-          "login": "test18@demo.zextras.io",
+          "login": "test18",
           "password": "assext18"
         },
         "test19":
         {
-          "login": "test19@demo.zextras.io",
+          "login": "test19",
           "password": "assext19"
         },
       "test20":
         {
-          "login": "test20@demo.zextras.io",
+          "login": "test20",
           "password": "assext20"
         },
       "test21":
         {
-          "login": "test21@demo.zextras.io",
+          "login": "test21",
           "password": "assext21"
         },
       "test22":
         {
-          "login": "test22@demo.zextras.io",
+          "login": "test22",
           "password": "assext22"
         },
         "test23":
         {
-          "login": "test23@demo.zextras.io",
+          "login": "test23",
           "password": "assext23"
         },
       "test24":
         {
-          "login": "test24@demo.zextras.io",
+          "login": "test24",
           "password": "assext24"
         },
       "test25":
         {
-          "login": "test25@demo.zextras.io",
+          "login": "test25",
           "password": "assext25"
         },
       "test26":
         {
-          "login": "test26@demo.zextras.io",
+          "login": "test26",
           "password": "assext26"
         },
         "test27":
         {
-          "login": "test27@demo.zextras.io",
+          "login": "test27",
           "password": "assext27"
         },
       "test28":
         {
-          "login": "test28@demo.zextras.io",
+          "login": "test28",
           "password": "assext28"
         },
       "test29":
         {
-          "login": "test29@demo.zextras.io",
+          "login": "test29",
           "password": "assext29"
         }
     },

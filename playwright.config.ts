@@ -2,7 +2,7 @@
 
 import type {PlaywrightTestConfig} from '@playwright/test';
 import {devices} from '@playwright/test';
-import {BaseTest} from './TestsLogic/UITests/BaseTest';
+import {BaseTest, TestOptions} from './TestsLogic/UITests/BaseTest';
 
 /**
  * Read environment variables from file.
@@ -14,7 +14,7 @@ import {BaseTest} from './TestsLogic/UITests/BaseTest';
  * See https://playwright.dev/docs/test-configuration.
  */
 
-const config: PlaywrightTestConfig = {
+const config: PlaywrightTestConfig<TestOptions> = {
   testDir: './TestsLogic',
   /* Maximum time one test can run for. */
 
@@ -71,6 +71,7 @@ const config: PlaywrightTestConfig = {
           // chromium-specific permissions
           permissions: ['clipboard-read', 'clipboard-write'],
         },
+        domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
       },
     },
     {
@@ -78,6 +79,7 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Firefox'],
         viewport: {height: 816, width: 1536},
+        domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
       },
     },
     {
@@ -85,6 +87,7 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Safari'],
         viewport: {height: 816, width: 1536},
+        domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
       },
     },
 
