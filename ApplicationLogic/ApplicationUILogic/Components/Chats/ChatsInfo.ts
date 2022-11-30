@@ -32,7 +32,7 @@ export class ChatsInfo extends BasePage {
   };
 
   Items = {
-    Member: this.Containers.MembersContainer.locator('_react=kl[key*="participant"]'),
+    Member: this.Containers.MembersContainer.locator('_react=[key^="participantListCardItem"]'),
     TopicName: this.page.locator('[overflow="ellipsis"]+[overflow="break-word"]'),
   };
 
