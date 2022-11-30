@@ -25,7 +25,7 @@ export class SideSecondaryMailMenu extends BasePage {
     Sent: this.Containers.MainContainer.locator('"Sent"'),
     Drafts: this.Containers.MainContainer.locator('"Drafts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
-    SubFolder: this.Containers.MainContainer.locator('.css-15u4h3'),
+    SubFolder: this.Containers.MainContainer.locator('_react=[item.depth=2] >> nth=0'),
   };
 
   MailFolderOptions = {
@@ -42,10 +42,6 @@ export class SideSecondaryMailMenu extends BasePage {
     FilterFolders: this.Containers.CreateNewFolderPopupContainer.locator('[placeholder="Enter Folder Name"]'),
     CancelButton: this.Containers.CreateNewFolderPopupContainer.locator('"Cancel"'),
     CreateButton: this.Containers.CreateNewFolderPopupContainer.locator('"Create"'),
-  };
-
-  Elements = {
-    Letter: this.Containers.MainContainer.locator('.jTMZGq'),
   };
 
   async OpenFolder(folder) {

@@ -7,10 +7,10 @@ test.describe('Space tests', async () => {
   let spaceTopic;
   let channelTitle;
   let channelTopic;
+  let participant;
   const newSpaceName = 'Zextras Company 321';
   const newSpaceTopic = 'Work with playwright';
   const message = 'Hello! We are great team!';
-  const participant = 'test19@demo.zextras.io';
   const titleName = 'Zextras Channel';
   const topicName = 'QA Team';
   const newChannelName = 'New Zextras Channel';
@@ -23,6 +23,7 @@ test.describe('Space tests', async () => {
     spaceTopic = dateTimePrefix + ' Autotest Space Topic';
     channelTitle = dateTimePrefix + ' Autotest Channel Title';
     channelTopic = dateTimePrefix + ' Autotest Channel Topic';
+    participant = BaseTest.thirdUser.login;
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
   });
@@ -205,6 +206,7 @@ test.describe('Space tests', async () => {
   });
 
   test('TC437. Get a message in channel. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    test.fail(true, 'Problem with new functionality about channel members');
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, channelTitle);
     await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
   });

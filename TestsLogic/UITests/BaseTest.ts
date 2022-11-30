@@ -24,6 +24,7 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
     BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier, domain);
     BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier, domain);
     BaseTest.thirdUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 2, multiplier, domain);
+    BaseTest.fourthUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 3, multiplier, domain);
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
@@ -53,6 +54,7 @@ export class BaseTest {
   static userForLogin;
   static secondUser;
   static thirdUser;
+  static fourthUser;
 
   static GetUserFromPool(index, multiplier, domain) {
     const lastDigit2Str = String(index).slice(-1);
