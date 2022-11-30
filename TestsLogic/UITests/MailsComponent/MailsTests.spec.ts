@@ -47,11 +47,10 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Junk folder mails list').toBeVisible();
   });
 
-  test('TC204. Send mail. Mail appears in the Sent folder.', async ({page, pageManager, apiManager}) => {
+  test('TC204. Send mail. Mail appears in the Sent folder.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
-    await page.pause();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Sent folder mails list').toBeVisible();
   });
 
