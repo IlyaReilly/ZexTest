@@ -2,7 +2,7 @@
 
 import type {PlaywrightTestConfig} from '@playwright/test';
 import {devices} from '@playwright/test';
-import {BaseTest} from './TestsLogic/UITests/BaseTest';
+import {BaseTest, TestOptions} from './TestsLogic/UITests/BaseTest';
 
 /**
  * Read environment variables from file.
@@ -14,7 +14,7 @@ import {BaseTest} from './TestsLogic/UITests/BaseTest';
  * See https://playwright.dev/docs/test-configuration.
  */
 
-const config: PlaywrightTestConfig = {
+const config: PlaywrightTestConfig<TestOptions> = {
   testDir: './TestsLogic',
   /* Maximum time one test can run for. */
 
@@ -54,7 +54,7 @@ const config: PlaywrightTestConfig = {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
     baseURL: process.env.STAGING ? process.env.STAGING : BaseTest.playwrightProjectsData.baseURL.QA,
-
+    domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     ignoreHTTPSErrors: true,

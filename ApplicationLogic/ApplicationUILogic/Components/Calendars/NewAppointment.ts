@@ -1,3 +1,4 @@
+import {BaseTest} from '../../../../TestsLogic/UITests/BaseTest';
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
 export class NewAppointment extends BasePage {
@@ -32,7 +33,7 @@ export class NewAppointment extends BasePage {
     Private: this.Containers.MainContainer.locator('"Private"'),
   };
 
-  async SendAppointment(title, body, attendees = 'test1@demo.zextras.io', privateApp = false) {
+  async SendAppointment(title, body, attendees = BaseTest.secondUser.login, privateApp = false) {
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();
     await this.TextBox.Attendees.type(attendees);

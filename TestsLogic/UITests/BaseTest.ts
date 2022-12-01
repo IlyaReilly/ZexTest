@@ -1,12 +1,18 @@
 import {test as base} from '@playwright/test';
 import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
 import {APIManager} from '../../ApplicationLogic/ApplicationAPILogic/APIManager';
-import {userPool} from '../../TestData/UserPool';
+import {userPool, User} from '../../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
 
-export const test = base.extend<{pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager}>({
-  page: async ({browser}, use, workerInfo) => {
+export type TestOptions = {
+  domain: string;
+};
+
+export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager}>({
+  domain: ['', {option: true}],
+
+  page: async ({browser, domain}, use, workerInfo) => {
     let multiplier;
     switch (workerInfo.project.name) {
     case 'chromium': multiplier = 0; break;
@@ -15,9 +21,10 @@ export const test = base.extend<{pageManager: PageManager, secondPageManager: Pa
     default: multiplier = 0;
     }
 
-    BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier);
-    BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier);
-    BaseTest.thirdUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 2, multiplier);
+    BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier, domain);
+    BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier, domain);
+    BaseTest.thirdUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 2, multiplier, domain);
+    BaseTest.fourthUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 3, multiplier, domain);
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
@@ -47,10 +54,12 @@ export class BaseTest {
   static userForLogin;
   static secondUser;
   static thirdUser;
+  static fourthUser;
 
-  static GetUserFromPool(index, multiplier) {
+  static GetUserFromPool(index, multiplier, domain) {
     const lastDigit2Str = String(index).slice(-1);
-    return userPool[Number(parseInt(lastDigit2Str) + multiplier)];
+    const user = userPool[Number(parseInt(lastDigit2Str) + multiplier)];
+    return new User(user.login + '@' + domain, user.password);
   };
 
   static async ApiLogin(user, nameOfUserForStorageStateFile) {

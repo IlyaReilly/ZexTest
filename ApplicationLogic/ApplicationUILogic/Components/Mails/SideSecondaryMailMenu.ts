@@ -26,8 +26,8 @@ export class SideSecondaryMailMenu extends BasePage {
     Sent: this.Containers.MainContainer.locator('"Sent"'),
     Drafts: this.Containers.MainContainer.locator('"Drafts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
-    SubFolder: this.Containers.MainContainer.locator('.css-15u4h3'),
     Tags: this.Containers.MainContainer.locator('"Tags"'),
+    SubFolder: this.Containers.MainContainer.locator('_react=[item.depth=2] >> nth=0'),
   };
 
   MailFolderOptions = {
@@ -50,7 +50,6 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   Elements = {
-    Letter: this.Containers.MainContainer.locator('.jTMZGq'),
     Item: this.Containers.MainContainer.locator('[class*="Text__Comp"]'),
   };
 
