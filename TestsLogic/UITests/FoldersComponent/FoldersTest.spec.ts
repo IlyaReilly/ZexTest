@@ -30,11 +30,20 @@ test.describe('Folders tests', async () => {
     await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderIds.join(','), BaseTest.userForLogin.login);
   };
 
+  async function OpenSentSubFolderContextMenu({pageManager}) {
+    await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
+    await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderNameViaAPI}"`));
+  };
+
+  async function ChooseNewFolderOptionAndCreateNewFoler({pageManager}) {
+    await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.NewFolder();
+    await pageManager.sideSecondaryMailMenu.CreateNewFolder(folderName);
+  };
+
   test('Create new folder', async ({pageManager}) => {
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
     await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
-    await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.NewFolder();
-    await pageManager.sideSecondaryMailMenu.CreateNewFolder(folderName);
+    await ChooseNewFolderOptionAndCreateNewFoler({pageManager});
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should be visible").toBeVisible();
   });
@@ -86,6 +95,8 @@ test.describe('Folders tests', async () => {
     const mailId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
     await apiManager.mailsAPI.MoveMailToFolder(mailId, BaseTest.userForLogin.login, folderId);
     await OpenSentSubFolderContextMenu({pageManager});
+    await ChooseNewFolderOptionAndCreateNewFoler({pageManager});
+    await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderNameViaAPI}"`));
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.WipeFolder();
     await pageManager.wipeFolderModal.WipeNewFolder();
     await pageManager.sideSecondaryMailMenu.OpenSubFolder(folderNameViaAPI);
@@ -98,9 +109,4 @@ test.describe('Folders tests', async () => {
     await pageManager.deleteFolderModal.DeleteFolder();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderNameViaAPI}"`), "Created folder should not be visible").not.toBeVisible();
   });
-
-  async function OpenSentSubFolderContextMenu({pageManager}) {
-    await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
-    await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.SubFolder.locator(`"${folderNameViaAPI}"`));
-  };
 });
