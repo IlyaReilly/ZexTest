@@ -37,6 +37,7 @@ import {NewAddressBookModal} from '../Components/Contacts/Modals/NewAddressBookM
 import {MoveAddressBookModal} from '../Components/Contacts/Modals/MoveAddressBookModal';
 import {ShareAddressBookModal} from '../Components/Contacts/Modals/ShareAddressBookModal';
 import {MoveFolderModal} from '../Components/Mails/Modals/MoveFolderModal';
+import {ReadReceiptRequiredModal} from '../Components/Mails/Modals/ReadReceiptRequiredModal';
 import {WipeFolderModal} from '../Components/Mails/Modals/WipeFolderModal';
 import {DeleteFolderModal} from '../Components/Mails/Modals/DeleteFolderModal';
 import {EditAddressBookModal} from '../Components/Contacts/Modals/EditAddressBookModal';
@@ -112,6 +113,7 @@ export class PageManager {
   deleteFolderModal;
   moveMailToFolderModal;
   deleteMailModal;
+  readReceiptRequiredModal;
   // #endregion
 
   // #region Chats Modal
@@ -185,6 +187,7 @@ export class PageManager {
     this.deleteFolderModal = new DeleteFolderModal(page);
     this.moveMailToFolderModal = new MoveMailToFolderModal(page);
     this.deleteMailModal = new DeleteMailModal(page);
+    this.readReceiptRequiredModal = new ReadReceiptRequiredModal(page);
     // #endregion
 
     // #region Chats Modal

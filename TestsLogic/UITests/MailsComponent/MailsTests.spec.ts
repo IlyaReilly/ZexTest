@@ -84,8 +84,101 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject should not be visible in Trash folder mails list').not.toBeVisible();
   });
 
+  test('TC214. Hide New E-mail board. “New Email” board should be not visible', async ({page, pageManager}) => {
+    await OpenNewEmailBoardAndHideBoard({pageManager});
+    await expect(page.locator(InheritedFields.NewItemBoardLocator), 'Board should be not visible').not.toBeVisible();
+  });
+
+  test('TC215. Expand New E-mail board. “New Email” board should be visible', async ({page, pageManager}) => {
+    await OpenNewEmailBoardAndHideBoard({pageManager});
+    await pageManager.sideMenu.Buttons.OpenBoard.click();
+    await expect(page.locator(InheritedFields.NewItemBoardLocator), 'Board should be visible').toBeVisible();
+  });
+
+  test('TC216. Enlarge New E-mail board. “New Email” board should be enlarged', async ({pageManager}) => {
+    await OpenNewEmailBoardAndExpandBoard({pageManager});
+    await expect(pageManager.newMail.BoardProperties.ExpandedSize, 'Board should be enlarged').toBeVisible();
+  });
+
+  test('TC217. Reduce New E-mail board. “New Email” board should be reduced', async ({pageManager}) => {
+    await OpenNewEmailBoardAndExpandBoard({pageManager});
+    await pageManager.newMail.Buttons.ReduceBoard.click();
+    await expect(pageManager.newMail.BoardProperties.NormalSize, 'Board should be reduced').toBeVisible();
+  });
+
+  test('TC218. Disable rich text editor in New E-mail. Editor toolbar should be not visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.DisableRichTextEditor);
+    await expect(pageManager.newMail.Elements.EditorToolbar, 'Editor toolbar should be not visible').not.toBeVisible();
+  });
+
+  test('TC219. Enable rich text editor in New E-mail. Editor toolbar should be visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.DisableRichTextEditor);
+    await pageManager.newMail.SelectNewMailOption.EnableRichTextEditor();
+    await expect(pageManager.newMail.Elements.EditorToolbar, 'Editor toolbar should be visible').toBeVisible();
+  });
+
+  test('TC220. Mark mail in New E-ail as important. "Mark as important" icon should be visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.MarkAsImportant);
+    await expect(pageManager.newMail.Elements.MarkAsImportantIcon, '"Mark as important" icon should be visible').toBeVisible();
+  });
+
+  test('TC221. Mark mail in New E-mail as not important. "Mark as important" icon should be not visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.MarkAsImportant);
+    await pageManager.newMail.SelectNewMailOption.MarkAsNotImportant();
+    await expect(pageManager.newMail.Elements.MarkAsImportantIcon, '"Mark as important" icon should be not visible').not.toBeVisible();
+  });
+
+  test('TC222. Request read receipt in New E-mail. "Request read receipt" icon should be visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.RequestReadReceipt);
+    await expect(pageManager.newMail.Elements.RequestReadReceiptIcon, '"Request read receipt" icon should be visible').toBeVisible();
+  });
+
+  test('TC223. Remove read receipt request in New E-mail. "Request read receipt" icon should be not visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.RequestReadReceipt);
+    await pageManager.newMail.SelectNewMailOption.RemoveReadReceiptRequest();
+    await expect(pageManager.newMail.Elements.RequestReadReceiptIcon, '"Request read receipt" icon should be not visible').not.toBeVisible();
+  });
+  // Contacts Dropdown does not appear
+  test.skip('TC224. Open recieved email with read receipt request. "Read receipt required" modal title should be visible', async ({pageManager}) => {
+    await SendAndOpenMailWithReadReceiptRequest({pageManager});
+    await expect(pageManager.readReceiptRequiredModal.Elements.Title, '"Read receipt required" modal title should be visible').toBeVisible();
+  });
+  // Contacts Dropdown does not appear
+  test.skip("TC225. Notify sender when email with read receipt request has been read. Read receipt should be visible in sender's Inbox list", async ({pageManager}) => {
+    await SendMailWithReadReceiptRequest({pageManager});
+    await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox, mailSubject);
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"Read-Receipt: ${mailSubject}"`), "Read receipt should be visible in sender's Inbox list").toBeVisible();
+  });
+
   async function OpenMailFolderAndOpenMail({pageManager}, openFolder, mail) {
     await openFolder();
     await pageManager.mailsList.OpenMail(mail);
-  }
+  };
+
+  async function OpenNewEmailBoardAndHideBoard({pageManager}) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.sideMenu.Buttons.HideBoard.click();
+  };
+
+  async function OpenNewEmailBoardAndExpandBoard({pageManager}) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newMail.Buttons.ExpandBoard.click();
+  };
+
+  async function OpenNewEmailBoardAndSelectOption({pageManager}, option) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await option();
+  };
+
+  async function SendMailWithReadReceiptRequest({pageManager}) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
+    await pageManager.newMail.SelectNewMailOption.RequestReadReceipt();
+    await pageManager.newMail.SendMail();
+  };
+
+  async function SendAndOpenMailWithReadReceiptRequest({pageManager}) {
+    await SendMailWithReadReceiptRequest({pageManager});
+    await OpenMailFolderAndOpenMail({pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox, mailSubject);
+  };
 });
