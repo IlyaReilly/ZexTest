@@ -2,6 +2,7 @@ pipeline {
    agent { docker { image 'mcr.microsoft.com/playwright:v1.24.0-focal' } }
    parameters {
       string defaultValue: '', description: 'Environment URL for running tests', name: 'STAGING'
+      string defaultValue: '', description: 'Domain for test user accounts', name: 'DOMAIN'
     }
    stages {
       stage('Clear test reports'){

@@ -8,15 +8,25 @@ export class NewMail extends BasePage {
   Containers = {
     MainContainer: this.page.locator(InheritedFields.NewItemBoardLocator),
     BeforeYouLeaveContainer: this.page.locator('[data-testid="modal"]'),
+    DropdownContainer: this.page.locator(InheritedFields.DropdownListLocator),
+
   };
 
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
+
+  BoardProperties = {
+    NormalSize: this.Containers.MainContainer.locator('_react=[expanded=false]'),
+    ExpandedSize: this.Containers.MainContainer.locator('_react=[expanded=true]'),
+  };
 
   Buttons = {
     Send: this.Containers.MainContainer.locator('"Send"'),
     Save: this.Containers.MainContainer.locator('"Save"'),
     CloseCross: this.Containers.MainContainer.locator('[data-testid*="CloseOutline"]'),
     DeleteDraft: this.Containers.BeforeYouLeaveContainer.locator('"Delete Draft"'),
+    ExpandBoard: this.Containers.MainContainer.locator('button:has([data-testid*="Expand"])'),
+    ReduceBoard: this.Containers.MainContainer.locator('button:has([data-testid="icon: CollapseOutline"])'),
+    MoreOptions: this.Containers.MainContainer.locator('button:has([data-testid$="MoreVertical"])'),
   };
 
   TextBox = {
@@ -25,14 +35,40 @@ export class NewMail extends BasePage {
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
 
+  Elements = {
+    EditorToolbar: this.Containers.MainContainer.locator('.tox-editor-header'),
+    MarkAsImportantIcon: this.Containers.MainContainer.locator('[data-testid$="ArrowUpward"]'),
+    RequestReadReceiptIcon: this.Containers.MainContainer.locator('[data-testid$="CheckmarkSquare"]'),
+    BoardTab: this.Containers.MainContainer.locator('_react=[icon^="MailMod"][id^="board"]'),
+  };
+
   Dropdowns = {
-    Item: this.page.locator('[value="[object Object]"]'),
+    Contacts: {
+      Item: this.Containers.DropdownContainer.locator('[value="[object Object]"]'),
+    },
+    MoreOptions: {
+      DisableRichTextEditor: this.Containers.DropdownContainer.locator('"Disable rich text editor"'),
+      EnableRichTextEditor: this.Containers.DropdownContainer.locator('"Enable rich text editor"'),
+      MarkAsImportant: this.Containers.DropdownContainer.locator('"Mark as important"'),
+      MarkAsNotImportant: this.Containers.DropdownContainer.locator('"Mark as not important"'),
+      RequestReadReceipt: this.Containers.DropdownContainer.locator('"Request read receipt"'),
+      RemoveReadReceiptRequest: this.Containers.DropdownContainer.locator('"Remove read receipt request"'),
+    },
+  };
+
+  SelectNewMailOption = {
+    DisableRichTextEditor: async () => await this.SelectOption(this.Dropdowns.MoreOptions.DisableRichTextEditor),
+    EnableRichTextEditor: async () => await this.SelectOption(this.Dropdowns.MoreOptions.EnableRichTextEditor),
+    MarkAsImportant: async () => await this.SelectOption(this.Dropdowns.MoreOptions.MarkAsImportant),
+    MarkAsNotImportant: async () => await this.SelectOption(this.Dropdowns.MoreOptions.MarkAsNotImportant),
+    RequestReadReceipt: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RequestReadReceipt),
+    RemoveReadReceiptRequest: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RemoveReadReceiptRequest),
   };
 
   async CreateNewMail(to, subject, body) {
     await this.TextBox.To.click();
     await this.TextBox.To.fill(to);
-    await this.Dropdowns.Item.click();
+    await this.Dropdowns.Contacts.Item.click();
     await this.TextBox.Subject.click();
     await this.TextBox.Subject.fill(subject);
     await this.Containers.MainContainer.locator(`"${subject}"`).waitFor();
@@ -50,5 +86,10 @@ export class NewMail extends BasePage {
 
   async CloseNewMail() {
     await this.Buttons.CloseCross.click();
+  };
+
+  async SelectOption(option) {
+    await this.Buttons.MoreOptions.click();
+    await option.click();
   };
 }

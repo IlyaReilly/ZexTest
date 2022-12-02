@@ -6,7 +6,7 @@ export const InheritedFields = {
   ListContainerLocator: '[class*="List"][class*="Container"]',
   ListItemReactLocator: '_react=[key][item]',
   ListFileReactLocator: '_react=[id]',
-  NewItemBoardLocator: '[class*="BoardContainer"] >> [class*="Board"]',
+  NewItemBoardLocator: '[class*="BoardContainer"] >> [class*="Board"] >> nth=0',
   NewItemBodyIframeLocator: '.tox-edit-area__iframe',
   NewItemBodyLocator: '.mce-content-body',
   ModalWindowLocator: '[data-testid="modal"]',
