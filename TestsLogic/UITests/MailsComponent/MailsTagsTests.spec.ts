@@ -2,13 +2,11 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../UITests/BaseTest';
 
 test.describe('Calendars tests', async () => {
-  let dateTimePrefix;
   let tagName;
   const newTagName = 'New zextras tag';
 
   test.beforeEach(async ({pageManager, apiManager}) => {
-    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    tagName = dateTimePrefix + ' Autotest Tag';
+    tagName = BaseTest.dateTimePrefix() + ' Autotest Tag';
     await DeleteAllTagsViaAPI({apiManager});
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -33,6 +31,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC1006. Delete tag in side mail menu. Tag should not be in Tags tab.', async ({pageManager}) => {
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Tags();
     await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.Elements.Item.locator(`"${tagName}"`));
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.DeleteTag();
@@ -41,6 +40,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC1007. Rename tag in side mail menu. Tag should be renamed.', async ({pageManager}) => {
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Tags();
     await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.Elements.Item.locator(`"${tagName}"`));
     await pageManager.sideSecondaryMailMenu.SelectMailFolderOption.EditTag();
