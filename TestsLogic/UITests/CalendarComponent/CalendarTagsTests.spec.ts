@@ -2,7 +2,6 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../UITests/BaseTest';
 
 test.describe('Calendars tests', async () => {
-  let dateTimePrefix;
   let tagName;
   const newTagName = 'New zextras tag';
 
@@ -14,8 +13,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test.beforeEach(async ({pageManager, apiManager}) => {
-    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    tagName = dateTimePrefix + ' Autotest Tag';
+    tagName = BaseTest.dateTimePrefix() + ' Autotest Tag';
     await DeleteAllTagsViaAPI({apiManager});
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
