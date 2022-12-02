@@ -137,4 +137,18 @@ test.describe('Documents tests', async () => {
     const editorPage = await pageManager.fileDetails.GetOnlineEditorPage();
     await expect(editorPage).toHaveTitle('Online Editor');
   });
+
+  // Bug №139. Problem with opening a document via file versions. When you click "Open document version" an http error 500 is thrown
+  test.skip('TC533. Upload and open a new document version. A document version should be opened', async ({pageManager, apiManager, page}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await apiManager.createFilesAPI.CreateDocument(oldItemName);
+    await pageManager.filesList.Elements.File.click();
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    await pageManager.fileDetails.ClickVersioningDropdownOption.OpenDocumentVersion(1);
+    const [documentVersionPage] = await Promise.all([
+      page.waitForEvent('popup'),
+      pageManager.fileDetails.ClickVersioningDropdownOption.OpenDocumentVersion(1),
+    ]);
+    await expect(documentVersionPage).toHaveURL('https://2150.demo.zextras.io/services/docs/files/open/72620f9e-6e88-4e6d-bf20-abf7b62c9db8?version=1');
+  });
 });

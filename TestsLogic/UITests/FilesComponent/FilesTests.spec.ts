@@ -10,6 +10,7 @@ test.describe('Files tests', async () => {
   const pngFile = 'testFile.png';
   const jpgFile = 'testFile2.jpg';
   const pngFile2 = 'testAPI.png';
+  const filePath = './TestData/Files/';
   let unicFilePrefix;
   let unicFileName;
   let subjectWithFile;
@@ -62,6 +63,31 @@ test.describe('Files tests', async () => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.sideSecondaryFilesMenu.OpenSecondaryMenuTab(pageManager.sideSecondaryFilesMenu.Tabs.Uploads);
+  };
+
+  async function UploadNewFileVersions({apiManager, pageManager, page}, versionsCount = 1) {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    let i = 1;
+    do {
+      const [fileChooser] = await Promise.all([
+        page.waitForEvent('filechooser'),
+        pageManager.fileDetails.Buttons.UploadVersion.click(),
+      ]);
+      await fileChooser.setFiles(`${filePath}${jpgFile}`);
+      i++;
+    } while (i <= versionsCount);
+  };
+
+  async function MarkFileVersionAsKeptForever({apiManager, pageManager}) {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(1);
+  };
+
+  async function UploadTwoFileVersions({apiManager, pageManager, page}) {
+    await UploadNewFileVersions({apiManager, pageManager, page}, 2);
+    await pageManager.fileDetails.Elements.FileVersionNumber(3).waitFor();
   };
 
   test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
@@ -174,5 +200,53 @@ test.describe('Files tests', async () => {
     await UploadFileAndOpenUploads({pageManager});
     await pageManager.filesList.Elements.CleanCompletedUploads.click();
     await expect(pageManager.filesList.Containers.EmptyListContainer).toBeVisible();
+  });
+
+  test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager, page}) => {
+    await UploadNewFileVersions({apiManager, pageManager, page});
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
+  });
+
+  test('TC527. Mark a file version as “Kept forever”. The infinity icon should appear to the left of the dropdown', async ({pageManager, apiManager}) => {
+    await MarkFileVersionAsKeptForever({pageManager, apiManager});
+    await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeVisible();
+  });
+
+  test('TC528. Remove tag “Keep forever” for a file version. The infinity icon should disappear to the left of the dropdown', async ({pageManager, apiManager}) => {
+    await MarkFileVersionAsKeptForever({pageManager, apiManager});
+    await pageManager.fileDetails.ClickVersioningDropdownOption.RemoveKeepForever(1);
+    await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeHidden();
+  });
+
+  test('TC529. Delete the file version. The deleted version should disappear from the list', async ({pageManager, apiManager, page}) => {
+    await UploadNewFileVersions({apiManager, pageManager, page});
+    await pageManager.fileDetails.Elements.FileVersionNumber(2).waitFor();
+    await pageManager.fileDetails.ClickVersioningDropdownOption.DeleteVersion(1);
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(1)).toBeHidden();
+  });
+
+  test('TC530. Purge all versions except the current one. Only current version should remain in the list', async ({pageManager, apiManager, page}) => {
+    await UploadTwoFileVersions({pageManager, apiManager, page});
+    await pageManager.fileDetails.Buttons.PurgeAllVersions.click();
+    await pageManager.fileDetails.Modal.PurgeAllVersionsButton.click();
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(1)).toBeHidden();
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeHidden();
+  });
+
+  test('TC531. Purge all versions except the version marked as kept forever. Version marked as kept forever should remain in the list', async ({pageManager, apiManager, page}) => {
+    await UploadTwoFileVersions({pageManager, apiManager, page});
+    await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(2);
+    await pageManager.fileDetails.Elements.KeptForeverIcon.waitFor();
+    await pageManager.fileDetails.Buttons.PurgeAllVersions.click();
+    await pageManager.fileDetails.Modal.PurgeAllVersionsButton.click();
+    await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeVisible();
+  });
+
+  test('TC532. Clone the file version. A new Current version appears in the list with the clone icon to the left of the dropdown', async ({pageManager, apiManager}) => {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    await pageManager.fileDetails.ClickVersioningDropdownOption.CloneAsCurrent(1);
+    await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
+    await expect(pageManager.fileDetails.Elements.ClonedVersionIcon).toBeVisible();
   });
 });
