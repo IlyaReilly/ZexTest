@@ -79,6 +79,17 @@ test.describe('Files tests', async () => {
     } while (i <= versionsCount);
   };
 
+  async function MarkFileVersionAsKeptForever({apiManager, pageManager}) {
+    await UploadFileAndOpenDetails({apiManager, pageManager});
+    await pageManager.fileDetails.Tabs.Versioning.click();
+    await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(1);
+  };
+
+  async function UploadTwoFileVersions({apiManager, pageManager, page}) {
+    await UploadNewFileVersions({apiManager, pageManager, page}, 2);
+    await pageManager.fileDetails.Elements.FileVersionNumber(3).waitFor();
+  };
+
   test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
@@ -196,17 +207,13 @@ test.describe('Files tests', async () => {
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
   });
 
-  test('TC527. Mark a file version as “Keep forever”. The infinity icon should appear to the left of the dropdown', async ({pageManager, apiManager}) => {
-    await UploadFileAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.Tabs.Versioning.click();
-    await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(1);
+  test('TC527. Mark a file version as “Kept forever”. The infinity icon should appear to the left of the dropdown', async ({pageManager, apiManager}) => {
+    await MarkFileVersionAsKeptForever({pageManager, apiManager});
     await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeVisible();
   });
 
   test('TC528. Remove tag “Keep forever” for a file version. The infinity icon should disappear to the left of the dropdown', async ({pageManager, apiManager}) => {
-    await UploadFileAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.Tabs.Versioning.click();
-    await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(1);
+    await MarkFileVersionAsKeptForever({pageManager, apiManager});
     await pageManager.fileDetails.ClickVersioningDropdownOption.RemoveKeepForever(1);
     await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeHidden();
   });
@@ -219,8 +226,7 @@ test.describe('Files tests', async () => {
   });
 
   test('TC530. Purge all versions except the current one. Only current version should remain in the list', async ({pageManager, apiManager, page}) => {
-    await UploadNewFileVersions({apiManager, pageManager, page}, 2);
-    await pageManager.fileDetails.Elements.FileVersionNumber(3).waitFor();
+    await UploadTwoFileVersions({pageManager, apiManager, page});
     await pageManager.fileDetails.Buttons.PurgeAllVersions.click();
     await pageManager.fileDetails.Modal.PurgeAllVersionsButton.click();
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(1)).toBeHidden();
@@ -228,8 +234,7 @@ test.describe('Files tests', async () => {
   });
 
   test('TC531. Purge all versions except the version marked as kept forever. Version marked as kept forever should remain in the list', async ({pageManager, apiManager, page}) => {
-    await UploadNewFileVersions({apiManager, pageManager, page}, 2);
-    await pageManager.fileDetails.Elements.FileVersionNumber(3).waitFor();
+    await UploadTwoFileVersions({pageManager, apiManager, page});
     await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(2);
     await pageManager.fileDetails.Elements.KeptForeverIcon.waitFor();
     await pageManager.fileDetails.Buttons.PurgeAllVersions.click();

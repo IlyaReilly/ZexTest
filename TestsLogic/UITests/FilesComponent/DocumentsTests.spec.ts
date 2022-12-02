@@ -138,7 +138,7 @@ test.describe('Documents tests', async () => {
     await expect(editorPage).toHaveTitle('Online Editor');
   });
 
-  // Bug related to opening a document via file versions. When you click "Open document version" an http error 500 is thrown
+  // Bug №139. Problem with opening a document via file versions. When you click "Open document version" an http error 500 is thrown
   test.skip('TC533. Upload and open a new document version. A document version should be opened', async ({pageManager, apiManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
