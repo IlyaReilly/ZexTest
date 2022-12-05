@@ -52,6 +52,7 @@ import {NewChannelModal} from '../Components/Chats/Modals/NewChannelModal';
 import {AdvancedFiltersModal} from '../Components/Search/Modals/AdvancedFiltersModal';
 import {NewTagModal} from '../Components/ModalWindows/NewTagModal';
 import {EditTagModal} from '../Components/ModalWindows/EditTagModal';
+import {EditAfterMoveAppointmentModal} from '../Components/Calendars/Modals/EditAfterMoveAppointmentModal';
 
 
 export class PageManager {
@@ -90,6 +91,7 @@ export class PageManager {
   shareCalendarModal;
   deleteCalendarModal;
   moveAppointmentModal;
+  editAfterMoveAppointmentModal;
   // #endregion
 
   // #region Contacts Modal
@@ -164,6 +166,7 @@ export class PageManager {
     this.newCalendarModal = new NewCalendarModal(page);
     this.deleteCalendarModal = new DeleteCalendarModal(page);
     this.moveAppointmentModal = new MoveAppointmentModal(page);
+    this.editAfterMoveAppointmentModal = new EditAfterMoveAppointmentModal(page);
     // #endregion
 
     // #region Contacts Modal

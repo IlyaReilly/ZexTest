@@ -27,6 +27,9 @@ export class Calendar extends BasePage {
     ActiveViewButton: this.Containers.MainContainer.locator('_react=[backgroundColor="highlight"] >> nth=0'),
     NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
     TodayButton: this.Containers.MainContainer.locator('button:has-text("today")'),
+    DayButton: this.Containers.MainContainer.locator('"Day"'),
+    NextDay: this.Containers.MainContainer.locator('xpath=//div[contains(@class, "custom-event-wrapper")]/../../../following-sibling::div[1]'),
+    PreviousDay: this.Containers.MainContainer.locator('xpath=//div[contains(@class, "custom-event-wrapper")]/../../../preceding-sibling::div[1]'),
   };
 
   AppointmentPopup = {
@@ -49,6 +52,14 @@ export class Calendar extends BasePage {
     EditMessageButton: this.Containers.ModalContainer.locator('"Edit Message"'),
     SendCancellationButton: this.Containers.ModalContainer.locator('"Send Cancellation"'),
     DeletePermanentlyButton: this.Containers.ModalContainer.locator('"Delete permanently"'),
+  };
+
+  async DragAndDropAppointment(appointmentTitle) {
+    if (await this.page.isVisible(this.Elements.NextDay._selector)) {
+      await this.Elements.Appointment.locator(`"${appointmentTitle}"`).dragTo(this.Elements.NextDay);
+    } else {
+      await this.Elements.Appointment.locator(`"${appointmentTitle}"`).dragTo(this.Elements.PreviousDay);
+    };
   };
 
   async GetAppointmentWithTitle(title) {
