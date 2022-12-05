@@ -6,7 +6,7 @@ export class SearchStatisticsHeader extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('_react=ci'),
+    MainContainer: this.page.locator('_react=[label*="Results"]'),
   };
 
   Buttons = {

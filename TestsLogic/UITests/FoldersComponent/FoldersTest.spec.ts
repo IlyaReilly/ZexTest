@@ -40,17 +40,12 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.CreateNewFolder(folderName);
   };
 
-  test('Create new folder', async ({pageManager}) => {
+  test('TC801. Create new folder', async ({pageManager}) => {
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
     await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
     await ChooseNewFolderOptionAndCreateNewFoler({pageManager});
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderName}"`), "Created folder should be visible").toBeVisible();
-  });
-
-  test('TC801. Create new folder with API', async ({pageManager}) => {
-    await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();
-    await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${folderNameViaAPI}"`).first(), "Created folder should be visible").toBeVisible();
   });
 
   test('TC802. Move mail to a new folder', async ({pageManager, apiManager}) => {

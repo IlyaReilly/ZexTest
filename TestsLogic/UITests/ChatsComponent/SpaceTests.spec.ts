@@ -164,6 +164,7 @@ test.describe('Space tests', async () => {
   });
 
   test('TC422. Activate notifications in channel. The channel must not have a mute icon', async ({pageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await MuteNotificationsAndActivate({pageManager, apiManager}, channelTitle);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.BellOffIcon).not.toBeVisible();
   });
