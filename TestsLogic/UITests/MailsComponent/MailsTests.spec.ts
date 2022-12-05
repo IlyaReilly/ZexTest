@@ -23,18 +23,14 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`), 'User`s login is visible').toBeVisible();
   });
   // Contacts Dropdown does not appear
-  test.skip('TC202. Get mail. Mail appears in the Inbox folder', async ({page, pageManager}) => {
+  test.skip('TC202. Send mail. Mail appears in the Sent folder.', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
     await pageManager.newMail.SendMail();
-    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
-    await elementHandle?.waitForElementState('hidden');
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
-    await page.reload();
-    await pageManager.mailsList.OpenMail(mailSubject);
-    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Sent folder mails list').toBeVisible();
   });
-
   // 137 'Unexpected Sent folder opening'
   test.skip('TC203. Mark mail as spam. Mail appears in the Junk folder', async ({page, pageManager, apiManager}) => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
@@ -46,14 +42,13 @@ test.describe('Mails tests', async () => {
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Junk();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Junk folder mails list').toBeVisible();
   });
-
-  test('TC204. Send mail. Mail appears in the Sent folder.', async ({pageManager, apiManager}) => {
-    BaseTest.doubleTimeout();
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
-    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Sent folder mails list').toBeVisible();
+  // Received mail unexpectedly appears in Junk folder
+  test.skip('TC204. Get mail. Mail appears in the Inbox folder', async ({apiManager, pageManager}) => {
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
+    await pageManager.mailsList.OpenMail(mailSubject);
+    await expect(pageManager.mailDetails.Elements.LetterSubject.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
   });
-
   // This test will not work because doesn't work SAVE button
   test.skip('TC205. Save mail draft. Mail appears in the Drafts folder.', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();

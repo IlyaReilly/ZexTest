@@ -35,8 +35,8 @@ test.describe('Search tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
   };
-
-  test('TC701. Search sent email', async ({pageManager, apiManager}) => {
+  // Received mail unexpectedly appears in Junk folder
+  test.skip('TC701. Search sent email', async ({pageManager, apiManager}) => {
     try {
       await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -122,8 +122,8 @@ test.describe('Search tests', async () => {
     await pageManager.advancedFiltersModal.Buttons.Search.click();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
-
-  test('TC707. Search by “Flagged” option found mail. The sent email should be found by flagged', async ({apiManager, pageManager}) => {
+  // Received mail unexpectedly appears in Junk folder
+  test.skip('TC707. Search by “Flagged” option found mail. The sent email should be found by flagged', async ({apiManager, pageManager}) => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.mailsList.SelectMailContextMenuOption.AddFlag(mailSubject);

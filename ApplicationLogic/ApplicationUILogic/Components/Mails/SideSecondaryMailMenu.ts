@@ -90,16 +90,18 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   async ExpandFolders(folder) {
-    if (folder === 'Tags') {
+    if (folder !== 'Tags') {
+      if (await this.page.isHidden(`${InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
+        await this.Buttons.ExpandFolder.first().click();
+        await this.MailFolders.Inbox.click();
+      };
+      if (folder === 'Inbox') {
+        await this.Buttons.ExpandFolder.locator('nth=1').click();
+      } else if (folder) {
+        await this.page.click(`${InheritedFields.ExpandFoldersLocator}:near(:text("${folder}"))`);
+      };
+    } else {
       await this.page.click(`[data-testid*="ChevronDown"]:near(:text("${folder}"))`);
-    } else if (await this.page.isHidden(`${InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
-      await this.Buttons.ExpandFolder.first().click();
-    };
-    await this.MailFolders.Inbox.click();
-    if (folder === 'Inbox') {
-      await this.Buttons.ExpandFolder.locator('nth=1').click();
-    } else if (folder !== 'Tags') {
-      await this.page.click(`${InheritedFields.ExpandFoldersLocator}:near(:text("${folder}"))`);
     };
   };
 
