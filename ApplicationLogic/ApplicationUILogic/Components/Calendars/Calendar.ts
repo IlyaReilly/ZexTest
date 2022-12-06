@@ -24,7 +24,7 @@ export class Calendar extends BasePage {
     CurrentDate: this.Containers.MainContainer.locator('[class^="Text__Comp"] >> nth=1'),
     Cell: this.Containers.MainContainer.locator('.rbc-day-bg'),
     Column: this.Containers.MainContainer.locator('.rbc-time-column'),
-    ActiveViewButton: this.Containers.MainContainer.locator('_react=Ie[backgroundColor="highlight"]'),
+    ActiveViewButton: this.Containers.MainContainer.locator('_react=[backgroundColor="highlight"] >> nth=0'),
     NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
     TodayButton: this.Containers.MainContainer.locator('button:has-text("today")'),
   };

@@ -39,7 +39,7 @@ export class ContactsList extends BasePage {
   };
 
   async OpenContextMenuAndSelectOption(userMail, option, tags?) {
-    await this.Containers.ListContainer.locator(`"${userMail}"`).click({button: 'right'});
+    await this.Elements.Contact.locator(`"${userMail}"`).click({button: 'right'});
     if (tags) {
       tags.hover();
     }

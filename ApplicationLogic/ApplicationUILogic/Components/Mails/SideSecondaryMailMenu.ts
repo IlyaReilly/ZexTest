@@ -9,6 +9,7 @@ export class SideSecondaryMailMenu extends BasePage {
     MainContainer: this.page.locator(InheritedFields.SideSecondaryBarLocator),
     MailOptionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
     CreateNewFolderPopupContainer: this.page.locator('[data-testid="modal"]'),
+    ContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
   Buttons = {
@@ -25,7 +26,8 @@ export class SideSecondaryMailMenu extends BasePage {
     Sent: this.Containers.MainContainer.locator('"Sent"'),
     Drafts: this.Containers.MainContainer.locator('"Drafts"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
-    SubFolder: this.Containers.MainContainer.locator('.css-15u4h3'),
+    Tags: this.Containers.MainContainer.locator('"Tags"'),
+    SubFolder: this.Containers.MainContainer.locator('_react=[item.depth=2] >> nth=0'),
   };
 
   MailFolderOptions = {
@@ -35,6 +37,9 @@ export class SideSecondaryMailMenu extends BasePage {
     Edit: this.Containers.MailOptionsContainer.locator('"Edit"'),
     Delete: this.Containers.MailOptionsContainer.locator('"Delete"'),
     ShareFolder: this.Containers.MailOptionsContainer.locator('"Share folder"'),
+    CreateTag: this.Containers.ContextMenuContainer.locator('"Create Tag"'),
+    DeleteTag: this.Containers.ContextMenuContainer.locator('"Delete Tag"'),
+    EditTag: this.Containers.ContextMenuContainer.locator('"Edit Tag"'),
   };
 
   CreateNewFolderPopup = {
@@ -45,7 +50,7 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   Elements = {
-    Letter: this.Containers.MainContainer.locator('.jTMZGq'),
+    Item: this.Containers.MainContainer.locator('[class*="Text__Comp"]'),
   };
 
   async OpenFolder(folder) {
@@ -74,6 +79,9 @@ export class SideSecondaryMailMenu extends BasePage {
     Edit: async () => await this.MailFolderOptions.Edit.click(),
     Delete: async () => await this.MailFolderOptions.Delete.click(),
     ShareFolder: async () => await this.MailFolderOptions.ShareFolder.click(),
+    CreateTag: async () => await this.MailFolderOptions.CreateTag.click(),
+    DeleteTag: async () => await this.MailFolderOptions.DeleteTag.click(),
+    EditTag: async () => await this.MailFolderOptions.EditTag.click(),
   };
 
   async CreateNewFolder(folderName) {
@@ -82,13 +90,18 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   async ExpandFolders(folder) {
-    if (await this.page.isHidden(`${InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
-      await this.Buttons.ExpandFolder.first().click();
-    };
-    if (folder === 'Inbox') {
-      await this.Buttons.ExpandFolder.locator('nth=1').click();
-    } else if (folder) {
-      await this.page.click(`${InheritedFields.ExpandFoldersLocator}:near(:text("${folder}"))`);
+    if (folder !== 'Tags') {
+      if (await this.page.isHidden(`${InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
+        await this.Buttons.ExpandFolder.first().click();
+        await this.MailFolders.Inbox.click();
+      };
+      if (folder === 'Inbox') {
+        await this.Buttons.ExpandFolder.locator('nth=1').click();
+      } else if (folder) {
+        await this.page.click(`${InheritedFields.ExpandFoldersLocator}:near(:text("${folder}"))`);
+      };
+    } else {
+      await this.page.click(`[data-testid*="ChevronDown"]:near(:text("${folder}"))`);
     };
   };
 
@@ -98,6 +111,7 @@ export class SideSecondaryMailMenu extends BasePage {
     Sent: async () => await this.ExpandFolders('Sent'),
     Drafts: async () => await this.ExpandFolders('Drafts'),
     Trash: async () => await this.ExpandFolders('Trash'),
+    Tags: async () => await this.ExpandFolders('Tags'),
   };
 
   async OpenSubFolder(folderName) {

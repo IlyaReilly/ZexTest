@@ -4,15 +4,18 @@ import {test, BaseTest} from '../../UITests/BaseTest';
 test.describe('Chats tests', async () => {
   let dateTimePrefix;
   let groupTitle;
-  const firstParticipant = 'test10@demo.zextras.io';
-  const secondParticipant = 'test20@demo.zextras.io';
-  const thirdParticipant = 'test19@demo.zextras.io';
+  let firstParticipant;
+  let secondParticipant;
+  let thirdParticipant;
   const newGroupTitle = 'Zextras Company 321';
   const message = 'Hello! We are great team!';
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     groupTitle = dateTimePrefix + ' Autotest Group Topic';
+    firstParticipant = BaseTest.secondUser.login;
+    secondParticipant = BaseTest.thirdUser.login;
+    thirdParticipant = BaseTest.fourthUser.login;
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
     await CleanConversationsPanel({apiManager});
   });

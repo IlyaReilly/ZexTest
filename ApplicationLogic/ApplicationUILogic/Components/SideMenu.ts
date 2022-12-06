@@ -10,6 +10,8 @@ export class SideMenu extends BasePage {
   };
 
   Buttons = {
+    HideBoard: this.Containers.MainContainer.locator('button:has([data-testid$="BoardCollapse"])'),
+    OpenBoard: this.Containers.MainContainer.locator('button:has([data-testid$="BoardOpen"])'),
   };
 
   SideMenuTabs = {
