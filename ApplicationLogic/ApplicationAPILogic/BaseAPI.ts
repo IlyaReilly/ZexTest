@@ -1,4 +1,5 @@
 import {Page, request, expect} from '@playwright/test';
+import {BaseTest} from '../../TestsLogic/UITests/BaseTest';
 
 // eslint-disable-next-line no-unused-vars
 type ActionRequestTypes = {
@@ -6,9 +7,9 @@ type ActionRequestTypes = {
 };
 
 export async function ApiLoginMethod(login: string, password: string) {
-  const playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
   const authTokens: string[] = [];
-  const apiContext = await request.newContext({baseURL: playwrightProjectsData.baseURL.QA});
+  const baseUrl = BaseTest.baseUrl;
+  const apiContext = await request.newContext({baseURL: baseUrl});
   const response = await apiContext.post('/zx/auth/v2/login', {
     data: {
       "auth_method": "password", "user": login, "password": password,

@@ -12,7 +12,7 @@ export type TestOptions = {
 export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager}>({
   domain: ['', {option: true}],
 
-  page: async ({browser, domain}, use, workerInfo) => {
+  page: async ({browser, domain, baseURL}, use, workerInfo) => {
     let multiplier;
     switch (workerInfo.project.name) {
     case 'chromium': multiplier = 0; break;
@@ -24,6 +24,7 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
     BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier, domain);
     BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier, domain);
     BaseTest.thirdUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 2, multiplier, domain);
+    BaseTest.baseUrl = baseURL;
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
@@ -49,7 +50,7 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
 export class BaseTest {
   static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
   static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
-  static baseUrl = BaseTest.playwrightProjectsData.baseURL.QA;
+  static baseUrl;
   static userForLogin;
   static secondUser;
   static thirdUser;
