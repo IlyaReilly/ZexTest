@@ -27,6 +27,8 @@ export class Calendar extends BasePage {
     ActiveViewButton: this.Containers.MainContainer.locator('_react=[backgroundColor="highlight"] >> nth=0'),
     NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
     TodayButton: this.Containers.MainContainer.locator('button:has-text("today")'),
+    DayButton: this.Containers.MainContainer.locator('"Day"'),
+    NotToday: this.Containers.MainContainer.locator('_react=[isNow=false]'),
   };
 
   AppointmentPopup = {
@@ -49,6 +51,10 @@ export class Calendar extends BasePage {
     EditMessageButton: this.Containers.ModalContainer.locator('"Edit Message"'),
     SendCancellationButton: this.Containers.ModalContainer.locator('"Send Cancellation"'),
     DeletePermanentlyButton: this.Containers.ModalContainer.locator('"Delete permanently"'),
+  };
+
+  async DragAndDropAppointmentOnAnotherDay(appointmentTitle) {
+    await this.Elements.Appointment.locator(`"${appointmentTitle}"`).dragTo(this.Elements.NotToday.first());
   };
 
   async GetAppointmentWithTitle(title) {
