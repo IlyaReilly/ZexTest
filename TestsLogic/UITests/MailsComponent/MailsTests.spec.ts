@@ -146,14 +146,14 @@ test.describe('Mails tests', async () => {
 
   test("TC226. Select Edit option in draft. Recipient's login, drafted e-mail body and subject should be visible.", async ({pageManager, apiManager}) => {
     const mailBody = await OpenMailAndSelectOption({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Edit, pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts);
-    await expect(pageManager.mailDetails.Editor.Elements.ContactBubble.locator(`"${BaseTest.secondUser.login.slice(0, 7)}"`), "Recipient's login should be visible").toBeVisible();
+    await expect(pageManager.mailDetails.Editor.Elements.ContactBubble.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '')}"`), "Recipient's login should be visible").toBeVisible();
     await expect(pageManager.mailDetails.Editor.Textboxes.Subject, 'Drafted e-mail subject should be visible').toHaveValue(`${mailSubject}`);
     await expect(pageManager.mailDetails.Editor.Textboxes.Body, 'Drafted e-mail body should be visible').toContainText(mailBody);
   });
 
   test("TC227. Select Reply option in email. Sender's login, keyword “RE”, received e-mail body should be visible.", async ({pageManager, apiManager}) => {
     const mailBody = await OpenMailAndSelectOption({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Reply);
-    await expect(pageManager.mailDetails.Editor.Elements.ContactBubble.locator(`"${BaseTest.userForLogin.login.slice(0, 7)}"`), "Sender's login should be visible").toBeVisible();
+    await expect(pageManager.mailDetails.Editor.Elements.ContactBubble.locator(`"${BaseTest.userForLogin.login.replace('@' + BaseTest.domain, '')}"`), "Sender's login should be visible").toBeVisible();
     await expect(pageManager.mailDetails.Editor.Textboxes.Subject, "The letter subject should start with the keyword “RE”").toHaveValue(`RE: ${mailSubject}`);
     await expect(pageManager.mailDetails.Editor.Textboxes.Body, 'Received e-mail body should be visible').toContainText(mailBody);
   });
