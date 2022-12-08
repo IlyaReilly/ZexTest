@@ -26,6 +26,7 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
     BaseTest.thirdUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 2, multiplier, domain);
     BaseTest.fourthUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 3, multiplier, domain);
     BaseTest.baseUrl = baseURL;
+    BaseTest.domain = domain;
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
@@ -52,6 +53,7 @@ export class BaseTest {
   static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
   static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
   static baseUrl;
+  static domain;
   static userForLogin;
   static secondUser;
   static thirdUser;
