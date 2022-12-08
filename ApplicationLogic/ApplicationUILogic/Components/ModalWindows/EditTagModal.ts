@@ -6,7 +6,7 @@ export class EditTagModal extends ModalWindowBase {
   };
 
   Buttons = {
-    Edit: this.Containers.MainContainer.locator('"Edit"'),
+    Edit: this.Containers.MainContainer.locator('button [class*="Text__Comp"]'),
   };
 
   Textboxes = {
