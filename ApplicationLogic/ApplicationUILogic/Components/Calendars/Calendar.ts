@@ -40,6 +40,7 @@ export class Calendar extends BasePage {
     OtherActionsMove: this.Containers.OtherActionsContainer.locator('"Move"'),
     OtherActionsTags: this.Containers.OtherActionsContainer.locator('"Tags"'),
     NewTagButton: this.Containers.OtherActionsContainer.locator('"New Tag"'),
+    TagItem: this.Containers.OtherActionsContainer.locator('[class*="Padding__Comp"] + [class*="Container__ContainerEl"]'),
   };
 
   ReminderPopup = {
@@ -98,6 +99,12 @@ export class Calendar extends BasePage {
     await this.OpenAppointmentOtherActions(appointmentTitle);
     await this.AppointmentPopup.OtherActionsTags.hover();
     await this.AppointmentPopup.NewTagButton.click();
+  };
+
+  async ChooseTagForAppointment(appointmentTitle, tagName) {
+    await this.OpenAppointmentOtherActions(appointmentTitle);
+    await this.AppointmentPopup.OtherActionsTags.hover();
+    await this.AppointmentPopup.TagItem.locator(`"${tagName}"`).click();
   };
 
   async CalculateCurrentDate() {
