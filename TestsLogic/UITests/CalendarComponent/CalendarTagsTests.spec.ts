@@ -49,4 +49,11 @@ test.describe('Calendars tests', async () => {
     await pageManager.editTagModal.EditNameTag(newTagName);
     await expect(pageManager.sideSecondaryCalendarMenu.Elements.Item.locator(`"${newTagName}"`)).toBeVisible();
   });
+
+  test('TC1011. Change color in tag in side calendar menu. Tag should be change color.', async ({pageManager, page}) => {
+    await pageManager.sideSecondaryCalendarMenu.OpenTagChevron();
+    await pageManager.sideSecondaryCalendarMenu.OpenTagContextMenuOption.EditTagButton(tagName);
+    await pageManager.editTagModal.TagColors.YellowColor();
+    await expect(pageManager.sideSecondaryCalendarMenu.TagIconColors.YellowIcon).toBeVisible();
+  });
 });
