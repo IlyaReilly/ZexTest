@@ -183,22 +183,30 @@ test.describe('Mails tests', async () => {
   test('TC232. Open sent email. Correct subject and body should be visible', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'Correct email subject is visible').toBeVisible();
+  });
+
+  test('TC233. Open sent email. Correct body should be visible', async ({apiManager, pageManager}) => {
+    await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.Body, 'Correct email subject is visible').toHaveText(mailBody);
   });
 
-  test('TC233. Open received email. Correct subject and body should be visible', async ({apiManager, pageManager}) => {
+  test('TC234. Open received email. Correct subject should be visible', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager});
     await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'Correct email subject is visible').toBeVisible();
+  });
+
+  test('TC235. Open received email. Correct body should be visible', async ({apiManager, pageManager}) => {
+    await SendAndOpenMail({apiManager, pageManager});
     await expect(pageManager.mailDetails.Elements.Body, 'Correct email subject is visible').toHaveText(mailBody);
   });
 
-  test('TC234. Send email to multiple recipients. All recipient logins should be visible in the email details.', async ({apiManager, pageManager}) => {
+  test('TC236. Send email to multiple recipients. All recipient logins should be visible in the email details.', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent, BaseTest.secondUser.login);
     await expect(pageManager.mailDetails.Elements.Recipient.locator('"Me"'), 'First recipient login should be visible').toBeVisible();
     await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'Second recipient login should be visible').toBeVisible();
   });
 
-  test('TC235. Get email sent to multiple recipients. All recipient logins should be visible in the email details', async ({apiManager, pageManager}) => {
+  test('TC237. Get email sent to multiple recipients. All recipient logins should be visible in the email details', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox, BaseTest.secondUser.login);
     await expect(pageManager.mailDetails.Elements.Recipient.locator('"Me"'), 'First recipient login should be visible').toBeVisible();
     await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'Second recipient login should be visible').toBeVisible();

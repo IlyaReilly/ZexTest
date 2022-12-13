@@ -5,16 +5,16 @@ export class CreateMailsAPI extends BaseAPI {
     super(page);
   };
 
-  async SendMsgRequest(subject, from, to, mailBody, to2) {
+  async SendMsgRequest(subject, from, recipient, mailBody, secondRecipient?) {
     let id = '';
     let response;
-    if (!to2) {
+    if (!secondRecipient) {
       response = await this.page.request.post(`${this.soapServiceUrl}${this.sendMsgRequest}`, {
-        data: this.FormingMsgRequestBody(this.sendMsgRequest, subject, from, to, mailBody),
+        data: this.FormingMsgRequestBody(this.sendMsgRequest, subject, from, recipient, mailBody),
       });
     } else {
       response = await this.page.request.post(`${this.soapServiceUrl}${this.sendMsgRequest}`, {
-        data: this.FormingMsgRequestBodyToMultipleRecipients(this.sendMsgRequest, subject, from, to, mailBody, to2),
+        data: this.FormingMsgRequestBodyToMultipleRecipients(this.sendMsgRequest, subject, from, recipient, mailBody, secondRecipient),
       });
     };
 
@@ -101,7 +101,7 @@ export class CreateMailsAPI extends BaseAPI {
     };
   };
 
-  FormingMsgRequestBodyToMultipleRecipients(requestType, subject, from, to, body, to2) {
+  FormingMsgRequestBodyToMultipleRecipients(requestType, subject, from, recipient, body, secondRecipient) {
     return {
       Body: {
         [requestType]: {
@@ -111,8 +111,8 @@ export class CreateMailsAPI extends BaseAPI {
             su: {_content: subject},
             e: [
               {t: 'f', a: from, d: ''},
-              {t: 't', a: to},
-              {t: 't', a: to2},
+              {t: 't', a: recipient},
+              {t: 't', a: secondRecipient},
             ],
             mp: [
               {
