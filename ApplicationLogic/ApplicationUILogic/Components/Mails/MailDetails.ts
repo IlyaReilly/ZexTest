@@ -15,6 +15,7 @@ export class MailDetails extends BasePage {
 
   Elements = {
     Header: this.Containers.MainContainer.locator('[data-testid="PreviewPanelHeader"]'),
+    Recipient: this.Containers.MainContainer.locator('[class*="contact-names"]'),
     Body: this.MailBodyIframe.locator('body'),
     FlagIcon: this.Containers.MainContainer.locator('[data-testid="FlagIcon"]'),
     ActionWithMailNotification: this.page.locator('[data-testid="snackbar"]'),
@@ -27,6 +28,7 @@ export class MailDetails extends BasePage {
     },
     Buttons: {
       ShowBoard: this.Containers.MainContainer.locator('[data-testid$="DiagonalArrowLeftDownOutline"]'),
+      Send: this.Containers.MainContainer.locator('"Send"'),
     },
     Textboxes: {
       To: this.Containers.MainContainer.locator('[name="To"]'),

@@ -45,8 +45,7 @@ test.describe('Mails tests', async () => {
   test.skip('TC204. Get mail. Mail appears in the Inbox folder', async ({apiManager, pageManager}) => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
-    await pageManager.mailsList.OpenMail(mailSubject);
-    await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Inbox folder mails list').toBeVisible();
   });
   // This test will not work because doesn't work SAVE button
   test.skip('TC205. Save mail draft. Mail appears in the Drafts folder.', async ({page, pageManager}) => {
@@ -57,8 +56,8 @@ test.describe('Mails tests', async () => {
     await pageManager.newMail.CloseNewMail();
     const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
-    await OpenMailFolderAndOpenMail({pageManager}, mailSubject, pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts);
-    await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'New mail subject is visible in Draft folder mails list').toBeVisible();
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject is visible in Draft folder mails list').toBeVisible();
   });
   // Contacts Dropdown does not appear
   test.skip('TC206. Move mail to trash. Mail appears in the Trash folder', async ({pageManager, apiManager}) => {
@@ -75,7 +74,7 @@ test.describe('Mails tests', async () => {
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject, pageManager.sideSecondaryMailMenu.OpenMailFolder.Trash);
     await pageManager.mailDetails.SelectMailOption.DeletePermanently();
     await pageManager.deleteMailModal.DeletePermanently();
-    await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'New mail subject should not be visible in Trash folder mails list').not.toBeVisible();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'New mail subject should not be visible in Trash folder mails list').not.toBeVisible();
   });
 
   test('TC214. Hide New E-mail board. “New Email” board should be not visible', async ({page, pageManager}) => {
@@ -140,7 +139,7 @@ test.describe('Mails tests', async () => {
   // Contacts Dropdown does not appear
   test.skip("TC225. Notify sender when email with read receipt request has been read. Read receipt should be visible in sender's Inbox list", async ({pageManager}) => {
     await SendMailWithReadReceiptRequest({pageManager});
-    await OpenMailFolderAndOpenMail({pageManager}, mailSubject);
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"Read-Receipt: ${mailSubject}"`), "Read receipt should be visible in sender's Inbox list").toBeVisible();
   });
 
@@ -181,12 +180,44 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.newMail.Elements.BoardTab, 'Tab count should be 1').toHaveCount(1);
   });
 
-  async function SendAndOpenMail({apiManager, pageManager}, folder?) {
-    if (!folder) {
-      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+  test('TC232. Open sent email. Correct subject and body should be visible', async ({apiManager, pageManager}) => {
+    await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
+    await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'Correct email subject is visible').toBeVisible();
+  });
+
+  test('TC233. Open sent email. Correct body should be visible', async ({apiManager, pageManager}) => {
+    await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
+    await expect(pageManager.mailDetails.Elements.Body, 'Correct email subject is visible').toHaveText(mailBody);
+  });
+
+  test('TC234. Open received email. Correct subject should be visible', async ({apiManager, pageManager}) => {
+    await SendAndOpenMail({apiManager, pageManager});
+    await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'Correct email subject is visible').toBeVisible();
+  });
+
+  test('TC235. Open received email. Correct body should be visible', async ({apiManager, pageManager}) => {
+    await SendAndOpenMail({apiManager, pageManager});
+    await expect(pageManager.mailDetails.Elements.Body, 'Correct email subject is visible').toHaveText(mailBody);
+  });
+
+  test('TC236. Send email to multiple recipients. All recipient logins should be visible in the email details.', async ({apiManager, pageManager}) => {
+    await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent, BaseTest.secondUser.login);
+    await expect(pageManager.mailDetails.Elements.Recipient.locator('"Me"'), 'First recipient login should be visible').toBeVisible();
+    await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'Second recipient login should be visible').toBeVisible();
+  });
+
+  test('TC237. Get email sent to multiple recipients. All recipient logins should be visible in the email details', async ({apiManager, pageManager}) => {
+    await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox, BaseTest.secondUser.login);
+    await expect(pageManager.mailDetails.Elements.Recipient.locator('"Me"'), 'First recipient login should be visible').toBeVisible();
+    await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'Second recipient login should be visible').toBeVisible();
+  });
+
+  async function SendAndOpenMail({apiManager, pageManager}, folder?, secondRecipient?) {
+    if (folder !== pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts) {
+      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, secondRecipient);
     } else {
       await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
-    }
+    };
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject, folder);
   };
 
