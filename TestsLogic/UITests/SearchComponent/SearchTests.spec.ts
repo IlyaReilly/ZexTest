@@ -39,6 +39,16 @@ test.describe('Search tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
   };
+
+  async function CreateAppointmentWithTag({pageManager, apiManager, page}) {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
+    await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
+    await page.waitForLoadState('domcontentloaded');
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await pageManager.calendar.ChooseTagForAppointment(appointmentName, tagName);
+  };
+
   // Received mail unexpectedly appears in Junk folder
   test.skip('TC701. Search sent email', async ({pageManager, apiManager}) => {
     try {
@@ -170,13 +180,25 @@ test.describe('Search tests', async () => {
   test.skip('TC713. Search by tag in advanced option found appointment. The appointment should be found by tag', async ({apiManager, pageManager, page}) => {
     try {
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
-      await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
-      await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
-      await page.waitForLoadState('domcontentloaded');
-      await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-      await pageManager.calendar.ChooseTagForAppointment(appointmentName, tagName);
+      await CreateAppointmentWithTag({pageManager, apiManager, page});
       await OpenSearchTabAndOpenAdvancedFilters({pageManager});
       await pageManager.advancedFiltersModal.ChooseTagInDropdown(tagName);
+      await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${appointmentName}"`)).toBeVisible();
+    } catch (e) {
+      throw e;
+    } finally {
+      const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentName, BaseTest.userForLogin.login);
+      await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+      const ids = await apiManager.tagsAPI.GetTags();
+      await apiManager.deleteTagsAPI.DeleteTagRequest(ids.join(','), BaseTest.userForLogin.login);
+    }
+  });
+
+  test('TC714. Search by tag found appointment. The appointment should be found by tag', async ({apiManager, pageManager, page}) => {
+    try {
+      await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+      await CreateAppointmentWithTag({pageManager, apiManager, page});
+      await pageManager.headerMenu.MakeSearch(`tag:"${tagName}"`);
       await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${appointmentName}"`)).toBeVisible();
     } catch (e) {
       throw e;
