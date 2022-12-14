@@ -57,6 +57,10 @@ export class SideSecondaryCalendarMenu extends BasePage {
     Item: this.Containers.MainContainer.locator('[class*="Text__Comp"]'),
   };
 
+  TagIconColors = {
+    YellowIcon: this.Containers.MainContainer.locator('_react=[icon="Tag"][customColor="#ffc107"]'),
+  };
+
   async OpenTrashChevron() {
     await this.Elements.TrashChevronDown.click();
   };

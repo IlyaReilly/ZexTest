@@ -6,42 +6,65 @@ export class MailDetails extends BasePage {
   };
 
   Containers = {
-    MailDetailsContainer: this.page.locator('_react=[path$="Id"]'),
-    MailOptionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    MainContainer: this.page.locator('[data-testid="third-panel"]'),
+    OptionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
   };
 
+  MailBodyIframe = this.Containers.MainContainer.frameLocator('iframe[title]');
+  EditorBodyIframe = this.Containers.MainContainer.frameLocator(InheritedFields.NewItemBodyIframeLocator);
+
   Elements = {
-    LetterSubject: this.Containers.MailDetailsContainer.locator('[data-testid="PreviewPanelHeader"]'),
-    FlagIcon: this.Containers.MailDetailsContainer.locator('[data-testid="FlagIcon"]'),
+    Header: this.Containers.MainContainer.locator('[data-testid="PreviewPanelHeader"]'),
+    Recipient: this.Containers.MainContainer.locator('[class*="contact-names"]'),
+    Body: this.MailBodyIframe.locator('body'),
+    FlagIcon: this.Containers.MainContainer.locator('[data-testid="FlagIcon"]'),
     ActionWithMailNotification: this.page.locator('[data-testid="snackbar"]'),
-    AttachmentFile: this.Containers.MailDetailsContainer.locator('_react=[att]'),
+    AttachmentFile: this.Containers.MainContainer.locator('_react=[att]'),
+  };
+
+  Editor = {
+    Elements: {
+      ContactBubble: this.Containers.MainContainer.locator('[class*="ChipContainer"]'),
+    },
+    Buttons: {
+      ShowBoard: this.Containers.MainContainer.locator('[data-testid$="DiagonalArrowLeftDownOutline"]'),
+      Send: this.Containers.MainContainer.locator('"Send"'),
+    },
+    Textboxes: {
+      To: this.Containers.MainContainer.locator('[name="To"]'),
+      Subject: this.Containers.MainContainer.locator('[name="Subject"]'),
+      Body: this.EditorBodyIframe.locator(InheritedFields.NewItemBodyLocator),
+    },
   };
 
   MailOptions = {
-    Delete: this.Containers.MailDetailsContainer.locator('[data-testid*="Trash2Outline"]'),
-    MoreOptionsMenu: this.Containers.MailDetailsContainer.locator('[data-testid*="MoreVertical"]'),
+    Edit: this.Containers.MainContainer.locator('[data-testid$="Edit2Outline"]'),
+    Reply: this.Containers.MainContainer.locator('[data-testid$="UndoOutline"]'),
+    Forward: this.Containers.MainContainer.locator('[data-testid$="Forward"]'),
+    Delete: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
+    MoreOptionsMenu: this.Containers.MainContainer.locator('[data-testid*="MoreVertical"]'),
   };
 
   MoreOptionsMenu = {
-    Move: this.Containers.MailOptionsContainer.locator('"Move"'),
-    Tags: this.Containers.MailOptionsContainer.locator('"Tags"'),
-    Print: this.Containers.MailOptionsContainer.locator('"Print"'),
-    AddFlag: this.Containers.MailOptionsContainer.locator('"Add flag"'),
-    Redirect: this.Containers.MailOptionsContainer.locator('"Redirect"'),
-    EditAsNew: this.Containers.MailOptionsContainer.locator('"Edit as new"'),
-    MarkAsSpam: this.Containers.MailOptionsContainer.locator('"Mark as spam"'),
-    ShowOriginal: this.Containers.MailOptionsContainer.locator('"Show original"'),
-    DeletePermanently: this.Containers.MailOptionsContainer.locator('"Delete Permanently"'),
+    Move: this.Containers.OptionsContainer.locator('"Move"'),
+    Tags: this.Containers.OptionsContainer.locator('"Tags"'),
+    Print: this.Containers.OptionsContainer.locator('"Print"'),
+    AddFlag: this.Containers.OptionsContainer.locator('"Add flag"'),
+    Redirect: this.Containers.OptionsContainer.locator('"Redirect"'),
+    EditAsNew: this.Containers.OptionsContainer.locator('"Edit as new"'),
+    MarkAsSpam: this.Containers.OptionsContainer.locator('"Mark as spam"'),
+    ShowOriginal: this.Containers.OptionsContainer.locator('"Show original"'),
+    DeletePermanently: this.Containers.OptionsContainer.locator('"Delete Permanently"'),
   };
 
   AppointmentInvitationOptions = {
-    Yes: this.Containers.MailDetailsContainer.locator('"Yes"'),
-    Maybe: this.Containers.MailDetailsContainer.locator('"maybe"'),
-    No: this.Containers.MailDetailsContainer.locator('"No"'),
-    ProposeNewTime: this.Containers.MailDetailsContainer.locator('"PROPOSE NEW TIME"'),
+    Yes: this.Containers.MainContainer.locator('"Yes"'),
+    Maybe: this.Containers.MainContainer.locator('"maybe"'),
+    No: this.Containers.MainContainer.locator('"No"'),
+    ProposeNewTime: this.Containers.MainContainer.locator('"PROPOSE NEW TIME"'),
   };
 
-  AppointmentParticipantsSection = this.Containers.MailDetailsContainer.locator('.yOEdM');
+  AppointmentParticipantsSection = this.Containers.MainContainer.locator('.yOEdM');
 
   async SelectOption(option) {
     if (!(option in this.MailOptions)) {
@@ -51,6 +74,9 @@ export class MailDetails extends BasePage {
   };
 
   SelectMailOption = {
+    Edit: async () => await this.SelectOption(this.MailOptions.Edit),
+    Reply: async () => await this.SelectOption(this.MailOptions.Reply),
+    Forward: async () => await this.SelectOption(this.MailOptions.Forward),
     Delete: async () => await this.SelectOption(this.MailOptions.Delete),
     Move: async () => await this.SelectOption(this.MoreOptionsMenu.Move),
     Tags: async () => await this.SelectOption(this.MoreOptionsMenu.Tags),

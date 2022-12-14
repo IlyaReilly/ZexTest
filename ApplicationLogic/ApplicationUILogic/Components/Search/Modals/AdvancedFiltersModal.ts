@@ -20,7 +20,7 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     SentToAddress: this.Containers.MainContainer.locator('[name="Sent to (address)"]'),
     StatusOfEmailItem: this.Containers.MainContainer.locator('[name="Status of e-mail item"]'),
     SizeLargerThan: this.Containers.MainContainer.locator('[name="Size larger than (MB)"]'),
-    Tag: this.Containers.MainContainer.locator('[name="Tag"]'),
+    Tag: this.Containers.MainContainer.locator('_react=[compProps.tag] >> nth=0 >> [class*="Container__ContainerEl"] >> nth=0'),
   };
 
   DropdownOptions = {
@@ -42,6 +42,7 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     SentByMe: this.page.locator('"sent by me"'),
     ReceivedByMe: this.page.locator('"received by me"'),
     AnsweredByMe: this.page.locator('"answered by me"'),
+    TagItem: this.Containers.DropDownContainer.locator('[class*="Container__ContainerEl"]'),
   };
 
   Buttons = {
@@ -91,5 +92,11 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     SentToAddressField: async (text) => await this.SearchByFields(this.Fields.SentToAddress, text),
     SizeSmallerThanField: async (text) => await this.SearchByFields(this.Fields.SizeSmallerThan, text),
     SizeLargerThanField: async (text) => await this.SearchByFields(this.Fields.SizeLargerThan, text),
+  };
+
+  async ChooseTagInDropdown(tagName) {
+    await this.Fields.Tag.click();
+    await this.DropdownOptions.TagItem.locator(`"${tagName}"`);
+    await this.Buttons.Search.click();
   };
 }

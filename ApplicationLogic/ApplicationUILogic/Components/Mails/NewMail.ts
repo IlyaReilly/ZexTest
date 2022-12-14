@@ -27,6 +27,7 @@ export class NewMail extends BasePage {
     ExpandBoard: this.Containers.MainContainer.locator('button:has([data-testid*="Expand"])'),
     ReduceBoard: this.Containers.MainContainer.locator('button:has([data-testid="icon: CollapseOutline"])'),
     MoreOptions: this.Containers.MainContainer.locator('button:has([data-testid$="MoreVertical"])'),
+    CloseTab: this.Containers.MainContainer.locator('[data-testid$="Close"]'),
   };
 
   TextBox = {

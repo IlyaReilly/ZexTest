@@ -128,7 +128,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Selectors.TagIconSelector).toBeVisible();
   });
 
-  test('TS324. Move appointment to another date via drag&drop. Appointment should be present.', async ({pageManager, apiManager, page}) => {
+  test('TS324. Move appointment to another date via drag&drop. Appointment should be present in another day.', async ({pageManager, apiManager, page}) => {
     test.fail(true, '140 Appointment do not moved');
     await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.DragAndDropAppointmentOnAnotherDay(appointmentTitle);
