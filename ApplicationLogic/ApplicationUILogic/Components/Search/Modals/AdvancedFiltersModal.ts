@@ -24,24 +24,24 @@ export class AdvancedFiltersModal extends ModalWindowBase {
   };
 
   DropdownOptions = {
-    Email: this.page.locator('"Email"'),
-    Image: this.page.locator('"Image"'),
-    Excel: this.page.locator('"Excel"'),
-    HTML: this.page.locator('"HTML"'),
-    PDF: this.page.locator('"PDF"'),
-    Powerpoint: this.page.locator('"Powerpoint"'),
-    TextDocument: this.page.locator('"Text Document"'),
-    Video: this.page.locator('"Video"'),
-    Word: this.page.locator('"Word"'),
-    ZippedFile: this.page.locator('"Zipped File"'),
-    Read: this.page.locator('"read"'),
-    Unread: this.page.locator('"unread"'),
-    Flagged: this.page.locator('"flagged"'),
-    NotFlagged: this.page.locator('"not flagged"'),
-    Draft: this.page.locator('"draft"'),
-    SentByMe: this.page.locator('"sent by me"'),
-    ReceivedByMe: this.page.locator('"received by me"'),
-    AnsweredByMe: this.page.locator('"answered by me"'),
+    Email: this.Containers.DropDownContainer.locator('"Email"'),
+    Image: this.Containers.DropDownContainer.locator('"Image"'),
+    Excel: this.Containers.DropDownContainer.locator('"Excel"'),
+    HTML: this.Containers.DropDownContainer.locator('"HTML"'),
+    PDF: this.Containers.DropDownContainer.locator('"PDF"'),
+    Powerpoint: this.Containers.DropDownContainer.locator('"Powerpoint"'),
+    TextDocument: this.Containers.DropDownContainer.locator('"Text Document"'),
+    Video: this.Containers.DropDownContainer.locator('"Video"'),
+    Word: this.Containers.DropDownContainer.locator('"Word"'),
+    ZippedFile: this.Containers.DropDownContainer.locator('"Zipped File"'),
+    Read: this.Containers.DropDownContainer.locator('"read"'),
+    Unread: this.Containers.DropDownContainer.locator('"unread"'),
+    Flagged: this.Containers.DropDownContainer.locator('"flagged"'),
+    NotFlagged: this.Containers.DropDownContainer.locator('"not flagged"'),
+    Draft: this.Containers.DropDownContainer.locator('"draft"'),
+    SentByMe: this.Containers.DropDownContainer.locator('"sent by me"'),
+    ReceivedByMe: this.Containers.DropDownContainer.locator('"received by me"'),
+    AnsweredByMe: this.Containers.DropDownContainer.locator('"answered by me"'),
     TagItem: this.Containers.DropDownContainer.locator('[class*="Container__ContainerEl"]'),
   };
 
@@ -98,5 +98,20 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     await this.Fields.Tag.click();
     await this.DropdownOptions.TagItem.locator(`"${tagName}"`);
     await this.Buttons.Search.click();
+  };
+
+  async ChooseOptionInStatusMailItem(mailItem) {
+    await this.Fields.StatusOfEmailItem.click();
+    await mailItem.click();
+    await this.Buttons.Search.click();
+  };
+
+  StatusMailItems = {
+    ReadOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Read),
+    UnreadOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Unread),
+    FlaggedOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Flagged),
+    NotFlaggedOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.NotFlagged),
+    DraftOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Draft),
+    SentByMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.SentByMe),
   };
 }
