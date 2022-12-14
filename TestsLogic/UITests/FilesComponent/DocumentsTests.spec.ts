@@ -40,13 +40,13 @@ test.describe('Documents tests', async () => {
 
   async function CreateNewFileAndGiveName({pageManager}, newItem, name) {
     if (newItem === pageManager.headerMenu.NewItemMenu.NewDocument) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.NewDocument();
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.OpenDocumentOdt();
       await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(name);
     } else if (newItem === pageManager.headerMenu.NewItemMenu.NewPresentation) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.NewPresentation();
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.OpenDocumentOdp();
       await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(name);
     } else if (newItem === pageManager.headerMenu.NewItemMenu.NewSpreadsheet) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.NewSpreadsheet();
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.OpenDocumentOds();
       await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(name);
     };
   };
