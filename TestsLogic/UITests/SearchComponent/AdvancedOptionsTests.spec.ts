@@ -131,13 +131,13 @@ test.describe('Search tests', async () => {
     }
   });
 
-  test('TC7. Search by "unread" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+  test('TC704. Search by "unread" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMessageOpenMailOpenSearchANdOpenFilters({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.UnreadOption();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 
-  test('TC7. Search by "read" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+  test('TC714. Search by "read" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMessageAndOpenMailsTab({pageManager, apiManager});
     await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).click();
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
@@ -145,19 +145,19 @@ test.describe('Search tests', async () => {
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 
-  test('TC7. Search by "flagged" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+  test('TC715. Search by "flagged" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMailFlaggedMailAndOpenAdvancedOptionsInSearch({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.FlaggedOption();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 
-  test('TC7. Search by "not flagged" in Search status found mail. Flagged email should not be found in Search Tab', async ({apiManager, pageManager}) => {
+  test('TC716. Search by "not flagged" in Search status found mail. Flagged email should not be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMailFlaggedMailAndOpenAdvancedOptionsInSearch({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.NotFlaggedOption();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
   });
 
-  test('TC7. Search by "sent by me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+  test('TC717. Search by "sent by me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMessageOpenMailOpenSearchANdOpenFilters({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.SentByMeOption();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
