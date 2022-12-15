@@ -6,12 +6,10 @@ test.describe('Documents tests', async () => {
   const newItemName = 'Zextras Team';
   const firstName = 'abcd';
   const secondName = 'aavc';
-  let unicFilePrefix;
   let unicFileName;
 
   test.beforeEach(async ({apiManager}) => {
-    unicFilePrefix = BaseTest.dateTimePrefix();
-    unicFileName = unicFilePrefix + ' Autotest DocumentsTests';
+    unicFileName = BaseTest.dateTimePrefix() + ' Autotest DocumentsTests';
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
