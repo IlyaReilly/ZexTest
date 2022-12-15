@@ -9,7 +9,7 @@ test.describe('Documents tests', async () => {
   let unicFileName;
 
   test.beforeEach(async ({apiManager}) => {
-    unicFileName = BaseTest.dateTimePrefix() + ' Autotest DocumentsTests';
+    unicFileName = BaseTest.dateTimePrefix() + ' Autotest File Name';
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
