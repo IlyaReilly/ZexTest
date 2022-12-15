@@ -215,13 +215,13 @@ test.describe('Mails tests', async () => {
   test("TC238. Reply to email. Reply email should be visible in the Sent folder", async ({pageManager, apiManager}) => {
     test.fail(true, '137. Unexpected Inbox folder opening');
     await ReplyToMailAndOpenFolder({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
-    await expect(pageManager.mailsList.Elements.Letter.locator(`"RE: ${mailSubject}"`), 'Replied email should be visible in Sent folder').toBeVisible();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"RE: ${mailSubject}"`), 'Reply email should be visible in the Sent folder').toBeVisible();
   });
 
   test("TC239. Get a reply email. Reply email should be visible in the Inbox folder", async ({pageManager, apiManager}) => {
     test.fail(true, 'Reply mail subject is displayed correctly only after page reload');
     await ReplyToMailAndOpenFolder({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox);
-    await expect(pageManager.mailsList.Elements.Letter.locator(`"RE: ${mailSubject}"`), 'Replied email should be visible in Sent folder').toBeVisible();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"RE: ${mailSubject}"`), 'Reply email should be visible in the Inbox folder').toBeVisible();
   });
   // 137 'Unexpected Inbox folder opening'
   test.skip("TC240. Open the sent reply email. Quote should be visible in email details", async ({pageManager, apiManager}) => {
