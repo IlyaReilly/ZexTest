@@ -157,7 +157,6 @@ test.describe('Documents tests', async () => {
   });
 
   test('TC534. Create Microsoft Word file via header menu. File with docx extension should appear in Home folder.', async ({pageManager, page}) => {
-    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftWordDocx();
     await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(unicFileName);
@@ -165,7 +164,6 @@ test.describe('Documents tests', async () => {
   });
 
   test('TC535. Create Microsoft Excel file via header menu. File with xlsx extension should appear in Home folder.', async ({pageManager, page}) => {
-    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftExcelXlsx();
     await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(unicFileName);
@@ -173,7 +171,6 @@ test.describe('Documents tests', async () => {
   });
 
   test('TC536. Create Microsoft PowerPoint file via header menu. File with pptx extension should appear in Home folder.', async ({pageManager, page}) => {
-    BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftPowerPointPptx();
     await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(unicFileName);
