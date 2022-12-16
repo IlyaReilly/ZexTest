@@ -110,7 +110,7 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.newMail.Elements.EditorToolbar, 'Editor toolbar should be visible').toBeVisible();
   });
 
-  test('TC220. Mark mail in New E-ail as important. "Mark as important" icon should be visible', async ({pageManager}) => {
+  test('TC220. Mark mail in New E-mail as important. "Mark as important" icon should be visible', async ({pageManager}) => {
     await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.MarkAsImportant);
     await expect(pageManager.newMail.Elements.MarkAsImportantIcon, '"Mark as important" icon should be visible').toBeVisible();
   });
@@ -133,12 +133,12 @@ test.describe('Mails tests', async () => {
   });
   // Contacts Dropdown does not appear
   test.skip('TC224. Open recieved email with read receipt request. "Read receipt required" modal title should be visible', async ({pageManager}) => {
-    await SendAndOpenMailWithReadReceiptRequest({pageManager});
+    await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.RequestReadReceipt);
     await expect(pageManager.readReceiptRequiredModal.Elements.Title, '"Read receipt required" modal title should be visible').toBeVisible();
   });
   // Contacts Dropdown does not appear
   test.skip("TC225. Notify sender when email with read receipt request has been read. Read receipt should be visible in sender's Inbox list", async ({pageManager}) => {
-    await SendMailWithReadReceiptRequest({pageManager});
+    await SendMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.RequestReadReceipt);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"Read-Receipt: ${mailSubject}"`), "Read receipt should be visible in sender's Inbox list").toBeVisible();
   });
@@ -234,6 +234,64 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in email details').toHaveText(mailQuote);
   });
 
+  test('TC242. Select CC option in New E-mail. CC textbox should be visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc);
+    await expect(pageManager.newMail.TextBox.Cc).toBeVisible();
+  });
+
+  test('TC243. Select BCC option in New E-mail. BCC textbox should be visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.Bcc);
+    await expect(pageManager.newMail.TextBox.Bcc).toBeVisible();
+  });
+
+  test('TC244. Deselect CC option in New E-mail. CC textbox should be not visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc);
+    await pageManager.newMail.SelectNewMailOption.Cc();
+    await expect(pageManager.newMail.TextBox.Cc).not.toBeVisible();
+  });
+
+  test('TC245. Deselect BCC option in New E-mail. BCC textbox should be not visible', async ({pageManager}) => {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.Bcc);
+    await pageManager.newMail.SelectNewMailOption.Bcc();
+    await expect(pageManager.newMail.TextBox.Bcc).not.toBeVisible();
+  });
+  // Contacts Dropdown does not appear
+  test.skip('TC246. Send an mail to a CC recipient. CC recipient login should be visible in email details', async ({pageManager}) => {
+    await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc, pageManager.newMail.TextBox.Cc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
+    await expect(pageManager.mailDetails.Elements.CcRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).toBeVisible();
+  });
+  // Contacts Dropdown does not appear
+  test.skip('TC247. Send an mail to a BCC recipient. BCC recipient login should be visible in email details', async ({pageManager}) => {
+    await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Bcc, pageManager.newMail.TextBox.Bcc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
+    await pageManager.mailDetails.Elements.MailPreview.nth(1).click();
+    await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).toBeVisible();
+  });
+
+  test('TC248. Receive the mail as a CC recipient. Email should be visible in Inbox list', async ({pageManager, apiManager}) => {
+    // await SendMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc, pageManager.newMail.TextBox.Cc, BaseTest.secondUser.login);
+    await apiManager.createMailsAPI.SendMsgWithCcRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody, BaseTest.userForLogin.login);
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
+  });
+
+  test('TC249. Receive the mail as a BCC recipient. Email should be visible in Inbox list', async ({pageManager, apiManager}) => {
+    await apiManager.createMailsAPI.SendMsgWithBccRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody, BaseTest.userForLogin.login);
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
+  });
+
+  test('TC250. Receive the mail with CC as main recipient. CC recipient login should be visible in email details', async ({pageManager, apiManager}) => {
+    await apiManager.createMailsAPI.SendMsgWithCcRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, BaseTest.secondUser.login);
+    await OpenMailFolderAndOpenMail({pageManager}, mailSubject);
+    await expect(pageManager.mailDetails.Elements.CcRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).toBeVisible();
+  });
+
+  test('TC251. Receive the mail with BCC as main recipient. BCC recipient login should be not visible in email details', async ({pageManager, apiManager}) => {
+    await apiManager.createMailsAPI.SendMsgWithBccRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, BaseTest.secondUser.login);
+    await OpenMailFolderAndOpenMail({pageManager}, mailSubject);
+    await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).not.toBeVisible();
+  });
+
   async function SendAndOpenMail({apiManager, pageManager}, folder?, secondRecipient?) {
     if (folder !== pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts) {
       await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, secondRecipient);
@@ -263,16 +321,23 @@ test.describe('Mails tests', async () => {
     await option();
   };
 
-  async function SendMailWithReadReceiptRequest({pageManager}) {
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
-    await pageManager.newMail.SelectNewMailOption.RequestReadReceipt();
+  async function SendMailWithSelectedOption({pageManager}, option, textbox?, mainRecipient = BaseTest.userForLogin.login) {
+    await OpenNewEmailBoardAndSelectOption({pageManager}, option);
+    await pageManager.newMail.CreateNewMail(mainRecipient, mailSubject, mailBody);
+    if (textbox) {
+      if (mainRecipient !== BaseTest.userForLogin.login) {
+        await textbox.fill(BaseTest.userForLogin.login);
+      } else {
+        await textbox.fill(BaseTest.secondUser.login);
+      };
+      await pageManager.newMail.Dropdowns.Contacts.Item.click();
+    };
     await pageManager.newMail.SendMail();
   };
 
-  async function SendAndOpenMailWithReadReceiptRequest({pageManager}) {
-    await SendMailWithReadReceiptRequest({pageManager});
-    await OpenMailFolderAndOpenMail({pageManager}, mailSubject);
+  async function SendAndOpenMailWithSelectedOption({pageManager}, option, textbox?, folder?, mainRecipient?) {
+    await SendMailWithSelectedOption({pageManager}, option, textbox, mainRecipient);
+    await OpenMailFolderAndOpenMail({pageManager}, mailSubject, folder);
   };
 
   async function OpenMailAndSelectOption({apiManager, pageManager}, option, folder?) {
