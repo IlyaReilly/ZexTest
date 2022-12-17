@@ -15,7 +15,10 @@ export class MailDetails extends BasePage {
 
   Elements = {
     Header: this.Containers.MainContainer.locator('[data-testid="PreviewPanelHeader"]'),
-    Recipient: this.Containers.MainContainer.locator('[class*="contact-names"]'),
+    MailPreview: this.Containers.MainContainer.locator('[data-testid^="MailPreview"]'),
+    Recipient: this.Containers.MainContainer.locator('_react=[label="To: "] >> [class*="contact-names"]'),
+    CcRecipient: this.Containers.MainContainer.locator('_react=[label="Cc: "] >> [class*="contact-names"]'),
+    BccRecipient: this.Containers.MainContainer.locator('_react=[label="Bcc: "] >> [class*="contact-names"]'),
     Body: this.MailBodyIframe.locator('body'),
     FlagIcon: this.Containers.MainContainer.locator('[data-testid="FlagIcon"]'),
     ActionWithMailNotification: this.page.locator('[data-testid="snackbar"]'),
@@ -67,9 +70,9 @@ export class MailDetails extends BasePage {
   AppointmentParticipantsSection = this.Containers.MainContainer.locator('.yOEdM');
 
   async SelectOption(option) {
-    if (!(option in this.MailOptions)) {
+    if (await option.isHidden()) {
       await this.MailOptions.MoreOptionsMenu.click();
-    }
+    };
     await option.click();
   };
 

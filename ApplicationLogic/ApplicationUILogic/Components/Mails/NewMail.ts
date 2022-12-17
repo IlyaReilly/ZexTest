@@ -9,7 +9,6 @@ export class NewMail extends BasePage {
     MainContainer: this.page.locator(InheritedFields.NewItemBoardLocator),
     BeforeYouLeaveContainer: this.page.locator('[data-testid="modal"]'),
     DropdownContainer: this.page.locator(InheritedFields.DropdownListLocator),
-
   };
 
   bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
@@ -26,12 +25,16 @@ export class NewMail extends BasePage {
     DeleteDraft: this.Containers.BeforeYouLeaveContainer.locator('"Delete Draft"'),
     ExpandBoard: this.Containers.MainContainer.locator('button:has([data-testid*="Expand"])'),
     ReduceBoard: this.Containers.MainContainer.locator('button:has([data-testid="icon: CollapseOutline"])'),
+    Cc: this.Containers.MainContainer.locator('_react=[label="Cc"]'),
+    Bcc: this.Containers.MainContainer.locator('_react=[label="Bcc"]'),
     MoreOptions: this.Containers.MainContainer.locator('button:has([data-testid$="MoreVertical"])'),
     CloseTab: this.Containers.MainContainer.locator('[data-testid$="Close"]'),
   };
 
   TextBox = {
     To: this.Containers.MainContainer.locator('[name="To"]'),
+    Cc: this.Containers.MainContainer.locator('[name="Cc"]'),
+    Bcc: this.Containers.MainContainer.locator('[name="Bcc"]'),
     Subject: this.Containers.MainContainer.locator('[name="Subject"]'),
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
@@ -64,6 +67,8 @@ export class NewMail extends BasePage {
     MarkAsNotImportant: async () => await this.SelectOption(this.Dropdowns.MoreOptions.MarkAsNotImportant),
     RequestReadReceipt: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RequestReadReceipt),
     RemoveReadReceiptRequest: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RemoveReadReceiptRequest),
+    Cc: async () => await this.SelectOption(this.Buttons.Cc),
+    Bcc: async () => await this.SelectOption(this.Buttons.Bcc),
   };
 
   async CreateNewMail(to, subject, body) {
@@ -90,7 +95,10 @@ export class NewMail extends BasePage {
   };
 
   async SelectOption(option) {
-    await this.Buttons.MoreOptions.click();
+    await this.TextBox.Subject.waitFor();
+    if (await option.isHidden()) {
+      await this.Buttons.MoreOptions.click();
+    };
     await option.click();
   };
 }
