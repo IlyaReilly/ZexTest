@@ -268,7 +268,6 @@ test.describe('Mails tests', async () => {
   });
 
   test('TC248. Receive the mail as a CC recipient. Email should be visible in Inbox list', async ({pageManager, apiManager}) => {
-    // await SendMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc, pageManager.newMail.TextBox.Cc, BaseTest.secondUser.login);
     await apiManager.createMailsAPI.SendMsgWithCcRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();

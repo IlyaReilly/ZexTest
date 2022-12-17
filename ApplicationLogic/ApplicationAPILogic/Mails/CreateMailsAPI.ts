@@ -41,7 +41,7 @@ export class CreateMailsAPI extends BaseAPI {
   async SendMsgWithBccRequest(subject, from, recipient, mailBody, secondRecipient) {
     let id = '';
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.sendMsgRequest}`, {
-      data: this.FormingMsgWithCcRequestBody(this.sendMsgRequest, subject, from, recipient, mailBody, secondRecipient),
+      data: this.FormingMsgWithBccRequestBody(this.sendMsgRequest, subject, from, recipient, mailBody, secondRecipient),
     });
 
     const body = await this.GetResponseBody(response);
