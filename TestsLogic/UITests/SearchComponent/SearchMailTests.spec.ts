@@ -31,13 +31,13 @@ test.describe('Search tests', async () => {
   };
 
   async function CreateMessageAndOpenFiltersInSearch({pageManager, apiManager}) {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
   };
 
   async function CreateMessageAndOpenMailsTab({pageManager, apiManager}) {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   };
 
@@ -47,9 +47,8 @@ test.describe('Search tests', async () => {
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
   };
 
-  // Received mail unexpectedly appears in Junk folder
-  test.skip('TC701. Search sent email', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody);
+  test('TC701. Search sent email', async ({pageManager, apiManager}) => {
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], mailBody);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
     await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
