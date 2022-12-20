@@ -5,9 +5,9 @@ export class CreateMailsAPI extends BaseAPI {
     super(page);
   };
 
-  async SendMsgRequest(subject, from, to, mailBody, toType?) {
+  async SendMsgRequest(subject, mailBody, from, toArray, ccArray?, bccArray?) {
     let id = '';
-    const response = await this.FormingMsgRequest(this.sendMsgRequest, subject, from, to, mailBody, toType);
+    const response = await this.FormingMsgRequest(this.sendMsgRequest, subject, mailBody, from, toArray, ccArray, bccArray);
     const body = await this.GetResponseBody(response);
     if (body.Body.SendMsgResponse.m) {
       id = body.Body.SendMsgResponse.m[0].id;
@@ -28,9 +28,9 @@ export class CreateMailsAPI extends BaseAPI {
     return id;
   };
 
-  async SaveDraftRequest(subject, from, to, draftBody) {
+  async SaveDraftRequest(subject, draftBody, from, toArray, ccArray?, bccArray?) {
     let id = '';
-    const response = await this.FormingMsgRequest(this.saveDraftRequest, subject, from, to, draftBody);
+    const response = await this.FormingMsgRequest(this.saveDraftRequest, subject, draftBody, from, toArray, ccArray, bccArray);
     const body = await this.GetResponseBody(response);
     if (body.Body.SaveDraftResponse.m) {
       id = body.Body.SaveDraftResponse.m[0].id;
@@ -50,7 +50,7 @@ export class CreateMailsAPI extends BaseAPI {
     return id;
   };
 
-  async FormingMsgRequest(requestType, subject, from, to, body, toType = 't') {
+  async FormingMsgRequest(requestType, subject, body, from, toArray, ccArray = [], bccArray = []) {
     const request = await this.page.request.post(`${this.soapServiceUrl}${requestType}`, {
       data: {
         Body: {
@@ -61,8 +61,9 @@ export class CreateMailsAPI extends BaseAPI {
               su: {_content: subject},
               e: [
                 {t: 'f', a: from, d: ''},
-                {t: 't', a: to[0], d: ''},
-                ...to.slice(1).map((to) => to = {t: toType, a: to}),
+                ...toArray.map((to) => to = {t: 't', a: to}),
+                ...ccArray.map((cc) => cc = {t: 'c', a: cc}),
+                ...bccArray.map((bcc) => bcc = {t: 'b', a: bcc}),
               ],
               mp: [
                 {

@@ -44,7 +44,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('TC603. Emailed contact. New email reciever appears in emailed Contacts folder', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [email], mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [email]);
     await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();
     await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${email}"`), 'The e-mail address of a new contact is visible in Emailed contacts list').toBeVisible();
   });

@@ -18,40 +18,40 @@ test.describe('Mails context menu options tests', async () => {
   });
 
   // The logic of this test is broken by application changes
-  test.skip('TC207. Mark mail as unread', async ({secondPageManager, apiManager}) => {
+  test.skip('TC207. Mark mail as unread. Unread message icon should be visible', async ({secondPageManager, apiManager}) => {
     await OpenInboxMailInAnotherUser({secondPageManager, apiManager});
     await secondPageManager.mailsList.OpenMail(mailSubject);
     await secondPageManager.mailsList.SelectMailContextMenuOption.MarkAsUnread(mailSubject);
     await expect(secondPageManager.mailsList.Elements.UnreadMessageIcon.first()).toBeVisible();
   });
   // The logic of this test is broken by application changes
-  test.skip('TC208. Mark mails as read', async ({secondPageManager, apiManager}) => {
+  test.skip('TC208. Mark mails as read. Unread message icon should not be visible', async ({secondPageManager, apiManager}) => {
     await OpenInboxMailInAnotherUser({secondPageManager, apiManager});
     await secondPageManager.mailsList.SelectMailContextMenuOption.MarkAsRead(mailSubject);
     const unreadIcon = secondPageManager.mailsList.Elements.UnreadMessageIcon._selector;
     await expect(secondPageManager.mailsList.Elements.Letter.first()).not.toHaveClass(unreadIcon);
   });
 
-  test('TC209. Flag mail', async ({pageManager, apiManager}) => {
+  test('TC209. Flag mail. Added flag should be visible', async ({pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
     await pageManager.mailsList.SelectMailContextMenuOption.AddFlag(mailSubject);
     await pageManager.mailsList.OpenMail(mailSubject);
     await expect(pageManager.mailDetails.Elements.FlagIcon).toBeVisible();
   });
 
-  test('TC210. Mark mail as spam', async ({pageManager, apiManager}) => {
+  test('TC210. Mark mail as spam. Mark as spam notification should be visible', async ({pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
     await pageManager.mailsList.SelectMailContextMenuOption.MarkAsSpam(mailSubject);
     await expect(pageManager.mailDetails.Elements.ActionWithMailNotification).toContainText('Spam');
   });
 
-  test('TC211. Print mail', async ({page, pageManager, apiManager}) => {
+  test('TC211. Print mail. Mail subject should be in header of printed document', async ({page, pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
     const mailTitle = await getContentFromNewPage({page}, pageManager.mailsList.SelectMailContextMenuOption.Print, 'b >> nth=-1');
     await expect(mailTitle).toBe(mailSubject);
   });
 
-  test('TC212. Show original mail', async ({page, pageManager, apiManager}) => {
+  test('TC212. Show original mail. Original document should contain mail body text', async ({page, pageManager, apiManager}) => {
     await SendMailAndOpenSentFolder({pageManager, apiManager});
     const mailContent = await getContentFromNewPage({page}, pageManager.mailsList.SelectMailContextMenuOption.ShowOriginal, 'pre');
     await expect(mailContent).toContain(mailBody);
@@ -68,12 +68,12 @@ test.describe('Mails context menu options tests', async () => {
   }
 
   async function OpenInboxMailInAnotherUser({secondPageManager, apiManager}) {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.secondUser.login], mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login]);
     await secondPageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
   };
 
   async function SendMailAndOpenSentFolder({pageManager, apiManager}) {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.secondUser.login], mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login]);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
   };
 });

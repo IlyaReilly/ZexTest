@@ -5,8 +5,6 @@ import {InheritedFields} from '../../../ApplicationLogic/ApplicationUILogic/Page
 test.describe('Mails tests', async () => {
   let mailSubject;
   let mailBody;
-  const cc = 'c';
-  const bcc = 'b';
 
   test.beforeEach(async ({pageManager}) => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
@@ -45,7 +43,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('TC204. Get mail. Mail should be visible in the Inbox folder list', async ({apiManager, pageManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
   });
@@ -70,7 +68,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('TC213. Delete mail permanently. Mail should not be visible in the Trash folder list', async ({pageManager, apiManager}) => {
-    const id = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], mailBody);
+    const id = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
     await apiManager.deleteMailsAPI.MoveToTrash(id);
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject, pageManager.sideSecondaryMailMenu.OpenMailFolder.Trash);
     await pageManager.mailDetails.SelectMailOption.DeletePermanently();
@@ -201,7 +199,7 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.Body).toHaveText(mailBody);
   });
 
-  test('TC236. Send mail to multiple recipients. All recipient logins should be visible in theemail details', async ({apiManager, pageManager}) => {
+  test('TC236. Send mail to multiple recipients. All recipient logins should be visible in the mail details', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent, [BaseTest.secondUser.login, BaseTest.thirdUser.login]);
     await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).toBeVisible();
     await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.thirdUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).toBeVisible();
@@ -268,35 +266,35 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).toBeVisible();
   });
 
-  test('TC248. Receive the mail as a CC recipient. Email should be visible in Inbox list', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.secondUser.login, BaseTest.userForLogin.login], mailBody, cc);
+  test('TC248. Receive the mail as a CC recipient. Mail should be visible in Inbox list', async ({pageManager, apiManager}) => {
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login], [BaseTest.userForLogin.login]);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
-  test('TC249. Receive the mail as a BCC recipient. Email should be visible in Inbox list', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.secondUser.login, BaseTest.userForLogin.login], mailBody, bcc);
+  test('TC249. Receive the mail as a BCC recipient. Mail should be visible in Inbox list', async ({pageManager, apiManager}) => {
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login], [], [BaseTest.userForLogin.login]);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
   });
 
   test('TC250. Receive the mail with CC as main recipient. CC recipient login should be visible in mail details', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login, BaseTest.secondUser.login], mailBody, cc);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [BaseTest.secondUser.login]);
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject);
     await expect(pageManager.mailDetails.Elements.CcRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).toBeVisible();
   });
 
   test('TC251. Receive the mail with BCC as main recipient. BCC recipient login should not be visible in mail details', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login, BaseTest.secondUser.login], mailBody, bcc);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [BaseTest.secondUser.login]);
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject);
     await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`)).not.toBeVisible();
   });
 
-  async function SendAndOpenMail({apiManager, pageManager}, folder?, to = [BaseTest.userForLogin.login]) {
+  async function SendAndOpenMail({apiManager, pageManager}, folder?, toArray = [BaseTest.userForLogin.login]) {
     if (folder !== pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts) {
-      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, to, mailBody);
+      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray);
     } else {
-      await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, BaseTest.userForLogin.login, to, mailBody);
+      await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray);
     };
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject, folder);
   };

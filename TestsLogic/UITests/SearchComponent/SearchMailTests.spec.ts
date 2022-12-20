@@ -31,25 +31,24 @@ test.describe('Search tests', async () => {
   };
 
   async function CreateMessageAndOpenFiltersInSearch({pageManager, apiManager}) {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], mailBody);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await CreateMessageAndOpenInbox({pageManager, apiManager});
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
   };
 
-  async function CreateMessageAndOpenMailsTab({pageManager, apiManager}) {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], mailBody);
+  async function CreateMessageAndOpenInbox({pageManager, apiManager}) {
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
   };
 
   async function CreateMailFlaggedMailAndOpenAdvancedOptionsInSearch({pageManager, apiManager}) {
-    await CreateMessageAndOpenMailsTab({pageManager, apiManager});
+    await CreateMessageAndOpenInbox({pageManager, apiManager});
     await pageManager.mailsList.SelectMailContextMenuOption.AddFlag(mailSubject);
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
   };
 
   test('TC701. Search sent email', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], mailBody);
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
+    await CreateMessageAndOpenInbox({pageManager, apiManager});
     await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
     await pageManager.headerMenu.MakeSearch(uniquePrefix);
@@ -108,7 +107,7 @@ test.describe('Search tests', async () => {
   });
 
   test('TC714. Search by "read" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
-    await CreateMessageAndOpenMailsTab({pageManager, apiManager});
+    await CreateMessageAndOpenInbox({pageManager, apiManager});
     await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).click();
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
     await pageManager.advancedFiltersModal.StatusMailItems.ReadOption();
