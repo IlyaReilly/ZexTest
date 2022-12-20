@@ -50,7 +50,7 @@ test.describe('Folders tests', async () => {
 
   test('TC802. Move mail to a new folder', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login]);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
     await pageManager.mailsList.OpenMail(mailSubject);
     await pageManager.mailDetails.SelectMailOption.Move();
@@ -87,7 +87,7 @@ test.describe('Folders tests', async () => {
 
   test('TC806. Folder is wiped', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    const mailId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, BaseTest.userForLogin.login, BaseTest.secondUser.login, mailBody);
+    const mailId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login]);
     await apiManager.mailsAPI.MoveMailToFolder(mailId, BaseTest.userForLogin.login, folderId);
     await OpenSentSubFolderContextMenu({pageManager});
     await ChooseNewFolderOptionAndCreateNewFoler({pageManager});
