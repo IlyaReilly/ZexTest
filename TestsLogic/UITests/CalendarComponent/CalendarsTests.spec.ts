@@ -69,6 +69,19 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Selectors.PrivateAppLockIconSelector).toBeVisible();
   });
 
+  test('TC325. Create new appointment with location. Location should be demonstrated in appointment info.', async ({page, pageManager}) => {
+    const location = dateTimePrefix + 'Location';
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, false, location);
+    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
+    await elementHandle?.waitForElementState('hidden');
+    await page.waitForLoadState('domcontentloaded');
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    await pageManager.calendar.OpenAppointmentInfoPopup(appointmentTitle);
+    await expect(pageManager.calendar.Containers.AppointmentPopupContainer.locator(`'${location}'`), 'Location should be demonstrated in appointment info.').toBeVisible();
+  });
+
   test('TC320. Delete appointment to trash. Appointment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
     await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});

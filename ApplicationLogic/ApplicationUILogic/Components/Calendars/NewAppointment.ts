@@ -33,14 +33,15 @@ export class NewAppointment extends BasePage {
     Private: this.Containers.MainContainer.locator('"Private"'),
   };
 
-  async SendAppointment(title, body, attendees = BaseTest.secondUser.login, privateApp = false) {
+  async SendAppointment(title, body, attendees = BaseTest.secondUser.login, privateApp = false, location = '') {
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();
-    await this.TextBox.Attendees.type(attendees);
-    await this.Dropdowns.Item.waitFor();
-    await this.Dropdowns.Item.click();
+    await this.TextBox.Attendees.fill(attendees);
     if (privateApp) {
       await this.CheckBoxes.Private.click();
+    }
+    if (location) {
+      await this.TextBox.Location.fill(location);
     }
     await this.TextBox.Body.type(body);
     await this.Buttons.Send.click();
