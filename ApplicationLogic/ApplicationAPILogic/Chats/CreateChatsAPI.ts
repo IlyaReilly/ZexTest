@@ -5,9 +5,9 @@ export class CreateChatsAPI extends BaseAPI {
     super(page);
   };
 
-  async CreateConversations(title, topic, userId) {
+  async CreateSpace(title, topic, ...userIds) {
     const response = await this.page.request.post(`${this.restServiceUrl}${this.createSpaceRequest}`, {
-      data: {"name": title, "invited_user_ids": [userId], "topic": topic},
+      data: {"name": title, "invited_user_ids": userIds, "topic": topic},
     });
 
     const body = await this.GetResponseBody(response);
