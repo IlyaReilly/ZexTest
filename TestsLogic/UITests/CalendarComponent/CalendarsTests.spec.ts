@@ -44,8 +44,8 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.Tags, 'Tags tab should be presented').toBeVisible();
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.SharedCalendars, 'Shared Calendars tab should be presented').toBeVisible();
   });
-  // Contacts Dropdown does not appear
-  test.skip('TC302. Create new appointment. New appointment is presented in calendar.', async ({page, pageManager}) => {
+
+  test('TC302. Create new appointment. New appointment is presented in calendar.', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
@@ -56,8 +56,8 @@ test.describe('Calendars tests', async () => {
     await pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`).waitFor();
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
-  // Contacts Dropdown does not appear
-  test.skip('TC305. Create new private appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
+
+  test('TC305. Create new private appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);

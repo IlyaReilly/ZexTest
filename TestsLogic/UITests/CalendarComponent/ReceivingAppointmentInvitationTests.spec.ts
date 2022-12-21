@@ -48,7 +48,7 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
     await expect(secondPageManager.mailDetails.AppointmentParticipantsSection.locator(`"${BaseTest.secondUser.login}"`), `Appointment has ${BaseTest.secondUser.password} in participants`).toBeVisible();
   });
 
-  test.skip('TC1104. Create new appointment. Attendee receives invitation with Participants count.', async ({secondPageManager}) => {
+  test('TC1104. Create new appointment. Attendee receives invitation with Participants count.', async ({secondPageManager}) => {
     test.fail();
     const participantsCount = '2 Participants';
     await secondPageManager.mailsList.OpenMail(appointmentTitle);
