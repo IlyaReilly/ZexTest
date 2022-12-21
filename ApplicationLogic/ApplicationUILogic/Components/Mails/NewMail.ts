@@ -74,7 +74,6 @@ export class NewMail extends BasePage {
   async CreateNewMail(to, subject, body) {
     await this.TextBox.To.click();
     await this.TextBox.To.fill(to);
-    await this.Dropdowns.Contacts.Item.click();
     await this.TextBox.Subject.click();
     await this.TextBox.Subject.fill(subject);
     await this.Containers.MainContainer.locator(`"${subject}"`).waitFor();

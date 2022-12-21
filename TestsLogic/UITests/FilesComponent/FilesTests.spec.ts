@@ -176,8 +176,7 @@ test.describe('Files tests', async () => {
     expect(firstFileSize).toBeGreaterThan(secondFileSize);
   });
 
-  // Bug with copypaste in mail folder. Dropdown does not appear.
-  test.skip('TS522. Send mail with attached file. The attached file must be in incoming mail.', async ({apiManager, pageManager, page}) => {
+  test('TS522. Send mail with attached file. The attached file must be in incoming mail.', async ({apiManager, pageManager, page}) => {
     test.slow();
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.FileOptions.SendViaMail.click();
