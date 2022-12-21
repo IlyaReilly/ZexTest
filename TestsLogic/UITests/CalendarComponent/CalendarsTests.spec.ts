@@ -16,10 +16,7 @@ test.describe('Calendars tests', async () => {
   };
 
   test.beforeAll(async ({apiManager}) => {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
+    await DeleteAppointmentsAndCalendarsViaAPI({apiManager});
   });
 
   test.beforeEach(async ({pageManager}) => {
@@ -31,9 +28,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, runtimeAppoinmentId, BaseTest.userForLogin.login);
-    const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentTitle, BaseTest.userForLogin.login);
-    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    await DeleteAppointmentsAndCalendarsViaAPI({apiManager});
     await page.close();
   });
 
@@ -161,5 +156,17 @@ test.describe('Calendars tests', async () => {
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+  };
+
+  async function DeleteAppointmentsAndCalendarsViaAPI({apiManager}) {
+    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
+    await Promise.all(allAppionmentsIds.map(async (id) => {
+      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    }));
+    const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
+    const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
+    await Promise.all(allCustomFolders.map(async (folder) => {
+      return await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);
+    }));
   };
 });

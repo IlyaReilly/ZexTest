@@ -23,12 +23,16 @@ export class ChatsAPI extends BaseAPI {
       data: {},
     });
     const body = await this.GetResponseBody(response);
-    if (body.conversations[0]) {
-      const arr = body.conversations[0].members;
-      const arr2 = await Promise.all(arr.map(async (conversation) => {
+    if (body.conversations) {
+      const arrayOfConversations = body.conversations;
+      const arrayOfMembersArrays = await Promise.all(arrayOfConversations.map(async (conversation) => {
+        return conversation.members;
+      }));
+      const arrayOfMembers = arrayOfMembersArrays.flat();
+      const membersIds = await Promise.all(arrayOfMembers.map(async (conversation) => {
         return conversation.user_id;
       }));
-      return arr2;
+      return membersIds;
     };
   };
 }

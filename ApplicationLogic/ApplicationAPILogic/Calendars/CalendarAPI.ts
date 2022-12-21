@@ -6,20 +6,22 @@ export class CalendarAPI extends BaseAPI {
   };
 
   async GetAllAppointments(user: string) {
-    const id = [];
     const startEndExpand = this.StartEndRangeCounterForSearch();
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
       data: {
-        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": startEndExpand.endExpand, "calExpandInstStart": startEndExpand.startExpand, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": "inid:\"10\""}}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "14020", "_content": "14020"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
+        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": startEndExpand.endExpand, "calExpandInstStart": startEndExpand.startExpand, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": "inid:\"10\" OR inid:\"2823\""}}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "145760", "_content": "145760"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 108.0.0.0 (Windows)", "version": "22.12.0_ZEXTRAS_202212 carbonio 20221124-1328 FOSS"}}},
       },
     });
     const body = await this.GetResponseBody(response);
     if (body.Body.SearchResponse.appt) {
-      body.Body.SearchResponse.appt.forEach((appointment) => {
-        id.push(appointment.invId);
-      });
-    }
-    return id;
+      const arrayOfAppointments = body.Body.SearchResponse.appt;
+      const arrayOfAppointmentsIds = await Promise.all(arrayOfAppointments.map(async (appointment) => {
+        return appointment.invId;
+      }));
+      return arrayOfAppointmentsIds;
+    } else {
+      return [];
+    };
   };
 
   async GetCalendarFolders(user: string) {
@@ -53,9 +55,9 @@ export class CalendarAPI extends BaseAPI {
   };
 
   StartEndRangeCounterForSearch() {
-    const startYear = 2022;
-    const currentYear = new Date().getFullYear();
-    const oneYearInMillisecond = 31536000000;
-    return {startExpand: 1639872000000 + oneYearInMillisecond*(currentYear - startYear), endExpand: 1671408000000 + oneYearInMillisecond*(currentYear - startYear)};
+    const currentDate = Date.now();
+    // const currentYear = new Date().getFullYear();
+    // const oneYearInMillisecond = 31536000000;
+    return {startExpand: 1671397200000, endExpand: currentDate};
   };
 }
