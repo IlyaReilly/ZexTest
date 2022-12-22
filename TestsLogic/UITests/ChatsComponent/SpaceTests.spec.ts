@@ -39,9 +39,10 @@ test.describe('Space tests', async () => {
     }));
   };
 
-  async function CreateSpace({apiManager}, title) {
-    const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
-    const spaceId = await apiManager.createChatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
+  async function CreateSpace({apiManager}, title, secondMemberUsername = BaseTest.secondUser.login, ...othersMembersUsernames) {
+    othersMembersUsernames.unshift(secondMemberUsername);
+    const usersIds = await Promise.all(othersMembersUsernames.map(async (username) => apiManager.usersAPI.GetUserId(username)));
+    const spaceId = await apiManager.createChatsAPI.CreateSpace(spaceTitle, spaceTopic, ...usersIds);
     if (title === channelTitle) {
       await apiManager.createChatsAPI.CreateChannel(spaceId, channelTitle, channelTopic);
     };
@@ -210,5 +211,13 @@ test.describe('Space tests', async () => {
     test.fail(true, 'Problem with new functionality about channel members');
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, channelTitle);
     await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
+  });
+
+  test('TC444. Remove member from space via "Remove Member" button. Removed member is not shown in members list in space.', async ({pageManager, apiManager}) => {
+    await CreateSpace({apiManager}, '', BaseTest.secondUser.login, BaseTest.thirdUser.login);
+    await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
+    await pageManager.chatsInfo.MemberCardItems.Buttons.RemoveMemberWithUsername(BaseTest.secondUser.login).click();
+    await pageManager.chatsActionsModal.Buttons.Remove.click();
+    await expect(pageManager.chatsInfo.Items.MemberCardWithUsername(BaseTest.secondUser.login)).not.toBeVisible();
   });
 });

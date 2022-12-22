@@ -24,16 +24,29 @@ export class ChatsInfo extends BasePage {
     LeaveGroup: this.Containers.MainContainer.locator('"Leave Group"'),
     SaveNewName: this.Containers.MainContainer.locator('[data-testid*="SaveOutline"]'),
     AddChannel: this.Containers.MainContainer.locator('"Add Channel"'),
+    SearchForParticipant: this.Containers.MainContainer.locator('[data-testid*="Search"]'),
   };
 
   TextBoxes = {
     EditNameField: this.Containers.MainContainer.locator('[name="Name"]'),
     EditTopicField: this.Containers.MainContainer.locator('[name="Topic"]'),
+    SearchForParticipantField: this.Containers.MainContainer.locator('[class^="ParticipantListFilter"]'),
   };
 
   Items = {
     Member: this.Containers.MembersContainer.locator('_react=[key^="participantListCardItem"]'),
+    MemberCardWithUsername: (memberUsername) => this.Items.Member.filter({has: this.page.locator(`"${memberUsername}"`)}),
     TopicName: this.page.locator('[overflow="ellipsis"]+[overflow="break-word"]'),
+  };
+
+  MemberCardItems = {
+    Buttons: {
+      RemoveMemberWithUsername: (memberUsername) => this.Items.Member.filter({has: this.page.locator(`"${memberUsername}"`)}).locator('[data-testid*="Trash2Outline"]'),
+    },
+  };
+
+  SearchResults = {
+    UsernameOfMember: this.Containers.MembersContainer.locator('_react=[key^="filteredListCardItem"]').locator('[color="text"]'),
   };
 
   async Rename(newName) {
