@@ -39,17 +39,16 @@ test.describe('Space tests', async () => {
     }));
   };
 
-  async function CreateSpace({apiManager}, title, secondMemberUsername = BaseTest.secondUser.login, ...othersMembersUsernames) {
-    othersMembersUsernames.unshift(secondMemberUsername);
-    const usersIds = await Promise.all(othersMembersUsernames.map(async (username) => apiManager.usersAPI.GetUserId(username)));
-    const spaceId = await apiManager.createChatsAPI.CreateSpace(spaceTitle, spaceTopic, ...usersIds);
+  async function CreateSpace({apiManager}, membersUsernames: string[], title?) {
+    const usersIds = await Promise.all(membersUsernames.map(async (username) => apiManager.usersAPI.GetUserId(username)));
+    const spaceId = await apiManager.createChatsAPI.CreateSpace(spaceTitle, spaceTopic, usersIds);
     if (title === channelTitle) {
       await apiManager.createChatsAPI.CreateChannel(spaceId, channelTitle, channelTopic);
     };
   };
 
   async function CreateSpaceAndOpenDetails({pageManager, apiManager}, title) {
-    await CreateSpace({apiManager}, title);
+    await CreateSpace({apiManager}, [BaseTest.secondUser.login], title);
     if (title === channelTitle) {
       await pageManager.sideSecondaryChatsMenu.Buttons.OpenDropdown.click();
       title = '#' + title;
@@ -214,7 +213,7 @@ test.describe('Space tests', async () => {
   });
 
   test('TC444. Remove member from space via "Remove Member" button. Removed member is not shown in members list in space.', async ({pageManager, apiManager}) => {
-    await CreateSpace({apiManager}, '', BaseTest.secondUser.login, BaseTest.thirdUser.login);
+    await CreateSpace({apiManager}, [BaseTest.secondUser.login]);
     await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
     await pageManager.chatsInfo.MemberCardItems.Buttons.RemoveMemberWithUsername(BaseTest.secondUser.login).click();
     await pageManager.chatsActionsModal.Buttons.Remove.click();
