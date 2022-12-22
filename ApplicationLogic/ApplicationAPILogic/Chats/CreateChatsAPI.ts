@@ -5,7 +5,7 @@ export class CreateChatsAPI extends BaseAPI {
     super(page);
   };
 
-  async CreateSpace(title, topic, ...userIds) {
+  async CreateSpace(title, topic, userIds) {
     const response = await this.page.request.post(`${this.restServiceUrl}${this.createSpaceRequest}`, {
       data: {"name": title, "invited_user_ids": userIds, "topic": topic},
     });
