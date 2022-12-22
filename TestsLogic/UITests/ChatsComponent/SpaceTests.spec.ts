@@ -215,7 +215,7 @@ test.describe('Space tests', async () => {
   test('TC444. Remove member from space via "Remove Member" button. Removed member is not shown in members list in space.', async ({pageManager, apiManager}) => {
     await CreateSpace({apiManager}, [BaseTest.secondUser.login]);
     await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
-    await pageManager.chatsInfo.MemberCardItems.Buttons.RemoveMemberWithUsername(BaseTest.secondUser.login).click();
+    await pageManager.chatsInfo.Buttons.RemoveMemberWithUsername(BaseTest.secondUser.login).click();
     await pageManager.chatsActionsModal.Buttons.Remove.click();
     await expect(pageManager.chatsInfo.Items.MemberCardWithUsername(BaseTest.secondUser.login)).not.toBeVisible();
   });

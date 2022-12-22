@@ -15,6 +15,7 @@ export class ChatsInfo extends BasePage {
     DeleteSpace: this.Containers.MainContainer.locator('"Delete Space"'),
     DeleteChannel: this.Containers.MainContainer.locator('"Delete Channel"'),
     RemoveMember: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
+    RemoveMemberWithUsername: (memberUsername) => this.Items.Member.filter({has: this.page.locator(`"${memberUsername}"`)}).locator('[data-testid*="Trash2Outline"]'),
     DeleteGroup: this.Containers.MainContainer.locator('"Delete Group"'),
     EditButton: this.Containers.MainContainer.locator('[title="Edit info"]'),
     AddNewMembers: this.Containers.MainContainer.locator('"Add new members"'),
@@ -37,16 +38,7 @@ export class ChatsInfo extends BasePage {
     Member: this.Containers.MembersContainer.locator('_react=[key^="participantListCardItem"]'),
     MemberCardWithUsername: (memberUsername) => this.Items.Member.filter({has: this.page.locator(`"${memberUsername}"`)}),
     TopicName: this.page.locator('[overflow="ellipsis"]+[overflow="break-word"]'),
-  };
-
-  MemberCardItems = {
-    Buttons: {
-      RemoveMemberWithUsername: (memberUsername) => this.Items.Member.filter({has: this.page.locator(`"${memberUsername}"`)}).locator('[data-testid*="Trash2Outline"]'),
-    },
-  };
-
-  SearchResults = {
-    UsernameOfMember: this.Containers.MembersContainer.locator('_react=[key^="filteredListCardItem"]').locator('[color="text"]'),
+    UsernameInSearchResults: this.Containers.MembersContainer.locator('_react=[key^="filteredListCardItem"]').locator('[color="text"]'),
   };
 
   async Rename(newName) {
