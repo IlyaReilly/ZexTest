@@ -56,8 +56,9 @@ export class CalendarAPI extends BaseAPI {
 
   StartEndRangeCounterForSearch() {
     const currentDate = Date.now();
-    // const currentYear = new Date().getFullYear();
-    // const oneYearInMillisecond = 31536000000;
-    return {startExpand: 1671397200000, endExpand: currentDate};
+    const startYear = 2022;
+    const currentYear = new Date().getFullYear();
+    const oneYearInMillisecond = 31536000000;
+    return {startExpand: currentDate - oneYearInMillisecond*(currentYear - startYear), endExpand: currentDate};
   };
 }
