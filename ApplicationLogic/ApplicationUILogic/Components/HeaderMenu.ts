@@ -39,6 +39,9 @@ export class HeaderMenu extends BasePage {
     OpenDocumentOdt: this.Containers.DropdownList.locator('"OpenDocument (.odt)"'),
     OpenDocumentOds: this.Containers.DropdownList.locator('"OpenDocument (.ods)"'),
     OpenDocumentOdp: this.Containers.DropdownList.locator('"OpenDocument (.odp)"'),
+    MicrosoftWordDocx: this.Containers.DropdownList.locator('"Microsoft Word (.docx)"'),
+    MicrosoftExcelXlsx: this.Containers.DropdownList.locator('"Microsoft Excel (.xlsx)"'),
+    MicrosoftPointPptx: this.Containers.DropdownList.locator('"Microsoft PowerPoint (.pptx)"'),
   };
 
   Logos = {
@@ -85,9 +88,12 @@ export class HeaderMenu extends BasePage {
     NewContact: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewContact),
     Upload: async () => await this.OpenNewItemMenu(this.NewItemMenu.Upload),
     NewFolder: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewFolder),
-    NewDocument: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewDocument, this.NewItemMenu.OpenDocumentOdt),
-    NewSpreadsheet: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewSpreadsheet, this.NewItemMenu.OpenDocumentOds),
-    NewPresentation: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewPresentation, this.NewItemMenu.OpenDocumentOdp),
+    OpenDocumentOdt: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewDocument, this.NewItemMenu.OpenDocumentOdt),
+    MicrosoftWordDocx: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewDocument, this.NewItemMenu.MicrosoftWordDocx),
+    OpenDocumentOds: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewSpreadsheet, this.NewItemMenu.OpenDocumentOds),
+    MicrosoftExcelXlsx: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewSpreadsheet, this.NewItemMenu.MicrosoftExcelXlsx),
+    OpenDocumentOdp: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewPresentation, this.NewItemMenu.OpenDocumentOdp),
+    MicrosoftPowerPointPptx: async () => await this.OpenNewItemMenu(this.NewItemMenu.NewPresentation, this.NewItemMenu.MicrosoftPointPptx),
     CreateNewChat: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateChat),
     CreateNewGroup: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateGroup),
     CreateNewSpace: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateSpace),

@@ -6,8 +6,10 @@ test.describe('Documents tests', async () => {
   const newItemName = 'Zextras Team';
   const firstName = 'abcd';
   const secondName = 'aavc';
+  let unicFileName;
 
   test.beforeEach(async ({apiManager}) => {
+    unicFileName = BaseTest.dateTimePrefix() + ' Autotest File Name';
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
@@ -36,13 +38,13 @@ test.describe('Documents tests', async () => {
 
   async function CreateNewFileAndGiveName({pageManager}, newItem, name) {
     if (newItem === pageManager.headerMenu.NewItemMenu.NewDocument) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.NewDocument();
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.OpenDocumentOdt();
       await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(name);
     } else if (newItem === pageManager.headerMenu.NewItemMenu.NewPresentation) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.NewPresentation();
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.OpenDocumentOdp();
       await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(name);
     } else if (newItem === pageManager.headerMenu.NewItemMenu.NewSpreadsheet) {
-      await pageManager.headerMenu.SelectOptionInNewItemMenu.NewSpreadsheet();
+      await pageManager.headerMenu.SelectOptionInNewItemMenu.OpenDocumentOds();
       await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(name);
     };
   };
@@ -150,5 +152,26 @@ test.describe('Documents tests', async () => {
       pageManager.fileDetails.ClickVersioningDropdownOption.OpenDocumentVersion(1),
     ]);
     await expect(documentVersionPage).toHaveURL('https://2150.demo.zextras.io/services/docs/files/open/72620f9e-6e88-4e6d-bf20-abf7b62c9db8?version=1');
+  });
+
+  test('TC534. Create Microsoft Word file via header menu. File with docx extension should appear in Home folder.', async ({pageManager, page}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftWordDocx();
+    await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(unicFileName);
+    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(unicFileName)).toHaveText('docx');
+  });
+
+  test('TC535. Create Microsoft Excel file via header menu. File with xlsx extension should appear in Home folder.', async ({pageManager, page}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftExcelXlsx();
+    await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(unicFileName);
+    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(unicFileName)).toHaveText('xlsx');
+  });
+
+  test('TC536. Create Microsoft PowerPoint file via header menu. File with pptx extension should appear in Home folder.', async ({pageManager, page}) => {
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
+    await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftPowerPointPptx();
+    await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(unicFileName);
+    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(unicFileName)).toHaveText('pptx');
   });
 });

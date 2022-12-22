@@ -16,11 +16,13 @@ export class FilesList extends BasePage {
     FileIcon: this.Containers.MainContainer.locator('[data-testid*="file"]'),
     Header: this.Containers.MainContainer.locator('[data-testid="list-header"]'),
     FileName: this.Containers.MainContainer.locator(`${InheritedFields.ListFileReactLocator} >> [class^="Text__Comp"][color="text"]`),
+    FileExtension: this.Containers.MainContainer.locator(InheritedFields.ListFileReactLocator).locator('[class^="Container__ContainerEl"] > [class*="NodeListItem"]'),
     FileSize: this.Containers.MainContainer.locator(`${InheritedFields.ListFileReactLocator} >> [class^=Padding__Comp] [class*=NodeListItem]`),
     FlagIcon: this.Containers.MainContainer.locator('[data-testid="icon: Flag"]'),
     DefinedByNameFile: (unicFileName) => this.page.locator(InheritedFields.ListFileReactLocator, {hasText: `${unicFileName}`}),
     SelectOrder: this.Containers.MainContainer.locator('button:has(>[data-testid$="ListOutline"])'),
     CleanCompletedUploads: this.page.locator('button:has-text("Clean completed uploads")'),
+    FileExtensionFilteredByFileName: (fileName) => this.Containers.MainContainer.locator(InheritedFields.ListFileReactLocator).filter({hasText: `${fileName}`}).locator('[class^="Container__ContainerEl"] > [class*="NodeListItem"]'),
   };
 
   SelectOrderDropdown = {
