@@ -198,6 +198,6 @@ test.describe('Chats tests', async () => {
     CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
     await pageManager.chatsInfo.Buttons.SearchForParticipant.click();
     await pageManager.chatsInfo.TextBoxes.SearchForParticipantField.fill(BaseTest.secondUser.login);
-    await expect(pageManager.chatsInfo.SearchResults.UsernameOfMember).toHaveText([BaseTest.secondUser.login]);
+    await expect(pageManager.chatsInfo.SearchResults.UsernameOfMember).toHaveText(BaseTest.secondUser.login);
   });
 });
