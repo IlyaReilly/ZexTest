@@ -15,7 +15,7 @@ export class ChatsInfo extends BasePage {
     DeleteSpace: this.Containers.MainContainer.locator('"Delete Space"'),
     DeleteChannel: this.Containers.MainContainer.locator('"Delete Channel"'),
     RemoveMember: this.Containers.MainContainer.locator('[data-testid*="Trash2Outline"]'),
-    RemoveMemberWithUsername: (memberUsername) => this.Items.Member.filter({has: this.page.locator(`"${memberUsername}"`)}).locator('[data-testid*="Trash2Outline"]'),
+    RemoveMemberWithUsername: (memberUsername) => this.Items.MemberCardWithUsername(memberUsername).locator('[data-testid*="Trash2Outline"]'),
     DeleteGroup: this.Containers.MainContainer.locator('"Delete Group"'),
     EditButton: this.Containers.MainContainer.locator('[title="Edit info"]'),
     AddNewMembers: this.Containers.MainContainer.locator('"Add new members"'),
