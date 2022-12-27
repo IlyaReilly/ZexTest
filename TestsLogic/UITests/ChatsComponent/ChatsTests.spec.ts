@@ -188,14 +188,14 @@ test.describe('Chats tests', async () => {
   });
 
   test('TC443. Remove member from group via “Remove Member“ button. Removed member is not shown in members list in group.', async ({pageManager, apiManager}) => {
-    CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
+    await CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
     await pageManager.chatsInfo.Buttons.RemoveMemberWithUsername(BaseTest.secondUser.login).click();
     await pageManager.chatsActionsModal.Buttons.Remove.click();
     await expect(pageManager.chatsInfo.Items.MemberCardWithUsername(BaseTest.secondUser.login)).not.toBeVisible();
   });
 
   test('TC445. Enter member username in search field in members list in group. Only member with matching username is shown in members list in group.', async ({pageManager, apiManager}) => {
-    CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
+    await CreateConversationAndOpenDetails({pageManager, apiManager}, groupTitle);
     await pageManager.chatsInfo.Buttons.SearchForParticipant.click();
     await pageManager.chatsInfo.TextBoxes.SearchForParticipantField.fill(BaseTest.secondUser.login);
     await expect(pageManager.chatsInfo.Items.UsernameInSearchResults).toHaveText(BaseTest.secondUser.login);
