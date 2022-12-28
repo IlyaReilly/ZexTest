@@ -31,7 +31,7 @@ export class SideSecondaryContactsMenu extends BasePage {
 
   ContextMenu = {
     NewAddressBook: this.Containers.ContextMenuContainer.locator('"New address Book"'),
-    Move: this.Containers.ContextMenuContainer.locator('"Move"'),
+    MoveAddressBook: this.Containers.ContextMenuContainer.locator('"Move"'),
     ShareAddressBook: this.Containers.ContextMenuContainer.locator('"Share address book"'),
     EmptyAddressBook: this.Containers.ContextMenuContainer.locator('"Empty address book"'),
     EditAddressBook: this.Containers.ContextMenuContainer.locator('"Edit address book"'),
@@ -41,27 +41,21 @@ export class SideSecondaryContactsMenu extends BasePage {
     EditTag: this.Containers.ContextMenuContainer.locator('"Edit Tag"'),
   };
 
-  OpenAddressBookContextMenu = {
-    MoveAddressBookModal: async (addressBookName) => {
-      await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
-      await this.ContextMenu.Move.click();
-    },
-    ShareAddressBookModal: async (addressBookName) => {
-      await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
-      await this.ContextMenu.ShareAddressBook.click();
-    },
-    EmptyAddressBookModal: async (addressBookName) => {
-      await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
-      await this.ContextMenu.EmptyAddressBook.click();
-    },
-    EditAddressBookModal: async (addressBookName) => {
-      await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
-      await this.ContextMenu.EditAddressBook.click();
-    },
-    DeleteAddressBookModal: async (addressBookName) => {
-      await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
-      await this.ContextMenu.DeleteAddressBook.click();
-    },
+  async SelectOption(addressBookName, option) {
+    await this.Containers.MainContainer.locator(`"${addressBookName}"`).click({button: 'right'});
+    await option.click();
+  };
+
+  SelectAddressBookOption = {
+    Move: async (addressBookName) => await this.SelectOption(addressBookName, this.ContextMenu.MoveAddressBook),
+    Share: async (addressBookName) => await this.SelectOption(addressBookName, this.ContextMenu.ShareAddressBook),
+    Empty: async (addressBookName) => await this.SelectOption(addressBookName, this.ContextMenu.EmptyAddressBook),
+    Edit: async (addressBookName) => await this.SelectOption(addressBookName, this.ContextMenu.EditAddressBook),
+    Delete: async (addressBookName) => await this.SelectOption(addressBookName, this.ContextMenu.DeleteAddressBook),
+  };
+
+  AddressBookTagContextMenu = {
+
     CreateTagModal: async () => {
       await this.ContactAddressBooks.Tags.click({button: 'right'});
       await this.ContextMenu.CreateTag.click();
