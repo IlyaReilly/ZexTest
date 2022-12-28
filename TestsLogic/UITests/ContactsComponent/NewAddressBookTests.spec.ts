@@ -1,6 +1,6 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../UITests/BaseTest';
-import {ColorChangeList} from '../../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
+import Colors from '../../../TestData/IconColorList.json';
 
 test.describe('New address book tests', async () => {
   let dateTimePrefix;
@@ -20,8 +20,6 @@ test.describe('New address book tests', async () => {
     addressBookId = await apiManager.addressBookAPI.GetAddressBookIdByName(BaseTest.userForLogin.login, addressBookName);
     if (!addressBookId) {
       addressBookId = await apiManager.addressBookAPI.GetAddressBookIdByName(BaseTest.userForLogin.login, newAddressBookName);
-    } else if (!addressBookId) {
-      test.skip();
     }
     await apiManager.addressBookAPI.DeleteAddressBookPermanentlyById(addressBookId, BaseTest.userForLogin.login);
     await page.close();
@@ -62,6 +60,7 @@ test.describe('New address book tests', async () => {
   });
 
   test('TC904. Edit Address book. Created address book is emptied.', async ({pageManager, apiManager}) => {
+    test.fail();
     await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.EmptyAddressBookModal("Contacts");
@@ -93,7 +92,7 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`).first(), 'New Address book should be visible on Root').toBeVisible();
   });
 
-  for (const color of ColorChangeList) {
+  for (const color of Colors) {
     test('TC908. Edit Address book. New adress book icon color should be visible' + `${color.ColorSet}`, async ({pageManager}) => {
       await CreateNewAddressBook({pageManager});
       await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.EditAddressBookModal(addressBookName);
