@@ -7,7 +7,7 @@ export class CreateMailsAPI extends BaseAPI {
 
   MsgType = {
     Reply: 'r',
-    Forward: 'f',
+    Forward: 'w',
   };
 
   async SendMsgRequest(subject, mailBody, from, toArray, ccArray?, bccArray?, origId?, msgType?) {
