@@ -5,9 +5,14 @@ export class CreateMailsAPI extends BaseAPI {
     super(page);
   };
 
-  async SendMsgRequest(subject, mailBody, from, toArray, ccArray?, bccArray?) {
+  MsgType = {
+    Reply: 'r',
+    Forward: 'f',
+  };
+
+  async SendMsgRequest(subject, mailBody, from, toArray, ccArray?, bccArray?, origId?, msgType?) {
     let id = '';
-    const response = await this.FormingMsgRequest(this.sendMsgRequest, subject, mailBody, from, toArray, ccArray, bccArray);
+    const response = await this.FormingMsgRequest(this.sendMsgRequest, subject, mailBody, from, toArray, ccArray, bccArray, origId, msgType);
     const body = await this.GetResponseBody(response);
     if (body.Body.SendMsgResponse.m) {
       id = body.Body.SendMsgResponse.m[0].id;
@@ -50,7 +55,7 @@ export class CreateMailsAPI extends BaseAPI {
     return id;
   };
 
-  async FormingMsgRequest(requestType, subject, body, from, toArray, ccArray = [], bccArray = []) {
+  async FormingMsgRequest(requestType, subject, body, from, toArray, ccArray = [], bccArray = [], origId?, msgType?) {
     const request = await this.page.request.post(`${this.soapServiceUrl}${requestType}`, {
       data: {
         Body: {
@@ -74,6 +79,8 @@ export class CreateMailsAPI extends BaseAPI {
                   ],
                 },
               ],
+              origid: origId,
+              rt: msgType,
             },
           },
         },

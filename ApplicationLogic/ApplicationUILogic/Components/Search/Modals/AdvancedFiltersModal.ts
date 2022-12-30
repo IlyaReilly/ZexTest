@@ -42,6 +42,9 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     SentByMe: this.Containers.DropDownContainer.locator('"sent by me"'),
     ReceivedByMe: this.Containers.DropDownContainer.locator('"received by me"'),
     AnsweredByMe: this.Containers.DropDownContainer.locator('"answered by me"'),
+    NotAnsweredByMe: this.Containers.DropDownContainer.locator('"not answered by me"'),
+    Forwarded: this.Containers.DropDownContainer.locator('"forwarded"'),
+    NotForwarded: this.Containers.DropDownContainer.locator('"not forwarded"'),
     TagItem: this.Containers.DropDownContainer.locator('[class*="Container__ContainerEl"]'),
   };
 
@@ -113,5 +116,9 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     NotFlaggedOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.NotFlagged),
     DraftOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Draft),
     SentByMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.SentByMe),
+    AnsweredByMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.AnsweredByMe),
+    NotAnsweredByMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.NotAnsweredByMe),
+    ForwardedOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Forwarded),
+    NotForwardedOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.NotForwarded),
   };
 }

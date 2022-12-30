@@ -47,6 +47,12 @@ test.describe('Search tests', async () => {
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
   };
 
+  async function SendMailBySelectedMethodAndOpenFiltersInSearch({pageManager, apiManager}, msgType) {
+    const origMsgId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [], origMsgId, msgType);
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
+  };
+
   test('TC701. Search sent email', async ({pageManager, apiManager}) => {
     await CreateMessageAndOpenInbox({pageManager, apiManager});
     await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
@@ -129,6 +135,33 @@ test.describe('Search tests', async () => {
   test('TC717. Search by "sent by me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMessageAndOpenFiltersInSearch({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.SentByMeOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
+  });
+
+  test('TC718. Search by "answered by me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+    await SendMailBySelectedMethodAndOpenFiltersInSearch({pageManager, apiManager}, apiManager.createMailsAPI.MsgType.Reply);
+    await pageManager.advancedFiltersModal.StatusMailItems.AnsweredByMeOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
+  });
+
+  test('TC719. Search by "not answered by me" in Search status found mail. The email should not be found in Search Tab', async ({apiManager, pageManager}) => {
+    test.fail(true, '143, Not Answered By Me option does not working');
+    await SendMailBySelectedMethodAndOpenFiltersInSearch({pageManager, apiManager}, apiManager.createMailsAPI.MsgType.Reply);
+    await pageManager.advancedFiltersModal.StatusMailItems.NotAnsweredByMeOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"RE: ${mailSubject}"`).first()).not.toBeVisible();
+  });
+
+  test('TC720. Search by "forwarded" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+    await SendMailBySelectedMethodAndOpenFiltersInSearch({pageManager, apiManager}, apiManager.createMailsAPI.MsgType.Forward);
+    await pageManager.advancedFiltersModal.StatusMailItems.ForwardedOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
+  });
+
+  test('TC721. Search by "not forwarded" in Search status found mail. The email should not be found in Search Tab', async ({apiManager, pageManager, page}) => {
+    test.fail(true, '144, Not Forwarded option does not working');
+    await SendMailBySelectedMethodAndOpenFiltersInSearch({pageManager, apiManager}, apiManager.createMailsAPI.MsgType.Forward);
+    await pageManager.advancedFiltersModal.StatusMailItems.NotForwardedOption();
+    await page.waitForLoadState();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
   });
 });
