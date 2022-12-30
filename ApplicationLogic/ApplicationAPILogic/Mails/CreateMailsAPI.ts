@@ -37,7 +37,7 @@ export class CreateMailsAPI extends BaseAPI {
           [requestType]: {
             _jsns: 'urn:zimbraMail',
             m: {
-              attach: (() => requestType === this.sendMsgRequest? {mp: [{"part": "2", "mid": fileId}]}: {"mp": [], "aid": fileId})(),
+              attach: (() => fileId ? (requestType === this.sendMsgRequest ? {mp: [{"part": "2", "mid": fileId}]}: {"mp": [], "aid": fileId}) : {mp: []})(),
               su: {_content: subject},
               e: [
                 {t: 'f', a: from, d: ''},
