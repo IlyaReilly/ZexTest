@@ -6,12 +6,18 @@ test.describe('Search tests', async () => {
   let mailSubject;
   let mailBody;
   let mailSize;
+  let appointmentTitle;
+  let appointmentBody;
+  let secondMailSubject;
 
   test.beforeEach(async ({apiManager}) => {
     uniquePrefix = BaseTest.dateTimePrefix();
     mailSubject = uniquePrefix + ' Autotest Mail Subject';
     mailBody = uniquePrefix + ' Autotest Mail Body';
     mailSize = '1';
+    appointmentTitle = uniquePrefix + ' Autotest Appointment Title';
+    appointmentBody = uniquePrefix + ' Autotest Appointment Body';
+    secondMailSubject = uniquePrefix + ' Autotest Appointment  Second Title';
     await DeleteMailViaApi({apiManager});
   });
 
@@ -163,5 +169,44 @@ test.describe('Search tests', async () => {
     await pageManager.advancedFiltersModal.StatusMailItems.NotForwardedOption();
     await page.waitForLoadState();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
+  });
+
+  test('TC722. Search by "ivitations" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+    await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, BaseTest.secondUser.login, appointmentBody);
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
+    await pageManager.advancedFiltersModal.StatusMailItems.InvitationsOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${appointmentTitle}"`).first()).toBeVisible();
+  });
+
+  test('TC723. Search by "conversations with a single message" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+    await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, BaseTest.secondUser.login, appointmentBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
+    await apiManager.createMailsAPI.SendMsgRequest(secondMailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login]);
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
+    await pageManager.advancedFiltersModal.StatusMailItems.ConversationsWithASingleMessageOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${secondMailSubject}"`).first()).toBeVisible();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
+  });
+
+  test('TC724. Search by "conversations with a single message" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+    await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, BaseTest.secondUser.login, appointmentBody);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
+    await apiManager.createMailsAPI.SendMsgRequest(secondMailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login]);
+    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
+    await pageManager.advancedFiltersModal.StatusMailItems.ConversationsWithASingleMessageOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${secondMailSubject}"`).first()).toBeVisible();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
+  });
+
+  test('TC725. Search by "From Me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+    await CreateMessageAndOpenFiltersInSearch({pageManager, apiManager});
+    await pageManager.advancedFiltersModal.StatusMailItems.FromMeOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
+  });
+
+  test('TC726. Search by "To Me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+    await CreateMessageAndOpenFiltersInSearch({pageManager, apiManager});
+    await pageManager.advancedFiltersModal.StatusMailItems.ToMeOption();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 });

@@ -45,6 +45,10 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     NotAnsweredByMe: this.Containers.DropDownContainer.locator('"not answered by me"'),
     Forwarded: this.Containers.DropDownContainer.locator('"forwarded"'),
     NotForwarded: this.Containers.DropDownContainer.locator('"not forwarded"'),
+    Invitations: this.Containers.DropDownContainer.locator('"invitations"'),
+    FromMe: this.Containers.DropDownContainer.locator('"from me" >> nth=0'),
+    ToMe: this.Containers.DropDownContainer.locator('"to me"'),
+    ConversationsWithASingleMessage: this.Containers.DropDownContainer.locator('"conversations with a single message"'),
     TagItem: this.Containers.DropDownContainer.locator('[class*="Container__ContainerEl"]'),
   };
 
@@ -120,5 +124,8 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     NotAnsweredByMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.NotAnsweredByMe),
     ForwardedOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Forwarded),
     NotForwardedOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.NotForwarded),
+    InvitationsOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Invitations),
+    FromMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.FromMe),
+    ToMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.ToMe),
   };
 }
