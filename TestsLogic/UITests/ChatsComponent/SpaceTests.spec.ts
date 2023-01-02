@@ -39,16 +39,16 @@ test.describe('Space tests', async () => {
     }));
   };
 
-  async function CreateSpace({apiManager}, title) {
-    const userId = await apiManager.usersAPI.GetUserId(BaseTest.secondUser.login);
-    const spaceId = await apiManager.createChatsAPI.CreateConversations(spaceTitle, spaceTopic, userId);
+  async function CreateSpace({apiManager}, membersUsernames: string[], title?) {
+    const usersIds = await Promise.all(membersUsernames.map(async (username) => apiManager.usersAPI.GetUserId(username)));
+    const spaceId = await apiManager.createChatsAPI.CreateSpace(spaceTitle, spaceTopic, usersIds);
     if (title === channelTitle) {
       await apiManager.createChatsAPI.CreateChannel(spaceId, channelTitle, channelTopic);
     };
   };
 
   async function CreateSpaceAndOpenDetails({pageManager, apiManager}, title) {
-    await CreateSpace({apiManager}, title);
+    await CreateSpace({apiManager}, [BaseTest.secondUser.login], title);
     if (title === channelTitle) {
       await pageManager.sideSecondaryChatsMenu.Buttons.OpenDropdown.click();
       title = '#' + title;
@@ -210,5 +210,13 @@ test.describe('Space tests', async () => {
     test.fail(true, 'Problem with new functionality about channel members');
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, channelTitle);
     await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
+  });
+
+  test('TC444. Remove member from space via "Remove Member" button. Removed member is not shown in members list in space.', async ({pageManager, apiManager}) => {
+    await CreateSpace({apiManager}, [BaseTest.secondUser.login]);
+    await pageManager.sideSecondaryChatsMenu.SelectConversationFromList(spaceTitle);
+    await pageManager.chatsInfo.Buttons.RemoveMemberWithUsername(BaseTest.secondUser.login).click();
+    await pageManager.chatsActionsModal.Buttons.Remove.click();
+    await expect(pageManager.chatsInfo.Items.MemberCardWithUsername(BaseTest.secondUser.login)).not.toBeVisible();
   });
 });

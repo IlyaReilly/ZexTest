@@ -42,7 +42,7 @@ export class AddressBookAPI extends BaseAPI {
 
   async GetAddressBookIdByName(user: string, addressBookName: string) {
     const addressBooksList = await super.GetFolders(user, 'contact');
-    let addressBookId = '';
+    let addressBookId;
     const addressBook = function findAddressBook(addressBooksList) {
       addressBooksList.forEach((addressBookElement) => {
         if (addressBookElement.name == addressBookName) {
@@ -50,6 +50,9 @@ export class AddressBookAPI extends BaseAPI {
         }
         if (!addressBookId && addressBookElement.folder) {
           findAddressBook(addressBookElement.folder);
+        }
+        if (!addressBookId && !addressBookElement.folder) {
+          addressBookId = null;
         }
       });
       return addressBookId;

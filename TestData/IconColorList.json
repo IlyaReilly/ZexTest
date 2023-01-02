@@ -1,15 +1,15 @@
 [
     {
-      "ColorSet": "'black'",
-      "ColorCheck": "_react=[customColor = '#000000']"
-    },  
-    {
       "ColorSet": "'cyan'",
       "ColorCheck": "_react=[customColor = '#2196d3']"
     },
     {
       "ColorSet": "'green'",
       "ColorCheck": "_react=[customColor = '#639030']"
+    },
+    {
+      "ColorSet": "'black'",
+      "ColorCheck": "_react=[customColor = '#000000']"
     },
     {
       "ColorSet": "'purple'",

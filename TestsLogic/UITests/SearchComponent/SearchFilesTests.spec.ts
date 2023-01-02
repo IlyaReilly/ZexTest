@@ -41,8 +41,8 @@ test.describe('Search tests', async () => {
   test('TC705. Search by “Attachment” option found mail with attachment. The sent email should be found by attachments', async ({apiManager, pageManager}) => {
     const nodeId = await apiManager.createFilesAPI.CreateDocumentForUpload(unicFileName);
     const uploadId = await apiManager.filesAPI.UploadTo(nodeId);
-    const draftId = await apiManager.createMailsAPI.SaveDraftWithFileRequest(subjectWithFile, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, uploadId);
-    await apiManager.createMailsAPI.SendMsgRequestWithFile(subjectWithFile, BaseTest.userForLogin.login, BaseTest.userForLogin.login, mailBody, draftId);
+    const draftId = await apiManager.createMailsAPI.SaveDraftRequest(subjectWithFile, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [], [], [], uploadId);
+    await apiManager.createMailsAPI.SendMsgRequest(subjectWithFile, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [], [], [], draftId);
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
     await pageManager.advancedFiltersModal.AdvancedFiltersOptions.EnableAttachment();
     await pageManager.advancedFiltersModal.Buttons.Search.click();
