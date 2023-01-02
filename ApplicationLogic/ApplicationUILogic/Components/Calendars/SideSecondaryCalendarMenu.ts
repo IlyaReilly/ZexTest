@@ -19,16 +19,12 @@ export class SideSecondaryCalendarMenu extends BasePage {
     DeleteCalendar: this.Containers.ContextMenuContainer.locator('"Delete calendar"'),
     ShareCalendar: this.Containers.ContextMenuContainer.locator('"Share Calendar"'),
     CalendarAccessShare: this.Containers.ContextMenuContainer.locator('"Calendar’s access share"'),
-    CreateTag: this.Containers.ContextMenuContainer.locator('"Create Tag"'),
-    DeleteTag: this.Containers.ContextMenuContainer.locator('"Delete Tag"'),
-    EditTag: this.Containers.ContextMenuContainer.locator('"Edit Tag"'),
   };
 
   Tabs = {
     AllCalendars: this.Containers.MainContainer.locator('"All calendars"'),
     Calendar: this.Containers.MainContainer.locator('"Calendar"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
-    Tags: this.Containers.MainContainer.locator('"Tags"'),
     SharedCalendars: this.Containers.MainContainer.locator('"Shared Calendars"'),
   };
 
@@ -52,22 +48,11 @@ export class SideSecondaryCalendarMenu extends BasePage {
   Elements = {
     TrashChevronDown: this.Containers.MainContainer.locator(`[data-testid*="ChevronDown"]:near(:text("Trash"))`),
     TrashChevronUp: this.Containers.MainContainer.locator(`[data-testid*="ChevronUp"]:near(:text("Trash"))`),
-    TagChevronDown: this.Containers.MainContainer.locator(`[data-testid*="ChevronDown"]:near(:text("Tags"))`),
-    TagChevronUp: this.Containers.MainContainer.locator(`[data-testid*="ChevronUp"]:near(:text("Tags"))`),
     Item: this.Containers.MainContainer.locator('[class*="Text__Comp"]'),
-  };
-
-  TagIconColors = {
-    YellowIcon: this.Containers.MainContainer.locator('_react=[icon="Tag"][customColor="#ffc107"]'),
   };
 
   async OpenTrashChevron() {
     await this.Elements.TrashChevronDown.click();
-  };
-
-  async OpenTagChevron() {
-    await this.Elements.TagChevronDown.locator('nth=1').waitFor();
-    await this.Elements.TagChevronDown.first().click();
   };
 
   async GetCalendarColorByName(name: string) {
@@ -86,16 +71,6 @@ export class SideSecondaryCalendarMenu extends BasePage {
       calendar = await this.Tabs.Calendar;
     }
     await calendar.click({button: 'right'});
-  };
-
-  async OpenContextMenuForTags(name) {
-    let tag;
-    if (name) {
-      tag = await this.Containers.MainContainer.locator(`"${name}"`);
-    } else {
-      tag = await this.Tabs.Tags;
-    }
-    await tag.click({button: 'right'});
   };
 
   OpenCalendarContextMenuOption = {
@@ -119,27 +94,8 @@ export class SideSecondaryCalendarMenu extends BasePage {
     },
   };
 
-  OpenTagContextMenuOption = {
-    CreateTagButton: async (name = '') => {
-      await this.ClickContextMenuOptionForTags(this.ContextMenu.CreateTag, name);
-    },
-
-    DeleteTagButton: async (name = '') => {
-      await this.ClickContextMenuOptionForTags(this.ContextMenu.DeleteTag, name);
-    },
-
-    EditTagButton: async (name = '') => {
-      await this.ClickContextMenuOptionForTags(this.ContextMenu.EditTag, name);
-    },
-  };
-
   async ClickContextMenuOption(element, name = '') {
     await this.OpenContextMenuForCalendar(name);
-    await element.click();
-  };
-
-  async ClickContextMenuOptionForTags(element, name = '') {
-    await this.OpenContextMenuForTags(name);
     await element.click();
   };
 
@@ -208,10 +164,6 @@ export class SideSecondaryCalendarMenu extends BasePage {
   async OpenCalendar() {
     await this.Tabs.Calendar.click();
   };
-
-  async OpenTags() {
-    await this.Tabs.Tags.click();
-  }
 
   async OpenSharedCalendars() {
     await this.Tabs.SharedCalendars.click();

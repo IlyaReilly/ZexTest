@@ -37,9 +37,6 @@ export class SideSecondaryMailMenu extends BasePage {
     Edit: this.Containers.MailOptionsContainer.locator('"Edit"'),
     Delete: this.Containers.MailOptionsContainer.locator('"Delete"'),
     ShareFolder: this.Containers.MailOptionsContainer.locator('"Share folder"'),
-    CreateTag: this.Containers.ContextMenuContainer.locator('"Create Tag"'),
-    DeleteTag: this.Containers.ContextMenuContainer.locator('"Delete Tag"'),
-    EditTag: this.Containers.ContextMenuContainer.locator('"Edit Tag"'),
   };
 
   CreateNewFolderPopup = {
@@ -79,9 +76,6 @@ export class SideSecondaryMailMenu extends BasePage {
     Edit: async () => await this.MailFolderOptions.Edit.click(),
     Delete: async () => await this.MailFolderOptions.Delete.click(),
     ShareFolder: async () => await this.MailFolderOptions.ShareFolder.click(),
-    CreateTag: async () => await this.MailFolderOptions.CreateTag.click(),
-    DeleteTag: async () => await this.MailFolderOptions.DeleteTag.click(),
-    EditTag: async () => await this.MailFolderOptions.EditTag.click(),
   };
 
   async CreateNewFolder(folderName) {

@@ -23,23 +23,23 @@ test.describe('Calendars tests', async () => {
   };
 
   test('TC1008. Create tag in side contacts menu. Tag should be in Tags tab.', async ({pageManager}) => {
-    await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.CreateTagModal();
+    await pageManager.gotoTagModal.OpenTagContextMenu.CreateTagModal();
     await pageManager.newTagModal.CreateTag(tagName);
     await pageManager.sideSecondaryContactsMenu.ExpandTagsFolder();
     await expect(pageManager.sideSecondaryContactsMenu.Elements.Item.locator(`"${tagName}"`)).toBeVisible();
   });
 
   test('TC1009. Delete tag in side contacts menu. Tag should not be in Tags tab.', async ({pageManager}) => {
-    await pageManager.sideSecondaryContactsMenu.ExpandTagsFolder();
-    await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.DeleteTagModal(tagName);
+    await pageManager.gotoTagModal.ExpandTagsFolder();
+    await pageManager.gotoTagModal.OpenTagContextMenu.DeleteTagModal(tagName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();
-    await expect(pageManager.sideSecondaryContactsMenu.Elements.Item.locator(`"${tagName}"`)).not.toBeVisible();
+    await expect(pageManager.gotoTagModal.Elements.Item.locator(`"${tagName}"`)).not.toBeVisible();
   });
 
   test('TC1010. Rename tag in side contacts menu. Tag should be renamed.', async ({pageManager}) => {
-    await pageManager.sideSecondaryContactsMenu.ExpandTagsFolder();
-    await pageManager.sideSecondaryContactsMenu.OpenAddressBookContextMenu.EditTagModal(tagName);
+    await pageManager.gotoTagModal.ExpandTagsFolder();
+    await pageManager.gotoTagModal.OpenTagContextMenu.EditTagModal(tagName);
     await pageManager.editTagModal.EditNameTag(newTagName);
-    await expect(pageManager.sideSecondaryContactsMenu.Elements.Item.locator(`"${newTagName}"`)).toBeVisible();
+    await expect(pageManager.gotoTagModal.Elements.Item.locator(`"${newTagName}"`)).toBeVisible();
   });
 });
