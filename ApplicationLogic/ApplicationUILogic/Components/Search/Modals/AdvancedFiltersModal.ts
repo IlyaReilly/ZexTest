@@ -127,5 +127,6 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     InvitationsOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.Invitations),
     FromMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.FromMe),
     ToMeOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.ToMe),
+    ConversationsWithASingleMessageOption: async () => await this.ChooseOptionInStatusMailItem(this.DropdownOptions.ConversationsWithASingleMessage),
   };
 }

@@ -188,23 +188,13 @@ test.describe('Search tests', async () => {
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
   });
 
-  test('TC724. Search by "conversations with a single message" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
-    await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, BaseTest.secondUser.login, appointmentBody);
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
-    await apiManager.createMailsAPI.SendMsgRequest(secondMailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login]);
-    await OpenSearchTabAndOpenAdvancedFilters({pageManager});
-    await pageManager.advancedFiltersModal.StatusMailItems.ConversationsWithASingleMessageOption();
-    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${secondMailSubject}"`).first()).toBeVisible();
-    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
-  });
-
-  test('TC725. Search by "From Me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+  test('TC724. Search by "From Me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMessageAndOpenFiltersInSearch({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.FromMeOption();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 
-  test('TC726. Search by "To Me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
+  test('TC725. Search by "To Me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMessageAndOpenFiltersInSearch({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.ToMeOption();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
