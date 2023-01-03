@@ -53,6 +53,7 @@ import {AdvancedFiltersModal} from '../Components/Search/Modals/AdvancedFiltersM
 import {NewTagModal} from '../Components/ModalWindows/NewTagModal';
 import {EditTagModal} from '../Components/ModalWindows/EditTagModal';
 import {EditAfterMoveAppointmentModal} from '../Components/Calendars/Modals/EditAfterMoveAppointmentModal';
+import {TagModals} from '../Components/ModalWindows/TagModals';
 
 
 export class PageManager {
@@ -82,6 +83,7 @@ export class PageManager {
   virtualRoomField;
   newTagModal;
   editTagModal;
+  tagModals;
 
   // #region Calendars Modal
   newCalendarModal;
@@ -155,6 +157,7 @@ export class PageManager {
     this.chatsInfo = new ChatsInfo(page);
     this.chatField = new ChatField(page);
     this.virtualRoomField = new VirtualRoomField(page);
+    this.tagModals = new TagModals(page);
     this.newTagModal = new NewTagModal(page);
     this.editTagModal = new EditTagModal(page);
 

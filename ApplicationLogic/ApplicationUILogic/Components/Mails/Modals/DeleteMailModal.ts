@@ -8,6 +8,7 @@ export class DeleteMailModal extends ModalWindowBase {
 
   Buttons = {
     DeletePermanently: this.Containers.MainContainer.locator('"Delete Permanently"'),
+    Delete: this.Containers.MainContainer.locator('"Delete"'),
   };
 
   async DeletePermanently() {

@@ -15,7 +15,7 @@ export class EditTagModal extends ModalWindowBase {
 
   DropdownOptions = {
     OpenCloseDropdown: this.Containers.MainContainer.locator('[class*="Dropdown"]'),
-    YellowColor: this.Containers.DropDownContainer.locator('"yellow"'),
+    SelectColor: this.Containers.MainContainer.locator('"Select Color"'),
   };
 
   async EditNameTag(newTagName) {
@@ -24,12 +24,8 @@ export class EditTagModal extends ModalWindowBase {
   };
 
   async ChooseColor(color) {
-    await this.DropdownOptions.OpenCloseDropdown.click();
-    await color.click();
+    await this.DropdownOptions.SelectColor.click();
+    await this.Containers.DropDownContainer.locator(color).click();
     await this.Buttons.Edit.click();
-  };
-
-  TagColors = {
-    YellowColor: async () => await this.ChooseColor(this.DropdownOptions.YellowColor),
   };
 }
