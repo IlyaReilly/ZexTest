@@ -1,6 +1,6 @@
 import {BasePage, InheritedFields} from '../../Pages/BasePage';
 
-export class GotoTagModal extends BasePage {
+export class TagModals extends BasePage {
   constructor(page) {
     super(page);
   };

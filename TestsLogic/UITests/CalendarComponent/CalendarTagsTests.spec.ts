@@ -31,30 +31,30 @@ test.describe('Calendars tests', async () => {
   };
 
   test('TC1002. Create tag in side calendar menu. Tag should be in Tags tab.', async ({pageManager}) => {
-    await pageManager.gotoTagModal.OpenTagContextMenu.CreateTagModal();
+    await pageManager.tagModals.OpenTagContextMenu.CreateTagModal();
     await pageManager.newTagModal.CreateTag(tagName);
-    await pageManager.gotoTagModal.ExpandTagsFolder();
+    await pageManager.tagModals.ExpandTagsFolder();
     await expect(pageManager.sideSecondaryCalendarMenu.Elements.Item.locator(`"${tagName}"`)).toBeVisible();
   });
 
   test('TC1003. Delete tag in side calendar menu. Tag should not be in Tags tab.', async ({pageManager}) => {
-    await pageManager.gotoTagModal.ExpandTagsFolder();
-    await pageManager.gotoTagModal.OpenTagContextMenu.DeleteTagModal(tagName);
+    await pageManager.tagModals.ExpandTagsFolder();
+    await pageManager.tagModals.OpenTagContextMenu.DeleteTagModal(tagName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();
     await expect(pageManager.sideSecondaryCalendarMenu.Elements.Item.locator(`"${tagName}"`)).not.toBeVisible();
   });
 
   test('TC1004. Rename tag in side calendar menu. Tag should be renamed.', async ({pageManager}) => {
-    await pageManager.gotoTagModal.ExpandTagsFolder();
-    await pageManager.gotoTagModal.OpenTagContextMenu.EditTagModal(tagName);
+    await pageManager.tagModals.ExpandTagsFolder();
+    await pageManager.tagModals.OpenTagContextMenu.EditTagModal(tagName);
     await pageManager.editTagModal.EditNameTag(newTagName);
     await expect(pageManager.sideSecondaryCalendarMenu.Elements.Item.locator(`"${newTagName}"`)).toBeVisible();
   });
 
   for (const color of Colors) {
     test('TC1011. Change color in tag in side calendar menu. Tag should be change color' + `${color.ColorSet}`, async ({pageManager, page}) => {
-      await pageManager.gotoTagModal.ExpandTagsFolder();
-      await pageManager.gotoTagModal.OpenTagContextMenu.EditTagModal(tagName);
+      await pageManager.tagModals.ExpandTagsFolder();
+      await pageManager.tagModals.OpenTagContextMenu.EditTagModal(tagName);
       await pageManager.editTagModal.ChooseColor(`${color.ColorSet}`);
       await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`${color.ColorCheck}[icon = "Tag"]`)).toBeVisible();
     });

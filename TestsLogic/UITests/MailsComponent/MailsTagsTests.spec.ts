@@ -23,22 +23,22 @@ test.describe('Calendars tests', async () => {
   };
 
   test('TC1005. Create tag in side mail menu. Tag should be in Tags tab.', async ({pageManager}) => {
-    await pageManager.gotoTagModal.OpenTagContextMenu.CreateTagModal();
+    await pageManager.tagModals.OpenTagContextMenu.CreateTagModal();
     await pageManager.newTagModal.CreateTag(tagName);
-    await pageManager.gotoTagModal.ExpandTagsFolder();
+    await pageManager.tagModals.ExpandTagsFolder();
     await expect(pageManager.sideSecondaryMailMenu.Elements.Item.locator(`"${tagName}"`)).toBeVisible();
   });
 
   test('TC1006. Delete tag in side mail menu. Tag should not be in Tags tab.', async ({pageManager}) => {
-    await pageManager.gotoTagModal.Buttons.ExpandTags.click();
-    await pageManager.gotoTagModal.OpenTagContextMenu.DeleteTagModal(tagName);
+    await pageManager.tagModals.Buttons.ExpandTags.click();
+    await pageManager.tagModals.OpenTagContextMenu.DeleteTagModal(tagName);
     await pageManager.deleteMailModal.Buttons.Delete.click();
     await expect(pageManager.sideSecondaryMailMenu.Elements.Item.locator(`"${tagName}"`)).not.toBeVisible();
   });
 
   test('TC1007. Rename tag in side mail menu. Tag should be renamed.', async ({pageManager}) => {
-    await pageManager.gotoTagModal.Buttons.ExpandTags.click();
-    await pageManager.gotoTagModal.OpenTagContextMenu.EditTagModal(tagName);
+    await pageManager.tagModals.Buttons.ExpandTags.click();
+    await pageManager.tagModals.OpenTagContextMenu.EditTagModal(tagName);
     await pageManager.editTagModal.EditNameTag(newTagName);
     await expect(pageManager.sideSecondaryMailMenu.Elements.Item.locator(`"${newTagName}"`)).toBeVisible();
   });
