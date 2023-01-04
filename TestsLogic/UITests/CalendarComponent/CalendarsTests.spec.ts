@@ -145,6 +145,29 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
   });
 
+  test('TC329. Click the "New Appointment" button in header menu. The "New Appointment" modal window opens and contains current date and current one hour interval in header.', async ({pageManager}) => {
+    const currentDate = new Date();
+    const currentDateWithOneHourIntervalString = formatDateToStringWithOneHourInterval(currentDate);
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await expect(pageManager.newAppointment.Elements.DateWithTimeInervalInHeader).toHaveText(currentDateWithOneHourIntervalString, {useInnerText: true});
+  });
+
+  test('TC330. The "New Appointment" modal window contains time zone in header that matches the user time zone.', async ({pageManager}) => {
+    const currentDate = new Date();
+    const timeZoneExpected = new Intl.DateTimeFormat('en-GB', {timeZoneName: "longOffset"}).format(currentDate).split(' ')[1].replace('GMT+', 'GMT +') + ' '+ new Intl.DateTimeFormat().resolvedOptions().timeZone;
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await expect(pageManager.newAppointment.Elements.TimeZoneInHeader).toHaveText(timeZoneExpected);
+  });
+
+  function formatDateToStringWithOneHourInterval(date: Date): string {
+    // example of function return: Tuesday, 03 January, 2023 09:12 - 10:12
+    const datePlus1Hour = new Date(date).setHours(date.getHours() + 1);
+    const dateStringWithoutTime = new Intl.DateTimeFormat("en-GB", {weekday: 'long', day: '2-digit', month: 'long'}).format(date) + ', ' + new Intl.DateTimeFormat("en-GB", {year: 'numeric'}).format(date);
+    const timeOneHourIntervalString = new Intl.DateTimeFormat("en-GB", {timeStyle: 'short'}).format(date) + ' - ' + new Intl.DateTimeFormat("en-GB", {timeStyle: 'short'}).format(datePlus1Hour);
+    const dateAndTimeOneHourIntervalString = dateStringWithoutTime + ' ' + timeOneHourIntervalString;
+    return dateAndTimeOneHourIntervalString;
+  }
+
   async function AppointmentInTheTrashValidation({pageManager}) {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
@@ -157,29 +180,6 @@ test.describe('Calendars tests', async () => {
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
   };
-
-  test('TC329. Click the "New Appointment" button in header menu. The "New Appointment" modal window opens and contains current date and current one hour interval in header.', async ({pageManager}) => {
-    const currentDate = new Date();
-    const currentDateWithOneHourIntervalString = formatDateToStringWithOneHourInterval(currentDate);
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await expect(pageManager.newAppointment.DateWithTimeInervalInHeader).toHaveText(currentDateWithOneHourIntervalString, {useInnerText: true});
-  });
-
-  test('TC330. The "New Appointment" modal window contains time zone in header that matches the user time zone.', async ({pageManager}) => {
-    const currentDate = new Date();
-    const timeZoneExpected = new Intl.DateTimeFormat('en-GB', {timeZoneName: "longOffset"}).format(currentDate).split(' ')[1].replace('GMT+', 'GMT +') + ' '+ new Intl.DateTimeFormat().resolvedOptions().timeZone;
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await expect(pageManager.newAppointment.TimeZoneInHeader).toHaveText(timeZoneExpected);
-  });
-
-  function formatDateToStringWithOneHourInterval(date: Date): string {
-    // example of function return: Tuesday, 03 January, 2023 09:12 - 10:12
-    const datePlus1Hour = new Date(date).setHours(date.getHours() + 1);
-    const dateStringWithoutTime = new Intl.DateTimeFormat("en-GB", {weekday: 'long', day: '2-digit', month: 'long'}).format(date) + ', ' + new Intl.DateTimeFormat("en-GB", {year: 'numeric'}).format(date);
-    const timeOneHourIntervalString = new Intl.DateTimeFormat("en-GB", {timeStyle: 'short'}).format(date) + ' - ' + new Intl.DateTimeFormat("en-GB", {timeStyle: 'short'}).format(datePlus1Hour);
-    const dateAndTimeOneHourIntervalString = dateStringWithoutTime + ' ' + timeOneHourIntervalString;
-    return dateAndTimeOneHourIntervalString;
-  }
 
   async function DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager}) {
     await DeleteAllAppointmentsViaAPI({apiManager});
