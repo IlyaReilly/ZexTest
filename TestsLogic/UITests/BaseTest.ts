@@ -1,15 +1,16 @@
-import {test as base} from '@playwright/test';
+import {test as base, Page} from '@playwright/test';
 import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
 import {APIManager} from '../../ApplicationLogic/ApplicationAPILogic/APIManager';
 import {userPool, User} from '../../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../../ApplicationLogic/ApplicationAPILogic/BaseAPI';
+import {AdminApiLoginMethod} from '../../ApplicationLogic/Admin/AdminApiLogic/BaseAdminAPI';
 
 export type TestOptions = {
   domain: string;
 };
 
-export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager}>({
+export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager, adminPage: Page}>({
   domain: ['', {option: true}],
 
   page: async ({browser, domain, baseURL}, use, workerInfo) => {
@@ -33,6 +34,18 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
     await use(page);
   },
 
+  adminPage: async ({browser, baseURL, domain}, use) => {
+    BaseTest.baseUrl = baseURL;
+    BaseTest.baseAdminUrl = baseURL?.slice(0, -1) + ":" + BaseTest.playwrightProjectsData.baseURL.adminPort;
+    const user = new User(BaseTest.playwrightProjectsData.adminUsers.zextras.login + '@' + domain,
+      BaseTest.playwrightProjectsData.adminUsers.zextras.password);
+    const storagesPath = await BaseTest.AdminApiLogin(user, 'adminUserForLoginStorageState');
+    const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
+    await page.goto(BaseTest.baseAdminUrl + "/" + BaseTest.playwrightProjectsData.baseURL.adminEndpoint);
+    const adminPage = page;
+    await use(adminPage);
+  },
+
   pageManager: async ({page}, use) => {
     const pageManager = new PageManager(page);
     await use(pageManager);
@@ -53,6 +66,7 @@ export class BaseTest {
   static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
   static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
   static baseUrl;
+  static baseAdminUrl;
   static domain;
   static userForLogin;
   static secondUser;
@@ -77,6 +91,23 @@ export class BaseTest {
     storageStatejson.origins[0].origin = BaseTest.baseUrl;
     storageStatejson.cookies[1].value = authTokens[0];
     storageStatejson.cookies[2].value = authTokens[1];
+    const jsonData = JSON.stringify(storageStatejson);
+    await fs.writeFile(`./${userStoragesPath}`, jsonData, 'utf8');
+    return `./${userStoragesPath}`;
+  };
+
+  static async AdminApiLogin(user, nameOfUserForStorageStateFile) {
+    const storagesPath = `../../TestData/StorageStates/${nameOfUserForStorageStateFile}.json`;
+    const userStoragesPath = `TestData/StorageStates/${user.login}.json`;
+    const authToken = await AdminApiLoginMethod(user.login, user.password);
+    const domain = BaseTest.baseUrl.replace('https://', '').replace('/', '');
+    const storageStatejson = JSON.parse(JSON.stringify(require(storagesPath)));
+    storageStatejson.cookies[0].domain = domain;
+    storageStatejson.cookies[1].domain = domain;
+    storageStatejson.cookies[2].domain = domain;
+    storageStatejson.cookies[3].domain = domain;
+    storageStatejson.origins[0].origin = BaseTest.baseAdminUrl;
+    storageStatejson.cookies[1].value = authToken;
     const jsonData = JSON.stringify(storageStatejson);
     await fs.writeFile(`./${userStoragesPath}`, jsonData, 'utf8');
     return `./${userStoragesPath}`;

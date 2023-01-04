@@ -1,7 +1,9 @@
 {
   "baseURL":
     {
-      "QA": "https://2150.demo.zextras.io/"
+      "QA": "https://2150.demo.zextras.io/",
+      "adminPort": "6071",
+      "adminEndpoint": "carbonioAdmin"
     },
   "domain":
     {
@@ -158,6 +160,14 @@
         {
           "login": "test129",
           "password": "812feee9-c08e-4ec5-9734-07f6e7a6b096"
+        }
+    },
+  "adminUsers":
+    {
+      "zextras":
+        {
+          "login": "zextras",
+          "password": "assext"
         }
     },
     "urlParts":
