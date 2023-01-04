@@ -131,7 +131,7 @@ test.describe('Documents tests', async () => {
     await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
   });
 
-  test('TC523. Open Online Editor. Online Editor should be opened by clicking the “Edit” button.', async ({pageManager, apiManager}) => {
+  test('TC522. Open Online Editor. Online Editor should be opened by clicking the “Edit” button.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
     await pageManager.filesList.Elements.File.click();
@@ -141,7 +141,7 @@ test.describe('Documents tests', async () => {
   });
 
   // Bug №139. Problem with opening a document via file versions. When you click "Open document version" an http error 500 is thrown
-  test.skip('TC533. Upload and open a new document version. A document version should be opened', async ({pageManager, apiManager, page}) => {
+  test.skip('TC532. Upload and open a new document version. A document version should be opened', async ({pageManager, apiManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await apiManager.createFilesAPI.CreateDocument(oldItemName);
     await pageManager.filesList.Elements.File.click();
@@ -154,21 +154,21 @@ test.describe('Documents tests', async () => {
     await expect(documentVersionPage).toHaveURL('https://2150.demo.zextras.io/services/docs/files/open/72620f9e-6e88-4e6d-bf20-abf7b62c9db8?version=1');
   });
 
-  test('TC534. Create Microsoft Word file via header menu. File with docx extension should appear in Home folder.', async ({pageManager, page}) => {
+  test('TC533. Create Microsoft Word file via header menu. File with docx extension should appear in Home folder.', async ({pageManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftWordDocx();
     await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(unicFileName);
     await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(unicFileName)).toHaveText('docx');
   });
 
-  test('TC535. Create Microsoft Excel file via header menu. File with xlsx extension should appear in Home folder.', async ({pageManager, page}) => {
+  test('TC534. Create Microsoft Excel file via header menu. File with xlsx extension should appear in Home folder.', async ({pageManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftExcelXlsx();
     await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(unicFileName);
     await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(unicFileName)).toHaveText('xlsx');
   });
 
-  test('TC536. Create Microsoft PowerPoint file via header menu. File with pptx extension should appear in Home folder.', async ({pageManager, page}) => {
+  test('TC535. Create Microsoft PowerPoint file via header menu. File with pptx extension should appear in Home folder.', async ({pageManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftPowerPointPptx();
     await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(unicFileName);

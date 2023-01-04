@@ -5,19 +5,39 @@ import {InheritedFields} from '../../../ApplicationLogic/ApplicationUILogic/Page
 test.describe('Mails tests', async () => {
   let mailSubject;
   let mailBody;
+  let fileName;
   const msgCount = '4';
 
-  test.beforeEach(async ({pageManager}) => {
+  test.beforeEach(async ({pageManager, apiManager}) => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
+    fileName = BaseTest.dateTimePrefix() + ' Autotest File';
+    await DeleteMailViaApi({apiManager});
+    await DeleteFIlesViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    const id = await apiManager.mailsAPI.MailSearchQuery(mailSubject, BaseTest.userForLogin.login);
-    await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    await DeleteMailViaApi({apiManager});
+    await DeleteFIlesViaAPI({apiManager});
     await page.close();
   });
+
+  async function DeleteMailViaApi({apiManager}) {
+    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
+    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
+  };
+
+  async function DeleteFIlesViaAPI({apiManager}) {
+    const activeFiles = await apiManager.filesAPI.GetActiveFiles();
+    await Promise.all(activeFiles.map(async (file) => {
+      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
+    }));
+    const trashFiles = await apiManager.filesAPI.GetTrashFiles();
+    await Promise.all(trashFiles.map(async (file) => {
+      return apiManager.deleteFilesAPI.DeleteFilePermanentlyById(file.id);
+    }));
+  };
 
   test('TC201. Open Mail tab. User`s login should be visible in the secondary sidebar', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -281,14 +301,12 @@ test.describe('Mails tests', async () => {
   });
 
   test('TC250. Receive the mail with CC as main recipient. CC recipient login should be visible in mail details', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [BaseTest.secondUser.login]);
-    await OpenMailFolderAndOpenMail({pageManager}, mailSubject);
+    await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox, [BaseTest.userForLogin.login], [BaseTest.secondUser.login]);
     await expect(pageManager.mailDetails.Elements.CcRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'CC recipient login should be visible in mail details').toBeVisible();
   });
 
   test('TC251. Receive the mail with BCC as main recipient. BCC recipient login should not be visible in mail details', async ({pageManager, apiManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [BaseTest.secondUser.login]);
-    await OpenMailFolderAndOpenMail({pageManager}, mailSubject);
+    await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox, [BaseTest.userForLogin.login], [], [BaseTest.secondUser.login]);
     await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'BCC recipient login should not be visible in mail details').not.toBeVisible();
   });
 
@@ -334,11 +352,30 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
 
-  async function SendAndOpenMail({apiManager, pageManager}, folder?, toArray = [BaseTest.userForLogin.login]) {
+  test('TC260. Attach the file in New Email board. Attached file should be visible', async ({apiManager, pageManager}) => {
+    await UploadFile({apiManager});
+    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.AddFromFiles);
+    await pageManager.fileChooserModal.Folders.Home.dblclick();
+    await pageManager.fileChooserModal.Elements.File.locator(`"${fileName}"`).click();
+    await pageManager.fileChooserModal.Buttons.Select.click();
+    await expect(pageManager.newMail.Elements.AttachmentFile, 'Attached file should be visible').toContainText(fileName);
+  });
+
+  test('TC261. Open the sent mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
+    await SendAndOpenMailWithAttachedFile({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
+    await expect(pageManager.mailDetails.Elements.AttachmentFile, 'Attached file should be visible in mail details').toContainText(fileName);
+  });
+
+  test('TC262. Open the received mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
+    await SendAndOpenMailWithAttachedFile({apiManager, pageManager});
+    await expect(pageManager.mailDetails.Elements.AttachmentFile, 'Attached file should be visible in mail details').toContainText(fileName);
+  });
+
+  async function SendAndOpenMail({apiManager, pageManager}, folder?, toArray = [BaseTest.userForLogin.login], ccArray?, bccArray?, origId?, msgType?, fileId?) {
     if (folder !== pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts) {
-      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray);
+      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray, ccArray, bccArray, origId, msgType, fileId);
     } else {
-      await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray);
+      await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray, ccArray, bccArray, origId, msgType, fileId);
     };
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject, folder);
   };
@@ -395,11 +432,17 @@ test.describe('Mails tests', async () => {
       await pageManager.mailDetails.Editor.Textboxes.To.click();
       await pageManager.mailDetails.Editor.Textboxes.To.fill(BaseTest.userForLogin.login);
       await pageManager.mailDetails.Editor.Textboxes.Body.click();
-    }
+    };
     const mailQuote = await pageManager.mailDetails.Editor.Textboxes.Body.innerText();
     await pageManager.mailDetails.Editor.Buttons.Send.click();
     await openFolder();
     return mailQuote;
+  };
+
+  async function SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, msgType, openFolder = pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox) {
+    const origMsgId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [], origMsgId, msgType);
+    openFolder();
   };
 
   async function SendReceivedMailBySelectedOptionAndOpenMail({apiManager, pageManager}, option, mail, folder?) {
@@ -408,9 +451,14 @@ test.describe('Mails tests', async () => {
     return mailQuote;
   };
 
-  async function SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, msgType, openFolder = pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox) {
-    const origMsgId = await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [], origMsgId, msgType);
-    openFolder();
+  async function UploadFile({apiManager}) {
+    const nodeId = await apiManager.createFilesAPI.CreateDocumentForUpload(fileName);
+    return await apiManager.filesAPI.UploadTo(nodeId);
   }
+
+  async function SendAndOpenMailWithAttachedFile({apiManager, pageManager}, folder?) {
+    const uploadId = await UploadFile({apiManager});
+    const draftId = await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [], [], [], uploadId);
+    await SendAndOpenMail({apiManager, pageManager}, folder, [BaseTest.userForLogin.login], [], [], [], [], draftId);
+  };
 });

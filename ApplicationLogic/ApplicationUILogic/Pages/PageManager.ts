@@ -33,6 +33,7 @@ import {ChatsActionsModal} from '../Components/Chats/Modals/ChatsActionsModal';
 import {ShareFolderModal} from '../Components/Mails/Modals/ShareFolderModal';
 import {EditFolderModal} from '../Components/Mails/Modals/EditFolderModal';
 import {CreateNewItemModal} from '../Components/Files/Modals/CreateNewItemModal';
+import {FileChooserModal} from '../Components/Files/Modals/FileChooserModal';
 import {NewAddressBookModal} from '../Components/Contacts/Modals/NewAddressBookModal';
 import {MoveAddressBookModal} from '../Components/Contacts/Modals/MoveAddressBookModal';
 import {ShareAddressBookModal} from '../Components/Contacts/Modals/ShareAddressBookModal';
@@ -107,6 +108,7 @@ export class PageManager {
 
   // #region Files Modal
   createNewItemModal;
+  fileChooserModal;
   // #endregion
 
   // #region Mails Modal
@@ -183,6 +185,7 @@ export class PageManager {
 
     // #region Files Modal
     this.createNewItemModal = new CreateNewItemModal(page);
+    this.fileChooserModal = new FileChooserModal(page);
     // #endregion
 
     // #region Mails Modal

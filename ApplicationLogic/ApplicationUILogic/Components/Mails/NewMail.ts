@@ -29,6 +29,7 @@ export class NewMail extends BasePage {
     Bcc: this.Containers.MainContainer.locator('_react=[label="Bcc"]'),
     MoreOptions: this.Containers.MainContainer.locator('button:has([data-testid$="MoreVertical"])'),
     CloseTab: this.Containers.MainContainer.locator('[data-testid$="Close"]'),
+    AddAttachments: this.Containers.MainContainer.locator('[data-testid$="AttachOutline"]'),
   };
 
   TextBox = {
@@ -44,6 +45,7 @@ export class NewMail extends BasePage {
     MarkAsImportantIcon: this.Containers.MainContainer.locator('[data-testid$="ArrowUpward"]'),
     RequestReadReceiptIcon: this.Containers.MainContainer.locator('[data-testid$="CheckmarkSquare"]'),
     BoardTab: this.Containers.MainContainer.locator('_react=[icon^="MailMod"][id^="board"]'),
+    AttachmentFile: this.Containers.MainContainer.locator('_react=[att]'),
   };
 
   Dropdowns = {
@@ -58,6 +60,12 @@ export class NewMail extends BasePage {
       RequestReadReceipt: this.Containers.DropdownContainer.locator('"Request read receipt"'),
       RemoveReadReceiptRequest: this.Containers.DropdownContainer.locator('"Remove read receipt request"'),
     },
+    AddAttachments: {
+      AddFromLocal: this.Containers.DropdownContainer.locator('"Add from local"'),
+      AddFromFiles: this.Containers.DropdownContainer.locator('"Add from Files"'),
+      AddPublicLinkFromFiles: this.Containers.DropdownContainer.locator('"Add public link from Files"'),
+      AddContactCard: this.Containers.DropdownContainer.locator('"Add Contact Card"'),
+    },
   };
 
   SelectNewMailOption = {
@@ -69,6 +77,10 @@ export class NewMail extends BasePage {
     RemoveReadReceiptRequest: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RemoveReadReceiptRequest),
     Cc: async () => await this.SelectOption(this.Buttons.Cc),
     Bcc: async () => await this.SelectOption(this.Buttons.Bcc),
+    AddFromLocal: async () => await this.SelectOption(this.Dropdowns.AddAttachments.AddFromLocal),
+    AddFromFiles: async () => await this.SelectOption(this.Dropdowns.AddAttachments.AddFromFiles),
+    AddPublicLinkFromFiles: async () => await this.SelectOption(this.Dropdowns.AddAttachments.AddPublicLinkFromFiles),
+    AddContactCard: async () => await this.SelectOption(this.Dropdowns.AddAttachments.AddContactCard),
   };
 
   async CreateNewMail(to, subject, body) {
@@ -95,7 +107,9 @@ export class NewMail extends BasePage {
 
   async SelectOption(option) {
     await this.TextBox.Subject.waitFor();
-    if (await option.isHidden()) {
+    if (option === this.Dropdowns.AddAttachments.AddFromLocal || option === this.Dropdowns.AddAttachments.AddFromFiles || option === this.Dropdowns.AddAttachments.AddPublicLinkFromFiles || option === this.Dropdowns.AddAttachments.AddContactCard) {
+      await this.Buttons.AddAttachments.click();
+    } else if (await option.isHidden()) {
       await this.Buttons.MoreOptions.click();
     };
     await option.click();
