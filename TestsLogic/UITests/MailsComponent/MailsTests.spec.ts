@@ -13,13 +13,13 @@ test.describe('Mails tests', async () => {
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     fileName = BaseTest.dateTimePrefix() + ' Autotest File';
     await DeleteMailViaApi({apiManager});
-    await DeleteFilesViaAPI({apiManager});
+    await DeleteFilesViaApi({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
     await DeleteMailViaApi({apiManager});
-    await DeleteFilesViaAPI({apiManager});
+    await DeleteFilesViaApi({apiManager});
     await page.close();
   });
 
@@ -28,7 +28,7 @@ test.describe('Mails tests', async () => {
     await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
   };
 
-  async function DeleteFilesViaAPI({apiManager}) {
+  async function DeleteFilesViaApi({apiManager}) {
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
