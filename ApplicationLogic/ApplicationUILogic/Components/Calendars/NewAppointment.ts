@@ -30,8 +30,8 @@ export class NewAppointment extends BasePage {
   };
 
   Elements = {
-    DateWithTimeInervalInHeader: this.Containers.MainContainer.locator('_react=Ne').nth(0).locator('[class^="Text__Comp"]'),
-    TimeZoneInHeader: this.Containers.MainContainer.locator('_react=Ne').nth(1).locator('[class^="Text__Comp"]'),
+    DateWithTimeInervalInHeader: this.Containers.MainContainer.locator(' [class^="Container__Container"]>[class^="Text__Comp"]').nth(2),
+    TimeZoneInHeader: this.Containers.MainContainer.locator(' [class^="Container__Container"]>[class^="Text__Comp"]').nth(3),
   };
 
   CheckBoxes = {
