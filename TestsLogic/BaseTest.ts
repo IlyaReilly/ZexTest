@@ -1,6 +1,7 @@
 import {test as base, Page} from '@playwright/test';
 import {PageManager} from '../ApplicationLogic/Application/ApplicationUILogic/Pages/PageManager';
 import {APIManager} from '../ApplicationLogic/Application/ApplicationAPILogic/APIManager';
+import {AdminPageManager} from '../ApplicationLogic/Admin/AdminUILogic/Pages/AdminPageManager';
 import {userPool, User} from '../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../ApplicationLogic/Application/ApplicationAPILogic/BaseAPI';
@@ -10,7 +11,7 @@ export type TestOptions = {
   domain: string;
 };
 
-export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager, adminPage: Page}>({
+export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager, adminPage: Page, adminPageManager: AdminPageManager}>({
   domain: ['', {option: true}],
 
   page: async ({browser, domain, baseURL}, use, workerInfo) => {
@@ -59,6 +60,11 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
   apiManager: async ({page}, use) => {
     const apiManager = new APIManager(page);
     await use(apiManager);
+  },
+
+  adminPageManager: async ({adminPage}, use) => {
+    const adminPpageManager = new AdminPageManager(adminPage);
+    await use(adminPpageManager);
   },
 });
 
