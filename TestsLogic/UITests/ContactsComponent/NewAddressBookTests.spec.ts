@@ -1,5 +1,5 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from '../../UITests/BaseTest';
+import {test, BaseTest} from '../../BaseTest';
 import Colors from '../../../TestData/IconColorList.json';
 
 test.describe('New address book tests', async () => {

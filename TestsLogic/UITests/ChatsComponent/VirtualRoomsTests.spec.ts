@@ -1,5 +1,5 @@
 import {expect} from '@playwright/test';
-import {test} from '../../UITests/BaseTest';
+import {test} from '../../BaseTest';
 
 test.describe('Virtual Rooms tests', async () => {
   let dateTimePrefix;

@@ -1,5 +1,5 @@
 import {chromium, FullConfig} from '@playwright/test';
-import {BaseTest} from './TestsLogic/UITests/BaseTest';
+import {BaseTest} from './TestsLogic/BaseTest';
 
 async function globalSetup(config: FullConfig) {
   // Ability to logine once for all tests

@@ -2,7 +2,7 @@
 
 import type {PlaywrightTestConfig} from '@playwright/test';
 import {devices} from '@playwright/test';
-import {BaseTest, TestOptions} from './TestsLogic/UITests/BaseTest';
+import {BaseTest, TestOptions} from './TestsLogic/BaseTest';
 
 /**
  * Read environment variables from file.
