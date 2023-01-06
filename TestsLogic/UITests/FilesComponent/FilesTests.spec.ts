@@ -1,7 +1,6 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../UITests/BaseTest';
 import fs from "fs";
-import {InheritedFields} from '../../../ApplicationLogic/ApplicationUILogic/Pages/BasePage';
 
 test.describe('Files tests', async () => {
   // Components
@@ -13,14 +12,10 @@ test.describe('Files tests', async () => {
   const filePath = './TestData/Files/';
   let unicFilePrefix;
   let unicFileName;
-  let subjectWithFile;
-  let mailBody;
 
   test.beforeEach(async ({apiManager}) => {
     unicFilePrefix = BaseTest.dateTimePrefix();
     unicFileName = unicFilePrefix + 'testAPI';
-    subjectWithFile = unicFilePrefix + 'File in this mail';
-    mailBody = 'Autotest Mail Body';
     const activeFiles = await apiManager.filesAPI.GetActiveFiles();
     await Promise.all(activeFiles.map(async (file) => {
       return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
@@ -176,55 +171,41 @@ test.describe('Files tests', async () => {
     expect(firstFileSize).toBeGreaterThan(secondFileSize);
   });
 
-  test('TS522. Send mail with attached file. The attached file must be in incoming mail.', async ({apiManager, pageManager, page}) => {
-    test.slow();
-    await UploadFileAndOpenDetails({apiManager, pageManager});
-    await pageManager.fileDetails.FileOptions.SendViaMail.click();
-    await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, subjectWithFile, mailBody);
-    await pageManager.newMail.SendMail();
-    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
-    await elementHandle?.waitForElementState('hidden');
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
-    await pageManager.mailsList.Elements.Letter.locator(`"${subjectWithFile}"`);
-    await pageManager.mailsList.OpenMail(subjectWithFile);
-    await expect(pageManager.mailDetails.Elements.AttachmentFile).toContainText(unicFileName);
-  });
-
-  test('TC524. Upload file and check it exists in the “Uploads”. The downloaded file should be displayed in the “Uploads”', async ({pageManager}) => {
+  test('TC523. Upload file and check it exists in the “Uploads”. The downloaded file should be displayed in the “Uploads”', async ({pageManager}) => {
     await UploadFileAndOpenUploads({pageManager});
     await expect(pageManager.filesList.Containers.MainContainer.locator(`"${jpgFile}"`)).toBeVisible();
   });
 
-  test('TC525. Clean up the “Uploads” list. The “Uploads” list should be empty', async ({pageManager}) => {
+  test('TC524. Clean up the “Uploads” list. The “Uploads” list should be empty', async ({pageManager}) => {
     await UploadFileAndOpenUploads({pageManager});
     await pageManager.filesList.Elements.CleanCompletedUploads.click();
     await expect(pageManager.filesList.Containers.EmptyListContainer).toBeVisible();
   });
 
-  test('TC526. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager, page}) => {
+  test('TC525. Upload a new file version. The current file version should be changed to the uploaded one', async ({pageManager, apiManager, page}) => {
     await UploadNewFileVersions({apiManager, pageManager, page});
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeVisible();
   });
 
-  test('TC527. Mark a file version as “Kept forever”. The infinity icon should appear to the left of the dropdown', async ({pageManager, apiManager}) => {
+  test('TC526. Mark a file version as “Kept forever”. The infinity icon should appear to the left of the dropdown', async ({pageManager, apiManager}) => {
     await MarkFileVersionAsKeptForever({pageManager, apiManager});
     await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeVisible();
   });
 
-  test('TC528. Remove tag “Keep forever” for a file version. The infinity icon should disappear to the left of the dropdown', async ({pageManager, apiManager}) => {
+  test('TC527. Remove tag “Keep forever” for a file version. The infinity icon should disappear to the left of the dropdown', async ({pageManager, apiManager}) => {
     await MarkFileVersionAsKeptForever({pageManager, apiManager});
     await pageManager.fileDetails.ClickVersioningDropdownOption.RemoveKeepForever(1);
     await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeHidden();
   });
 
-  test('TC529. Delete the file version. The deleted version should disappear from the list', async ({pageManager, apiManager, page}) => {
+  test('TC528. Delete the file version. The deleted version should disappear from the list', async ({pageManager, apiManager, page}) => {
     await UploadNewFileVersions({apiManager, pageManager, page});
     await pageManager.fileDetails.Elements.FileVersionNumber(2).waitFor();
     await pageManager.fileDetails.ClickVersioningDropdownOption.DeleteVersion(1);
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(1)).toBeHidden();
   });
 
-  test('TC530. Purge all versions except the current one. Only current version should remain in the list', async ({pageManager, apiManager, page}) => {
+  test('TC529. Purge all versions except the current one. Only current version should remain in the list', async ({pageManager, apiManager, page}) => {
     await UploadTwoFileVersions({pageManager, apiManager, page});
     await pageManager.fileDetails.Buttons.PurgeAllVersions.click();
     await pageManager.fileDetails.Modal.PurgeAllVersionsButton.click();
@@ -232,7 +213,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.fileDetails.Elements.FileVersionNumber(2)).toBeHidden();
   });
 
-  test('TC531. Purge all versions except the version marked as kept forever. Version marked as kept forever should remain in the list', async ({pageManager, apiManager, page}) => {
+  test('TC530. Purge all versions except the version marked as kept forever. Version marked as kept forever should remain in the list', async ({pageManager, apiManager, page}) => {
     await UploadTwoFileVersions({pageManager, apiManager, page});
     await pageManager.fileDetails.ClickVersioningDropdownOption.KeepVersionForever(2);
     await pageManager.fileDetails.Elements.KeptForeverIcon.waitFor();
@@ -241,7 +222,7 @@ test.describe('Files tests', async () => {
     await expect(pageManager.fileDetails.Elements.KeptForeverIcon).toBeVisible();
   });
 
-  test('TC532. Clone the file version. A new Current version appears in the list with the clone icon to the left of the dropdown', async ({pageManager, apiManager}) => {
+  test('TC531. Clone the file version. A new Current version appears in the list with the clone icon to the left of the dropdown', async ({pageManager, apiManager}) => {
     await UploadFileAndOpenDetails({apiManager, pageManager});
     await pageManager.fileDetails.Tabs.Versioning.click();
     await pageManager.fileDetails.ClickVersioningDropdownOption.CloneAsCurrent(1);

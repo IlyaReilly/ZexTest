@@ -27,8 +27,8 @@ test.describe('Search tests', async () => {
   });
 
   async function DeleteMailViaApi({apiManager}) {
-    const id = await apiManager.mailsAPI.MailSearchQuery(mailSubject, BaseTest.userForLogin.login);
-    await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
+    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
   };
 
   async function OpenSearchTabAndOpenAdvancedFilters({pageManager}) {

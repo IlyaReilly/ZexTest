@@ -5,41 +5,41 @@ export class MailsAPI extends BaseAPI {
     super(page);
   };
 
-  async MailSearchQuery(query: string, user: string) {
-    let id = '';
-    const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
-      data: {
-        Body: {
-          SearchRequest: {
-            fullConversation: 1,
-            limit: 100,
-            query: query,
-            offset: 0,
-            sortBy: 'dateDesc',
-            types: 'conversation',
-            _jsns: 'urn:zimbraMail',
+  MailFolderIds = {
+    Inbox: '2',
+    Junk: '4',
+    Sent: '5',
+    Draft: '6',
+    Trash: '3',
+  };
+
+  async getMailIds(user: string) {
+    const mailIds = [];
+    // eslint-disable-next-line guard-for-in
+    for (const folder in this.MailFolderIds) {
+      const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
+        data: {
+          Body: {
+            SearchRequest: {
+              query: `inId:"${this.MailFolderIds[folder]}"`,
+              _jsns: 'urn:zimbraMail',
+            },
           },
-        },
-        Header: {
-          context: {
-            _jsns: 'urn:zimbra',
-            notify: {seq: 10},
-            session: {id: '1797', _content: '1797'},
-            account: {by: 'name', _content: user},
-            userAgent: {
-              name: 'CarbonioWebClient - Chrome 103.0.0.0 (Windows)',
-              version: '22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS',
+          Header: {
+            context: {
+              _jsns: 'urn:zimbra',
+              account: {by: 'name', _content: user},
             },
           },
         },
-      },
-    });
-
-    const body = await this.GetResponseBody(response);
-    if (body.Body.SearchResponse.c) {
-      id = body.Body.SearchResponse.c[0].id;
-    }
-    return id;
+      });
+      const body = await this.GetResponseBody(response);
+      if (body.Body.SearchResponse.c) {
+        const mails = body.Body.SearchResponse.c;
+        mailIds.push(...(mails.flatMap((mail) => mail.id)));
+      };
+    };
+    return mailIds;
   };
 
   async MoveMailToFolder(mailId, user, folderId) {
@@ -61,4 +61,4 @@ export class MailsAPI extends BaseAPI {
       },
     });
   };
-}
+};

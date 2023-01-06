@@ -29,6 +29,7 @@ export class NewMail extends BasePage {
     Bcc: this.Containers.MainContainer.locator('_react=[label="Bcc"]'),
     MoreOptions: this.Containers.MainContainer.locator('button:has([data-testid$="MoreVertical"])'),
     CloseTab: this.Containers.MainContainer.locator('[data-testid$="Close"]'),
+    AddAttachments: this.Containers.MainContainer.locator('[data-testid$="AttachOutline"]'),
   };
 
   TextBox = {
@@ -44,6 +45,7 @@ export class NewMail extends BasePage {
     MarkAsImportantIcon: this.Containers.MainContainer.locator('[data-testid$="ArrowUpward"]'),
     RequestReadReceiptIcon: this.Containers.MainContainer.locator('[data-testid$="CheckmarkSquare"]'),
     BoardTab: this.Containers.MainContainer.locator('_react=[icon^="MailMod"][id^="board"]'),
+    AttachmentFile: this.Containers.MainContainer.locator('_react=[att]'),
   };
 
   Dropdowns = {
@@ -58,17 +60,27 @@ export class NewMail extends BasePage {
       RequestReadReceipt: this.Containers.DropdownContainer.locator('"Request read receipt"'),
       RemoveReadReceiptRequest: this.Containers.DropdownContainer.locator('"Remove read receipt request"'),
     },
+    AddAttachments: {
+      AddFromLocal: this.Containers.DropdownContainer.locator('"Add from local"'),
+      AddFromFiles: this.Containers.DropdownContainer.locator('"Add from Files"'),
+      AddPublicLinkFromFiles: this.Containers.DropdownContainer.locator('"Add public link from Files"'),
+      AddContactCard: this.Containers.DropdownContainer.locator('"Add Contact Card"'),
+    },
   };
 
   SelectNewMailOption = {
-    DisableRichTextEditor: async () => await this.SelectOption(this.Dropdowns.MoreOptions.DisableRichTextEditor),
-    EnableRichTextEditor: async () => await this.SelectOption(this.Dropdowns.MoreOptions.EnableRichTextEditor),
-    MarkAsImportant: async () => await this.SelectOption(this.Dropdowns.MoreOptions.MarkAsImportant),
-    MarkAsNotImportant: async () => await this.SelectOption(this.Dropdowns.MoreOptions.MarkAsNotImportant),
-    RequestReadReceipt: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RequestReadReceipt),
-    RemoveReadReceiptRequest: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RemoveReadReceiptRequest),
+    DisableRichTextEditor: async () => await this.SelectOption(this.Dropdowns.MoreOptions.DisableRichTextEditor, this.Buttons.MoreOptions),
+    EnableRichTextEditor: async () => await this.SelectOption(this.Dropdowns.MoreOptions.EnableRichTextEditor, this.Buttons.MoreOptions),
+    MarkAsImportant: async () => await this.SelectOption(this.Dropdowns.MoreOptions.MarkAsImportant, this.Buttons.MoreOptions),
+    MarkAsNotImportant: async () => await this.SelectOption(this.Dropdowns.MoreOptions.MarkAsNotImportant, this.Buttons.MoreOptions),
+    RequestReadReceipt: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RequestReadReceipt, this.Buttons.MoreOptions),
+    RemoveReadReceiptRequest: async () => await this.SelectOption(this.Dropdowns.MoreOptions.RemoveReadReceiptRequest, this.Buttons.MoreOptions),
     Cc: async () => await this.SelectOption(this.Buttons.Cc),
     Bcc: async () => await this.SelectOption(this.Buttons.Bcc),
+    AddFromLocal: async () => await this.SelectOption(this.Dropdowns.AddAttachments.AddFromLocal, this.Buttons.AddAttachments),
+    AddFromFiles: async () => await this.SelectOption(this.Dropdowns.AddAttachments.AddFromFiles, this.Buttons.AddAttachments),
+    AddPublicLinkFromFiles: async () => await this.SelectOption(this.Dropdowns.AddAttachments.AddPublicLinkFromFiles, this.Buttons.AddAttachments),
+    AddContactCard: async () => await this.SelectOption(this.Dropdowns.AddAttachments.AddContactCard, this.Buttons.AddAttachments),
   };
 
   async CreateNewMail(to, subject, body) {
@@ -93,10 +105,10 @@ export class NewMail extends BasePage {
     await this.Buttons.CloseCross.click();
   };
 
-  async SelectOption(option) {
+  async SelectOption(option, dropdown?) {
     await this.TextBox.Subject.waitFor();
-    if (await option.isHidden()) {
-      await this.Buttons.MoreOptions.click();
+    if (dropdown) {
+      await dropdown.click();
     };
     await option.click();
   };
