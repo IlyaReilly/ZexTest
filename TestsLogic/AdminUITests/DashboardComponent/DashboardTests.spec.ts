@@ -1,4 +1,3 @@
-import {expect} from '@playwright/test';
 import {test} from '../../BaseTest';
 
 // Only architecture for admin tests
