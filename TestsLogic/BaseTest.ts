@@ -63,7 +63,7 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
 });
 
 export class BaseTest {
-  static playwrightProjectsData = JSON.parse(JSON.stringify(require('../../TestData/PlaywrightProjectsData.json')));
+  static playwrightProjectsData = JSON.parse(JSON.stringify(require('../TestData/PlaywrightProjectsData.json')));
   static dateTimePrefix = () => new Date().getDate().toString() + new Date().getTime().toString();
   static baseUrl;
   static baseAdminUrl;
@@ -80,7 +80,7 @@ export class BaseTest {
   };
 
   static async ApiLogin(user, nameOfUserForStorageStateFile) {
-    const storagesPath = `../../TestData/StorageStates/${nameOfUserForStorageStateFile}.json`;
+    const storagesPath = `../TestData/StorageStates/${nameOfUserForStorageStateFile}.json`;
     const userStoragesPath = `TestData/StorageStates/${user.login}.json`;
     const authTokens = await ApiLoginMethod(user.login, user.password);
     const domain = BaseTest.baseUrl.replace('https://', '').replace('/', '');
@@ -97,7 +97,7 @@ export class BaseTest {
   };
 
   static async AdminApiLogin(user, nameOfUserForStorageStateFile) {
-    const storagesPath = `../../TestData/StorageStates/${nameOfUserForStorageStateFile}.json`;
+    const storagesPath = `../TestData/StorageStates/${nameOfUserForStorageStateFile}.json`;
     const userStoragesPath = `TestData/StorageStates/${user.login}.json`;
     const authToken = await AdminApiLoginMethod(user.login, user.password);
     const domain = BaseTest.baseUrl.replace('https://', '').replace('/', '');
