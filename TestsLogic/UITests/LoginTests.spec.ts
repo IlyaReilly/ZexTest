@@ -1,6 +1,6 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from './BaseTest';
-import {PageManager} from '../../ApplicationLogic/ApplicationUILogic/Pages/PageManager';
+import {test, BaseTest} from '../BaseTest';
+import {PageManager} from '../../ApplicationLogic/Application/ApplicationUILogic/Pages/PageManager';
 
 // test.use({storageState: {cookies: [], origins: []}});
 

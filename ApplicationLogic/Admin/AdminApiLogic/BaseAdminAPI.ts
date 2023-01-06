@@ -1,5 +1,5 @@
 import {Page, request, expect} from '@playwright/test';
-import {BaseTest} from '../../../TestsLogic/UITests/BaseTest';
+import {BaseTest} from '../../../TestsLogic/BaseTest';
 
 export async function AdminApiLoginMethod(login: string, password: string) {
   const baseUrl = BaseTest.baseAdminUrl;

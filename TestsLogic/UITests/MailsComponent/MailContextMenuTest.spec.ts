@@ -1,5 +1,5 @@
 import {expect} from '@playwright/test';
-import {test, BaseTest} from '../BaseTest';
+import {test, BaseTest} from '../../BaseTest';
 
 test.describe('Mails context menu options tests', async () => {
   let mailSubject;
