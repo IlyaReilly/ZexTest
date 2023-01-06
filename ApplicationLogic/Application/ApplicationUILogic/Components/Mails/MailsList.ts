@@ -1,18 +1,17 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class MailsList extends BasePage {
+export class MailsList extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.ListContainerLocator),
-    MailContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    MainContainer: this.page.locator(this.InheritedFields.ListContainerLocator),
+    MailContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   Elements = {
-    Letter: this.Containers.MainContainer.locator(InheritedFields.ListItemReactLocator),
+    Letter: this.Containers.MainContainer.locator(this.InheritedFields.ListItemReactLocator),
     UnreadMessageIcon: this.Containers.MainContainer.locator('_react=[isRead=false]'),
   };
 

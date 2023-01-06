@@ -1,14 +1,13 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class SideSecondaryContactsMenu extends BasePage {
+export class SideSecondaryContactsMenu extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.SideSecondaryBarLocator),
-    ContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    MainContainer: this.page.locator(this.InheritedFields.SideSecondaryBarLocator),
+    ContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   Buttons = {

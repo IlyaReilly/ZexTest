@@ -1,14 +1,13 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class SideSecondaryChatsMenu extends BasePage {
+export class SideSecondaryChatsMenu extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
     MainContainer: this.page.locator('_react=[defaultTab]'),
-    ListContainer: this.page.locator(InheritedFields.ListContainerLocator),
+    ListContainer: this.page.locator(this.InheritedFields.ListContainerLocator),
   };
 
   Buttons = {

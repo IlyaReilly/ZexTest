@@ -1,20 +1,19 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class ContactsList extends BasePage {
+export class ContactsList extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.WorkspaceContainerLocator),
-    ListContainer: this.page.locator(InheritedFields.ListContainerLocator),
-    ContactContextMenu: this.page.locator(InheritedFields.DropdownListLocator),
+    MainContainer: this.page.locator(this.InheritedFields.WorkspaceContainerLocator),
+    ListContainer: this.page.locator(this.InheritedFields.ListContainerLocator),
+    ContactContextMenu: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   Elements = {
     Count: this.Containers.MainContainer.locator('[data-testid*="BreadcrumbCount"]'),
-    Contact: this.Containers.ListContainer.locator(InheritedFields.ListItemReactLocator),
+    Contact: this.Containers.ListContainer.locator(this.InheritedFields.ListItemReactLocator),
     ContactTag: this.Containers.ListContainer.locator('[data-testid="TagIcon"]'),
   };
 

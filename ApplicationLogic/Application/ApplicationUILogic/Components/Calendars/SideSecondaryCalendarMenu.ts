@@ -1,16 +1,15 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class SideSecondaryCalendarMenu extends BasePage {
+export class SideSecondaryCalendarMenu extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
-  readonly SideSecondaryBarLocator = InheritedFields.SideSecondaryBarLocator;
+  readonly SideSecondaryBarLocator = this.InheritedFields.SideSecondaryBarLocator;
 
   Containers = {
     MainContainer: this.page.locator(this.SideSecondaryBarLocator),
-    ContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    ContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   ContextMenu = {

@@ -1,16 +1,15 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class Calendar extends BasePage {
+export class Calendar extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.WorkspaceContainerLocator),
+    MainContainer: this.page.locator(this.InheritedFields.WorkspaceContainerLocator),
     AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
-    OtherActionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
-    ModalContainer: this.page.locator(InheritedFields.ModalWindowLocator),
+    OtherActionsContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    ModalContainer: this.page.locator(this.InheritedFields.ModalWindowLocator),
     CalendarView: this.page.locator('div:has([class^="custom-toolbar"])'),
   };
 

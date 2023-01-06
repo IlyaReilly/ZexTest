@@ -1,6 +1,6 @@
-import {BasePage} from '../../../BasePage';
+import {BaseApplicationPage} from '../Pages/BaseApplicationPage';
 
-export class SideMenu extends BasePage {
+export class SideMenu extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };

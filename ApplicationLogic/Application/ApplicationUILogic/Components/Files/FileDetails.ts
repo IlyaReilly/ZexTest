@@ -1,7 +1,6 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class FileDetails extends BasePage {
+export class FileDetails extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
@@ -10,13 +9,13 @@ export class FileDetails extends BasePage {
     MainContainer: this.page.locator('[data-testid="displayer"]'),
     HeaderContainer: this.page.locator('[data-testid="DisplayerHeader"]'),
     FileOptionsContainer: this.page.locator('[data-testid="displayer-actions-header"]'),
-    ModalContainer: this.page.locator(InheritedFields.ModalWindowLocator),
+    ModalContainer: this.page.locator(this.InheritedFields.ModalWindowLocator),
     InformationContainer: this.page.locator('[data-testid="node-details"]>>[class*="Components"]'),
     TabsBarContainer: this.page.locator('div:has(>[class*="TabBar"])'),
     TabDetailsContainer: this.page.locator('[data-testid="node-details"]'),
     TabSharingContainer: this.page.locator('[data-testid="node-sharing-collaborators"]'),
     TabVersioningContainer: this.page.locator('[class*="Versioning"]'),
-    DropDownPopperListContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    DropDownPopperListContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   Elements = {

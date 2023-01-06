@@ -1,4 +1,3 @@
-import {InheritedFields} from '../../../Pages/BaseApplicationPage';
 import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 
 
@@ -12,7 +11,7 @@ export class FileChooserModal extends ModalWindowBase {
   };
 
   Elements = {
-    File: this.Containers.MainContainer.locator(InheritedFields.ListFileReactLocator),
+    File: this.Containers.MainContainer.locator(this.InheritedFields.ListFileReactLocator),
   };
 
   Buttons = {

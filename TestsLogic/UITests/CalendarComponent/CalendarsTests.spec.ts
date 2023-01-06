@@ -1,6 +1,5 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
-import {InheritedFields} from '../../../ApplicationLogic/Application/ApplicationUILogic/Pages/BaseApplicationPage';
 
 test.describe('Calendars tests', async () => {
   let dateTimePrefix;
@@ -44,7 +43,7 @@ test.describe('Calendars tests', async () => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
-    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
+    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.Day);
@@ -56,7 +55,7 @@ test.describe('Calendars tests', async () => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);
-    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
+    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
@@ -68,7 +67,7 @@ test.describe('Calendars tests', async () => {
     const location = dateTimePrefix + 'Location';
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, false, location);
-    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
+    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();

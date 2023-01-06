@@ -1,5 +1,4 @@
 import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
-import {InheritedFields} from '../../../Pages/BaseApplicationPage';
 
 export class MoveMailToFolderModal extends ModalWindowBase {
   constructor(page) {
@@ -7,11 +6,11 @@ export class MoveMailToFolderModal extends ModalWindowBase {
   };
 
   Folders = {
-    FoldersListItem: this.Containers.MainContainer.locator(InheritedFields.ListItemReactLocator),
+    FoldersListItem: this.Containers.MainContainer.locator(this.InheritedFields.ListItemReactLocator),
   };
 
   Buttons = {
-    ExpandFoldersListButton: this.Containers.MainContainer.locator(InheritedFields.ExpandFoldersLocator),
+    ExpandFoldersListButton: this.Containers.MainContainer.locator(this.InheritedFields.ExpandFoldersLocator),
     NewFolderButton: this.Containers.MainContainer.locator('"New Folder"'),
     MoveButton: this.Containers.MainContainer.locator('"Move"'),
     CancelButton: this.Containers.MainContainer.locator('"Cancel"'),

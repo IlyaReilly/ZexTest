@@ -1,6 +1,5 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
-import {InheritedFields} from '../../../ApplicationLogic/Application/ApplicationUILogic/Pages/BaseApplicationPage';
 
 test.describe('Contacts tests', async () => {
   let mailSubject;
@@ -38,7 +37,7 @@ test.describe('Contacts tests', async () => {
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);
-    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
+    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${email}"`), 'The e-mail address of a new contact is visible in Contacts list').toBeVisible();
   });

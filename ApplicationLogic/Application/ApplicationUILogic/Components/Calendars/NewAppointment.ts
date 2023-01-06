@@ -1,18 +1,17 @@
 import {BaseTest} from '../../../../../TestsLogic/BaseTest';
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class NewAppointment extends BasePage {
+export class NewAppointment extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.NewItemBoardLocator),
-    AttendeesDropdown: this.page.locator(InheritedFields.DropdownListLocator),
+    MainContainer: this.page.locator(this.InheritedFields.NewItemBoardLocator),
+    AttendeesDropdown: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
-  bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
+  bodyIframe = this.page.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
 
   Buttons = {
     Send: this.Containers.MainContainer.locator('"Send"'),
@@ -27,7 +26,7 @@ export class NewAppointment extends BasePage {
     EventTitle: this.Containers.MainContainer.locator('[name="Event title"]'),
     Location: this.Containers.MainContainer.locator('[name="Location"]'),
     Attendees: this.Containers.MainContainer.locator('[name="Attendees"]'),
-    Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
+    Body: this.bodyIframe.locator(this.InheritedFields.NewItemBodyLocator),
   };
 
   Elements = {

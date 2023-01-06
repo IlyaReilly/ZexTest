@@ -1,13 +1,12 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class ModalWindowBase extends BasePage {
+export class ModalWindowBase extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.ModalWindowLocator),
-    DropDownContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    MainContainer: this.page.locator(this.InheritedFields.ModalWindowLocator),
+    DropDownContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 }

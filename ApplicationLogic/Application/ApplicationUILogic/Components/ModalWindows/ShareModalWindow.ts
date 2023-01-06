@@ -1,4 +1,3 @@
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
 import {ModalWindowBase} from './ModalWindowBase';
 
 export class ShareModalWindow extends ModalWindowBase {
@@ -12,7 +11,7 @@ export class ShareModalWindow extends ModalWindowBase {
 
   ShareWithDropdown = {
     OpenClose: this.Containers.MainContainer.locator('"Share with"'),
-    UsersDropdown: this.page.locator(InheritedFields.DropdownListLocator),
+    UsersDropdown: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   TextBoxes = {

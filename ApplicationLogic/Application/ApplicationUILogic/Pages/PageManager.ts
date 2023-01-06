@@ -1,5 +1,6 @@
 import {Page} from '@playwright/test';
 import {LoginPage} from './LoginPage';
+import {BaseApplicationPage} from './BaseApplicationPage';
 import {HeaderMenu} from '../Components/HeaderMenu';
 import {NewMail} from '../Components/Mails/NewMail';
 import {NewAppointment} from '../Components/Calendars/NewAppointment';
@@ -60,6 +61,7 @@ import {TagModals} from '../Components/ModalWindows/TagModals';
 export class PageManager {
   page: Page;
   loginPage;
+  baseApplicationPage;
   searchResultsList;
   searchStatisticsHeader;
   newContact;
@@ -137,6 +139,7 @@ export class PageManager {
   constructor(page) {
     this.page = page;
     this.loginPage = new LoginPage(page);
+    this.baseApplicationPage = new BaseApplicationPage(page);
     this.searchResultsList = new SearchResultsList(page);
     this.searchStatisticsHeader = new SearchStatisticsHeader(page);
     this.newContact = new NewContact(page);

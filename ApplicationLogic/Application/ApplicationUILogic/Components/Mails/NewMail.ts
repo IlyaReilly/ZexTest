@@ -1,18 +1,17 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class NewMail extends BasePage {
+export class NewMail extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.NewItemBoardLocator),
+    MainContainer: this.page.locator(this.InheritedFields.NewItemBoardLocator),
     BeforeYouLeaveContainer: this.page.locator('[data-testid="modal"]'),
-    DropdownContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
-  bodyIframe = this.page.frameLocator(InheritedFields.NewItemBodyIframeLocator);
+  bodyIframe = this.page.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
 
   BoardProperties = {
     NormalSize: this.Containers.MainContainer.locator('_react=[expanded=false]'),
@@ -38,7 +37,7 @@ export class NewMail extends BasePage {
     Cc: this.Containers.MainContainer.locator('[name="Cc"]'),
     Bcc: this.Containers.MainContainer.locator('[name="Bcc"]'),
     Subject: this.Containers.MainContainer.locator('[name="Subject"]'),
-    Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
+    Body: this.bodyIframe.locator(this.InheritedFields.NewItemBodyLocator),
   };
 
   Elements = {

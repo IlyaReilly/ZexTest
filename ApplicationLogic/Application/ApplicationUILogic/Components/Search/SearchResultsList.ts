@@ -1,14 +1,13 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class SearchResultsList extends BasePage {
+export class SearchResultsList extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.WorkspaceContainerLocator),
-    ListContainer: this.page.locator(InheritedFields.ListContainerLocator),
+    MainContainer: this.page.locator(this.InheritedFields.WorkspaceContainerLocator),
+    ListContainer: this.page.locator(this.InheritedFields.ListContainerLocator),
   };
 
   Buttons = {
@@ -16,7 +15,7 @@ export class SearchResultsList extends BasePage {
   };
 
   Elements = {
-    SearchResult: this.Containers.ListContainer.locator(InheritedFields.ListItemReactLocator),
-    FileSearchResult: this.Containers.ListContainer.locator(InheritedFields.ListFileReactLocator),
+    SearchResult: this.Containers.ListContainer.locator(this.InheritedFields.ListItemReactLocator),
+    FileSearchResult: this.Containers.ListContainer.locator(this.InheritedFields.ListFileReactLocator),
   };
 }

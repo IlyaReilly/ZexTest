@@ -1,18 +1,17 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class MailDetails extends BasePage {
+export class MailDetails extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
     MainContainer: this.page.locator('[data-testid="third-panel"]'),
-    OptionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    OptionsContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   MailBodyIframe = this.Containers.MainContainer.frameLocator('iframe[title]');
-  EditorBodyIframe = this.Containers.MainContainer.frameLocator(InheritedFields.NewItemBodyIframeLocator);
+  EditorBodyIframe = this.Containers.MainContainer.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
 
   Elements = {
     Header: this.Containers.MainContainer.locator('[data-testid="PreviewPanelHeader"]'),
@@ -37,7 +36,7 @@ export class MailDetails extends BasePage {
     Textboxes: {
       To: this.Containers.MainContainer.locator('[name="To"]'),
       Subject: this.Containers.MainContainer.locator('[name="Subject"]'),
-      Body: this.EditorBodyIframe.locator(InheritedFields.NewItemBodyLocator),
+      Body: this.EditorBodyIframe.locator(this.InheritedFields.NewItemBodyLocator),
     },
   };
 

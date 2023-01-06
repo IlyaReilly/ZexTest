@@ -1,7 +1,7 @@
 import {Page} from '@playwright/test';
-import {BasePage} from '../../../../BasePage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class ChatField extends BasePage {
+export class ChatField extends BaseApplicationPage {
   constructor(page: Page) {
     super(page);
   };

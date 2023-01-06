@@ -1,4 +1,3 @@
-import {InheritedFields} from '../../../Pages/BaseApplicationPage';
 import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 
 
@@ -24,7 +23,7 @@ export class EditCalendarPropertyModal extends ModalWindowBase {
 
   Dropdowns = {
     Color: this.Containers.MainContainer.locator('"Calendar color"'),
-    DropdownContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   TextBoxes = {

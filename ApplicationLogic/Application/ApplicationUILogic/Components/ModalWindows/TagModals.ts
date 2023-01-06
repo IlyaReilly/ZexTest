@@ -1,14 +1,13 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class TagModals extends BasePage {
+export class TagModals extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.SideSecondaryBarLocator),
-    TagContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    MainContainer: this.page.locator(this.InheritedFields.SideSecondaryBarLocator),
+    TagContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   Elements = {

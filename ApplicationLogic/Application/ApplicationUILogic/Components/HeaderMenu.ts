@@ -1,14 +1,13 @@
-import {BasePage} from '../../../BasePage';
-import {InheritedFields} from '../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../Pages/BaseApplicationPage';
 
-export class HeaderMenu extends BasePage {
+export class HeaderMenu extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
     MainContainer: this.page.locator('[class*="Background"] >> [class*="Container"]'),
-    DropdownList: this.page.locator(InheritedFields.DropdownListLocator),
+    DropdownList: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   Buttons = {

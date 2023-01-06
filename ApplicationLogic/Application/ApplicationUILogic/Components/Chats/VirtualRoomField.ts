@@ -1,7 +1,7 @@
 import {Page} from '@playwright/test';
-import {BasePage} from '../../../../BasePage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class VirtualRoomField extends BasePage {
+export class VirtualRoomField extends BaseApplicationPage {
   constructor(page: Page) {
     super(page);
   };

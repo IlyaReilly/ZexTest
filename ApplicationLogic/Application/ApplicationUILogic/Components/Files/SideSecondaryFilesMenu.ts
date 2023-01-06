@@ -1,13 +1,12 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class SideSecondaryFilesMenu extends BasePage {
+export class SideSecondaryFilesMenu extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.SideSecondaryBarLocator),
+    MainContainer: this.page.locator(this.InheritedFields.SideSecondaryBarLocator),
   };
 
   Tabs = {

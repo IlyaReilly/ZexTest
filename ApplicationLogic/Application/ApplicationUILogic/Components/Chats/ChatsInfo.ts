@@ -1,15 +1,14 @@
 import {Page} from '@playwright/test';
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class ChatsInfo extends BasePage {
+export class ChatsInfo extends BaseApplicationPage {
   constructor(page: Page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.ChatInfoContainerLocator),
-    MembersContainer: this.page.locator(InheritedFields.ChatMembersContainerLocator),
+    MainContainer: this.page.locator(this.InheritedFields.ChatInfoContainerLocator),
+    MembersContainer: this.page.locator(this.InheritedFields.ChatMembersContainerLocator),
   };
 
   Buttons = {

@@ -1,13 +1,12 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class NewContact extends BasePage {
+export class NewContact extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.NewItemBoardLocator),
+    MainContainer: this.page.locator(this.InheritedFields.NewItemBoardLocator),
   };
 
   Buttons = {

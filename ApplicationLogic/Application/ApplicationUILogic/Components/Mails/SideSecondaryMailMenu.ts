@@ -1,20 +1,19 @@
-import {BasePage} from '../../../../BasePage';
-import {InheritedFields} from '../../Pages/BaseApplicationPage';
+import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
-export class SideSecondaryMailMenu extends BasePage {
+export class SideSecondaryMailMenu extends BaseApplicationPage {
   constructor(page) {
     super(page);
   };
 
   Containers = {
-    MainContainer: this.page.locator(InheritedFields.SideSecondaryBarLocator),
-    MailOptionsContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    MainContainer: this.page.locator(this.InheritedFields.SideSecondaryBarLocator),
+    MailOptionsContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
     CreateNewFolderPopupContainer: this.page.locator('[data-testid="modal"]'),
-    ContextMenuContainer: this.page.locator(InheritedFields.DropdownListLocator),
+    ContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
   Buttons = {
-    ExpandFolder: this.Containers.MainContainer.locator(InheritedFields.ExpandFoldersLocator),
+    ExpandFolder: this.Containers.MainContainer.locator(this.InheritedFields.ExpandFoldersLocator),
   };
 
   Icons = {
@@ -52,7 +51,7 @@ export class SideSecondaryMailMenu extends BasePage {
   };
 
   async OpenFolder(folder) {
-    if (await this.page.isHidden(`${InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
+    if (await this.page.isHidden(`${this.InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
       await this.Buttons.ExpandFolder.first().click();
     }
     await folder.click();
@@ -86,14 +85,14 @@ export class SideSecondaryMailMenu extends BasePage {
 
   async ExpandFolders(folder) {
     if (folder !== 'Tags') {
-      if (await this.page.isHidden(`${InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
+      if (await this.page.isHidden(`${this.InheritedFields.SideSecondaryBarLocator} >> text=Inbox`)) {
         await this.Buttons.ExpandFolder.first().click();
         await this.MailFolders.Inbox.click();
       };
       if (folder === 'Inbox') {
         await this.Buttons.ExpandFolder.locator('nth=1').click();
       } else if (folder) {
-        await this.page.click(`${InheritedFields.ExpandFoldersLocator}:near(:text("${folder}"))`);
+        await this.page.click(`${this.InheritedFields.ExpandFoldersLocator}:near(:text("${folder}"))`);
       };
     } else {
       await this.page.click(`[data-testid*="ChevronDown"]:near(:text("${folder}"))`);
