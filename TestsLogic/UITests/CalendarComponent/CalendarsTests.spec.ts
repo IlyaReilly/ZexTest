@@ -145,6 +145,32 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
   });
 
+  test('TC329. Click the "New Appointment" button in header menu. The "New Appointment" modal window opens and contains current date and current one hour interval in header.', async ({pageManager}) => {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    const dateWithTimeIntervalInAppointment = await pageManager.newAppointment.Elements.DateWithTimeInervalInHeader.innerText();
+    const dateTimeInAppointment = new Date(dateWithTimeIntervalInAppointment.split(' -')[0]);
+    const currentDateTime = new Date();
+    const timeDifferenceInMinutes = Math.floor((currentDateTime.getTime() - dateTimeInAppointment.getTime()) / 60000);
+    if ( timeDifferenceInMinutes === 1 || timeDifferenceInMinutes === 2) {
+      currentDateTime.setMinutes(currentDateTime.getMinutes() - timeDifferenceInMinutes);
+    }
+    await expect(pageManager.newAppointment.Elements.DateWithTimeInervalInHeader).toHaveText(formatDateToStringWithOneHourInterval(currentDateTime), {useInnerText: true});
+  });
+
+  test('TC330. The "New Appointment" modal window contains time zone in header that matches the user time zone.', async ({pageManager}) => {
+    const timeZoneExpected = new Intl.DateTimeFormat('en-GB', {timeZoneName: "longOffset"}).format(new Date()).split(' ')[1].replace('GMT+', 'GMT +') + ' '+ new Intl.DateTimeFormat().resolvedOptions().timeZone;
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await expect(pageManager.newAppointment.Elements.TimeZoneInHeader).toHaveText(timeZoneExpected);
+  });
+
+  function formatDateToStringWithOneHourInterval(date: Date): string {
+    // example of function return: Tuesday, 03 January, 2023 09:12 - 10:12
+    const datePlus1Hour = new Date(date).setHours(date.getHours() + 1);
+    const dateStringWithoutTime = new Intl.DateTimeFormat("en-GB", {weekday: 'long', day: '2-digit', month: 'long'}).format(date) + ', ' + new Intl.DateTimeFormat("en-GB", {year: 'numeric'}).format(date);
+    const timeOneHourIntervalString = new Intl.DateTimeFormat("en-GB", {timeStyle: 'short'}).format(date) + ' - ' + new Intl.DateTimeFormat("en-GB", {timeStyle: 'short'}).format(datePlus1Hour);
+    return dateStringWithoutTime + ' ' + timeOneHourIntervalString;
+  }
+
   async function AppointmentInTheTrashValidation({pageManager}) {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();

@@ -29,6 +29,11 @@ export class NewAppointment extends BasePage {
     Body: this.bodyIframe.locator(InheritedFields.NewItemBodyLocator),
   };
 
+  Elements = {
+    DateWithTimeInervalInHeader: this.Containers.MainContainer.locator('[class^="Text__Comp"]').locator('text=/\\d{4}\\s\\d{2}:\\d{2}\\s-\\s*\\d{2}:\\d{2}/'),
+    TimeZoneInHeader: this.Containers.MainContainer.locator('[class^="Text__Comp"]').locator('text=/GMT\\s\\+\\d{2}:\\d{2}/'),
+  };
+
   CheckBoxes = {
     Private: this.Containers.MainContainer.locator('"Private"'),
   };
