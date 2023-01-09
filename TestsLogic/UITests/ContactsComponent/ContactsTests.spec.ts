@@ -10,7 +10,7 @@ test.describe('Contacts tests', async () => {
   let email;
   let tagName;
 
-  test.beforeEach(async ({pageManager}) => {
+  test.beforeEach(async ({pageManager, apiManager}) => {
     firstName = BaseTest.dateTimePrefix();
     newFirstName = BaseTest.dateTimePrefix() + 'New';
     lastName = BaseTest.dateTimePrefix() + 'LName';
@@ -18,14 +18,19 @@ test.describe('Contacts tests', async () => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     tagName = BaseTest.dateTimePrefix() + 'Tag';
+    await DeleteContactsViaApi({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    const id = await apiManager.contactsAPI.ContactsSearchQuery(firstName, BaseTest.userForLogin.login);
-    await apiManager.deleteContactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
+    await DeleteContactsViaApi({apiManager});
     await page.close();
   });
+
+  async function DeleteContactsViaApi({apiManager}) {
+    const contactIds = await apiManager.contactsAPI.getContactIds(BaseTest.userForLogin.login);
+    await Promise.all(contactIds.map(async (id) => await apiManager.contactsAPI.ItemActionRequest(apiManager.contactsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
+  };
 
   test('TC601. Open contacts tab. Contacts folder options should be visible', async ({pageManager}) => {
     await expect(pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Contacts, 'Contacts tab should be presented').toBeVisible();
