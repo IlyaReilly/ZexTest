@@ -8,17 +8,17 @@ test.describe('Search tests', async () => {
   test.beforeEach(async ({apiManager}) => {
     uniquePrefix = BaseTest.dateTimePrefix();
     contactName = uniquePrefix + ' First Contact Name';
-    await DeleteAllContactsViaAPI({apiManager});
+    await DeleteContactsViaApi({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllContactsViaAPI({apiManager});
+    await DeleteContactsViaApi({apiManager});
     await page.close();
   });
 
-  async function DeleteAllContactsViaAPI({apiManager}) {
-    const id = await apiManager.contactsAPI.ContactsSearchQuery(contactName, BaseTest.userForLogin.login);
-    await apiManager.deleteContactsAPI.DeleteContactsPermanentlyById(id, BaseTest.userForLogin.login);
+  async function DeleteContactsViaApi({apiManager}) {
+    const contactIds = await apiManager.contactsAPI.getContactIds(BaseTest.userForLogin.login);
+    await Promise.all(contactIds.map(async (id) => await apiManager.contactsAPI.ItemActionRequest(apiManager.contactsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
   };
 
   test('TC702. Search contact', async ({apiManager, pageManager}) => {
