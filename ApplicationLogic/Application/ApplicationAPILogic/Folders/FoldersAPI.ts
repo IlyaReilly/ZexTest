@@ -1,4 +1,5 @@
 import {BaseAPI} from "../BaseAPI";
+import {BaseTest} from "../../../../TestsLogic/BaseTest";
 
 export class FoldersAPI extends BaseAPI {
   constructor(page) {
@@ -24,5 +25,10 @@ export class FoldersAPI extends BaseAPI {
       };
       return [];
     };
+  };
+
+  async DeleteFoldersViaAPI({apiManager}) {
+    const folderIds = await this.GetAllCustomFoldersId();
+    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderIds.join(','), BaseTest.userForLogin.login);
   };
 }

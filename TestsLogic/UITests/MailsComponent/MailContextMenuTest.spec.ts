@@ -8,18 +8,13 @@ test.describe('Mails context menu options tests', async () => {
   test.beforeEach(async ({pageManager, apiManager}) => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
-    await DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteMailViaApi({apiManager}) {
-    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
-    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
-  };
 
   // The logic of this test is broken by application changes
   test.skip('TC207. Mark mail as unread. Unread message icon should be visible', async ({secondPageManager, apiManager}) => {

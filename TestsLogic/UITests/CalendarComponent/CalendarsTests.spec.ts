@@ -15,7 +15,7 @@ test.describe('Calendars tests', async () => {
   };
 
   test.beforeAll(async ({apiManager}) => {
-    await DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager});
+    await DeleteAppointmentsAndAllCalendarsViaAPI({apiManager});
   });
 
   test.beforeEach(async ({pageManager}) => {
@@ -27,7 +27,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager});
+    await DeleteAppointmentsAndAllCalendarsViaAPI({apiManager});
     await page.close();
   });
 
@@ -183,23 +183,8 @@ test.describe('Calendars tests', async () => {
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
   };
 
-  async function DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager}) {
-    await DeleteAllAppointmentsViaAPI({apiManager});
-    await DeleteAllCalendarsViaAPI({apiManager});
-  };
-
-  async function DeleteAllAppointmentsViaAPI({apiManager}) {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
-  };
-
-  async function DeleteAllCalendarsViaAPI({apiManager}) {
-    const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
-    const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
-    await Promise.all(allCustomFolders.map(async (folder) => {
-      return await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);
-    }));
+  async function DeleteAppointmentsAndAllCalendarsViaAPI({apiManager}) {
+    await apiManager.calendarAPI.DeleteAppointmentsViaAPI({apiManager});
+    await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
   };
 });

@@ -10,24 +10,17 @@ test.describe('Search tests', async () => {
     uniquePrefix = BaseTest.dateTimePrefix();
     appointmentName = uniquePrefix + ' AppointmentName Name';
     tagName = uniquePrefix + ' Autotest Tag';
-    await DeleteAllTagsViaAPI({apiManager});
-    await DeleteAllAppointmentsViaAPI({apiManager});
+    await DeleteTagsViaAPI({apiManager});
+    await apiManager.calendarAPI.DeleteAppointmentsViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllAppointmentsViaAPI({apiManager});
-    await DeleteAllTagsViaAPI({apiManager});
+    await apiManager.calendarAPI.DeleteAppointmentsViaAPI({apiManager});
+    await DeleteTagsViaAPI({apiManager});
     await page.close();
   });
 
-  async function DeleteAllAppointmentsViaAPI({apiManager}) {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
-  };
-
-  async function DeleteAllTagsViaAPI({apiManager}) {
+  async function DeleteTagsViaAPI({apiManager}) {
     const ids = await apiManager.tagsAPI.GetTags();
     await apiManager.deleteTagsAPI.DeleteTagRequest(ids.join(','), BaseTest.userForLogin.login);
   };

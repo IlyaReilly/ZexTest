@@ -1,4 +1,5 @@
 import {BaseAPI} from '../BaseAPI';
+import {BaseTest} from '../../../../TestsLogic/BaseTest';
 
 export class ContactsAPI extends BaseAPI {
   constructor(page) {
@@ -39,5 +40,9 @@ export class ContactsAPI extends BaseAPI {
       };
     };
     return contactIds;
+  };
+  async DeleteContactsViaAPI({apiManager}) {
+    const contactIds = await this.getContactIds(BaseTest.userForLogin.login);
+    await Promise.all(contactIds.map(async (id) => await this.ItemActionRequest(apiManager.contactsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
   };
 };

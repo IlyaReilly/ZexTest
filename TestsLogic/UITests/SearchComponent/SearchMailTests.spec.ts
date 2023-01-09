@@ -18,18 +18,13 @@ test.describe('Search tests', async () => {
     appointmentTitle = uniquePrefix + ' Autotest Appointment Title';
     appointmentBody = uniquePrefix + ' Autotest Appointment Body';
     secondMailSubject = uniquePrefix + ' Autotest Appointment  Second Title';
-    await DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteMailViaApi({apiManager}) {
-    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
-    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
-  };
 
   async function OpenSearchTabAndOpenAdvancedFilters({pageManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
