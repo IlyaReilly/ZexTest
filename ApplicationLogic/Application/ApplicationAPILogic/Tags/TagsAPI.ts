@@ -22,7 +22,7 @@ export class TagsAPI extends BaseAPI {
   };
 
   async DeleteAllTagsViaAPI({apiManager}) {
-    const ids = await apiManager.tagsAPI.GetTags();
+    const ids = await this.GetTags();
     await apiManager.deleteTagsAPI.DeleteTagRequest(ids.join(','), BaseTest.userForLogin.login);
   };
 }

@@ -63,7 +63,7 @@ export class CalendarAPI extends BaseAPI {
   };
 
   async DeleteAllCalendarsViaAPI({apiManager}) {
-    const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
+    const allCalendarFolders = await this.GetCalendarFolders(BaseTest.userForLogin.login);
     const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
     await Promise.all(allCustomFolders.map(async (folder) => {
       return await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);

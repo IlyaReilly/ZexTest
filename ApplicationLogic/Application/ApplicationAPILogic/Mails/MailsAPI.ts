@@ -63,7 +63,7 @@ export class MailsAPI extends BaseAPI {
     });
   };
   async DeleteMailViaApi({apiManager}) {
-    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
-    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
+    const mailIds = await this.getMailIds(BaseTest.userForLogin.login);
+    await Promise.all(mailIds.map(async (id) => await this.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
   };
 };
