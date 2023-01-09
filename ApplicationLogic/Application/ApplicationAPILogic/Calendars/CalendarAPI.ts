@@ -1,4 +1,5 @@
 import {BaseAPI} from '../BaseAPI';
+import {BaseTest} from '../../../../TestsLogic/BaseTest';
 
 export class CalendarAPI extends BaseAPI {
   constructor(page) {
@@ -52,6 +53,21 @@ export class CalendarAPI extends BaseAPI {
       id = body.Body.SearchResponse.appt[0].invId;
     }
     return id;
+  };
+
+  async DeleteAllAppointmentsViaAPI({apiManager}) {
+    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
+    await Promise.all(allAppionmentsIds.map(async (id) => {
+      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    }));
+  };
+
+  async DeleteAllCalendarsViaAPI({apiManager}) {
+    const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
+    const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
+    await Promise.all(allCustomFolders.map(async (folder) => {
+      return await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);
+    }));
   };
 
   StartEndRangeCounterForSearch() {

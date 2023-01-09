@@ -23,14 +23,9 @@ test.describe('Contacts tests', async () => {
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteContactsViaApi({apiManager});
+    await apiManager.contactsAPI.DeleteAllContactsViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteContactsViaApi({apiManager}) {
-    const contactIds = await apiManager.contactsAPI.getContactIds(BaseTest.userForLogin.login);
-    await Promise.all(contactIds.map(async (id) => await apiManager.contactsAPI.ItemActionRequest(apiManager.contactsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
-  };
 
   test('TC601. Open contacts tab. Contacts folder options should be visible', async ({pageManager}) => {
     await expect(pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Contacts, 'Contacts tab should be presented').toBeVisible();

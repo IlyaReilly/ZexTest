@@ -15,20 +15,15 @@ test.describe('Folders tests', async () => {
     newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
-    await DeleteAllFoldersViaAPI({apiManager});
+    await apiManager.foldersAPI.DeleteAllFoldersViaAPI({apiManager});
     await apiManager.createFoldersAPI.CreateFolder(folderNameViaAPI, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllFoldersViaAPI({apiManager});
+    await apiManager.foldersAPI.DeleteAllFoldersViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteAllFoldersViaAPI({apiManager}) {
-    const folderIds = await apiManager.foldersAPI.GetAllCustomFoldersId();
-    await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderIds.join(','), BaseTest.userForLogin.login);
-  };
 
   async function OpenSentSubFolderContextMenu({pageManager}) {
     await pageManager.sideSecondaryMailMenu.ExpandMailFolders.Sent();

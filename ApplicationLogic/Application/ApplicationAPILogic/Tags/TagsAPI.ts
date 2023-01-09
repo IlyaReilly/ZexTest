@@ -1,4 +1,5 @@
 import {BaseAPI} from '../BaseAPI';
+import {BaseTest} from '../../../../TestsLogic/BaseTest';
 
 export class TagsAPI extends BaseAPI {
   constructor(page) {
@@ -18,5 +19,10 @@ export class TagsAPI extends BaseAPI {
       return tagId;
     };
     return [];
+  };
+
+  async DeleteAllTagsViaAPI({apiManager}) {
+    const ids = await apiManager.tagsAPI.GetTags();
+    await apiManager.deleteTagsAPI.DeleteTagRequest(ids.join(','), BaseTest.userForLogin.login);
   };
 }

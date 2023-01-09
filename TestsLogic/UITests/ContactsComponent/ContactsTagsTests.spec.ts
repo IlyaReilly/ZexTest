@@ -7,20 +7,15 @@ test.describe('Calendars tests', async () => {
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     tagName = BaseTest.dateTimePrefix() + ' Autotest Tag';
-    await DeleteAllTagsViaAPI({apiManager});
+    await apiManager.tagsAPI.DeleteAllTagsViaAPI({apiManager});
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllTagsViaAPI({apiManager});
+    await apiManager.tagsAPI.DeleteAllTagsViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteAllTagsViaAPI({apiManager}) {
-    const ids = await apiManager.tagsAPI.GetTags();
-    await apiManager.deleteTagsAPI.DeleteTagRequest(ids.join(','), BaseTest.userForLogin.login);
-  };
 
   test('TC1008. Create tag in side contacts menu. Tag should be in Tags tab.', async ({pageManager}) => {
     await pageManager.tagModals.OpenTagContextMenu.CreateTagModal();

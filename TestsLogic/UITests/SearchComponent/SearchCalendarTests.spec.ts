@@ -11,21 +11,14 @@ test.describe('Search tests', async () => {
     appointmentName = uniquePrefix + ' AppointmentName Name';
     tagName = uniquePrefix + ' Autotest Tag';
     await DeleteAllTagsViaAPI({apiManager});
-    await DeleteAllAppointmentsViaAPI({apiManager});
+    await apiManager.calendarAPI.DeleteAllAppointmentsViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllAppointmentsViaAPI({apiManager});
+    await apiManager.calendarAPI.DeleteAllAppointmentsViaAPI({apiManager});
     await DeleteAllTagsViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteAllAppointmentsViaAPI({apiManager}) {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
-  };
 
   async function DeleteAllTagsViaAPI({apiManager}) {
     const ids = await apiManager.tagsAPI.GetTags();

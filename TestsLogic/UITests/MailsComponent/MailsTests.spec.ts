@@ -12,32 +12,16 @@ test.describe('Mails tests', async () => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     fileName = BaseTest.dateTimePrefix() + ' Autotest File';
-    await DeleteMailViaApi({apiManager});
-    await DeleteFilesViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaApi({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaApi({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteMailViaApi({apiManager});
-    await DeleteFilesViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaApi({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaApi({apiManager});
     await page.close();
   });
-
-  async function DeleteMailViaApi({apiManager}) {
-    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
-    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
-  };
-
-  async function DeleteFilesViaApi({apiManager}) {
-    const activeFiles = await apiManager.filesAPI.GetActiveFiles();
-    await Promise.all(activeFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
-    }));
-    const trashFiles = await apiManager.filesAPI.GetTrashFiles();
-    await Promise.all(trashFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.DeleteFilePermanentlyById(file.id);
-    }));
-  };
 
   test('TC201. Open Mail tab. User`s login should be visible in the secondary sidebar', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);

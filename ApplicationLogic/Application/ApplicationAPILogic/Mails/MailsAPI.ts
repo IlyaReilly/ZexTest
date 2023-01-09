@@ -1,4 +1,5 @@
 import {BaseAPI} from '../BaseAPI';
+import {BaseTest} from '../../../../TestsLogic/BaseTest';
 
 export class MailsAPI extends BaseAPI {
   constructor(page) {
@@ -60,5 +61,9 @@ export class MailsAPI extends BaseAPI {
         },
       },
     });
+  };
+  async DeleteMailViaApi({apiManager}) {
+    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
+    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
   };
 };
