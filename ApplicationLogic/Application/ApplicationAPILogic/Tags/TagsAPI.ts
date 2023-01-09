@@ -21,7 +21,7 @@ export class TagsAPI extends BaseAPI {
     return [];
   };
 
-  async DeleteAllTagsViaAPI({apiManager}) {
+  async DeleteTagsViaAPI({apiManager}) {
     const ids = await this.GetTags();
     await apiManager.deleteTagsAPI.DeleteTagRequest(ids.join(','), BaseTest.userForLogin.login);
   };

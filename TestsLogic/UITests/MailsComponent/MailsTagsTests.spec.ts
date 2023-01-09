@@ -7,13 +7,13 @@ test.describe('Calendars tests', async () => {
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     tagName = BaseTest.dateTimePrefix() + ' Autotest Tag';
-    await apiManager.tagsAPI.DeleteAllTagsViaAPI({apiManager});
+    await apiManager.tagsAPI.DeleteTagsViaAPI({apiManager});
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.tagsAPI.DeleteAllTagsViaAPI({apiManager});
+    await apiManager.tagsAPI.DeleteTagsViaAPI({apiManager});
     await page.close();
   });
 

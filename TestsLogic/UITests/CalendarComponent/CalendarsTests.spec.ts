@@ -15,7 +15,7 @@ test.describe('Calendars tests', async () => {
   };
 
   test.beforeAll(async ({apiManager}) => {
-    await DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager});
+    await DeleteAppointmentsAndAllCalendarsViaAPI({apiManager});
   });
 
   test.beforeEach(async ({pageManager}) => {
@@ -27,7 +27,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager});
+    await DeleteAppointmentsAndAllCalendarsViaAPI({apiManager});
     await page.close();
   });
 
@@ -183,8 +183,8 @@ test.describe('Calendars tests', async () => {
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
   };
 
-  async function DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager}) {
-    await apiManager.calendarAPI.DeleteAllAppointmentsViaAPI({apiManager});
-    await apiManager.calendarAPI.DeleteAllCalendarsViaAPI({apiManager});
+  async function DeleteAppointmentsAndAllCalendarsViaAPI({apiManager}) {
+    await apiManager.calendarAPI.DeleteAppointmentsViaAPI({apiManager});
+    await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
   };
 });

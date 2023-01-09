@@ -55,14 +55,14 @@ export class CalendarAPI extends BaseAPI {
     return id;
   };
 
-  async DeleteAllAppointmentsViaAPI({apiManager}) {
+  async DeleteAppointmentsViaAPI({apiManager}) {
     const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
     await Promise.all(allAppionmentsIds.map(async (id) => {
       return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
     }));
   };
 
-  async DeleteAllCalendarsViaAPI({apiManager}) {
+  async DeleteCalendarsViaAPI({apiManager}) {
     const allCalendarFolders = await this.GetCalendarFolders(BaseTest.userForLogin.login);
     const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
     await Promise.all(allCustomFolders.map(async (folder) => {

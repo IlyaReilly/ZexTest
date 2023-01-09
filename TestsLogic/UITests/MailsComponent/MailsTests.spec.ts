@@ -12,14 +12,14 @@ test.describe('Mails tests', async () => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     fileName = BaseTest.dateTimePrefix() + ' Autotest File';
-    await apiManager.mailsAPI.DeleteMailViaApi({apiManager});
-    await apiManager.filesAPI.DeleteFilesViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFIlesViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.mailsAPI.DeleteMailViaApi({apiManager});
-    await apiManager.filesAPI.DeleteFilesViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFIlesViaAPI({apiManager});
     await page.close();
   });
 

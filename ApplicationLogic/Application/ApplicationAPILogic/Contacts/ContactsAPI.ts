@@ -41,7 +41,7 @@ export class ContactsAPI extends BaseAPI {
     };
     return contactIds;
   };
-  async DeleteAllContactsViaAPI({apiManager}) {
+  async DeleteContactsViaAPI({apiManager}) {
     const contactIds = await this.getContactIds(BaseTest.userForLogin.login);
     await Promise.all(contactIds.map(async (id) => await this.ItemActionRequest(apiManager.contactsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
   };

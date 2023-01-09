@@ -15,13 +15,13 @@ test.describe('Folders tests', async () => {
     newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
-    await apiManager.foldersAPI.DeleteAllFoldersViaAPI({apiManager});
+    await apiManager.foldersAPI.DeleteFoldersViaAPI({apiManager});
     await apiManager.createFoldersAPI.CreateFolder(folderNameViaAPI, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.foldersAPI.DeleteAllFoldersViaAPI({apiManager});
+    await apiManager.foldersAPI.DeleteFoldersViaAPI({apiManager});
     await page.close();
   });
 

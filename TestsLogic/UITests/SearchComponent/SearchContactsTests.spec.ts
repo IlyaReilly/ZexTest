@@ -8,11 +8,11 @@ test.describe('Search tests', async () => {
   test.beforeEach(async ({apiManager}) => {
     uniquePrefix = BaseTest.dateTimePrefix();
     contactName = uniquePrefix + ' First Contact Name';
-    await apiManager.contactsAPI.DeleteAllContactsViaAPI({apiManager});
+    await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.contactsAPI.DeleteAllContactsViaAPI({apiManager});
+    await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
     await page.close();
   });
 

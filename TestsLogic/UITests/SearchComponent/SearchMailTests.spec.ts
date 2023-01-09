@@ -18,11 +18,11 @@ test.describe('Search tests', async () => {
     appointmentTitle = uniquePrefix + ' Autotest Appointment Title';
     appointmentBody = uniquePrefix + ' Autotest Appointment Body';
     secondMailSubject = uniquePrefix + ' Autotest Appointment  Second Title';
-    await apiManager.mailsAPI.DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.mailsAPI.DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
     await page.close();
   });
 

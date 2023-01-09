@@ -18,12 +18,12 @@ test.describe('Contacts tests', async () => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     tagName = BaseTest.dateTimePrefix() + 'Tag';
-    await DeleteContactsViaApi({apiManager});
+    await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.contactsAPI.DeleteAllContactsViaAPI({apiManager});
+    await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
     await page.close();
   });
 

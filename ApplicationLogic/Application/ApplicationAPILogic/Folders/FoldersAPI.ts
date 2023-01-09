@@ -27,7 +27,7 @@ export class FoldersAPI extends BaseAPI {
     };
   };
 
-  async DeleteAllFoldersViaAPI({apiManager}) {
+  async DeleteFoldersViaAPI({apiManager}) {
     const folderIds = await this.GetAllCustomFoldersId();
     await apiManager.deleteFoldersAPI.DeleteFolderPermanentlyById(folderIds.join(','), BaseTest.userForLogin.login);
   };

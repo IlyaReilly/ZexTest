@@ -8,11 +8,11 @@ test.describe('Mails context menu options tests', async () => {
   test.beforeEach(async ({pageManager, apiManager}) => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
-    await apiManager.mailsAPI.DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.mailsAPI.DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
     await page.close();
   });
 
