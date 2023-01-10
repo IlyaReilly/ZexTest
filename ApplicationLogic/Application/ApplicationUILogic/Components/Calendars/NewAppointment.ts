@@ -31,9 +31,9 @@ export class NewAppointment extends BaseApplicationPage {
   RepeatOptions = {
     None: this.DropdownContainer.locator('"None"'),
     EveryDay: this.DropdownContainer.locator('"Every day"'),
-    EveryWeek: this.DropdownContainer.locator('"Every week"'),
-    EveryMonth: this.DropdownContainer.locator('"Every month"'),
-    EveryYear: this.DropdownContainer.locator('"Every ear"'),
+    EveryWeek: this.DropdownContainer.locator('"Every Week"'),
+    EveryMonth: this.DropdownContainer.locator('"Every Month"'),
+    EveryYear: this.DropdownContainer.locator('"Every Year"'),
     Custom: this.DropdownContainer.locator('"Custom"'),
   };
 
