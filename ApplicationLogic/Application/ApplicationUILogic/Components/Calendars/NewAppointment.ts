@@ -1,3 +1,4 @@
+import {Locator} from '@playwright/test';
 import {BaseTest} from '../../../../../TestsLogic/BaseTest';
 import {BaseApplicationPage} from '../../Pages/BaseApplicationPage';
 
@@ -11,15 +12,29 @@ export class NewAppointment extends BaseApplicationPage {
     AttendeesDropdown: this.page.locator(this.InheritedFields.DropdownListLocator),
   };
 
+  DropdownContainer = this.Containers.MainContainer.locator(this.InheritedFields.DropdownListLocator);
+
   bodyIframe = this.page.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
 
   Buttons = {
     Send: this.Containers.MainContainer.locator('"Send"'),
     Save: this.Containers.MainContainer.locator('"Save"'),
+    StartDatePicker: this.Containers.MainContainer.locator('[data-testid="start-picker"]'),
+    EndDatePicker: this.Containers.MainContainer.locator('[data-testid="end-picker"]'),
   };
 
   Dropdowns = {
     Item: this.page.locator('[value="[object Object]"]'),
+    Repeat: this.Containers.MainContainer.locator('[class^="Dropdown"]').locator('"Repeat"'),
+  };
+
+  RepeatOptions = {
+    None: this.DropdownContainer.locator('"None"'),
+    EveryDay: this.DropdownContainer.locator('"Every day"'),
+    EveryWeek: this.DropdownContainer.locator('"Every week"'),
+    EveryMonth: this.DropdownContainer.locator('"Every month"'),
+    EveryYear: this.DropdownContainer.locator('"Every ear"'),
+    Custom: this.DropdownContainer.locator('"Custom"'),
   };
 
   TextBox = {
@@ -38,6 +53,10 @@ export class NewAppointment extends BaseApplicationPage {
     Private: this.Containers.MainContainer.locator('"Private"'),
   };
 
+  DatePickerElements = {
+    TimeListItem: this.Containers.MainContainer.locator('[class*=time-list-item]'),
+  };
+
   async SendAppointment(title, body, attendees = BaseTest.secondUser.login, privateApp = false, location = '') {
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();
@@ -51,4 +70,27 @@ export class NewAppointment extends BaseApplicationPage {
     await this.TextBox.Body.type(body);
     await this.Buttons.Send.click();
   };
+
+  async SelectRepeatOption(option: Locator) {
+    await this.Dropdowns.Repeat.click();
+    await option.click();
+  };
+
+  SelectInRepeatField = {
+    None: async () => this.SelectRepeatOption(this.RepeatOptions.None),
+    EveryDay: async () => this.SelectRepeatOption(this.RepeatOptions.EveryDay),
+    EveryWeek: async () => this.SelectRepeatOption(this.RepeatOptions.EveryWeek),
+    EveryMonth: async () => this.SelectRepeatOption(this.RepeatOptions.EveryMonth),
+    EveryYear: async () => this.SelectRepeatOption(this.RepeatOptions.EveryYear),
+    Custom: async () => this.SelectRepeatOption(this.RepeatOptions.Custom),
+  };
+
+  async SelectTime(time: string) {
+    this.DatePickerElements.TimeListItem.locator(`"${time}"`).click();
+  }
+
+  async SetStartTime(startTime: string) {
+    await this.Buttons.StartDatePicker.click();
+    await this.SelectTime(startTime);
+  }
 }
