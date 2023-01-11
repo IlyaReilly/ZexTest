@@ -58,6 +58,7 @@ export class NewAppointment extends BaseApplicationPage {
   };
 
   async SendAppointment(title, body, attendees = BaseTest.secondUser.login, privateApp = false, location = '') {
+    await this.TextBox.EventTitle.scrollIntoViewIfNeeded();
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();
     await this.TextBox.Attendees.fill(attendees);
