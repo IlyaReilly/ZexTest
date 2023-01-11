@@ -25,6 +25,7 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
     AllCalendars: this.Containers.MainContainer.locator('"All calendars"'),
     Calendar: this.Containers.MainContainer.locator('"Calendar"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
+    Tags: this.Containers.MainContainer.locator('"Tags"'),
     SharedCalendars: this.Containers.MainContainer.locator('"Shared Calendars"'),
   };
 

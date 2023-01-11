@@ -6,23 +6,16 @@ test.describe('Sharing calendar tests', async () => {
   let appointmentTitle;
   let appointmentBody;
 
-  test.beforeAll(async ({apiManager}) => {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
-  });
-
   test.beforeEach(async ({apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
+    await apiManager.calendarAPI.DeleteAppointmentsAndCalendarsViaAPI({apiManager});
     await apiManager.shareCalendarAPI.RevokeSharingOfCalendar(BaseTest.userForLogin.login);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentTitle, BaseTest.userForLogin.login);
-    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    await apiManager.calendarAPI.DeleteAppointmentsAndCalendarsViaAPI({apiManager});
     await apiManager.shareCalendarAPI.RevokeSharingOfCalendar(BaseTest.userForLogin.login);
     await page.close();
   });

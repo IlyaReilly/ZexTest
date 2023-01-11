@@ -6,29 +6,21 @@ test.describe('Delete Calendar', async () => {
   let calendarName;
   let calendarId;
 
-  test.beforeAll(async ({apiManager}) => {
-    const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
-    const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
-    await Promise.all(allCustomFolders.map(async (folder) => {
-      return await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);
-    }));
-  });
-
   test.beforeEach(async ({apiManager, pageManager, page}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     calendarName = dateTimePrefix + ' Calendar';
-    await apiManager.deleteCalendarAPI.EmptyTrashRequest(BaseTest.userForLogin.login);
+    await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
     calendarId = await apiManager.createCalendarAPI.CreateCalendarRequest(calendarName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await page.waitForLoadState('domcontentloaded');
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await apiManager.deleteCalendarAPI.EmptyTrashRequest(BaseTest.userForLogin.login);
+    await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
     await page.close();
   });
 
-  test('TC318. Delete calendar. Calendar should be moved to Trash', async ({page, pageManager, apiManager}) => {
+  test('TC318. Delete calendar. Calendar should be moved to Trash', async ({pageManager}) => {
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.DeleteCalendar(calendarName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();
     await pageManager.sideSecondaryCalendarMenu.OpenTrashChevron();

@@ -2,8 +2,6 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
 
 test.describe('Calendars view tests', async () => {
-  let dateTimePrefix;
-  let appointmentTitle;
   const calendarView = {
     Day: "Day",
     Week: "Week",
@@ -11,22 +9,13 @@ test.describe('Calendars view tests', async () => {
     Month: "Month",
   };
 
-  test.beforeAll(async ({apiManager}) => {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
-  });
-
-  test.beforeEach(async ({pageManager}) => {
-    dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
-    appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
+  test.beforeEach(async ({apiManager, pageManager}) => {
+    await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    const id = await apiManager.calendarAPI.CalendarSearchQuery(appointmentTitle, BaseTest.userForLogin.login);
-    await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
+    await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
     await page.close();
   });
 

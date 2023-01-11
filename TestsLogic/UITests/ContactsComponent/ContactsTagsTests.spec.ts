@@ -1,7 +1,7 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
 
-test.describe('Calendars tests', async () => {
+test.describe('Tags tests', async () => {
   let tagName;
   const newTagName = 'New zextras tag';
 
@@ -20,7 +20,7 @@ test.describe('Calendars tests', async () => {
   test('TC1008. Create tag in side contacts menu. Tag should be in Tags tab.', async ({pageManager}) => {
     await pageManager.tagModals.OpenTagContextMenu.CreateTagModal();
     await pageManager.newTagModal.CreateTag(tagName);
-    await pageManager.sideSecondaryContactsMenu.ExpandTagsFolder();
+    await pageManager.tagModals.ExpandTagsFolder();
     await expect(pageManager.sideSecondaryContactsMenu.Elements.Item.locator(`"${tagName}"`)).toBeVisible();
   });
 

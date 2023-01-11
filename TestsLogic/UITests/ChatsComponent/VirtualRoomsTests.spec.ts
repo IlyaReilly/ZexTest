@@ -12,8 +12,9 @@ test.describe('Virtual Rooms tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Chats);
   });
 
-  test.afterAll(async ({apiManager}) => {
+  test.afterEach(async ({apiManager, page}) => {
     await CleanConversationsPanel({apiManager});
+    await page.close();
   });
 
   async function CleanConversationsPanel({apiManager}) {
