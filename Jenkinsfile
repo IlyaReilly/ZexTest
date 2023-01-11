@@ -1,5 +1,5 @@
 pipeline {
-   agent { docker { image 'mcr.microsoft.com/playwright:v1.24.0-focal' } }
+   agent { node { label 'tse-agent-latest' } }
    parameters {
       string defaultValue: '', description: 'Environment URL for running tests', name: 'STAGING'
       string defaultValue: '', description: 'Domain for test user accounts', name: 'DOMAIN'
