@@ -9,14 +9,16 @@ test.describe('New address book tests', async () => {
   let newAddressBookName;
   let firstName;
 
-  test.beforeEach(async () => {
+  test.beforeEach(async ({apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     addressBookName = dateTimePrefix + ' Address book';
     newAddressBookName = dateTimePrefix + ' New Address book';
     firstName = dateTimePrefix + ' Contact';
+    await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
+    await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
     addressBookId = await apiManager.addressBookAPI.GetAddressBookIdByName(BaseTest.userForLogin.login, addressBookName);
     if (!addressBookId) {
       addressBookId = await apiManager.addressBookAPI.GetAddressBookIdByName(BaseTest.userForLogin.login, newAddressBookName);
@@ -75,7 +77,8 @@ test.describe('New address book tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${newAddressBookName}"`), 'New Address book name should be visible').toBeVisible();
   });
 
-  test('TC906. Delete Address book. New address book name is deleted', async ({page, pageManager}) => {
+  test('TC906. Delete Address book. New address book name is deleted', async ({pageManager}) => {
+    test.fail(true, '145. Address book is deleted only after page reload');
     await CreateNewAddressBook({pageManager});
     await pageManager.sideSecondaryContactsMenu.SelectAddressBookOption.Delete(addressBookName);
     await pageManager.deleteAddressBookModal.Buttons.Delete.click();

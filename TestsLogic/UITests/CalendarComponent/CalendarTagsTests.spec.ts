@@ -2,16 +2,9 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
 import Colors from '../../../TestData/IconColorList.json';
 
-test.describe('Calendars tests', async () => {
+test.describe('Tags tests', async () => {
   let tagName;
   const newTagName = 'New zextras tag';
-
-  test.beforeAll(async ({apiManager}) => {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
-  });
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     tagName = BaseTest.dateTimePrefix() + ' Autotest Tag';

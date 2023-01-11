@@ -14,11 +14,11 @@ test.describe('Search tests', async () => {
     subjectWithFile = uniquePrefix + 'File in this mail';
     unicFileName = uniquePrefix + 'Zextras File';
     fileNameFull = 'testAPI.png';
-    await apiManager.filesAPI.DeleteFIlesViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
   });
 
   test.afterEach(async ({apiManager, page}) => {
-    await apiManager.filesAPI.DeleteFIlesViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await page.close();
   });
 

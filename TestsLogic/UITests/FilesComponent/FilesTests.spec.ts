@@ -16,14 +16,11 @@ test.describe('Files tests', async () => {
   test.beforeEach(async ({apiManager}) => {
     unicFilePrefix = BaseTest.dateTimePrefix();
     unicFileName = unicFilePrefix + 'testAPI';
-    const activeFiles = await apiManager.filesAPI.GetActiveFiles();
-    await Promise.all(activeFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
-    }));
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
   });
 
   test.afterEach(async ({apiManager, page}) => {
-    await apiManager.filesAPI.DeleteFIlesViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await page.close();
   });
 

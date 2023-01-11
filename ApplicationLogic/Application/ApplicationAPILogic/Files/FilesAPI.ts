@@ -67,7 +67,7 @@ export class FilesAPI extends BaseAPI {
     return activeFiles;
   };
 
-  async DeleteFIlesViaAPI({apiManager}) {
+  async DeleteFilesViaAPI({apiManager}) {
     await Promise.all((await this.GetActiveFiles()).map(async (file) => {
       return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
     }));
