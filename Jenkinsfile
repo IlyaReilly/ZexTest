@@ -10,7 +10,6 @@ pipeline {
             sh(""" rm -rf "playwright-report-chromium.tar.gz" """)
             sh(""" rm -rf "playwright-report-firefox.tar.gz" """)
             sh(""" rm -rf "playwright-report-webkit.tar.gz" """)
-            sh(""" rm -rf allure report """)
          }
       }
       stage('e2e-tests'){
