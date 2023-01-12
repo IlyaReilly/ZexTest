@@ -10,6 +10,7 @@ pipeline {
             sh(""" rm -rf "playwright-report-chromium.tar.gz" """)
             sh(""" rm -rf "playwright-report-firefox.tar.gz" """)
             sh(""" rm -rf "playwright-report-webkit.tar.gz" """)
+            sh(""" rm -rf allure report """)
          }
       }
       stage('e2e-tests'){
@@ -21,6 +22,9 @@ pipeline {
                   sh 'npx playwright test --project="webkit"'
                }
                post {
+                  always {
+                     allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                  }
                   failure {
                      sh 'tar -czvf playwright-report-webkit.tar.gz playwright-report'
                      sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
@@ -36,6 +40,9 @@ pipeline {
                   sh 'npx playwright test --project="chromium"'
                }
                post {
+                  always {
+                     allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                  }
                   failure {
                      sh 'tar -czvf playwright-report-chromium.tar.gz playwright-report'
                      sh 'tar -czvf index-chromium.tar.gz playwright-report/index.html'
@@ -51,6 +58,9 @@ pipeline {
                   sh 'npx playwright test --project="firefox"'
                }
                post {
+                  always {
+                     allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                  }
                   failure {
                      sh 'tar -czvf playwright-report-firefox.tar.gz playwright-report'
                      sh 'tar -czvf index-firefox.tar.gz playwright-report/index.html'
@@ -60,17 +70,6 @@ pipeline {
                }
             }
          }
-      }
-      stage('Reports') {
-         steps {
-            allure([
-      	      includeProperties: false,
-      	      jdk: '',
-      	      properties: [],
-      	      reportBuildPolicy: 'ALWAYS',
-      	      results: [[path: 'allure-results']]
-    	      ])
-  	      }
       }
    }
 }
