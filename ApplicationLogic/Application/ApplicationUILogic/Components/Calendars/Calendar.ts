@@ -29,7 +29,7 @@ export class Calendar extends BaseApplicationPage {
     TodayButton: this.Containers.MainContainer.locator('button:has-text("today")'),
     DayButton: this.Containers.MainContainer.locator('"Day"'),
     NotToday: this.Containers.MainContainer.locator('_react=[isNow=false]'),
-    GetAppointmentByTitle: (title: string) => this.Elements.Appointment.filter({has: this.page.locator(`"${title}"`)}),
+    AppointmentWithTitle: (title: string) => this.Elements.Appointment.filter({has: this.page.locator(`"${title}"`)}),
   };
 
   AppointmentPopup = {

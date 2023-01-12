@@ -2,6 +2,8 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
 
 test.describe('Calendars tests', async () => {
+  const countOfDaysInWeek = 7;
+  const countOfCellsInMonthView = 35;
   let dateTimePrefix;
   let appointmentTitle;
   let appointmentBody;
@@ -163,8 +165,6 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC327. Create Appointment with repeat option "Every day". Appointment repeats every day in calendar.', async ({pageManager}) => {
-    const countOfDaysInWeek = 7;
-    const countOfCellsInMonthView = 35;
     await pageManager.headerMenu.Buttons.NewItem.click();
     const dateWithTimeIntervalInAppointment = await pageManager.newAppointment.Elements.DateWithTimeInervalInHeader.innerText();
     const startDateTimeInAppointment = new Date(dateWithTimeIntervalInAppointment.split(' -')[0]);
@@ -172,12 +172,12 @@ test.describe('Calendars tests', async () => {
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, '12:00 PM', pageManager.newAppointment.RepeatOptions.EveryDay);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
-    await expect(pageManager.calendar.Elements.GetAppointmentByTitle(appointmentTitle)).toHaveCount(countOfRepeatsInCurrentWeekExpected);
+    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfRepeatsInCurrentWeekExpected);
     await pageManager.calendar.Elements.NextDateArrow.click();
-    await expect(pageManager.calendar.Elements.GetAppointmentByTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
+    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
     await pageManager.calendar.SelectCalendarView(calendarView.Month);
     await pageManager.calendar.Elements.NextDateArrow.click();
-    await expect(pageManager.calendar.Elements.GetAppointmentByTitle(appointmentTitle)).toHaveCount(countOfCellsInMonthView);
+    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfCellsInMonthView);
   });
 
   function formatDateToStringWithOneHourInterval(date: Date): string {
