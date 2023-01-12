@@ -166,19 +166,18 @@ test.describe('Calendars tests', async () => {
     const countOfDaysInWeek = 7;
     const countOfCellsInMonthView = 35;
     await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newAppointment.SelectInRepeatField.EveryDay();
-    await pageManager.newAppointment.SetStartTime('12:00 PM');
     const dateWithTimeIntervalInAppointment = await pageManager.newAppointment.Elements.DateWithTimeInervalInHeader.innerText();
     const startDateTimeInAppointment = new Date(dateWithTimeIntervalInAppointment.split(' -')[0]);
     const countOfRepeatsInCurrentWeekExpected = countOfDaysInWeek - startDateTimeInAppointment.getDay();
-    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
+    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, '12:00 PM', pageManager.newAppointment.RepeatOptions.EveryDay);
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
-    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(countOfRepeatsInCurrentWeekExpected);
+    await expect(pageManager.calendar.Elements.GetAppointmentByTitle(appointmentTitle)).toHaveCount(countOfRepeatsInCurrentWeekExpected);
     await pageManager.calendar.Elements.NextDateArrow.click();
-    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(countOfDaysInWeek);
+    await expect(pageManager.calendar.Elements.GetAppointmentByTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
     await pageManager.calendar.SelectCalendarView(calendarView.Month);
     await pageManager.calendar.Elements.NextDateArrow.click();
-    await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(countOfCellsInMonthView);
+    await expect(pageManager.calendar.Elements.GetAppointmentByTitle(appointmentTitle)).toHaveCount(countOfCellsInMonthView);
   });
 
   function formatDateToStringWithOneHourInterval(date: Date): string {

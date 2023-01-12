@@ -29,6 +29,7 @@ export class Calendar extends BaseApplicationPage {
     TodayButton: this.Containers.MainContainer.locator('button:has-text("today")'),
     DayButton: this.Containers.MainContainer.locator('"Day"'),
     NotToday: this.Containers.MainContainer.locator('_react=[isNow=false]'),
+    GetAppointmentByTitle: (title: string) => this.Elements.Appointment.filter({has: this.page.locator(`"${title}"`)}),
   };
 
   AppointmentPopup = {
@@ -56,10 +57,6 @@ export class Calendar extends BaseApplicationPage {
 
   async DragAndDropAppointmentOnAnotherDay(appointmentTitle) {
     await this.Elements.Appointment.locator(`"${appointmentTitle}"`).dragTo(this.Elements.NotToday.first());
-  };
-
-  async GetAppointmentWithTitle(title) {
-    return await this.page.locator(this.Elements.Appointment._selector, {hasText: title});
   };
 
   async CloseReminderPopup() {

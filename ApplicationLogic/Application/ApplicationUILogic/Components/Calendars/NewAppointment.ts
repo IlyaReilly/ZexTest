@@ -57,7 +57,7 @@ export class NewAppointment extends BaseApplicationPage {
     TimeListItem: this.Containers.MainContainer.locator('[class*=time-list-item]'),
   };
 
-  async SendAppointment(title, body, attendees = BaseTest.secondUser.login, privateApp = false, location = '') {
+  async SendAppointment(title: string, body: string, attendees = BaseTest.secondUser.login, privateApp = false, location?: string, startTime?: string, repeatOption?: Locator) {
     await this.TextBox.EventTitle.scrollIntoViewIfNeeded();
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();
@@ -68,6 +68,12 @@ export class NewAppointment extends BaseApplicationPage {
     if (location) {
       await this.TextBox.Location.fill(location);
     }
+    if (startTime) {
+      await this.SetStartTime(startTime);
+    }
+    if (repeatOption) {
+      await this.SelectRepeatOption(repeatOption);
+    }
     await this.TextBox.Body.type(body);
     await this.Buttons.Send.click();
   };
@@ -77,17 +83,8 @@ export class NewAppointment extends BaseApplicationPage {
     await option.click();
   };
 
-  SelectInRepeatField = {
-    None: async () => this.SelectRepeatOption(this.RepeatOptions.None),
-    EveryDay: async () => this.SelectRepeatOption(this.RepeatOptions.EveryDay),
-    EveryWeek: async () => this.SelectRepeatOption(this.RepeatOptions.EveryWeek),
-    EveryMonth: async () => this.SelectRepeatOption(this.RepeatOptions.EveryMonth),
-    EveryYear: async () => this.SelectRepeatOption(this.RepeatOptions.EveryYear),
-    Custom: async () => this.SelectRepeatOption(this.RepeatOptions.Custom),
-  };
-
   async SelectTime(time: string) {
-    this.DatePickerElements.TimeListItem.locator(`"${time}"`).click();
+    await this.DatePickerElements.TimeListItem.locator(`"${time}"`).click();
   }
 
   async SetStartTime(startTime: string) {
