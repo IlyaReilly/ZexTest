@@ -47,8 +47,8 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
   };
 
   Elements = {
-    TrashChevronDown: this.Containers.MainContainer.locator(`[data-testid*="ChevronDown"]:near(:text("Trash"))`),
-    TrashChevronUp: this.Containers.MainContainer.locator(`[data-testid*="ChevronUp"]:near(:text("Trash"))`),
+    TrashChevronDown: this.Containers.MainContainer.locator('_react=[item.name="Trash"] >> [data-testid*="ChevronDown"]'),
+    TrashChevronUp: this.Containers.MainContainer.locator('_react=[item.name="Trash"] >> [data-testid*="ChevronUp"]'),
     Item: this.Containers.MainContainer.locator('[class*="Text__Comp"]'),
   };
 

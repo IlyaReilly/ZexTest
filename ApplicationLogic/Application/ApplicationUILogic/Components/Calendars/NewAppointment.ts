@@ -12,6 +12,7 @@ export class NewAppointment extends BaseApplicationPage {
   };
 
   bodyIframe = this.page.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
+  row = this.Containers.MainContainer.locator('[class^="Text__Comp"]');
 
   Buttons = {
     Send: this.Containers.MainContainer.locator('"Send"'),
@@ -30,8 +31,8 @@ export class NewAppointment extends BaseApplicationPage {
   };
 
   Elements = {
-    DateWithTimeInervalInHeader: this.Containers.MainContainer.locator('[class^="Text__Comp"]').locator('text=/\\d{4}\\s\\d{2}:\\d{2}\\s-\\s*\\d{2}:\\d{2}/'),
-    TimeZoneInHeader: this.Containers.MainContainer.locator('[class^="Text__Comp"]').locator('text=/GMT\\s\\+\\d{2}:\\d{2}/'),
+    DateWithTimeInervalInHeader: this.row.locator('text=/\\d{4}\\s\\d{2}:\\d{2}\\s-\\s*\\d{2}:\\d{2}/'),
+    TimeZoneInHeader: this.row.locator('text=/GMT\\s\\+\\d{2}:\\d{2}/'),
   };
 
   CheckBoxes = {
@@ -47,6 +48,7 @@ export class NewAppointment extends BaseApplicationPage {
     }
     if (location) {
       await this.TextBox.Location.fill(location);
+      await this.row.locator(`"${location}"`).waitFor();
     }
     await this.TextBox.Body.type(body);
     await this.Buttons.Send.click();
