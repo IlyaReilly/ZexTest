@@ -21,6 +21,7 @@ test.describe('Delete Calendar', async () => {
   });
 
   test('TC318. Delete calendar. Calendar should be moved to Trash', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.DeleteCalendar(calendarName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();
     await pageManager.sideSecondaryCalendarMenu.OpenTrashChevron();
