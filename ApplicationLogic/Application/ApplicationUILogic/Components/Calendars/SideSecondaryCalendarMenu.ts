@@ -25,6 +25,7 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
     AllCalendars: this.Containers.MainContainer.locator('"All calendars"'),
     Calendar: this.Containers.MainContainer.locator('"Calendar"'),
     Trash: this.Containers.MainContainer.locator('"Trash"'),
+    Tags: this.Containers.MainContainer.locator('"Tags"'),
     SharedCalendars: this.Containers.MainContainer.locator('"Shared Calendars"'),
   };
 
@@ -46,8 +47,8 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
   };
 
   Elements = {
-    TrashChevronDown: this.Containers.MainContainer.locator(`[data-testid*="ChevronDown"]:near(:text("Trash"))`),
-    TrashChevronUp: this.Containers.MainContainer.locator(`[data-testid*="ChevronUp"]:near(:text("Trash"))`),
+    TrashChevronDown: this.Containers.MainContainer.locator('_react=[item.name="Trash"] >> [data-testid*="ChevronDown"]'),
+    TrashChevronUp: this.Containers.MainContainer.locator('_react=[item.name="Trash"] >> [data-testid*="ChevronUp"]'),
     Item: this.Containers.MainContainer.locator('[class*="Text__Comp"]'),
   };
 

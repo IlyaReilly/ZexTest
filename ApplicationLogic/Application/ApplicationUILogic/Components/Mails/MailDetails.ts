@@ -11,7 +11,6 @@ export class MailDetails extends BaseApplicationPage {
   };
 
   MailBodyIframe = this.Containers.MainContainer.frameLocator('iframe[title]');
-  EditorBodyIframe = this.Containers.MainContainer.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
 
   Elements = {
     Header: this.Containers.MainContainer.locator('[data-testid="PreviewPanelHeader"]'),
@@ -23,21 +22,6 @@ export class MailDetails extends BaseApplicationPage {
     FlagIcon: this.Containers.MainContainer.locator('[data-testid="FlagIcon"]'),
     ActionWithMailNotification: this.page.locator('[data-testid="snackbar"]'),
     AttachmentFile: this.Containers.MainContainer.locator('_react=[att]'),
-  };
-
-  Editor = {
-    Elements: {
-      ContactBubble: this.Containers.MainContainer.locator('[class*="ChipContainer"]'),
-    },
-    Buttons: {
-      ShowBoard: this.Containers.MainContainer.locator('[data-testid$="DiagonalArrowLeftDownOutline"]'),
-      Send: this.Containers.MainContainer.locator('"Send"'),
-    },
-    Textboxes: {
-      To: this.Containers.MainContainer.locator('[name="To"]'),
-      Subject: this.Containers.MainContainer.locator('[name="Subject"]'),
-      Body: this.EditorBodyIframe.locator(this.InheritedFields.NewItemBodyLocator),
-    },
   };
 
   MailOptions = {

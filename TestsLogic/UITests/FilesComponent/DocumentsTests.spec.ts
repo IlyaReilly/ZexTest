@@ -2,38 +2,25 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
 
 test.describe('Documents tests', async () => {
-  const oldItemName = 'Test Item 123';
-  const newItemName = 'Zextras Team';
-  const firstName = 'abcd';
-  const secondName = 'aavc';
-  let unicFileName;
+  let fileName;
+  let newFileName;
 
   test.beforeEach(async ({apiManager}) => {
-    unicFileName = BaseTest.dateTimePrefix() + ' Autotest File Name';
-    const activeFiles = await apiManager.filesAPI.GetActiveFiles();
-    await Promise.all(activeFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
-    }));
+    fileName = BaseTest.dateTimePrefix() + ' Autotest File Name';
+    newFileName = BaseTest.dateTimePrefix() + ' Autotest New File Name';
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
   });
 
   test.afterEach(async ({apiManager, page}) => {
-    const activeFiles = await apiManager.filesAPI.GetActiveFiles();
-    await Promise.all(activeFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
-    }));
-    const trashFiles = await apiManager.filesAPI.GetTrashFiles();
-    await Promise.all(trashFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.DeleteFilePermanentlyById(file.id);
-    }));
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await page.close();
   });
 
   async function SaveOldNameRenameFileAndExpectFileRename({pageManager}) {
     await pageManager.filesList.Elements.File.click();
-    const oldName = await pageManager.filesList.Elements.File.textContent();
     await pageManager.fileDetails.ClickDropdownOption.Rename();
-    await pageManager.createNewItemModal.RenameItem(newItemName);
-    await expect(pageManager.filesList.Elements.File).not.toHaveText(oldName);
+    await pageManager.createNewItemModal.RenameItem(newFileName);
+    await expect(pageManager.filesList.Elements.FileName).toHaveText(newFileName);
   };
 
   async function CreateNewFileAndGiveName({pageManager}, newItem, name) {
@@ -58,82 +45,82 @@ test.describe('Documents tests', async () => {
     };
   };
 
-  test('TS512. Create document file. Document file should be in Home tab.', async ({pageManager}) => {
+  test('TC512. Create document file. Document file should be in Home tab.', async ({pageManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, oldItemName);
-    await expect(pageManager.filesList.Elements.File).toBeVisible();
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, fileName);
+    await expect(pageManager.filesList.Elements.File.locator(`"${fileName}"`)).toBeVisible();
   });
 
-  test('TS513. Create spreadsheet file. Spreadsheet file should be in Home tab.', async ({pageManager}) => {
+  test('TC513. Create spreadsheet file. Spreadsheet file should be in Home tab.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewSpreadsheet, oldItemName);
-    await expect(pageManager.filesList.Elements.File).toBeVisible();
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewSpreadsheet, fileName);
+    await expect(pageManager.filesList.Elements.File.locator(`"${fileName}"`)).toBeVisible();
   });
 
-  test('TS514. Create presentation file. Presentation file should be in Home tab.', async ({pageManager}) => {
+  test('TC514. Create presentation file. Presentation file should be in Home tab.', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewPresentation, oldItemName);
-    await expect(pageManager.filesList.Elements.File).toBeVisible();
+    await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewPresentation, fileName);
+    await expect(pageManager.filesList.Elements.File.locator(`"${fileName}"`)).toBeVisible();
   });
 
-  test('TS515. Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+  test('TC515. Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await apiManager.createFilesAPI.CreatePresentation(oldItemName);
+    await apiManager.createFilesAPI.CreatePresentation(fileName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
-  test('TS516. Change the name of a spreadsheet. The spreadsheet should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+  test('TC516. Change the name of a spreadsheet. The spreadsheet should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await apiManager.createFilesAPI.CreateSpreadsheet(oldItemName);
+    await apiManager.createFilesAPI.CreateSpreadsheet(fileName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
-  test('TS517. Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
+  test('TC517. Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await apiManager.createFilesAPI.CreateDocument(oldItemName);
+    await apiManager.createFilesAPI.CreateDocument(fileName);
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
-  test('TS518. Select file. File should be selected in Home tab.', async ({pageManager, apiManager}) => {
+  test('TC518. Select file. File should be selected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await apiManager.createFilesAPI.CreateDocument(oldItemName);
+    await apiManager.createFilesAPI.CreateDocument(fileName);
     await pageManager.filesList.Elements.FileIcon.click();
     await expect(pageManager.filesList.SelectionModeElements.CheckMark).toBeVisible();
   });
 
-  test('TS519. Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
+  test('TC519. Select all files. All files should be selected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await apiManager.createFilesAPI.CreateSpreadsheet(secondName);
-    await apiManager.createFilesAPI.CreateDocument(firstName);
+    await apiManager.createFilesAPI.CreateSpreadsheet(fileName);
+    await apiManager.createFilesAPI.CreateDocument(newFileName);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await SelectUnselectAllFIles({pageManager});
     await expect(pageManager.filesList.Elements.UncheckMark).not.toBeTruthy();
   });
 
-  test('TS520. Unselect all files. All files should be unselected in Home tab.', async ({pageManager, apiManager}) => {
+  test('TC520. Unselect all files. All files should be unselected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await apiManager.createFilesAPI.CreateDocument(firstName);
-    await apiManager.createFilesAPI.CreateSpreadsheet(secondName);
+    await apiManager.createFilesAPI.CreateDocument(fileName);
+    await apiManager.createFilesAPI.CreateSpreadsheet(newFileName);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await SelectUnselectAllFIles({pageManager}, pageManager.filesList.SelectionModeElements.DeselectAllButton);
     await expect(pageManager.filesList.Elements.CheckMark).not.toBeTruthy();
   });
 
-  test('TS521. Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager, apiManager}) => {
+  test('TC521. Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await apiManager.createFilesAPI.CreateDocument(oldItemName);
+    await apiManager.createFilesAPI.CreateDocument(fileName);
     await pageManager.filesList.Elements.File.click();
-    await pageManager.fileDetails.WriteDescription(newItemName);
-    await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newItemName);
+    await pageManager.fileDetails.WriteDescription(newFileName);
+    await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newFileName);
   });
 
   test('TC522. Open Online Editor. Online Editor should be opened by clicking the “Edit” button.', async ({pageManager, apiManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await apiManager.createFilesAPI.CreateDocument(oldItemName);
+    await apiManager.createFilesAPI.CreateDocument(fileName);
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.FileOptions.Edit.click();
     const editorPage = await pageManager.fileDetails.GetOnlineEditorPage();
@@ -143,7 +130,7 @@ test.describe('Documents tests', async () => {
   // Bug №139. Problem with opening a document via file versions. When you click "Open document version" an http error 500 is thrown
   test.skip('TC532. Upload and open a new document version. A document version should be opened', async ({pageManager, apiManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
-    await apiManager.createFilesAPI.CreateDocument(oldItemName);
+    await apiManager.createFilesAPI.CreateDocument(fileName);
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.Tabs.Versioning.click();
     await pageManager.fileDetails.ClickVersioningDropdownOption.OpenDocumentVersion(1);
@@ -157,21 +144,21 @@ test.describe('Documents tests', async () => {
   test('TC533. Create Microsoft Word file via header menu. File with docx extension should appear in Home folder.', async ({pageManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftWordDocx();
-    await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(unicFileName);
-    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(unicFileName)).toHaveText('docx');
+    await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(fileName);
+    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(fileName)).toHaveText('docx');
   });
 
   test('TC534. Create Microsoft Excel file via header menu. File with xlsx extension should appear in Home folder.', async ({pageManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftExcelXlsx();
-    await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(unicFileName);
-    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(unicFileName)).toHaveText('xlsx');
+    await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(fileName);
+    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(fileName)).toHaveText('xlsx');
   });
 
   test('TC535. Create Microsoft PowerPoint file via header menu. File with pptx extension should appear in Home folder.', async ({pageManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftPowerPointPptx();
-    await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(unicFileName);
-    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(unicFileName)).toHaveText('pptx');
+    await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(fileName);
+    await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(fileName)).toHaveText('pptx');
   });
 });

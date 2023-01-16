@@ -1,6 +1,5 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
-import {InheritedFields} from '../../../ApplicationLogic/Application/ApplicationUILogic/Pages/BaseApplicationPage';
 
 test.describe('Mails tests', async () => {
   let mailSubject;
@@ -12,32 +11,16 @@ test.describe('Mails tests', async () => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     fileName = BaseTest.dateTimePrefix() + ' Autotest File';
-    await DeleteMailViaApi({apiManager});
-    await DeleteFilesViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteMailViaApi({apiManager});
-    await DeleteFilesViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteMailViaApi({apiManager}) {
-    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
-    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
-  };
-
-  async function DeleteFilesViaApi({apiManager}) {
-    const activeFiles = await apiManager.filesAPI.GetActiveFiles();
-    await Promise.all(activeFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
-    }));
-    const trashFiles = await apiManager.filesAPI.GetTrashFiles();
-    await Promise.all(trashFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.DeleteFilePermanentlyById(file.id);
-    }));
-  };
 
   test('TC201. Open Mail tab. User`s login should be visible in the secondary sidebar', async ({pageManager}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
@@ -64,8 +47,9 @@ test.describe('Mails tests', async () => {
   });
 
   test('TC204. Get mail. Mail should be visible in the Inbox folder list', async ({apiManager, pageManager}) => {
-    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
+    test.fail(true, '145. Recipient receives mail only after page reload');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
+    await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login]);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should be visible in the Inbox folder list').toBeVisible();
   });
   // This test will not work because doesn't work SAVE button
@@ -75,7 +59,7 @@ test.describe('Mails tests', async () => {
     await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
     await pageManager.newMail.SaveMail();
     await pageManager.newMail.CloseNewMail();
-    const elementHandle = await page.$(InheritedFields.NewItemBoardLocator);
+    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
     await elementHandle?.waitForElementState('hidden');
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should be visible in the Drafts folder list').toBeVisible();
@@ -99,13 +83,13 @@ test.describe('Mails tests', async () => {
 
   test('TC214. Hide New Email board. New Email board should not be visible', async ({page, pageManager}) => {
     await OpenNewEmailBoardAndHideBoard({pageManager});
-    await expect(page.locator(InheritedFields.NewItemBoardLocator), 'New Email board should not be visible').not.toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator), 'New Email board should not be visible').not.toBeVisible();
   });
 
   test('TC215. Expand New Email board. New Email board should be visible', async ({page, pageManager}) => {
     await OpenNewEmailBoardAndHideBoard({pageManager});
     await pageManager.sideMenu.Buttons.OpenBoard.click();
-    await expect(page.locator(InheritedFields.NewItemBoardLocator), 'New Email board should be visible').toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator), 'New Email board should be visible').toBeVisible();
   });
 
   test('TC216. Enlarge New Email board. New Email board should be enlarged', async ({pageManager}) => {
@@ -166,207 +150,202 @@ test.describe('Mails tests', async () => {
 
   test("TC226. Select Edit option in draft. Recipient's login, drafted mail body and subject should be visible", async ({pageManager, apiManager}) => {
     const mailBody = await OpenMailAndSelectOption({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Edit, pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts);
-    await expect(pageManager.mailDetails.Editor.Elements.ContactBubble.locator(`"${BaseTest.userForLogin.login.replace('@' + BaseTest.domain, '')}"`), "Recipient's login should be visible").toBeVisible();
-    await expect(pageManager.mailDetails.Editor.Textboxes.Subject, 'Drafted mail subject should be visible').toHaveValue(`${mailSubject}`);
-    await expect(pageManager.mailDetails.Editor.Textboxes.Body, 'Drafted mail body should be visible').toContainText(mailBody);
+    await expect(pageManager.newMail.Elements.ContactBubble.locator(`"${BaseTest.userForLogin.login.replace('@' + BaseTest.domain, '')}"`), "Recipient's login should be visible").toBeVisible();
+    await expect(pageManager.newMail.TextBox.Subject, 'Drafted mail subject should be visible').toHaveValue(`${mailSubject}`);
+    await expect(pageManager.newMail.TextBox.Body, 'Drafted mail body should be visible').toContainText(mailBody);
   });
 
   test("TC227. Select Reply option in mail. Sender's login, keyword “RE”, received mail body should be visible", async ({pageManager, apiManager}) => {
     const mailBody = await OpenMailAndSelectOption({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Reply);
-    await expect(pageManager.mailDetails.Editor.Elements.ContactBubble.locator(`"${BaseTest.userForLogin.login.replace('@' + BaseTest.domain, '')}"`), "Sender's login should be visible").toBeVisible();
-    await expect(pageManager.mailDetails.Editor.Textboxes.Subject, 'The mail subject should start with the keyword “RE”').toHaveValue(`RE: ${mailSubject}`);
-    await expect(pageManager.mailDetails.Editor.Textboxes.Body, 'Received mail body should be visible').toContainText(mailBody);
+    await expect(pageManager.newMail.Elements.ContactBubble.locator(`"${BaseTest.userForLogin.login.replace('@' + BaseTest.domain, '')}"`), "Sender's login should be visible").toBeVisible();
+    await expect(pageManager.newMail.TextBox.Subject, 'The mail subject should start with the keyword “RE”').toHaveValue(`RE: ${mailSubject}`);
+    await expect(pageManager.newMail.TextBox.Body, 'Received mail body should be visible').toContainText(mailBody);
   });
 
   test("TC228. Select Forward option in mail. Keyword “FWD”, received mail body should be visible", async ({pageManager, apiManager}) => {
     const mailBody = await OpenMailAndSelectOption({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Forward);
-    await expect(pageManager.mailDetails.Editor.Textboxes.Subject, 'The mail subject should start with the keyword “FWD”').toHaveValue(`FWD: ${mailSubject}`);
-    await expect(pageManager.mailDetails.Editor.Textboxes.Body, 'Received e-mail body should be visible').toContainText(mailBody);
+    await expect(pageManager.newMail.TextBox.Subject, 'The mail subject should start with the keyword “FWD”').toHaveValue(`FWD: ${mailSubject}`);
+    await expect(pageManager.newMail.TextBox.Body, 'Received e-mail body should be visible').toContainText(mailBody);
   });
 
-  test("TC229. Select Show board option in Editor. New Email board should be visible", async ({pageManager, apiManager, page}) => {
-    await OpenMailAndSelectOption({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Reply);
-    await pageManager.mailDetails.Editor.Buttons.ShowBoard.click();
-    await expect(page.locator(InheritedFields.NewItemBoardLocator), 'New E-mail board should be visible').toBeVisible();
-  });
-
-  test('TC230. Open New Email board twice. Tab count should be 2', async ({pageManager}) => {
+  test('TC229. Open New Email board twice. Tab count should be 2', async ({pageManager}) => {
     await OpenNewEmailBoardTwice({pageManager});
     await expect(pageManager.newMail.Elements.BoardTab, 'Tab count should be 2').toHaveCount(2);
   });
 
-  test('TC231. Close first of the two New Email boards. Tab count should be 1', async ({pageManager}) => {
+  test('TC230. Close first of the two New Email boards. Tab count should be 1', async ({pageManager}) => {
     await OpenNewEmailBoardTwice({pageManager});
     await pageManager.newMail.Buttons.CloseTab.first().click();
     await expect(pageManager.newMail.Elements.BoardTab, 'Tab count should be 1').toHaveCount(1);
   });
 
-  test('TC232. Open sent mail. Correct subject should be visible', async ({apiManager, pageManager}) => {
+  test('TC231. Open sent mail. Correct subject should be visible', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'Correct email subject is visible').toBeVisible();
   });
 
-  test('TC233. Open sent mail. Correct body should be visible', async ({apiManager, pageManager}) => {
+  test('TC232. Open sent mail. Correct body should be visible', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.Body, 'Correct body should be visible').toHaveText(mailBody);
   });
 
-  test('TC234. Open received mail. Correct subject should be visible', async ({apiManager, pageManager}) => {
+  test('TC233. Open received mail. Correct subject should be visible', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager});
     await expect(pageManager.mailDetails.Elements.Header.locator(`"${mailSubject}"`), 'Correct email subject is visible').toBeVisible();
   });
 
-  test('TC235. Open received mail. Correct body should be visible', async ({apiManager, pageManager}) => {
+  test('TC234. Open received mail. Correct body should be visible', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager});
     await expect(pageManager.mailDetails.Elements.Body, 'Correct body should be visible').toHaveText(mailBody);
   });
 
-  test('TC236. Send mail to multiple recipients. All recipient logins should be visible in the mail details', async ({apiManager, pageManager}) => {
+  test('TC235. Send mail to multiple recipients. All recipient logins should be visible in the mail details', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent, [BaseTest.secondUser.login, BaseTest.thirdUser.login]);
     await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'First recipient login should be visible').toBeVisible();
     await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.thirdUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'Second recipient login should be visible').toBeVisible();
   });
 
-  test('TC237. Get mail sent to multiple recipients. All recipient logins should be visible in the mail details', async ({apiManager, pageManager}) => {
+  test('TC236. Get mail sent to multiple recipients. All recipient logins should be visible in the mail details', async ({apiManager, pageManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent, [BaseTest.secondUser.login, BaseTest.thirdUser.login]);
     await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'First recipient login should be visible').toBeVisible();
     await expect(pageManager.mailDetails.Elements.Recipient.locator(`"${BaseTest.thirdUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'Second recipient login should be visible').toBeVisible();
   });
 
-  test('TC238. Reply to mail. Reply mail subject should be visible in the Sent folder', async ({pageManager, apiManager}) => {
+  test('TC237. Reply to mail. Reply mail subject should be visible in the Sent folder', async ({pageManager, apiManager}) => {
     test.fail(true, '137. Unexpected Inbox folder opening; Reply mail subject is displayed correctly only after page reload');
     await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Reply, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"RE: ${mailSubject}"`), 'Reply mail should be visible in the Sent folder').toBeVisible();
   });
 
-  test('TC239. Get a reply mail. Reply mail subjectshould be visible in the Inbox folder', async ({pageManager, apiManager}) => {
+  test('TC238. Get a reply mail. Reply mail subjectshould be visible in the Inbox folder', async ({pageManager, apiManager}) => {
     test.fail(true, 'Reply mail subject is displayed correctly only after page reload');
     await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Reply);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"RE: ${mailSubject}"`), 'Reply mail should be visible in the Inbox folder').toBeVisible();
   });
   // 137 'Unexpected Inbox folder opening'
-  test.skip('TC240. Open the sent reply mail. Quote should be visible in mail details', async ({pageManager, apiManager}) => {
+  test.skip('TC239. Open the sent reply mail. Quote should be visible in mail details', async ({pageManager, apiManager}) => {
     const mailQuote = await SendReceivedMailBySelectedOptionAndOpenMail({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Reply, `RE: ${mailSubject}`, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
   // 'Reply mail subject is displayed correctly only after page reload'
-  test.skip('TC241. Open the received reply mail. Quote should be visible in mail details', async ({pageManager, apiManager}) => {
+  test.skip('TC240. Open the received reply mail. Quote should be visible in mail details', async ({pageManager, apiManager}) => {
     const mailQuote = await SendReceivedMailBySelectedOptionAndOpenMail({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Reply, `RE: ${mailSubject}`);
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
 
-  test('TC242. Select CC option in New Email board. CC textbox should be visible', async ({pageManager}) => {
+  test('TC241. Select CC option in New Email board. CC textbox should be visible', async ({pageManager}) => {
     await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc);
     await expect(pageManager.newMail.TextBox.Cc, 'CC textbox should be visible').toBeVisible();
   });
 
-  test('TC243. Select BCC option in New Email board. BCC textbox should be visible', async ({pageManager}) => {
+  test('TC242. Select BCC option in New Email board. BCC textbox should be visible', async ({pageManager}) => {
     await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.Bcc);
     await expect(pageManager.newMail.TextBox.Bcc, 'BCC textbox should be visible').toBeVisible();
   });
 
-  test('TC244. Deselect CC option in New Email board. CC textbox should not be visible', async ({pageManager}) => {
+  test('TC243. Deselect CC option in New Email board. CC textbox should not be visible', async ({pageManager}) => {
     await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc);
     await pageManager.newMail.SelectNewMailOption.Cc();
     await expect(pageManager.newMail.TextBox.Cc, 'CC textbox should not be visible').not.toBeVisible();
   });
 
-  test('TC245. Deselect BCC option in New Email board. BCC textbox should not be visible', async ({pageManager}) => {
+  test('TC244. Deselect BCC option in New Email board. BCC textbox should not be visible', async ({pageManager}) => {
     await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.Bcc);
     await pageManager.newMail.SelectNewMailOption.Bcc();
     await expect(pageManager.newMail.TextBox.Bcc, 'BCC textbox should not be visible').not.toBeVisible();
   });
 
-  test('TC246. Send an mail to a CC recipient. CC recipient login should be visible in mail details', async ({pageManager}) => {
+  test('TC245. Send an mail to a CC recipient. CC recipient login should be visible in mail details', async ({pageManager}) => {
     await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc, pageManager.newMail.TextBox.Cc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.CcRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'CC recipient login should be visible in mail details').toBeVisible();
   });
 
-  test('TC247. Send an mail to a BCC recipient. BCC recipient login should be visible in mail details', async ({pageManager}) => {
+  test('TC246. Send an mail to a BCC recipient. BCC recipient login should be visible in mail details', async ({pageManager}) => {
     await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Bcc, pageManager.newMail.TextBox.Bcc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await pageManager.mailDetails.Elements.MailPreview.nth(1).click();
     await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'BCC recipient login should be visible in mail details').toBeVisible();
   });
 
-  test('TC248. Receive the mail as a CC recipient. Mail should be visible in Inbox list', async ({pageManager, apiManager}) => {
+  test('TC247. Receive the mail as a CC recipient. Mail should be visible in Inbox list', async ({pageManager, apiManager}) => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login], [BaseTest.userForLogin.login]);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should be visible in Inbox list').toBeVisible();
   });
 
-  test('TC249. Receive the mail as a BCC recipient. Mail should be visible in Inbox list', async ({pageManager, apiManager}) => {
+  test('TC248. Receive the mail as a BCC recipient. Mail should be visible in Inbox list', async ({pageManager, apiManager}) => {
     await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.secondUser.login], [], [BaseTest.userForLogin.login]);
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should be visible in Inbox list').toBeVisible();
   });
 
-  test('TC250. Receive the mail with CC as main recipient. CC recipient login should be visible in mail details', async ({pageManager, apiManager}) => {
+  test('TC249. Receive the mail with CC as main recipient. CC recipient login should be visible in mail details', async ({pageManager, apiManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox, [BaseTest.userForLogin.login], [BaseTest.secondUser.login]);
     await expect(pageManager.mailDetails.Elements.CcRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'CC recipient login should be visible in mail details').toBeVisible();
   });
 
-  test('TC251. Receive the mail with BCC as main recipient. BCC recipient login should not be visible in mail details', async ({pageManager, apiManager}) => {
+  test('TC250. Receive the mail with BCC as main recipient. BCC recipient login should not be visible in mail details', async ({pageManager, apiManager}) => {
     await SendAndOpenMail({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox, [BaseTest.userForLogin.login], [], [BaseTest.secondUser.login]);
     await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'BCC recipient login should not be visible in mail details').not.toBeVisible();
   });
 
-  test('TC252. Reply mail. Reply mail should be visible in the Sent folder', async ({pageManager, apiManager}) => {
+  test('TC251. Reply mail. Reply mail should be visible in the Sent folder', async ({pageManager, apiManager}) => {
     await SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, apiManager.createMailsAPI.MsgType.Reply, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailsList.Elements.UnreadMessageIcon.locator(`"${msgCount}"`), 'Reply mail should be visible in the Sent folder').toBeVisible();
   });
 
-  test('TC253. Get a reply mail. Reply mail should be visible in the Inbox folder', async ({pageManager, apiManager}) => {
+  test('TC252. Get a reply mail. Reply mail should be visible in the Inbox folder', async ({pageManager, apiManager}) => {
     await SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, apiManager.createMailsAPI.MsgType.Reply);
     await expect(pageManager.mailsList.Elements.UnreadMessageIcon.locator(`"${msgCount}"`), 'Reply mail should be visible in the Inbox folder').toBeVisible();
   });
 
-  test("TC254. Forward mail. Forwarded mail should be visible in the Sent folder", async ({pageManager, apiManager}) => {
+  test("TC253. Forward mail. Forwarded mail should be visible in the Sent folder", async ({pageManager, apiManager}) => {
     await SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, apiManager.createMailsAPI.MsgType.Forward, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailsList.Elements.UnreadMessageIcon.locator(`"${msgCount}"`), 'Forwarded mail should be visible in the Sent folder').toBeVisible();
   });
 
-  test('TC255. Get a forwarded mail. Forwarded mail should be visible in the Inbox folder', async ({pageManager, apiManager}) => {
+  test('TC254. Get a forwarded mail. Forwarded mail should be visible in the Inbox folder', async ({pageManager, apiManager}) => {
     await SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, apiManager.createMailsAPI.MsgType.Forward);
     await expect(pageManager.mailsList.Elements.UnreadMessageIcon.locator(`"${msgCount}"`), 'Forwarded mail should be visible in the Inbox folder').toBeVisible();
   });
 
-  test("TC256. Forward mail. Forwarded mail subject should be visible in the Sent folder", async ({pageManager, apiManager}) => {
+  test("TC255. Forward mail. Forwarded mail subject should be visible in the Sent folder", async ({pageManager, apiManager}) => {
     test.fail(true, '137. Unexpected Inbox folder opening; Forwarded mail subject is displayed correctly only after page reload');
     await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Forward, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"FWD: ${mailSubject}"`), 'Forwarded mail subject should be visible in the Sent folder').toBeVisible();
   });
 
-  test("TC257. Get a forwarded mail. Forwarded mail subject should be visible in the Inbox folder", async ({pageManager, apiManager}) => {
+  test("TC256. Get a forwarded mail. Forwarded mail subject should be visible in the Inbox folder", async ({pageManager, apiManager}) => {
     test.fail(true, 'Forwarded mail subject is displayed correctly only after page reload');
     await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Forward);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"FWD: ${mailSubject}"`), 'Forwarded mail subject should be visible in the Inbox folder').toBeVisible();
   });
   // 137 'Unexpected Inbox folder opening; Forwarded mail subject is displayed correctly only after page reload'
-  test.skip("TC258. Open the sent forwarded mail. Quote should be visible in mail details", async ({pageManager, apiManager}) => {
+  test.skip("TC257. Open the sent forwarded mail. Quote should be visible in mail details", async ({pageManager, apiManager}) => {
     const mailQuote = await SendReceivedMailBySelectedOptionAndOpenMail({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Forward, `FWD: ${mailSubject}`, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
   // 'Forwarded mail subject is displayed correctly only after page reload'
-  test.skip("TC259. Open the received forwarded mail. Quote should be visible in mail details", async ({pageManager, apiManager}) => {
+  test.skip("TC258. Open the received forwarded mail. Quote should be visible in mail details", async ({pageManager, apiManager}) => {
     const mailQuote = await SendReceivedMailBySelectedOptionAndOpenMail({apiManager, pageManager}, pageManager.mailDetails.SelectMailOption.Forward, `FWD: ${mailSubject}`);
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
 
-  test('TC260. Attach the file in New Email board. Attached file should be visible', async ({apiManager, pageManager}) => {
+  test('TC259. Attach the file in New Email board. Attached file should be visible', async ({apiManager, pageManager, page}) => {
     await UploadFile({apiManager});
     await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.AddFromFiles);
     await pageManager.fileChooserModal.Folders.Home.dblclick();
     await pageManager.fileChooserModal.Elements.File.locator(`"${fileName}"`).click();
+    await page.waitForLoadState('networkidle');
     await pageManager.fileChooserModal.Buttons.Select.click();
     await expect(pageManager.newMail.Elements.AttachmentFile, 'Attached file should be visible').toContainText(fileName);
   });
 
-  test('TC261. Open the sent mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
+  test('TC260. Open the sent mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
     await SendAndOpenMailWithAttachedFile({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.AttachmentFile, 'Attached file should be visible in mail details').toContainText(fileName);
   });
 
-  test('TC262. Open the received mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
+  test('TC261. Open the received mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
     await SendAndOpenMailWithAttachedFile({apiManager, pageManager});
     await expect(pageManager.mailDetails.Elements.AttachmentFile, 'Attached file should be visible in mail details').toContainText(fileName);
   });
@@ -429,12 +408,12 @@ test.describe('Mails tests', async () => {
   async function SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager}, option, openFolder = pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox) {
     await OpenMailAndSelectOption({apiManager, pageManager}, option);
     if (option === pageManager.mailDetails.SelectMailOption.Forward) {
-      await pageManager.mailDetails.Editor.Textboxes.To.click();
-      await pageManager.mailDetails.Editor.Textboxes.To.fill(BaseTest.userForLogin.login);
+      await pageManager.newMail.TextBox.To.click();
+      await pageManager.newMail.TextBox.To.fill(BaseTest.userForLogin.login);
       await pageManager.mailDetails.Editor.Textboxes.Body.click();
     };
-    const mailQuote = await pageManager.mailDetails.Editor.Textboxes.Body.innerText();
-    await pageManager.mailDetails.Editor.Buttons.Send.click();
+    const mailQuote = await pageManager.newMail.TextBox.Body.innerText();
+    await pageManager.newMail.Buttons.Send.click();
     await openFolder();
     return mailQuote;
   };

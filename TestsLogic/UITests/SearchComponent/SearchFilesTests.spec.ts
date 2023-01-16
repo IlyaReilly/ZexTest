@@ -14,24 +14,13 @@ test.describe('Search tests', async () => {
     subjectWithFile = uniquePrefix + 'File in this mail';
     unicFileName = uniquePrefix + 'Zextras File';
     fileNameFull = 'testAPI.png';
-    await DeleteFIlesViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
   });
 
   test.afterEach(async ({apiManager, page}) => {
-    await DeleteFIlesViaAPI({apiManager});
+    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteFIlesViaAPI({apiManager}) {
-    const activeFiles = await apiManager.filesAPI.GetActiveFiles();
-    await Promise.all(activeFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.MoveFileToTrashById(file.id);
-    }));
-    const trashFiles = await apiManager.filesAPI.GetTrashFiles();
-    await Promise.all(trashFiles.map(async (file) => {
-      return apiManager.deleteFilesAPI.DeleteFilePermanentlyById(file.id);
-    }));
-  };
 
   async function OpenSearchTabAndOpenAdvancedFilters({pageManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);

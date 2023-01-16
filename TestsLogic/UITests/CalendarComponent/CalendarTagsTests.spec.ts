@@ -2,33 +2,21 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
 import Colors from '../../../TestData/IconColorList.json';
 
-test.describe('Calendars tests', async () => {
+test.describe('Tags tests', async () => {
   let tagName;
   const newTagName = 'New zextras tag';
 
-  test.beforeAll(async ({apiManager}) => {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
-  });
-
   test.beforeEach(async ({pageManager, apiManager}) => {
     tagName = BaseTest.dateTimePrefix() + ' Autotest Tag';
-    await DeleteAllTagsViaAPI({apiManager});
+    await apiManager.tagsAPI.DeleteTagsViaAPI({apiManager});
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllTagsViaAPI({apiManager});
+    await apiManager.tagsAPI.DeleteTagsViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteAllTagsViaAPI({apiManager}) {
-    const ids = await apiManager.tagsAPI.GetTags();
-    await apiManager.deleteTagsAPI.DeleteTagRequest(ids.join(','), BaseTest.userForLogin.login);
-  };
 
   test('TC1002. Create tag in side calendar menu. Tag should be in Tags tab.', async ({pageManager}) => {
     await pageManager.tagModals.OpenTagContextMenu.CreateTagModal();

@@ -18,18 +18,13 @@ test.describe('Search tests', async () => {
     appointmentTitle = uniquePrefix + ' Autotest Appointment Title';
     appointmentBody = uniquePrefix + ' Autotest Appointment Body';
     secondMailSubject = uniquePrefix + ' Autotest Appointment  Second Title';
-    await DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteMailViaApi({apiManager});
+    await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteMailViaApi({apiManager}) {
-    const mailIds = await apiManager.mailsAPI.getMailIds(BaseTest.userForLogin.login);
-    await Promise.all(mailIds.map(async (id) => await apiManager.mailsAPI.ItemActionRequest(apiManager.mailsAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
-  };
 
   async function OpenSearchTabAndOpenAdvancedFilters({pageManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);
@@ -141,7 +136,7 @@ test.describe('Search tests', async () => {
   test('TC717. Search by "sent by me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMessageAndOpenFiltersInSearch({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.SentByMeOption();
-    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 
   test('TC718. Search by "answered by me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
@@ -154,7 +149,7 @@ test.describe('Search tests', async () => {
     test.fail(true, '143, Not Answered By Me option does not working');
     await SendMailBySelectedMethodAndOpenFiltersInSearch({pageManager, apiManager}, apiManager.createMailsAPI.MsgType.Reply);
     await pageManager.advancedFiltersModal.StatusMailItems.NotAnsweredByMeOption();
-    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"RE: ${mailSubject}"`).first()).not.toBeVisible();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
   });
 
   test('TC720. Search by "forwarded" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {

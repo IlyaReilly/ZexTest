@@ -28,8 +28,9 @@ test.describe('Space tests', async () => {
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
   });
 
-  test.afterAll(async ({apiManager}) => {
+  test.afterEach(async ({apiManager, page}) => {
     await CleanConversationsPanel({apiManager});
+    await page.close();
   });
 
   async function CleanConversationsPanel({apiManager}) {

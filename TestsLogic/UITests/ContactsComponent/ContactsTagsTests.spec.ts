@@ -1,31 +1,26 @@
 import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
 
-test.describe('Calendars tests', async () => {
+test.describe('Tags tests', async () => {
   let tagName;
   const newTagName = 'New zextras tag';
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     tagName = BaseTest.dateTimePrefix() + ' Autotest Tag';
-    await DeleteAllTagsViaAPI({apiManager});
+    await apiManager.tagsAPI.DeleteTagsViaAPI({apiManager});
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllTagsViaAPI({apiManager});
+    await apiManager.tagsAPI.DeleteTagsViaAPI({apiManager});
     await page.close();
   });
-
-  async function DeleteAllTagsViaAPI({apiManager}) {
-    const ids = await apiManager.tagsAPI.GetTags();
-    await apiManager.deleteTagsAPI.DeleteTagRequest(ids.join(','), BaseTest.userForLogin.login);
-  };
 
   test('TC1008. Create tag in side contacts menu. Tag should be in Tags tab.', async ({pageManager}) => {
     await pageManager.tagModals.OpenTagContextMenu.CreateTagModal();
     await pageManager.newTagModal.CreateTag(tagName);
-    await pageManager.sideSecondaryContactsMenu.ExpandTagsFolder();
+    await pageManager.tagModals.ExpandTagsFolder();
     await expect(pageManager.sideSecondaryContactsMenu.Elements.Item.locator(`"${tagName}"`)).toBeVisible();
   });
 

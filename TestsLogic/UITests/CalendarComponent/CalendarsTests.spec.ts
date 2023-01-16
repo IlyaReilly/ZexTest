@@ -14,20 +14,17 @@ test.describe('Calendars tests', async () => {
     Month: "Month",
   };
 
-  test.beforeAll(async ({apiManager}) => {
-    await DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager});
-  });
-
-  test.beforeEach(async ({pageManager}) => {
+  test.beforeEach(async ({pageManager, apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
     appointmentTag = dateTimePrefix + ' Autotest Appointment Tag';
+    await apiManager.calendarAPI.DeleteAppointmentsAndCalendarsViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    await DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager});
+    await apiManager.calendarAPI.DeleteAppointmentsAndCalendarsViaAPI({apiManager});
     await page.close();
   });
 
@@ -125,7 +122,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
   });
 
-  test('TS1001. Create tag in appointment. Tag icon should be visible in appointment.', async ({pageManager, apiManager, page}) => {
+  test('TC1001. Create tag in appointment. Tag icon should be visible in appointment.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
     test.fail(true, '138 When we create tag in appointment, window take error');
     await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
@@ -135,8 +132,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Selectors.TagIconSelector).toBeVisible();
   });
 
-  test('TS324. Move appointment to another date via drag&drop. Appointment should be present in another day.', async ({pageManager, apiManager, page}) => {
-    test.fail(true, '140 Appointment do not moved');
+  test('TC324. Move appointment to another date via drag&drop. Appointment should be present in another day.', async ({pageManager, apiManager, page}) => {
     await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.DragAndDropAppointmentOnAnotherDay(appointmentTitle);
     await pageManager.editAfterMoveAppointmentModal.Buttons.SendEdit.click();
@@ -181,25 +177,5 @@ test.describe('Calendars tests', async () => {
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-  };
-
-  async function DeleteAllAppointmentsAndAllCalendarsViaAPI({apiManager}) {
-    await DeleteAllAppointmentsViaAPI({apiManager});
-    await DeleteAllCalendarsViaAPI({apiManager});
-  };
-
-  async function DeleteAllAppointmentsViaAPI({apiManager}) {
-    const allAppionmentsIds = await apiManager.calendarAPI.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => {
-      return await apiManager.calendarAPI.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login);
-    }));
-  };
-
-  async function DeleteAllCalendarsViaAPI({apiManager}) {
-    const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
-    const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
-    await Promise.all(allCustomFolders.map(async (folder) => {
-      return await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);
-    }));
   };
 });

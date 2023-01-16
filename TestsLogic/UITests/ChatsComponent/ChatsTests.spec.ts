@@ -20,8 +20,9 @@ test.describe('Chats tests', async () => {
     await CleanConversationsPanel({apiManager});
   });
 
-  test.afterAll(async ({apiManager}) => {
+  test.afterEach(async ({apiManager, page}) => {
     await CleanConversationsPanel({apiManager});
+    await page.close();
   });
 
   async function CleanConversationsPanel({apiManager}) {
