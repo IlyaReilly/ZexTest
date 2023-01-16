@@ -116,7 +116,7 @@ test.describe('Contacts tests', async () => {
       await pageManager.moveAddressBookModal.Buttons.Move.click();
     } else {
       await pageManager.moveAddressBookModal.Buttons.Restore.click();
-    }
+    };
     await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts.click();
   };
 

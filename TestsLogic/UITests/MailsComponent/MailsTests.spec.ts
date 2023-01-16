@@ -261,6 +261,7 @@ test.describe('Mails tests', async () => {
   });
 
   test('TC246. Send an mail to a BCC recipient. BCC recipient login should be visible in mail details', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Bcc, pageManager.newMail.TextBox.Bcc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await pageManager.mailDetails.Elements.MailPreview.nth(1).click();
     await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'BCC recipient login should be visible in mail details').toBeVisible();

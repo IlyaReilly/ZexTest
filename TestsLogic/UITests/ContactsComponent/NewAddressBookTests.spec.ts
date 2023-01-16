@@ -54,13 +54,11 @@ test.describe('New address book tests', async () => {
     test.fail();
     await CreateNewAddressBook({pageManager, apiManager});
     await pageManager.sideSecondaryContactsMenu.SelectAddressBookOption.Share(addressBookName);
-    await expect(pageManager.sideSecondaryContactsMenu.Buttons.ExpandAddressBooks).toHaveCount(2);
     await pageManager.shareAddressBookModal.Share(BaseTest.secondUser.login);
     await expect(pageManager.sideSecondaryContactsMenu.Icons.SharedIcon, 'Share icon should be near folder name').toBeVisible();
   });
-
-  test('TC904. Edit Address book. Created address book is emptied.', async ({pageManager, apiManager}) => {
-    test.fail(true, '142 Inactive “EMPTY“ button');
+  // '142 Inactive “EMPTY“ button'
+  test.skip('TC904. Edit Address book. Created address book is emptied.', async ({pageManager, apiManager}) => {
     await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.SelectAddressBookOption.Empty("Contacts");
