@@ -136,7 +136,7 @@ test.describe('Search tests', async () => {
   test('TC717. Search by "sent by me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
     await CreateMessageAndOpenFiltersInSearch({pageManager, apiManager});
     await pageManager.advancedFiltersModal.StatusMailItems.SentByMeOption();
-    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 
   test('TC718. Search by "answered by me" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {
@@ -149,7 +149,7 @@ test.describe('Search tests', async () => {
     test.fail(true, '143, Not Answered By Me option does not working');
     await SendMailBySelectedMethodAndOpenFiltersInSearch({pageManager, apiManager}, apiManager.createMailsAPI.MsgType.Reply);
     await pageManager.advancedFiltersModal.StatusMailItems.NotAnsweredByMeOption();
-    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"RE: ${mailSubject}"`).first()).not.toBeVisible();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
   });
 
   test('TC720. Search by "forwarded" in Search status found mail. The email should be found in Search Tab', async ({apiManager, pageManager}) => {

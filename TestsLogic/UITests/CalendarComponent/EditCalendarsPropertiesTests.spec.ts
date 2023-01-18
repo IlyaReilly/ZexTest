@@ -6,28 +6,15 @@ test.describe('Edit Calendars Properties', async () => {
   let calendarName;
   let calendarNewName;
 
-  test.beforeAll(async ({apiManager}) => {
-    const allCalendarFolders = await apiManager.calendarAPI.GetCalendarFolders(BaseTest.userForLogin.login);
-    const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
-    await Promise.all(allCustomFolders.map(async (folder) => {
-      return await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login);
-    }));
-  });
-
-  test.beforeEach(async () => {
+  test.beforeEach(async ({apiManager}) => {
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     calendarName = dateTimePrefix + ' Calendar';
     calendarNewName = 'New' + calendarName;
+    await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
-    try {
-      const calendarFolderId = await apiManager.calendarAPI.GetCalendarFolderIdByName(BaseTest.userForLogin.login, calendarName);
-      await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(calendarFolderId, BaseTest.userForLogin.login);
-    } catch {
-      const calendarFolderId = await apiManager.calendarAPI.GetCalendarFolderIdByName(BaseTest.userForLogin.login, calendarNewName);
-      await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(calendarFolderId, BaseTest.userForLogin.login);
-    };
+    await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
     await page.close();
   });
 

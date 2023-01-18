@@ -10,7 +10,7 @@ export class BaseApplicationPage extends BasePage {
     WorkspaceContainerLocator: '[class*="BoardsRouterContainer"]',
     ListContainerLocator: '[class*="List"][class*="Container"]',
     ListItemReactLocator: '_react=[key][item]',
-    ListFileReactLocator: '_react=[id]',
+    ListFileReactLocator: '_react=[node]',
     NewItemBoardLocator: '[class*="BoardContainer"] >> [class*="Board"] >> nth=0',
     NewItemBodyIframeLocator: '.tox-edit-area__iframe',
     NewItemBodyLocator: '.mce-content-body',

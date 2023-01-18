@@ -28,8 +28,9 @@ test.describe('Space tests', async () => {
     await pageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
   });
 
-  test.afterAll(async ({apiManager}) => {
+  test.afterEach(async ({apiManager, page}) => {
     await CleanConversationsPanel({apiManager});
+    await page.close();
   });
 
   async function CleanConversationsPanel({apiManager}) {
@@ -207,6 +208,7 @@ test.describe('Space tests', async () => {
   });
 
   test('TC437. Get a message in channel. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     test.fail(true, 'Problem with new functionality about channel members');
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, channelTitle);
     await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);

@@ -41,6 +41,7 @@ export class NewMail extends BaseApplicationPage {
   };
 
   Elements = {
+    ContactBubble: this.Containers.MainContainer.locator('[class*="ChipContainer"]'),
     EditorToolbar: this.Containers.MainContainer.locator('.tox-editor-header'),
     MarkAsImportantIcon: this.Containers.MainContainer.locator('[data-testid$="ArrowUpward"]'),
     RequestReadReceiptIcon: this.Containers.MainContainer.locator('[data-testid$="CheckmarkSquare"]'),
