@@ -50,7 +50,7 @@ test.describe('Contacts tests', async () => {
 
   test('TC604. Delete contact. Contact appears in Trash folder', async ({page, pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
-    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await pageManager.contactsList.SelectContactContextMenuOption.Delete(BaseTest.userForLogin.login);
     await page.reload();
     await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();
@@ -65,7 +65,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('TC606. Edit contact data. Edited contact data is visible in Contacts folder', async ({pageManager, apiManager}) => {
-    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await pageManager.contactsList.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactDetails.ContactOptions.Edit.click();
     await pageManager.contactDetails.EditContactView.FirstName.fill(newFirstName);
@@ -74,7 +74,7 @@ test.describe('Contacts tests', async () => {
   });
 
   test('TC607. Sent email to contact. New E-mail board is visible', async ({pageManager, apiManager}) => {
-    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await pageManager.contactsList.SelectContactContextMenuOption.SendEmail(BaseTest.userForLogin.login);
     await expect(pageManager.newMail.Containers.MainContainer.locator(`//*[starts-with(text(),"${firstName}")]`), `New E-mail board with Contact's first name is visible`).toBeVisible();
   });
@@ -85,13 +85,13 @@ test.describe('Contacts tests', async () => {
   });
 
   test('TC609. Move contact. Contact appears in Emailed contacts folder', async ({pageManager, apiManager}) => {
-    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await MoveContactAndOpenDestinationFolder({pageManager}, pageManager.contactsList.SelectContactContextMenuOption.Move);
     await expect(pageManager.contactsList.Elements.Contact.locator(`"${firstName}"`), 'Contact appears in Emailed contacts folder').toBeVisible();
   });
 
-  test('TC610. Add tag to contact. Tag icon is visible in Contact list item', async ({page, pageManager, apiManager}) => {
-    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+  test('TC610. Add tag to contact. Tag icon is visible in Contact list item', async ({pageManager, apiManager}) => {
+    await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await pageManager.contactsList.SelectContactContextMenuOption.NewTag(BaseTest.userForLogin.login);
     await pageManager.newTagModal.CreateTag(tagName);
     await expect(pageManager.contactsList.Elements.ContactTag, 'Tag icon is visible in Contact list item').toBeVisible();
@@ -104,7 +104,7 @@ test.describe('Contacts tests', async () => {
   });
 
   async function DeleteContactAndOpenTrashFolder({apiManager, pageManager}) {
-    const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    const contactId = await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash.click();
   };
@@ -124,11 +124,17 @@ test.describe('Contacts tests', async () => {
     if (contactId) {
       await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
     } else {
-      contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+      contactId = await CreateContactAndOpenContactsBook({pageManager, apiManager});
     }
     await page.reload();
     const count = async () => +await pageManager.contactsList.Elements.Count.innerText();
     await expect(pageManager.contactsList.Elements.Contact, 'The count matches Contact list length').toHaveCount(await count());
+    return contactId;
+  };
+
+  async function CreateContactAndOpenContactsBook({pageManager, apiManager}) {
+    const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Contacts.click();
     return contactId;
   };
 });

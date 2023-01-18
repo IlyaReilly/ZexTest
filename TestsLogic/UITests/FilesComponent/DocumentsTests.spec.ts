@@ -65,23 +65,27 @@ test.describe('Documents tests', async () => {
   test('TC515. Change the name of a presentation. The presentation should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreatePresentation(fileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
   test('TC516. Change the name of a spreadsheet. The spreadsheet should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     await apiManager.createFilesAPI.CreateSpreadsheet(fileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
   test('TC517. Change the name of a document. The document should be in a Home tab with a new name.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreateDocument(fileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await SaveOldNameRenameFileAndExpectFileRename({pageManager});
   });
 
   test('TC518. Select file. File should be selected in Home tab.', async ({pageManager, apiManager}) => {
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreateDocument(fileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await pageManager.filesList.Elements.FileIcon.click();
     await expect(pageManager.filesList.SelectionModeElements.CheckMark).toBeVisible();
   });
@@ -90,6 +94,7 @@ test.describe('Documents tests', async () => {
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreateSpreadsheet(fileName);
     await apiManager.createFilesAPI.CreateDocument(newFileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await SelectUnselectAllFIles({pageManager});
     await expect(pageManager.filesList.Elements.UncheckMark).not.toBeTruthy();
   });
@@ -98,12 +103,14 @@ test.describe('Documents tests', async () => {
     BaseTest.doubleTimeout();
     await apiManager.createFilesAPI.CreateDocument(fileName);
     await apiManager.createFilesAPI.CreateSpreadsheet(newFileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await SelectUnselectAllFIles({pageManager}, pageManager.filesList.SelectionModeElements.DeselectAllButton);
     await expect(pageManager.filesList.Elements.CheckMark).not.toBeTruthy();
   });
 
   test('TC521. Add a description to the file. The description should be in the Home tab of the file.', async ({pageManager, apiManager}) => {
     await apiManager.createFilesAPI.CreateDocument(fileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.WriteDescription(newFileName);
     await expect(pageManager.fileDetails.Elements.DescriptionText).toHaveText(newFileName);
@@ -111,6 +118,7 @@ test.describe('Documents tests', async () => {
 
   test('TC522. Open Online Editor. Online Editor should be opened by clicking the “Edit” button.', async ({pageManager, apiManager}) => {
     await apiManager.createFilesAPI.CreateDocument(fileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.FileOptions.Edit.click();
     const editorPage = await pageManager.fileDetails.GetOnlineEditorPage();
@@ -120,6 +128,7 @@ test.describe('Documents tests', async () => {
   // Bug №139. Problem with opening a document via file versions. When you click "Open document version" an http error 500 is thrown
   test.skip('TC532. Upload and open a new document version. A document version should be opened', async ({pageManager, apiManager, page}) => {
     await apiManager.createFilesAPI.CreateDocument(fileName);
+    await pageManager.sideSecondaryFilesMenu.Tabs.Home.click();
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.Tabs.Versioning.click();
     await pageManager.fileDetails.ClickVersioningDropdownOption.OpenDocumentVersion(1);
