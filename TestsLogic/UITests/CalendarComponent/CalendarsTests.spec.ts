@@ -175,6 +175,7 @@ test.describe('Calendars tests', async () => {
 
   async function CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page}) {
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
+    await page.reload();
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
   };

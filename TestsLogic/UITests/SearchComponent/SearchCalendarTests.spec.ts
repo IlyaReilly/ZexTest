@@ -47,7 +47,7 @@ test.describe('Search tests', async () => {
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${appointmentName}"`)).toBeVisible();
   });
 
-  test('TC714. Search by tag found appointment. The appointment should be found by tag', async ({apiManager, pageManager, page}) => {
+  test('TC726. Search by tag found appointment. The appointment should be found by tag', async ({apiManager, pageManager, page}) => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await CreateAppointmentWithTag({pageManager, apiManager, page});
     await pageManager.headerMenu.MakeSearch(`tag:"${tagName}"`);
