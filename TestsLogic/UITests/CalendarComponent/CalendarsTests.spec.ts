@@ -153,7 +153,9 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC330. The "New Appointment" modal window contains time zone in header that matches the user time zone.', async ({pageManager}) => {
-    const timeZoneExpected = new Intl.DateTimeFormat('en-GB', {timeZoneName: "longOffset"}).format(new Date()).split(' ')[1].replace('GMT+', 'GMT +') + ' '+ new Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timeZoneGMT = new Date().toTimeString().split(' ')[1];
+    const timeZoneGMTFormatted = timeZoneGMT.slice(0, 3) + ' ' + timeZoneGMT.slice(3, 6) + ':' + timeZoneGMT.slice(6);
+    const timeZoneExpected = timeZoneGMTFormatted + ' '+ Intl.DateTimeFormat().resolvedOptions().timeZone;
     await pageManager.headerMenu.Buttons.NewItem.click();
     await expect(pageManager.newAppointment.Elements.TimeZoneInHeader).toHaveText(timeZoneExpected);
   });
