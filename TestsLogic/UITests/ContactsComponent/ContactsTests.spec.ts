@@ -103,6 +103,77 @@ test.describe('Contacts tests', async () => {
     await expect(pageManager.contactsList.Containers.MainContainer.locator(`"${firstName}"`), 'Contact appears in Emailed contacts folder').toBeVisible();
   });
 
+  test('TC612. Click Plus Email button. Second Email input field appears', async ({pageManager}) => {
+    await ClickPlusButton({pageManager}, pageManager.newContact.Buttons.PlusEmail);
+    await expect(pageManager.newContact.Inputs.Email.nth(1), 'Second Email input field appears').toBeVisible();
+  });
+
+  test('TC613. Click Plus Phone Number button. Second Number input field appears ', async ({pageManager}) => {
+    await ClickPlusButton({pageManager}, pageManager.newContact.Buttons.PlusPhone);
+    await expect(pageManager.newContact.Inputs.PhoneNumber.nth(1), 'Second Phone Number input field appears').toBeVisible();
+  });
+
+  test('TC614. Click Plus Website button. Second Website input field appears ', async ({pageManager}) => {
+    await ClickPlusButton({pageManager}, pageManager.newContact.Buttons.PlusWebsite);
+    await expect(pageManager.newContact.Inputs.Website.nth(1), 'Second Website input field appears').toBeVisible();
+  });
+
+  test('TC615. Click Plus Address button. Second Address input field appears ', async ({pageManager}) => {
+    await ClickPlusButton({pageManager}, pageManager.newContact.Buttons.PlusAddress);
+    await expect(pageManager.newContact.Inputs.Address.nth(1), 'Second Address input field appears').toBeVisible();
+  });
+
+  test('TC616. Click Minus Email button. Second Email input field hides', async ({pageManager}) => {
+    await ClickMinusButton({pageManager}, pageManager.newContact.Buttons.PlusEmail, pageManager.newContact.Buttons.MinusEmail);
+    await expect(pageManager.newContact.Inputs.Email.nth(1), 'Second Email input field hides').not.toBeVisible();
+  });
+
+  test('TC617. Click Minus Phone Number button. Second Phone Number input field hides', async ({pageManager}) => {
+    await ClickMinusButton({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Buttons.MinusPhone);
+    await expect(pageManager.newContact.Inputs.PhoneNumber.nth(1), 'Second Phone Number input field hides').not.toBeVisible();
+  });
+
+  test('TC618. Click Minus Website button. Second Website input field hides', async ({pageManager}) => {
+    await ClickMinusButton({pageManager}, pageManager.newContact.Buttons.PlusWebsite, pageManager.newContact.Buttons.MinusWebsite);
+    await expect(pageManager.newContact.Inputs.Website.nth(1), 'Second Website input field hides').not.toBeVisible();
+  });
+
+  test('TC619. Click Minus Address button. Second Address input field hides', async ({pageManager}) => {
+    await ClickMinusButton({pageManager}, pageManager.newContact.Buttons.PlusAddress, pageManager.newContact.Buttons.MinusAddress);
+    await expect(pageManager.newContact.Inputs.Address.nth(1), 'Second Address input field hides').not.toBeVisible();
+  });
+
+  test('TC620. Contact info view hides', async ({pageManager, apiManager}) => {
+    await HideContactDetails({apiManager, pageManager});
+    await expect(pageManager.contactDetails.Fields.FirstName, 'Contact Details field hides').not.toBeVisible();
+  });
+
+  test('TC621. Contact info view expands', async ({pageManager, apiManager}) => {
+    await HideContactDetails({apiManager, pageManager});
+    await pageManager.contactDetails.Buttons.DetailsChevronDown.click();
+    await expect(pageManager.contactDetails.Fields.FirstName, 'Contact Details field appears').toBeVisible();
+  });
+
+  test('TC622. Click Minus on filled Email button. The field should be empty', async ({pageManager}) => {
+    await ClickMinusToDelete({pageManager}, pageManager.newContact.Inputs.Email, pageManager.newContact.Buttons.MinusEmail);
+    await expect(pageManager.newContact.Inputs.Email, 'The Email field should be empty').toBeEmpty();
+  });
+
+  test('TC623. Click Minus on filled Phone Number button. The field should be empty', async ({pageManager}) => {
+    await ClickMinusToDelete({pageManager}, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.MinusPhone);
+    await expect(pageManager.newContact.Inputs.PhoneNumber, 'The Phone Number field should be empty').toBeEmpty();
+  });
+
+  test('TC624. Click Minus on filled Website button. The field should be empty', async ({pageManager}) => {
+    await ClickMinusToDelete({pageManager}, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.MinusWebsite);
+    await expect(pageManager.newContact.Inputs.Website, 'The Website field should be empty').toBeEmpty();
+  });
+
+  test('TC625. Click Minus on filled Address button. The field should be empty', async ({pageManager}) => {
+    await ClickMinusToDelete({pageManager}, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.MinusAddress);
+    await expect(pageManager.newContact.Inputs.Address, 'The Address field should be empty').toBeEmpty();
+  });
+
   async function DeleteContactAndOpenTrashFolder({apiManager, pageManager}) {
     const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
@@ -130,5 +201,28 @@ test.describe('Contacts tests', async () => {
     const count = async () => +await pageManager.contactsList.Elements.Count.innerText();
     await expect(pageManager.contactsList.Elements.Contact, 'The count matches Contact list length').toHaveCount(await count());
     return contactId;
+  };
+
+  async function ClickPlusButton({pageManager}, plusbtn) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await plusbtn.click();
+  };
+
+  async function ClickMinusButton({pageManager}, plusbtn, minusbtn) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await plusbtn.click();
+    await minusbtn.click();
+  };
+
+  async function HideContactDetails({apiManager, pageManager}) {
+    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await pageManager.contactsList.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
+    await pageManager.contactDetails.Buttons.DetailsChevronUp.click();
+  };
+
+  async function ClickMinusToDelete({pageManager}, field, minusbtn) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await field.fill(`${firstName}`);
+    await minusbtn.click();
   };
 });

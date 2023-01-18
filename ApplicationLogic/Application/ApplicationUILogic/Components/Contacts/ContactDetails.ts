@@ -10,6 +10,16 @@ export class ContactDetails extends BaseApplicationPage {
     EditContainer: this.page.locator('_react=[path*="editId"]'),
   };
 
+  Fields = {
+    FirstName: this.Containers.MainContainer.locator('_react=[label="First Name"]'),
+  };
+
+  Buttons = {
+    DetailsChevronUp: this.Containers.MainContainer.locator('_react=[icon = "ArrowIosUpward"]').first(),
+    DetailsChevronDown: this.Containers.MainContainer.locator('_react=[icon = "ArrowIosDownward"]').first(),
+
+  };
+
   ContactOptions = {
     Edit: this.Containers.MainContainer.locator('"Edit"'),
   };
