@@ -104,73 +104,73 @@ test.describe('Contacts tests', async () => {
   });
 
   test('TC612. Click Plus Email button. Second Email input field appears', async ({pageManager}) => {
-    await ClickPlusButton({pageManager}, pageManager.newContact.Buttons.PlusEmail);
+    await ClickPlusButtonInNewItemBoard({pageManager}, pageManager.newContact.Buttons.PlusEmail);
     await expect(pageManager.newContact.Inputs.Email.nth(1)).toBeVisible();
   });
 
   test('TC613. Click Plus Phone Number button. Second Number input field appears ', async ({pageManager}) => {
-    await ClickPlusButton({pageManager}, pageManager.newContact.Buttons.PlusPhone);
+    await ClickPlusButtonInNewItemBoard({pageManager}, pageManager.newContact.Buttons.PlusPhone);
     await expect(pageManager.newContact.Inputs.PhoneNumber.nth(1)).toBeVisible();
   });
 
   test('TC614. Click Plus Website button. Second Website input field appears ', async ({pageManager}) => {
-    await ClickPlusButton({pageManager}, pageManager.newContact.Buttons.PlusWebsite);
+    await ClickPlusButtonInNewItemBoard({pageManager}, pageManager.newContact.Buttons.PlusWebsite);
     await expect(pageManager.newContact.Inputs.Website.nth(1)).toBeVisible();
   });
 
   test('TC615. Click Plus Address button. Second Address input field appears ', async ({pageManager}) => {
-    await ClickPlusButton({pageManager}, pageManager.newContact.Buttons.PlusAddress);
+    await ClickPlusButtonInNewItemBoard({pageManager}, pageManager.newContact.Buttons.PlusAddress);
     await expect(pageManager.newContact.Inputs.Address.nth(1)).toBeVisible();
   });
 
   test('TC616. Click Minus Email button. Second Email input field hides', async ({pageManager}) => {
-    await ClickMinusButton({pageManager}, pageManager.newContact.Buttons.PlusEmail, pageManager.newContact.Buttons.MinusEmail);
+    await ClickPlusAndMinusButtonInNewItemBoard({pageManager}, pageManager.newContact.Buttons.PlusEmail, pageManager.newContact.Buttons.MinusEmail.first());
     await expect(pageManager.newContact.Inputs.Email.nth(1)).not.toBeVisible();
   });
 
   test('TC617. Click Minus Phone Number button. Second Phone Number input field hides', async ({pageManager}) => {
-    await ClickMinusButton({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Buttons.MinusPhone);
+    await ClickPlusAndMinusButtonInNewItemBoard({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Buttons.MinusPhone.first());
     await expect(pageManager.newContact.Inputs.PhoneNumber.nth(1)).not.toBeVisible();
   });
 
   test('TC618. Click Minus Website button. Second Website input field hides', async ({pageManager}) => {
-    await ClickMinusButton({pageManager}, pageManager.newContact.Buttons.PlusWebsite, pageManager.newContact.Buttons.MinusWebsite);
+    await ClickPlusAndMinusButtonInNewItemBoard({pageManager}, pageManager.newContact.Buttons.PlusWebsite, pageManager.newContact.Buttons.MinusWebsite.first());
     await expect(pageManager.newContact.Inputs.Website.nth(1)).not.toBeVisible();
   });
 
   test('TC619. Click Minus Address button. Second Address input field hides', async ({pageManager}) => {
-    await ClickMinusButton({pageManager}, pageManager.newContact.Buttons.PlusAddress, pageManager.newContact.Buttons.MinusAddress);
+    await ClickPlusAndMinusButtonInNewItemBoard({pageManager}, pageManager.newContact.Buttons.PlusAddress, pageManager.newContact.Buttons.MinusAddress.first());
     await expect(pageManager.newContact.Inputs.Address.nth(1)).not.toBeVisible();
   });
 
   test('TC620. Contact info view hides. Contact Details field hides', async ({pageManager, apiManager}) => {
-    await HideContactDetails({apiManager, pageManager});
+    await CreateAndClickContactAndHideContactDetails({apiManager, pageManager});
     await expect(pageManager.contactDetails.Fields.FirstName).not.toBeVisible();
   });
 
   test('TC621. Contact info view expands. Contact Details field appears', async ({pageManager, apiManager}) => {
-    await HideContactDetails({apiManager, pageManager});
+    await CreateAndClickContactAndHideContactDetails({apiManager, pageManager});
     await pageManager.contactDetails.Buttons.DetailsChevronDown.click();
     await expect(pageManager.contactDetails.Fields.FirstName).toBeVisible();
   });
 
   test('TC622. Click Minus on filled Email button. The field should be empty', async ({pageManager}) => {
-    await ClickMinusToDelete({pageManager}, pageManager.newContact.Inputs.Email, pageManager.newContact.Buttons.MinusEmail);
+    await FillInputFieldAndClickMinusInNewItemBoard({pageManager}, pageManager.newContact.Inputs.Email, pageManager.newContact.Buttons.MinusEmail);
     await expect(pageManager.newContact.Inputs.Email).toBeEmpty();
   });
 
   test('TC623. Click Minus on filled Phone Number button. The field should be empty', async ({pageManager}) => {
-    await ClickMinusToDelete({pageManager}, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.MinusPhone);
+    await FillInputFieldAndClickMinusInNewItemBoard({pageManager}, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.MinusPhone);
     await expect(pageManager.newContact.Inputs.PhoneNumber).toBeEmpty();
   });
 
   test('TC624. Click Minus on filled Website button. The field should be empty', async ({pageManager}) => {
-    await ClickMinusToDelete({pageManager}, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.MinusWebsite);
+    await FillInputFieldAndClickMinusInNewItemBoard({pageManager}, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.MinusWebsite);
     await expect(pageManager.newContact.Inputs.Website).toBeEmpty();
   });
 
   test('TC625. Click Minus on filled Address button. The field should be empty', async ({pageManager}) => {
-    await ClickMinusToDelete({pageManager}, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.MinusAddress);
+    await FillInputFieldAndClickMinusInNewItemBoard({pageManager}, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.MinusAddress);
     await expect(pageManager.newContact.Inputs.Address).toBeEmpty();
   });
 
@@ -203,27 +203,28 @@ test.describe('Contacts tests', async () => {
     return contactId;
   };
 
-  async function ClickPlusButton({pageManager}, plusbtn) {
+  async function ClickPlusButtonInNewItemBoard({pageManager}, plusbutton) {
     await pageManager.headerMenu.Buttons.NewItem.click();
-    await plusbtn.click();
+    await plusbutton.click();
   };
 
-  async function ClickMinusButton({pageManager}, plusbtn, minusbtn) {
+  async function ClickPlusAndMinusButtonInNewItemBoard({pageManager}, plusbutton, minusbutton) {
     await pageManager.headerMenu.Buttons.NewItem.click();
-    await plusbtn.click();
-    await minusbtn.click();
+    await plusbutton.click();
+    await minusbutton.click();
   };
 
-  async function HideContactDetails({apiManager, pageManager}) {
+  async function CreateAndClickContactAndHideContactDetails({apiManager, pageManager}) {
     await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.contactsList.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactDetails.Buttons.DetailsChevronUp.click();
   };
 
-  async function ClickMinusToDelete({pageManager}, field, minusbtn) {
+  async function FillInputFieldAndClickMinusInNewItemBoard({pageManager}, field, minusbutton) {
     await pageManager.headerMenu.Buttons.NewItem.click();
     await field.fill(`${firstName}`);
-    await minusbtn.click();
+    await minusbutton.click();
+  };
 
   async function CreateContactAndOpenContactsBook({pageManager, apiManager}) {
     const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
