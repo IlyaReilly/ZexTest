@@ -3,7 +3,6 @@ import {test, BaseTest} from '../../BaseTest';
 
 test.describe('Calendars tests', async () => {
   const countOfDaysInWeek = 7;
-  const countOfCellsInMonthView = 35;
   let dateTimePrefix;
   let appointmentTitle;
   let appointmentBody;
@@ -166,10 +165,11 @@ test.describe('Calendars tests', async () => {
 
   test('TC327. Create Appointment with repeat option "Every day". Appointment repeats every day in calendar.', async ({pageManager}) => {
     await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.SetStartTime('12:00 PM');
     const dateWithTimeIntervalInAppointment = await pageManager.newAppointment.Elements.DateWithTimeInervalInHeader.innerText();
     const startDateTimeInAppointment = new Date(dateWithTimeIntervalInAppointment.split(' -')[0]);
     const countOfRepeatsInCurrentWeekExpected = countOfDaysInWeek - startDateTimeInAppointment.getDay();
-    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, '12:00 PM', pageManager.newAppointment.RepeatOptions.EveryDay);
+    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, undefined, pageManager.newAppointment.RepeatOptions.EveryDay);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfRepeatsInCurrentWeekExpected);
@@ -177,6 +177,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
     await pageManager.calendar.SelectCalendarView(calendarView.Month);
     await pageManager.calendar.Elements.NextDateArrow.click();
+    const countOfCellsInMonthView = await pageManager.calendar.Cell.count();
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfCellsInMonthView);
   });
 
