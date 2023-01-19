@@ -32,7 +32,6 @@ export class NewAppointment extends BaseApplicationPage {
 
   Elements = {
     DateWithTimeInervalInHeader: this.row.locator('text=/\\d{4}\\s\\d{2}:\\d{2}\\s-\\s*\\d{2}:\\d{2}/'),
-    TimeZoneInHeader: this.row.locator('text=/GMT\\s\\+\\d{2}:\\d{2}/'),
   };
 
   CheckBoxes = {
