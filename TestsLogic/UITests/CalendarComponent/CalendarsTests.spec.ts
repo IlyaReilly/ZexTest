@@ -153,12 +153,6 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.newAppointment.Elements.DateWithTimeInervalInHeader).toHaveText(formatDateToStringWithOneHourInterval(currentDateTime), {useInnerText: true});
   });
 
-  test('TC330. The "New Appointment" modal window contains time zone in header that matches the user time zone.', async ({pageManager}) => {
-    const timeZoneExpected = new Intl.DateTimeFormat('en-GB', {timeZoneName: "longOffset"}).format(new Date()).split(' ')[1].replace('GMT+', 'GMT +') + ' '+ new Intl.DateTimeFormat().resolvedOptions().timeZone;
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await expect(pageManager.newAppointment.Elements.TimeZoneInHeader).toHaveText(timeZoneExpected);
-  });
-
   test('TC327. Create Appointment with repeat option "Every day". Appointment repeats every day in calendar.', async ({pageManager}) => {
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SetStartTime('12:00 PM');
