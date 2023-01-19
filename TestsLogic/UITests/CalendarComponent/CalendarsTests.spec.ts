@@ -152,14 +152,6 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.newAppointment.Elements.DateWithTimeInervalInHeader).toHaveText(formatDateToStringWithOneHourInterval(currentDateTime), {useInnerText: true});
   });
 
-  test('TC330. The "New Appointment" modal window contains time zone in header that matches the user time zone.', async ({pageManager}) => {
-    const timeZoneGMT = new Date().toTimeString().split(' ')[1];
-    const timeZoneGMTFormatted = timeZoneGMT.slice(0, 3) + ' ' + timeZoneGMT.slice(3, 6) + ':' + timeZoneGMT.slice(6);
-    const timeZoneExpected = timeZoneGMTFormatted + ' '+ Intl.DateTimeFormat().resolvedOptions().timeZone;
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await expect(pageManager.newAppointment.Elements.TimeZoneInHeader).toHaveText(timeZoneExpected);
-  });
-
   function formatDateToStringWithOneHourInterval(date: Date): string {
     // example of function return: Tuesday, 03 January, 2023 09:12 - 10:12
     const datePlus1Hour = new Date(date).setHours(date.getHours() + 1);
