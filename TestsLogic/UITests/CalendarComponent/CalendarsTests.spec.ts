@@ -2,6 +2,7 @@ import {expect} from '@playwright/test';
 import {test, BaseTest} from '../../BaseTest';
 
 test.describe('Calendars tests', async () => {
+  const countOfDaysInWeek = 7;
   let dateTimePrefix;
   let appointmentTitle;
   let appointmentBody;
@@ -150,6 +151,20 @@ test.describe('Calendars tests', async () => {
       currentDateTime.setMinutes(currentDateTime.getMinutes() - timeDifferenceInMinutes);
     }
     await expect(pageManager.newAppointment.Elements.DateWithTimeInervalInHeader).toHaveText(formatDateToStringWithOneHourInterval(currentDateTime), {useInnerText: true});
+  });
+
+  test('TC327. Create Appointment with repeat option "Every day". Appointment repeats every day in calendar.', async ({pageManager}) => {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.SetStartTime('12:00 PM');
+    const dateWithTimeIntervalInAppointment = await pageManager.newAppointment.Elements.DateWithTimeInervalInHeader.innerText();
+    const startDateTimeInAppointment = new Date(dateWithTimeIntervalInAppointment.split(' -')[0]);
+    const countOfRepeatsInCurrentWeekExpected = countOfDaysInWeek - startDateTimeInAppointment.getDay();
+    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, undefined, pageManager.newAppointment.RepeatOptions.EveryDay);
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfRepeatsInCurrentWeekExpected);
+    await pageManager.calendar.Elements.NextDateArrow.click();
+    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
   });
 
   function formatDateToStringWithOneHourInterval(date: Date): string {
