@@ -167,6 +167,16 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
   });
 
+  test('TC330. Create Appointment with repeat option "Every week". Appointment repeats one time every week in calendar.', async ({pageManager}) => {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, '12:00 PM', pageManager.newAppointment.RepeatOptions.EveryWeek);
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(1);
+    await pageManager.calendar.Elements.NextDateArrow.click();
+    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(1);
+  });
+
   function formatDateToStringWithOneHourInterval(date: Date): string {
     // example of function return: Tuesday, 03 January, 2023 09:12 - 10:12
     const datePlus1Hour = new Date(date).setHours(date.getHours() + 1);
