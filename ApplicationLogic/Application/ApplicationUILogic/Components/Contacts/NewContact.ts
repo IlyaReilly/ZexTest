@@ -11,12 +11,23 @@ export class NewContact extends BaseApplicationPage {
 
   Buttons = {
     Save: this.Containers.MainContainer.locator('"Save"'),
+    PlusEmail: this.Containers.MainContainer.locator('_react=[name="email"] >> [data-testid*="Plus"]'),
+    PlusPhone: this.Containers.MainContainer.locator('_react=[name="phone"] >> [data-testid*="Plus"]'),
+    PlusWebsite: this.Containers.MainContainer.locator('_react=[name="URL"] >> [data-testid*="Plus"]'),
+    PlusAddress: this.Containers.MainContainer.locator('_react=[name="address"] >> [data-testid*="Plus"]'),
+    MinusEmail: this.Containers.MainContainer.locator('_react=[name="email"] >> [data-testid*="Minus"]'),
+    MinusPhone: this.Containers.MainContainer.locator('_react=[name="phone"] >> [data-testid*="Minus"]'),
+    MinusWebsite: this.Containers.MainContainer.locator('_react=[name="URL"] >> [data-testid*="Minus"]'),
+    MinusAddress: this.Containers.MainContainer.locator('_react=[name="address"] >> [data-testid*="Minus"]'),
   };
 
   Inputs = {
     FirstName: this.Containers.MainContainer.locator('[placeholder="First Name*"]'),
     LastName: this.Containers.MainContainer.locator('[placeholder="Last Name*"]'),
     Email: this.Containers.MainContainer.locator('[placeholder="E-mail"]'),
+    PhoneNumber: this.Containers.MainContainer.locator('[placeholder="Number"]'),
+    Website: this.Containers.MainContainer.locator('[placeholder="Website"]'),
+    Address: this.Containers.MainContainer.locator('[placeholder="Street"]'),
   };
 
   async CreateNewContact(firstName, lastName, email) {
