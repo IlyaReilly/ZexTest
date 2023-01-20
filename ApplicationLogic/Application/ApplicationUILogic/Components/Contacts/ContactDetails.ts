@@ -15,8 +15,8 @@ export class ContactDetails extends BaseApplicationPage {
   };
 
   Buttons = {
-    DetailsChevronUp: this.Containers.MainContainer.locator('_react=[icon = "ArrowIosUpward"]').first(),
-    DetailsChevronDown: this.Containers.MainContainer.locator('_react=[icon = "ArrowIosDownward"]').first(),
+    DetailsChevronUp: this.Containers.MainContainer.locator('_react=[data-testid="contact-preview-content-desktop"] >> _react=ArrowIosUpward'),
+    DetailsChevronDown: this.Containers.MainContainer.locator('_react=[data-testid="contact-preview-content-desktop"] >> _react=ArrowIosDownward'),
 
   };
 

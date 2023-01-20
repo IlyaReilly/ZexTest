@@ -11,14 +11,14 @@ export class NewContact extends BaseApplicationPage {
 
   Buttons = {
     Save: this.Containers.MainContainer.locator('"Save"'),
-    PlusEmail: this.Containers.MainContainer.locator('_react=I[name = "email"] >> [data-testid = "icon: Plus"]'),
-    PlusPhone: this.Containers.MainContainer.locator('_react=I[name = "phone"] >> [data-testid = "icon: Plus"]'),
-    PlusWebsite: this.Containers.MainContainer.locator('_react=I[name = "URL"] >> [data-testid = "icon: Plus"]'),
-    PlusAddress: this.Containers.MainContainer.locator('_react=I[name = "address"] >> [data-testid = "icon: Plus"]'),
-    MinusEmail: this.Containers.MainContainer.locator('_react=I[name = "email"] >> [data-testid = "icon: Minus"]'),
-    MinusPhone: this.Containers.MainContainer.locator('_react=I[name = "phone"] >> [data-testid = "icon: Minus"]'),
-    MinusWebsite: this.Containers.MainContainer.locator('_react=I[name = "URL"] >> [data-testid = "icon: Minus"]'),
-    MinusAddress: this.Containers.MainContainer.locator('_react=I[name = "address"] >> [data-testid = "icon: Minus"]'),
+    PlusEmail: this.Containers.MainContainer.locator('_react=[name="email"] >> [data-testid*="Plus"]'),
+    PlusPhone: this.Containers.MainContainer.locator('_react=[name="phone"] >> [data-testid*="Plus"]'),
+    PlusWebsite: this.Containers.MainContainer.locator('_react=[name="URL"] >> [data-testid*="Plus"]'),
+    PlusAddress: this.Containers.MainContainer.locator('_react=[name="address"] >> [data-testid*="Plus"]'),
+    MinusEmail: this.Containers.MainContainer.locator('_react=[name="email"] >> [data-testid*="Minus"]'),
+    MinusPhone: this.Containers.MainContainer.locator('_react=[name="phone"] >> [data-testid*="Minus"]'),
+    MinusWebsite: this.Containers.MainContainer.locator('_react=[name="URL"] >> [data-testid*="Minus"]'),
+    MinusAddress: this.Containers.MainContainer.locator('_react=[name="address"] >> [data-testid*="Minus"]'),
   };
 
   Inputs = {
