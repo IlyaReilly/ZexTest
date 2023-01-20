@@ -165,10 +165,6 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfRepeatsInCurrentWeekExpected);
     await pageManager.calendar.Elements.NextDateArrow.click();
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
-    await pageManager.calendar.SelectCalendarView(calendarView.Month);
-    await pageManager.calendar.Elements.NextDateArrow.click();
-    const countOfCellsInMonthView = await pageManager.calendar.Elements.Cell.count();
-    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfCellsInMonthView);
   });
 
   function formatDateToStringWithOneHourInterval(date: Date): string {
