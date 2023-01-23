@@ -160,8 +160,7 @@ test.describe('Calendars tests', async () => {
     const startDateTimeInAppointment = new Date(dateWithTimeIntervalInAppointment.split(' -')[0]);
     const countOfRepeatsInCurrentWeekExpected = countOfDaysInWeek - startDateTimeInAppointment.getDay();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, undefined, pageManager.newAppointment.RepeatOptions.EveryDay);
-    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await SelectOnlyCalendarAndWeekView({pageManager});
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfRepeatsInCurrentWeekExpected);
     await pageManager.calendar.Elements.NextDateArrow.click();
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
@@ -170,8 +169,7 @@ test.describe('Calendars tests', async () => {
   test('TC330. Create Appointment with repeat option "Every week". Appointment repeats one time every week in calendar.', async ({pageManager}) => {
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, '12:00 PM', pageManager.newAppointment.RepeatOptions.EveryWeek);
-    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await SelectOnlyCalendarAndWeekView({pageManager});
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(1);
     await pageManager.calendar.Elements.NextDateArrow.click();
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(1);
@@ -198,4 +196,9 @@ test.describe('Calendars tests', async () => {
     await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
   };
+
+  async function SelectOnlyCalendarAndWeekView({pageManager}) {
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+  }
 });
