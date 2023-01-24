@@ -75,7 +75,7 @@ export class NewAppointment extends BaseApplicationPage {
     if (repeatOption) {
       await this.SelectRepeatOption(repeatOption);
     }
-    await this.TextBox.Body.type(body);
+    await this.TextBox.Body.fill(body);
     await this.Buttons.Send.click();
   };
 

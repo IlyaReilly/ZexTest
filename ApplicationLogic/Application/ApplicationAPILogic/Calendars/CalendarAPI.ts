@@ -7,22 +7,28 @@ export class CalendarAPI extends BaseAPI {
   };
 
   async GetAllAppointments(user: string) {
-    const startEndExpand = this.StartEndRangeCounterForSearch();
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
       data: {
-        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": startEndExpand.endExpand, "calExpandInstStart": startEndExpand.startExpand, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": "inid:\"10\" OR inid:\"2823\""}}}, "Header": {"context": {"_jsns": "urn:zimbra", "session": {"id": "145760", "_content": "145760"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 108.0.0.0 (Windows)", "version": "22.12.0_ZEXTRAS_202212 carbonio 20221124-1328 FOSS"}}},
+        Body: {
+          SearchRequest: {
+            "query": {"_content": 'inid:"3" OR inid:"10"'},
+            "_jsns": 'urn:zimbraMail',
+            "types": "appointment",
+          },
+        },
+        Header: {
+          context: {
+            _jsns: 'urn:zimbra',
+            account: {by: 'name', _content: user},
+          },
+        },
       },
     });
     const body = await this.GetResponseBody(response);
     if (body.Body.SearchResponse.appt) {
-      const arrayOfAppointments = body.Body.SearchResponse.appt;
-      const arrayOfAppointmentsIds = await Promise.all(arrayOfAppointments.map(async (appointment) => {
-        return appointment.invId;
-      }));
-      return arrayOfAppointmentsIds;
-    } else {
-      return [];
+      return (body.Body.SearchResponse.appt).map((appt) => appt.id);
     };
+    return [];
   };
 
   async GetCalendarFolders(user: string) {
@@ -40,21 +46,6 @@ export class CalendarAPI extends BaseAPI {
     return folder.id;
   };
 
-  async CalendarSearchQuery(query: string, user: string) {
-    let id = '';
-    const startEndExpand = this.StartEndRangeCounterForSearch();
-    const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
-      data: {
-        "Body": {"SearchRequest": {"_jsns": "urn:zimbraMail", "limit": "500", "calExpandInstEnd": startEndExpand.endExpand, "calExpandInstStart": startEndExpand.startExpand, "offset": 0, "sortBy": "none", "types": "appointment", "query": {"_content": `${query} ( inid:\"10\")`}}}, "Header": {"context": {"_jsns": "urn:zimbra", "notify": {"seq": 45}, "session": {"id": "11151", "_content": "11151"}, "account": {"by": "name", "_content": user}, "userAgent": {"name": "CarbonioWebClient - Chrome 103.0.0.0 (Windows)", "version": "22.6.1_ZEXTRAS_202206 agent 20220621-1442 FOSS"}}},
-      },
-    });
-    const body = await this.GetResponseBody(response);
-    if (body.Body.SearchResponse.appt) {
-      id = body.Body.SearchResponse.appt[0].invId;
-    }
-    return id;
-  };
-
   async DeleteAppointmentsViaAPI({apiManager}) {
     const allAppionmentsIds = await this.GetAllAppointments(BaseTest.userForLogin.login);
     await Promise.all(allAppionmentsIds.map(async (id) => await this.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
@@ -69,13 +60,5 @@ export class CalendarAPI extends BaseAPI {
   async DeleteAppointmentsAndCalendarsViaAPI({apiManager}) {
     await this.DeleteAppointmentsViaAPI({apiManager});
     await this.DeleteCalendarsViaAPI({apiManager});
-  };
-
-  StartEndRangeCounterForSearch() {
-    const currentDate = Date.now();
-    const startYear = 2022;
-    const currentYear = new Date().getFullYear();
-    const oneYearInMillisecond = 31536000000;
-    return {startExpand: currentDate - oneYearInMillisecond*(currentYear - startYear), endExpand: currentDate};
   };
 }
