@@ -9,6 +9,8 @@ test.describe('Contacts tests', async () => {
   let lastName;
   let email;
   let tagName;
+  let value1;
+  let value2;
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     firstName = BaseTest.dateTimePrefix();
@@ -18,6 +20,8 @@ test.describe('Contacts tests', async () => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     tagName = BaseTest.dateTimePrefix() + 'Tag';
+    value1 = 'testvalue1';
+    value2 = 'testvalue2';
     await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
   });
@@ -174,6 +178,102 @@ test.describe('Contacts tests', async () => {
     await expect(pageManager.newContact.Inputs.Address).toBeEmpty();
   });
 
+  test('TC626. Add 2 email in contact. Email field expandable in contact info, both emails are visible', async ({pageManager}) => {
+    await CreateContactWithTwoFields({pageManager}, pageManager.newContact.Buttons.PlusEmail, pageManager.newContact.Inputs.Email);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.EmailChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`"${value1}"`)).toBeVisible();
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`"${value2}"`)).toBeVisible();
+  });
+
+  test('TC627. Add 2 phone numbers. Phone Contacts field expandable in contact info, both phone numbers are visible', async ({pageManager}) => {
+    await CreateContactWithTwoFields({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`"${value1}"`)).toBeVisible();
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`"${value2}"`)).toBeVisible();
+  });
+
+  // skipped because of issue # 147
+  test.skip('TC628. Add 2 websites. Website field expandable in contact info, both websites are visible', async ({pageManager}) => {
+    await CreateContactWithTwoFields({pageManager}, pageManager.newContact.Buttons.PlusWebsite, pageManager.newContact.Inputs.Website);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.WebsiteChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`"${value1}"`)).toBeVisible();
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`"${value2}"`)).toBeVisible();
+  });
+
+  // skipped because of issue # 148
+  test.skip('TC629. Add 2 addresses. Address field expandable in contact info, both addresses are visible', async ({pageManager}) => {
+    await CreateContactWithTwoFields({pageManager}, pageManager.newContact.Buttons.PlusAddress, pageManager.newContact.Inputs.Address);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.AddressChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`"${value1}"`)).toBeVisible();
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`"${value2}"`)).toBeVisible();
+  });
+
+  test('TC630. Add Mobile Phone number. Mobile Phone number icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.SelectPhoneType, pageManager.newContact.TypeOptions.MobileType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Mobile}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  test('TC631. Add Work Phone number. Work Phone number icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.SelectPhoneType, pageManager.newContact.TypeOptions.WorkType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  test('TC632. Add Home Phone number. Home Phone number icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.SelectPhoneType, pageManager.newContact.TypeOptions.HomeType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  test('TC633. Add Other Phone number. Other Phone number icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.SelectPhoneType, pageManager.newContact.TypeOptions.OtherType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  // skipped because of issue # 147
+  test.skip('TC634. Add Work Website. Work Website icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.SelectWebsiteType, pageManager.newContact.TypeOptions.WorkType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.WebsiteChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  // skipped because of issue # 147
+  test.skip('TC635. Add Home Website. Home Website icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.SelectWebsiteType, pageManager.newContact.TypeOptions.HomeType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.WebsiteChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  // skipped because of issue # 147
+  test.skip('TC636. Add Other Website. Other Website icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.SelectWebsiteType, pageManager.newContact.TypeOptions.OtherType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.WebsiteChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  // skipped because of issue # 148
+  test.skip('TC637. Add Work Address. Work Address icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.SelectAddressType, pageManager.newContact.TypeOptions.WorkType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.AddressChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  // skipped because of issue # 148
+  test.skip('TC638. Add Home Address. Home Address icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.SelectAddressType, pageManager.newContact.TypeOptions.HomeType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.AddressChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${value1}"]`).first()).toBeVisible();
+  });
+
+  // skipped because of issue # 148
+  test.skip('TC639. Add Other Address. Other Address icon is visible', async ({pageManager}) => {
+    await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.SelectAddressType, pageManager.newContact.TypeOptions.OtherType);
+    await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.AddressChevronDown);
+    await expect(pageManager.contactDetails.Dropdown.DropdownList.locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${value1}"]`).first()).toBeVisible();
+  });
+
   async function DeleteContactAndOpenTrashFolder({apiManager, pageManager}) {
     const contactId = await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
@@ -217,7 +317,7 @@ test.describe('Contacts tests', async () => {
   async function CreateAndClickContactAndHideContactDetails({apiManager, pageManager}) {
     await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.contactsList.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
-    await pageManager.contactDetails.Buttons.DetailsChevronUp.click();
+    await pageManager.contactDetails.Chevrons.DetailsChevronUp.click();
   };
 
   async function FillInputFieldAndClickMinusInNewItemBoard({pageManager}, field, minusbutton) {
@@ -230,5 +330,31 @@ test.describe('Contacts tests', async () => {
     const contactId = await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Contacts.click();
     return contactId;
+  };
+
+  async function FillTwoFields(field) {
+    await field.nth(0).fill(value1);
+    await field.nth(1).fill(value2);
+  };
+
+  async function CreateContactWithTwoFields({pageManager}, button, field) {
+    await ClickPlusButtonInNewItemBoard({pageManager}, button);
+    await FillTwoFields(field);
+    await pageManager.newContact.Inputs.FirstName.fill(firstName);
+    await pageManager.newContact.Buttons.Save.click();
+  };
+
+  async function CreateContactAndSelectFieldType({pageManager}, button, field, typebox, typeoption) {
+    await ClickPlusButtonInNewItemBoard({pageManager}, button);
+    await FillTwoFields(field);
+    await typebox.first().click();
+    await typeoption.click();
+    await pageManager.newContact.Inputs.FirstName.fill(firstName);
+    await pageManager.newContact.Buttons.Save.click();
+  };
+
+  async function ClickContactAndExpandChevron({pageManager}, chevron) {
+    await pageManager.contactsList.Elements.ContactByFirstName(firstName).click();
+    await chevron.click();
   };
 });
