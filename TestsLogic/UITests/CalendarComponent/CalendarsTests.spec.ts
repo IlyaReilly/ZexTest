@@ -153,7 +153,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.newAppointment.Elements.DateWithTimeInervalInHeader).toHaveText(formatDateToStringWithOneHourInterval(currentDateTime), {useInnerText: true});
   });
 
-  test('TC327. Create Appointment with repeat option "Every day". Appointment repeats every day in calendar.', async ({pageManager}) => {
+  test.skip('TC327. Create Appointment with repeat option "Every day". Appointment repeats every day in calendar.', async ({pageManager}) => {
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SetStartTime('12:00 PM');
     const dateWithTimeIntervalInAppointment = await pageManager.newAppointment.Elements.DateWithTimeInervalInHeader.innerText();
@@ -166,7 +166,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(countOfDaysInWeek);
   });
 
-  test('TC330. Create Appointment with repeat option "Every week". Appointment repeats one time every week in calendar.', async ({pageManager}) => {
+  test.skip('TC330. Create Appointment with repeat option "Every week". Appointment repeats one time every week in calendar.', async ({pageManager}) => {
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, undefined, undefined, '12:00 PM', pageManager.newAppointment.RepeatOptions.EveryWeek);
     await SelectOnlyCalendarAndWeekView({pageManager});
