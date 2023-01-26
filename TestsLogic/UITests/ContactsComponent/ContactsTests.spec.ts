@@ -215,7 +215,7 @@ test.describe('Contacts tests', async () => {
   };
 
   async function CreateAndClickContactAndHideContactDetails({apiManager, pageManager}) {
-    await apiManager.createContactsAPI.CreateContact(firstName, BaseTest.userForLogin.login);
+    await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await pageManager.contactsList.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`).first().click();
     await pageManager.contactDetails.Buttons.DetailsChevronUp.click();
   };

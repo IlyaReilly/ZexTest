@@ -59,6 +59,7 @@ export class NewAppointment extends BaseApplicationPage {
 
   async SendAppointment(title: string, body: string, attendees = BaseTest.userForLogin.login, privateApp = false, location?: string, startTime?: string, repeatOption?: Locator) {
     await this.TextBox.EventTitle.scrollIntoViewIfNeeded();
+    await this.TextBox.EventTitle.click();
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();
     await this.TextBox.Attendees.fill(attendees);
@@ -74,7 +75,8 @@ export class NewAppointment extends BaseApplicationPage {
     }
     if (repeatOption) {
       await this.SelectRepeatOption(repeatOption);
-    }
+    };
+    await this.TextBox.Body.click();
     await this.TextBox.Body.fill(body);
     await this.Buttons.Send.click();
   };

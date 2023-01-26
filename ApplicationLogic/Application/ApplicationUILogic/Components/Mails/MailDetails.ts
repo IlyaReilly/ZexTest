@@ -20,7 +20,7 @@ export class MailDetails extends BaseApplicationPage {
     BccRecipient: this.Containers.MainContainer.locator('_react=[label="Bcc: "] >> [class*="contact-names"]'),
     Body: this.MailBodyIframe.locator('body'),
     FlagIcon: this.Containers.MainContainer.locator('[data-testid="FlagIcon"]'),
-    ActionWithMailNotification: this.page.locator('[data-testid="snackbar"]'),
+    ActionWithMailNotification: this.page.locator(this.InheritedFields.NotificationLocator),
     AttachmentFile: this.Containers.MainContainer.locator('_react=[att]'),
   };
 

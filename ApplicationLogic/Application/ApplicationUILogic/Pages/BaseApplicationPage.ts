@@ -19,5 +19,6 @@ export class BaseApplicationPage extends BasePage {
     DropdownListLocator: '[data-testid="dropdown-popper-list"]',
     ChatInfoContainerLocator: '[class*="InfoPanelContainer"]',
     ChatMembersContainerLocator: '[class*="ParticipantsListWidget"]',
+    NotificationLocator: '[data-testid="snackbar"]',
   };
 }

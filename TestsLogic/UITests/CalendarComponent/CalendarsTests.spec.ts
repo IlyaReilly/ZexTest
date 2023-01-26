@@ -39,53 +39,33 @@ test.describe('Calendars tests', async () => {
 
   test('TC302. Create new appointment. New appointment is presented in calendar.', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
-    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
-    await elementHandle?.waitForElementState('hidden');
-    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-    await pageManager.calendar.SelectCalendarView(calendarView.Day);
-    await pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`).waitFor();
+    await CreateAppointmentAndSelectOnlyCalendar({pageManager, page});
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   });
 
   test('TC305. Create new private appointment. Appointment has Lock icon.', async ({page, pageManager}) => {
     BaseTest.doubleTimeout();
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, true);
-    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
-    await elementHandle?.waitForElementState('hidden');
-    await page.waitForLoadState('domcontentloaded');
-    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    await CreateAppointmentAndSelectOnlyCalendar({pageManager, page}, true);
     await expect(pageManager.calendar.Selectors.PrivateAppLockIconSelector).toBeVisible();
   });
 
   test('TC325. Create new appointment with location. Location should be demonstrated in appointment info.', async ({page, pageManager}) => {
-    const location = dateTimePrefix + 'Location';
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, false, location);
-    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
-    await elementHandle?.waitForElementState('hidden');
-    await page.waitForLoadState('domcontentloaded');
-    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
-    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    const location = dateTimePrefix + ' Location';
+    await CreateAppointmentAndSelectOnlyCalendar({pageManager, page}, false, location);
     await pageManager.calendar.OpenAppointmentInfoPopup(appointmentTitle);
     await expect(pageManager.calendar.Containers.AppointmentPopupContainer.locator(`'${location}'`), 'Location should be demonstrated in appointment info.').toBeVisible();
   });
 
   test('TC320. Delete appointment to trash. Appointment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
-    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
-    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    await CreateAppointmentViaApiAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.DeleteAppointmentToTrash(appointmentTitle);
     await AppointmentInTheTrashValidation({pageManager});
   });
 
   test('TC321. Move appointment to trash. Appointment is presented in trash calendar.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
-    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
-    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    await CreateAppointmentViaApiAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.OpenAppointmentOtherActions(appointmentTitle);
     await pageManager.calendar.AppointmentPopup.OtherActionsMove.click();
     await pageManager.moveAppointmentModal.Elements.Trash.click();
@@ -97,8 +77,7 @@ test.describe('Calendars tests', async () => {
   test.skip('TC323. Move appointment to the new Calendar. Appointment in new Calendar.', async ({pageManager, apiManager, page}) => {
     const newCalendarName = dateTimePrefix + 'NewCalendar';
     BaseTest.doubleTimeout();
-    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
-    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
+    await CreateAppointmentViaApiAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.OpenAppointmentOtherActions(appointmentTitle);
     await pageManager.calendar.AppointmentPopup.OtherActionsMove.click();
     await pageManager.moveAppointmentModal.Buttons.NewCalendar.click();
@@ -117,7 +96,6 @@ test.describe('Calendars tests', async () => {
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await apiManager.deleteCalendarAPI.CancelAppointmentRequest(runtimeAppoinmentId, BaseTest.userForLogin.login);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
-    await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     await pageManager.calendar.DeleteAppointmentPermanently(appointmentTitle);
     await page.reload(); // temporary step due to a bug on Firefox UI
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(0);
@@ -126,7 +104,7 @@ test.describe('Calendars tests', async () => {
   test('TC1001. Create tag in appointment. Tag icon should be visible in appointment.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
     test.fail(true, '138 When we create tag in appointment, window take error');
-    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
+    await CreateAppointmentViaApiAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.OpenModalForCreateTag(appointmentTitle);
     await pageManager.newTagModal.CreateTag(appointmentTag);
     await pageManager.sideSecondaryCalendarMenu.OpenTagChevron();
@@ -135,7 +113,7 @@ test.describe('Calendars tests', async () => {
 
   test('TC324. Move appointment to another date via drag&drop. Appointment should be present in another day.', async ({pageManager, apiManager, page}) => {
     BaseTest.doubleTimeout();
-    await CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page});
+    await CreateAppointmentViaApiAndSelectOnlyCalendar({pageManager, apiManager, page});
     await pageManager.calendar.DragAndDropAppointmentOnAnotherDay(appointmentTitle);
     await pageManager.editAfterMoveAppointmentModal.Buttons.SendEdit.click();
     await pageManager.calendar.Elements.DayButton.click();
@@ -186,6 +164,15 @@ test.describe('Calendars tests', async () => {
     return dateStringWithoutTime + ' ' + timeOneHourIntervalString;
   };
 
+  async function CreateAppointmentAndSelectOnlyCalendar({pageManager, page}, privateApp?, location?) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody, undefined, privateApp, location);
+    await pageManager.calendar.Elements.ActionWithAppointmentNotification.waitFor();
+    const elementHandle = await page.$(pageManager.calendar.Elements.ActionWithAppointmentNotification._selector);
+    await elementHandle?.waitForElementState('hidden');
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+  };
+
   async function AppointmentInTheTrashValidation({pageManager}) {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).not.toBeVisible();
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyTrash();
@@ -193,7 +180,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);
   };
 
-  async function CreateAppointmentAndSelectOnlyCalendar({pageManager, apiManager, page}) {
+  async function CreateAppointmentViaApiAndSelectOnlyCalendar({pageManager, apiManager, page}) {
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentTitle, BaseTest.userForLogin.login, '3', appointmentBody);
     await page.reload();
     await page.waitForLoadState('domcontentloaded');

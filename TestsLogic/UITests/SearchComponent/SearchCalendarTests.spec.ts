@@ -35,6 +35,7 @@ test.describe('Search tests', async () => {
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
     await page.waitForLoadState('domcontentloaded');
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.ChooseTagForAppointment(appointmentName, tagName);
   };
@@ -48,7 +49,6 @@ test.describe('Search tests', async () => {
   });
 
   test('TC726. Search by tag found appointment. The appointment should be found by tag', async ({apiManager, pageManager, page}) => {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await CreateAppointmentWithTag({pageManager, apiManager, page});
     await pageManager.headerMenu.MakeSearch(`tag:"${tagName}"`);
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${appointmentName}"`)).toBeVisible();
@@ -56,7 +56,6 @@ test.describe('Search tests', async () => {
 
   // 141 Bug with tag dropdown
   test.skip('TC713. Search by tag in advanced option found appointment. The appointment should be found by tag', async ({apiManager, pageManager, page}) => {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await CreateAppointmentWithTag({pageManager, apiManager, page});
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
     await pageManager.advancedFiltersModal.ChooseTagInDropdown(tagName);
