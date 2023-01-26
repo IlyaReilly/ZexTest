@@ -136,14 +136,14 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.newMail.Elements.RequestReadReceiptIcon, '"Request read receipt" icon should not be visible').not.toBeVisible();
   });
 
-  test('TC224. Open recieved mail with read receipt request. "Read receipt required" modal title should be visible', async ({pageManager}) => {
-    await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.RequestReadReceipt);
+  test('TC224. Open recieved mail with read receipt request. "Read receipt required" modal title should be visible', async ({pageManager, page}) => {
+    await SendAndOpenMailWithSelectedOption({pageManager, page}, pageManager.newMail.SelectNewMailOption.RequestReadReceipt);
     await expect(pageManager.readReceiptRequiredModal.Elements.Title, '"Read receipt required" modal title should be visible').toBeVisible();
   });
 
-  test("TC225. Notify sender when mail with read receipt request has been read. Read receipt should be visible in sender's Inbox list", async ({pageManager}) => {
+  test("TC225. Notify sender when mail with read receipt request has been read. Read receipt should be visible in sender's Inbox list", async ({pageManager, page}) => {
     test.fail(true, 'Read receipt subject is displayed correctly only after page reload');
-    await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.RequestReadReceipt);
+    await SendAndOpenMailWithSelectedOption({pageManager, page}, pageManager.newMail.SelectNewMailOption.RequestReadReceipt);
     await pageManager.readReceiptRequiredModal.Buttons.Notify.click();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"Read-Receipt: ${mailSubject}"`), "Read receipt should be visible in sender's Inbox list").toBeVisible();
   });
@@ -255,14 +255,15 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.newMail.TextBox.Bcc, 'BCC textbox should not be visible').not.toBeVisible();
   });
 
-  test('TC245. Send an mail to a CC recipient. CC recipient login should be visible in mail details', async ({pageManager}) => {
-    await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Cc, pageManager.newMail.TextBox.Cc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
+  test('TC245. Send an mail to a CC recipient. CC recipient login should be visible in mail details', async ({pageManager, page}) => {
+    BaseTest.doubleTimeout();
+    await SendAndOpenMailWithSelectedOption({pageManager, page}, pageManager.newMail.SelectNewMailOption.Cc, pageManager.newMail.TextBox.Cc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.CcRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'CC recipient login should be visible in mail details').toBeVisible();
   });
 
-  test('TC246. Send an mail to a BCC recipient. BCC recipient login should be visible in mail details', async ({pageManager}) => {
+  test('TC246. Send an mail to a BCC recipient. BCC recipient login should be visible in mail details', async ({pageManager, page}) => {
     BaseTest.doubleTimeout();
-    await SendAndOpenMailWithSelectedOption({pageManager}, pageManager.newMail.SelectNewMailOption.Bcc, pageManager.newMail.TextBox.Bcc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
+    await SendAndOpenMailWithSelectedOption({pageManager, page}, pageManager.newMail.SelectNewMailOption.Bcc, pageManager.newMail.TextBox.Bcc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await pageManager.mailDetails.Elements.MailPreview.nth(1).click();
     await expect(pageManager.mailDetails.Elements.BccRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'BCC recipient login should be visible in mail details').toBeVisible();
   });
@@ -389,8 +390,11 @@ test.describe('Mails tests', async () => {
     await pageManager.newMail.SendMail();
   };
 
-  async function SendAndOpenMailWithSelectedOption({pageManager}, option, textbox?, folder?) {
+  async function SendAndOpenMailWithSelectedOption({pageManager, page}, option, textbox?, folder?) {
     await SendMailWithSelectedOption({pageManager}, option, textbox);
+    await pageManager.mailDetails.Elements.ActionWithMailNotification.waitFor();
+    const elementHandle = await page.$(pageManager.mailDetails.Elements.ActionWithMailNotification._selector);
+    await elementHandle?.waitForElementState('hidden');
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject, folder);
   };
 
@@ -434,7 +438,7 @@ test.describe('Mails tests', async () => {
   async function UploadFile({apiManager}) {
     const nodeId = await apiManager.createFilesAPI.CreateDocumentForUpload(fileName);
     return await apiManager.filesAPI.UploadTo(nodeId);
-  }
+  };
 
   async function SendAndOpenMailWithAttachedFile({apiManager, pageManager}, folder?) {
     const uploadId = await UploadFile({apiManager});

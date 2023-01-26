@@ -8,21 +8,7 @@ export class CalendarAPI extends BaseAPI {
 
   async GetAllAppointments(user: string) {
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
-      data: {
-        Body: {
-          SearchRequest: {
-            "query": {"_content": 'inid:"3" OR inid:"10"'},
-            "_jsns": 'urn:zimbraMail',
-            "types": "appointment",
-          },
-        },
-        Header: {
-          context: {
-            _jsns: 'urn:zimbra',
-            account: {by: 'name', _content: user},
-          },
-        },
-      },
+      data: {Body: {SearchRequest: {"query": {"_content": 'inid:"3" OR inid:"10"'}, "_jsns": 'urn:zimbraMail', "types": "appointment"}}, Header: {context: {_jsns: 'urn:zimbra', account: {by: 'name', _content: user}}}},
     });
     const body = await this.GetResponseBody(response);
     if (body.Body.SearchResponse.appt) {
@@ -30,6 +16,7 @@ export class CalendarAPI extends BaseAPI {
     };
     return [];
   };
+
 
   async GetCalendarFolders(user: string) {
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.getFolderRequest}`, {
@@ -47,18 +34,15 @@ export class CalendarAPI extends BaseAPI {
   };
 
   async DeleteAppointmentsViaAPI({apiManager}) {
-    const allAppionmentsIds = await this.GetAllAppointments(BaseTest.userForLogin.login);
-    await Promise.all(allAppionmentsIds.map(async (id) => await this.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
+    await Promise.all((await this.GetAllAppointments(BaseTest.userForLogin.login)).map(async (id) => await this.ItemActionRequest(apiManager.calendarAPI.ActionRequestTypes.delete, id, BaseTest.userForLogin.login)));
   };
 
   async DeleteCalendarsViaAPI({apiManager}) {
-    const allCalendarFolders = await this.GetCalendarFolders(BaseTest.userForLogin.login);
-    const allCustomFolders = allCalendarFolders.filter((folder) => folder.deletable);
-    await Promise.all(allCustomFolders.map(async (folder) => await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login)));
+    await Promise.all(((await this.GetCalendarFolders(BaseTest.userForLogin.login)).filter((folder) => folder.deletable)).map(async (folder) => await apiManager.deleteCalendarAPI.DeleteCalendarFolderRequest(folder.id, BaseTest.userForLogin.login)));
   };
 
   async DeleteAppointmentsAndCalendarsViaAPI({apiManager}) {
     await this.DeleteAppointmentsViaAPI({apiManager});
     await this.DeleteCalendarsViaAPI({apiManager});
   };
-}
+};

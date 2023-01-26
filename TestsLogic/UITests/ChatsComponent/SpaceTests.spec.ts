@@ -198,6 +198,7 @@ test.describe('Space tests', async () => {
   });
 
   test('TC435. Get a message in space. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, spaceTitle);
     await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
   });

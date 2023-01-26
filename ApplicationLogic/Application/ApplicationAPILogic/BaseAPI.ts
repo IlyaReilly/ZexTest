@@ -77,7 +77,7 @@ export class BaseAPI {
     delete: 'delete',
   };
 
-  constructor(page : Page) {
+  constructor(page: Page) {
     this.page = page;
   };
 

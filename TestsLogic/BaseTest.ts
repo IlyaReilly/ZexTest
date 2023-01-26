@@ -21,7 +21,7 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
     case 'firefox': multiplier = 10; break;
     case 'webkit': multiplier = 20; break;
     default: multiplier = 0;
-    }
+    };
 
     BaseTest.userForLogin = BaseTest.GetUserFromPool(workerInfo.workerIndex, multiplier, domain);
     BaseTest.secondUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 1, multiplier, domain);

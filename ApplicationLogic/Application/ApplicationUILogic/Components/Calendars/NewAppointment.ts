@@ -57,7 +57,7 @@ export class NewAppointment extends BaseApplicationPage {
     TimeListItem: this.Containers.MainContainer.locator('[class*=time-list-item]'),
   };
 
-  async SendAppointment(title: string, body: string, attendees = BaseTest.secondUser.login, privateApp = false, location?: string, startTime?: string, repeatOption?: Locator) {
+  async SendAppointment(title: string, body: string, attendees = BaseTest.userForLogin.login, privateApp = false, location?: string, startTime?: string, repeatOption?: Locator) {
     await this.TextBox.EventTitle.scrollIntoViewIfNeeded();
     await this.TextBox.EventTitle.fill(title);
     await this.TextBox.Attendees.click();

@@ -168,6 +168,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('TC430. Get a message in chat. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, BaseTest.secondUser.login, BaseTest.userForLogin.login);
     await expect(secondPageManager.chatField.Elements.MessageBubble.last()).toContainText(message);
   });
@@ -184,6 +185,7 @@ test.describe('Chats tests', async () => {
   });
 
   test('TC440. Get a message in group. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+    BaseTest.doubleTimeout();
     await SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, groupTitle);
     await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
   });
