@@ -10,10 +10,6 @@ export class ContactDetails extends BaseApplicationPage {
     EditContainer: this.page.locator('_react=[path*="editId"]'),
   };
 
-  Dropdown = {
-    DropdownList: this.page.locator(this.InheritedFields.DropdownListLocator),
-  };
-
   TypeIcons = {
     Mobile: ('_react=[icon="SmartphoneOutline"]'),
     Work: ('_react=[icon="BriefcaseOutline"]'),
