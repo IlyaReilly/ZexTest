@@ -178,100 +178,100 @@ test.describe('Contacts tests', async () => {
     await expect(pageManager.newContact.Inputs.Address).toBeEmpty();
   });
 
-  test('TC626. Add 2 email in contact. Email field expandable in contact info, both emails are visible', async ({pageManager}) => {
+  test('TC626. Add 2 email in contact. Email field expandable in contact info, both emails are visible', async ({page, pageManager}) => {
     await CreateContactWithTwoFields({pageManager}, pageManager.newContact.Buttons.PlusEmail, pageManager.newContact.Inputs.Email);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.EmailChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`"${firstInputBox}"`)).toBeVisible();
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`"${secondInputBox}"`)).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`"${firstInputBox}"`)).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`"${secondInputBox}"`)).toBeVisible();
   });
 
-  test('TC627. Add 2 phone numbers. Phone Contacts field expandable in contact info, both phone numbers are visible', async ({pageManager}) => {
+  test('TC627. Add 2 phone numbers. Phone Contacts field expandable in contact info, both phone numbers are visible', async ({page, pageManager}) => {
     await CreateContactWithTwoFields({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`"${firstInputBox}"`)).toBeVisible();
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`"${secondInputBox}"`)).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`"${firstInputBox}"`)).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`"${secondInputBox}"`)).toBeVisible();
   });
 
   // skipped because of issue # 147
-  test.skip('TC628. Add 2 websites. Website field expandable in contact info, both websites are visible', async ({pageManager}) => {
+  test.skip('TC628. Add 2 websites. Website field expandable in contact info, both websites are visible', async ({page, pageManager}) => {
     await CreateContactWithTwoFields({pageManager}, pageManager.newContact.Buttons.PlusWebsite, pageManager.newContact.Inputs.Website);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.WebsiteChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`"${firstInputBox}"`)).toBeVisible();
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`"${secondInputBox}"`)).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`"${firstInputBox}"`)).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`"${secondInputBox}"`)).toBeVisible();
   });
 
   // skipped because of issue # 148
-  test.skip('TC629. Add 2 addresses. Address field expandable in contact info, both addresses are visible', async ({pageManager}) => {
+  test.skip('TC629. Add 2 addresses. Address field expandable in contact info, both addresses are visible', async ({page, pageManager}) => {
     await CreateContactWithTwoFields({pageManager}, pageManager.newContact.Buttons.PlusAddress, pageManager.newContact.Inputs.Address);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.AddressChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`"${firstInputBox}"`)).toBeVisible();
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`"${secondInputBox}"`)).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`"${firstInputBox}"`)).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`"${secondInputBox}"`)).toBeVisible();
   });
 
-  test('TC630. Add Mobile Phone number. Mobile Phone number icon is visible', async ({pageManager}) => {
+  test('TC630. Add Mobile Phone number. Mobile Phone number icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.SelectPhoneType, pageManager.newContact.TypeOptions.MobileType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Mobile}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Mobile}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
-  test('TC631. Add Work Phone number. Work Phone number icon is visible', async ({pageManager}) => {
+  test('TC631. Add Work Phone number. Work Phone number icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.SelectPhoneType, pageManager.newContact.TypeOptions.WorkType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
-  test('TC632. Add Home Phone number. Home Phone number icon is visible', async ({pageManager}) => {
+  test('TC632. Add Home Phone number. Home Phone number icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.SelectPhoneType, pageManager.newContact.TypeOptions.HomeType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
-  test('TC633. Add Other Phone number. Other Phone number icon is visible', async ({pageManager}) => {
+  test('TC633. Add Other Phone number. Other Phone number icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.PhoneNumber, pageManager.newContact.Buttons.SelectPhoneType, pageManager.newContact.TypeOptions.OtherType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.PhoneNumberChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
   // skipped because of issue # 147
-  test.skip('TC634. Add Work Website. Work Website icon is visible', async ({pageManager}) => {
+  test.skip('TC634. Add Work Website. Work Website icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.SelectWebsiteType, pageManager.newContact.TypeOptions.WorkType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.WebsiteChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
   // skipped because of issue # 147
-  test.skip('TC635. Add Home Website. Home Website icon is visible', async ({pageManager}) => {
+  test.skip('TC635. Add Home Website. Home Website icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.SelectWebsiteType, pageManager.newContact.TypeOptions.HomeType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.WebsiteChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
   // skipped because of issue # 147
-  test.skip('TC636. Add Other Website. Other Website icon is visible', async ({pageManager}) => {
+  test.skip('TC636. Add Other Website. Other Website icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Website, pageManager.newContact.Buttons.SelectWebsiteType, pageManager.newContact.TypeOptions.OtherType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.WebsiteChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
   // skipped because of issue # 148
-  test.skip('TC637. Add Work Address. Work Address icon is visible', async ({pageManager}) => {
+  test.skip('TC637. Add Work Address. Work Address icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.SelectAddressType, pageManager.newContact.TypeOptions.WorkType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.AddressChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Work}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
   // skipped because of issue # 148
-  test.skip('TC638. Add Home Address. Home Address icon is visible', async ({pageManager}) => {
+  test.skip('TC638. Add Home Address. Home Address icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.SelectAddressType, pageManager.newContact.TypeOptions.HomeType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.AddressChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Home}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
   // skipped because of issue # 148
-  test.skip('TC639. Add Other Address. Other Address icon is visible', async ({pageManager}) => {
+  test.skip('TC639. Add Other Address. Other Address icon is visible', async ({page, pageManager}) => {
     await CreateContactAndSelectFieldType({pageManager}, pageManager.newContact.Buttons.PlusPhone, pageManager.newContact.Inputs.Address, pageManager.newContact.Buttons.SelectAddressType, pageManager.newContact.TypeOptions.OtherType);
     await ClickContactAndExpandChevron({pageManager}, pageManager.contactDetails.Chevrons.AddressChevronDown);
-    await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${firstInputBox}"]`).first()).toBeVisible();
+    await expect(page.locator(pageManager.baseApplicationPage.InheritedFields.DropdownListLocator).locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
   async function DeleteContactAndOpenTrashFolder({apiManager, pageManager}) {
