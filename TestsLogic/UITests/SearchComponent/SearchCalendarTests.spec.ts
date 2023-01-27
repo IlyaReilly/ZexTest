@@ -31,11 +31,10 @@ test.describe('Search tests', async () => {
   };
 
   async function CreateAppointmentWithTag({pageManager, apiManager, page}) {
-    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
-    await page.waitForLoadState('domcontentloaded');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
+    await page.waitForLoadState('domcontentloaded');
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.ChooseTagForAppointment(appointmentName, tagName);
   };

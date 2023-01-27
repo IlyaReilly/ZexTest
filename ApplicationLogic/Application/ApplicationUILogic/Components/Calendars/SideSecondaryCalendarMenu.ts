@@ -114,7 +114,7 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
     },
     Unselect: async () => {
       await this.Tabs.Trash.waitFor();
-      if (!(await this.Icons.TrashUnchecked.isVisible())) {
+      if (await this.Icons.TrashUnchecked.isHidden()) {
         await this.Tabs.Trash.click();
       }
     },
@@ -129,7 +129,7 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
     },
     Unselect: async () => {
       await this.Tabs.Calendar.waitFor();
-      if (!(await this.Icons.CalendarUnchecked.isVisible())) {
+      if (await this.Icons.CalendarUnchecked.isHidden()) {
         await this.Tabs.Calendar.click();
       }
     },
