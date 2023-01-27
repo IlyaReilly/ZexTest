@@ -7,6 +7,14 @@ export class NewContact extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.NewItemBoardLocator),
+    DropdownListContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+  };
+
+  TypeOptions = {
+    MobileType: this.Containers.DropdownListContainer.locator('"mobile"'),
+    WorkType: this.Containers.DropdownListContainer.locator('"work"'),
+    HomeType: this.Containers.DropdownListContainer.locator('"home"'),
+    OtherType: this.Containers.DropdownListContainer.locator('"other"'),
   };
 
   Buttons = {
@@ -19,6 +27,9 @@ export class NewContact extends BaseApplicationPage {
     MinusPhone: this.Containers.MainContainer.locator('_react=[name="phone"] >> [data-testid*="Minus"]'),
     MinusWebsite: this.Containers.MainContainer.locator('_react=[name="URL"] >> [data-testid*="Minus"]'),
     MinusAddress: this.Containers.MainContainer.locator('_react=[name="address"] >> [data-testid*="Minus"]'),
+    SelectPhoneType: this.Containers.MainContainer.locator('_react=[name="phone"] >> "Select type"'),
+    SelectWebsiteType: this.Containers.MainContainer.locator('_react=[name="URL"] >> "Select type"'),
+    SelectAddressType: this.Containers.MainContainer.locator('_react=[name="address"] >> "Select type"'),
   };
 
   Inputs = {
@@ -38,5 +49,5 @@ export class NewContact extends BaseApplicationPage {
     await this.Inputs.Email.click();
     await this.Inputs.Email.fill(email);
     await this.Buttons.Save.click();
-  }
+  };
 }

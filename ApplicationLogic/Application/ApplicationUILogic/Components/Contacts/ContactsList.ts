@@ -15,6 +15,7 @@ export class ContactsList extends BaseApplicationPage {
     Count: this.Containers.MainContainer.locator('[data-testid*="BreadcrumbCount"]'),
     Contact: this.Containers.ListContainer.locator(this.InheritedFields.ListItemReactLocator),
     ContactTag: this.Containers.ListContainer.locator('[data-testid="TagIcon"]'),
+    ContactByFirstName: (firstName) => this.Containers.ListContainer.locator(`${this.InheritedFields.ListItemReactLocator}[item.firstName="${firstName}"]`),
   };
 
   ContactContextMenuOptions = {
