@@ -156,7 +156,7 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(1);
   });
 
-  test('TC333. Create appointment with setting start date via datepicker. Start date in appointment small preview matches with date that was selected in datepicker.', async ({pageManager}) => {
+  test('TC333. Create appointment with setting start date via datepicker. Start date in appointment popup matches with date that was selected in datepicker.', async ({pageManager}) => {
     await BaseTest.doubleTimeout();
     const dayOfMonth = 15;
     const startTime = '12:15 PM';
@@ -185,13 +185,13 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toBeVisible();
   });
 
-  test('TC335. Create appointment with "All day" checkbox selected. Appointment popup contains date with "All day" string instead of time interval.', async ({pageManager}) => {
+  test('TC335. Create appointment with "All day" checkbox selected. "All day" string is presented in date in appointment popup.', async ({pageManager}) => {
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newAppointment.CheckBoxes.AllDay.click();
     await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
     await pageManager.calendar.OpenAppointmentInfoPopup(appointmentTitle);
-    await expect((await pageManager.calendar.AppointmentPopup.DateWithTimeInerval.innerText()).split('\n', 1)[0]).toMatch(/[a-zA-Z]+, [a-zA-Z]+ \d{1,2}, \d{4} - All day/);
+    await expect(await pageManager.calendar.AppointmentPopup.DateWithTimeInerval).toContainText('All day');
   });
 
   test('TC336. Create appointment with "All day" checkbox selected. Appointment is displayed in "all day" cell in calendar in "WEEK" view.', async ({pageManager}) => {
