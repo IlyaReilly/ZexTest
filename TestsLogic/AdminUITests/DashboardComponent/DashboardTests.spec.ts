@@ -2,7 +2,7 @@ import {test} from '../../BaseTest';
 import {expect} from '@playwright/test';
 
 test.describe('Admin. Dashboard tests.', async () => {
-  test.afterEach(async ({adminPageManager}) => {
+  test.beforeEach(async ({adminPageManager}) => {
     await adminPageManager.adminSideMenu.OpenMenuTab(adminPageManager.adminSideMenu.SideMenuTabs.Dashboard);
   });
 
