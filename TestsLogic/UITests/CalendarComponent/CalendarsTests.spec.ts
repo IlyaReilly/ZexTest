@@ -156,6 +156,60 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toHaveCount(1);
   });
 
+  test('TC333. Create appointment with setting start date via datepicker. Start date in appointment small preview matches with date that was selected in datepicker.', async ({pageManager}) => {
+    await BaseTest.doubleTimeout();
+    const dayOfMonth = 15;
+    const startTime = '12:15 PM';
+    const endTime = '1:15 PM';
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.Buttons.StartDatePicker.click();
+    await pageManager.newAppointment.DatePickerElements.NextMonth.click();
+    const monthAndYear = await pageManager.newAppointment.DatePickerElements.MonthAndYear.textContent();
+    const [month, year] = monthAndYear.split(' ');
+    const DateWithTimeInervalExpected = new Date(`${dayOfMonth} ${monthAndYear}`).toLocaleDateString('en', {weekday: 'long'}) + ', ' + `${month} ${dayOfMonth}, ${year} ${startTime} - ${endTime}`;
+    await pageManager.newAppointment.SelectDayOfMonth(dayOfMonth);
+    await pageManager.newAppointment.SelectTime(startTime);
+    await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
+    await pageManager.calendar.SelectCalendarView(calendarView.Month);
+    await pageManager.calendar.Elements.NextDateArrow.click();
+    await pageManager.calendar.OpenAppointmentInfoPopup(appointmentTitle);
+    await expect(pageManager.calendar.AppointmentPopup.DateWithTimeInerval).toContainText(DateWithTimeInervalExpected);
+  });
+
+  test('TC334. Create appointment via click on time slot in calendar in "WEEK" view. Appointment is displayed in calendar.', async ({pageManager}) => {
+    const numberOfMondayNoonTimeSlotInWeekView = 72;
+    await SelectOnlyCalendarAndWeekView({pageManager});
+    await pageManager.calendar.Elements.NextDateArrow.click();
+    await pageManager.calendar.Elements.TimeSlot.nth(numberOfMondayNoonTimeSlotInWeekView).click({force: true});
+    await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
+    await expect(pageManager.calendar.Elements.AppointmentWithTitle(appointmentTitle)).toBeVisible();
+  });
+
+  test('TC335. Create appointment with "All day" checkbox selected. Appointment popup contains date with "All day" string instead of time interval.', async ({pageManager}) => {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.CheckBoxes.AllDay.click();
+    await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
+    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await pageManager.calendar.OpenAppointmentInfoPopup(appointmentTitle);
+    await expect((await pageManager.calendar.AppointmentPopup.DateWithTimeInerval.innerText()).split('\n', 1)[0]).toMatch(/[a-zA-Z]+, [a-zA-Z]+ \d{1,2}, \d{4} - All day/);
+  });
+
+  test('TC336. Create appointment with "All day" checkbox selected. Appointment is displayed in "all day" cell in calendar in "WEEK" view.', async ({pageManager}) => {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newAppointment.CheckBoxes.AllDay.click();
+    await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
+    await pageManager.calendar.SelectCalendarView(calendarView.Week);
+    await expect(pageManager.calendar.Elements.AllDayAppointment.locator(`"${appointmentTitle}"`)).toBeVisible();
+  });
+
+  test('TC337. Create appointment via click on "all day" cell in calendar in "WEEK" view. Appointment modal window opens with "All day" checkbox selected.', async ({pageManager}) => {
+    const numberOfMondayAllDayCellInMonthView = 1;
+    await SelectOnlyCalendarAndWeekView({pageManager});
+    await pageManager.calendar.Elements.NextDateArrow.click();
+    await pageManager.calendar.Elements.AllDayCell.nth(numberOfMondayAllDayCellInMonthView).click({force: true});
+    await expect(pageManager.newAppointment.CheckBoxes.AllDayCheckboxIcon).toHaveAttribute('data-testid', 'icon: CheckmarkSquare');
+  });
+
   function formatDateToStringWithOneHourInterval(date: Date): string {
     // example of function return: Tuesday, 03 January, 2023 09:12 - 10:12
     const datePlus1Hour = new Date(date).setHours(date.getHours() + 1);
@@ -191,4 +245,9 @@ test.describe('Calendars tests', async () => {
     await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
   };
+
+  async function SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle: string, appointmentBody: string) {
+    await await pageManager.newAppointment.SendAppointment(appointmentTitle, appointmentBody);
+    await pageManager.sideSecondaryCalendarMenu.SelectOnlyCalendar();
+  }
 });

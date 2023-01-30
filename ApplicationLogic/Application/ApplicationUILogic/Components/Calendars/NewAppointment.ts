@@ -13,6 +13,7 @@ export class NewAppointment extends BaseApplicationPage {
   };
 
   DropdownContainer = this.Containers.MainContainer.locator(this.InheritedFields.DropdownListLocator);
+  DatePickerContainer = this.Containers.MainContainer.locator('[class="react-datepicker"]');
 
   bodyIframe = this.page.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
   row = this.Containers.MainContainer.locator('[class^="Text__Comp"]');
@@ -51,10 +52,16 @@ export class NewAppointment extends BaseApplicationPage {
 
   CheckBoxes = {
     Private: this.Containers.MainContainer.locator('"Private"'),
+    AllDay: this.Containers.MainContainer.locator('[data-testid="editor-allDay"]'),
+    AllDayCheckboxIcon: this.Containers.MainContainer.locator('[data-testid="editor-allDay"]').locator('[data-testid$="Square"]'),
   };
 
   DatePickerElements = {
-    TimeListItem: this.Containers.MainContainer.locator('[class*=time-list-item]'),
+    TimeListItem: this.DatePickerContainer.locator('[class*=time-list-item]'),
+    DayOfMonth: this.DatePickerContainer.locator('[class$=__week]>[class*=__day]'),
+    NextMonth: this.DatePickerContainer.locator('[aria-label="Next Month"]'),
+    PreviousMonth: this.DatePickerContainer.locator('[aria-label="Previous Month"]'),
+    MonthAndYear: this.DatePickerContainer.locator('[class*="current-month"]'),
   };
 
   async SendAppointment(title: string, body: string, attendees = BaseTest.userForLogin.login, privateApp = false, location?: string, startTime?: string, repeatOption?: Locator) {
@@ -93,5 +100,9 @@ export class NewAppointment extends BaseApplicationPage {
   async SetStartTime(startTime: string) {
     await this.Buttons.StartDatePicker.click();
     await this.SelectTime(startTime);
+  }
+
+  async SelectDayOfMonth(dayOfMonth: number) {
+    await this.DatePickerElements.DayOfMonth.locator(`"${dayOfMonth}"`).click();
   }
 }

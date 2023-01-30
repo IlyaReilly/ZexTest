@@ -20,10 +20,12 @@ export class Calendar extends BaseApplicationPage {
   };
 
   Elements = {
-    Appointment: this.Containers.MainContainer.locator('[class="rbc-event"]'),
+    Appointment: this.Containers.MainContainer.locator('[data-testid="calendar-event"]'),
+    AllDayAppointment: this.Containers.MainContainer.locator('[class="rbc-allday-cell"]').locator('[data-testid="calendar-event"]'),
     CurrentDate: this.Containers.MainContainer.locator('[class^="Text__Comp"] >> nth=1'),
-    Cell: this.Containers.MainContainer.locator('.rbc-day-bg'),
+    AllDayCell: this.Containers.MainContainer.locator('.rbc-day-bg'),
     Column: this.Containers.MainContainer.locator('.rbc-time-column'),
+    TimeSlot: this.Containers.MainContainer.locator('[class^="rbc-day-slot"] .rbc-time-slot'),
     ActiveViewButton: this.Containers.MainContainer.locator('_react=[backgroundColor="highlight"] >> nth=0'),
     NextDateArrow: this.Containers.MainContainer.locator('[data-testid*="ChevronRight"]'),
     TodayButton: this.Containers.MainContainer.locator('button:has-text("today")'),
@@ -43,6 +45,7 @@ export class Calendar extends BaseApplicationPage {
     OtherActionsTags: this.Containers.OtherActionsContainer.locator('"Tags"'),
     NewTagButton: this.Containers.OtherActionsContainer.locator('"New Tag"'),
     TagItem: this.Containers.OtherActionsContainer.locator('[class*="Padding__Comp"] + [class*="Container__ContainerEl"]'),
+    DateWithTimeInerval: this.Containers.AppointmentPopupContainer.locator('[class^="Text__Comp"]').nth(1),
   };
 
   ReminderPopup = {
