@@ -7,9 +7,8 @@ test.describe('Admin. Dashboard tests.', async () => {
     await page.close();
   });
 
-  test('ATC201. Open Dashboard Tab. Dashboard path should be visible', async ({adminPageManager, adminPage}) => {
+  test('ATC201. Open Dashboard Tab. Dashboard path should be visible', async ({adminPageManager}) => {
     await adminPageManager.adminSideMenu.OpenMenuTab(adminPageManager.adminSideMenu.SideMenuTabs.Dashboard);
-    await adminPage.pause();
     await expect(adminPageManager.adminHeaderMenu.Containers.PathContainer).toHaveText('Home');
   });
 });
