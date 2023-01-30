@@ -154,7 +154,7 @@ test.describe('Contacts tests', async () => {
 
   test('TC621. Contact info view expands. Contact Details field appears', async ({pageManager, apiManager}) => {
     await CreateAndClickContactAndHideContactDetails({apiManager, pageManager});
-    await pageManager.contactDetails.Buttons.DetailsChevronDown.click();
+    await pageManager.contactDetails.Chevrons.DetailsChevronDown.click();
     await expect(pageManager.contactDetails.Fields.FirstName).toBeVisible();
   });
 
