@@ -1,8 +1,15 @@
 import {test} from '../../BaseTest';
+import {expect} from '@playwright/test';
 
 // Only architecture for admin tests
 test.describe('Admin. Dashboard tests.', async () => {
-  test.skip('Dashboard tests.', async ({adminPage, adminPageManager}) => {
-    await adminPageManager.adminHeaderMenu.Dropdowns.Create.click();
+  test.afterEach(async ({page}) => {
+    await page.close();
+  });
+
+  test('ATC201. Open Dashboard Tab. Dashboard path should be visible', async ({adminPageManager, adminPage}) => {
+    await adminPageManager.adminSideMenu.OpenMenuTab(adminPageManager.adminSideMenu.SideMenuTabs.Dashboard);
+    await adminPage.pause();
+    await expect(adminPageManager.adminHeaderMenu.Containers.PathContainer).toHaveText('Home');
   });
 });
