@@ -156,11 +156,10 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC333. Create appointment with setting start date via datepicker. Start date in appointment popup matches with date that was selected in datepicker.', async ({pageManager}) => {
-    await BaseTest.doubleTimeout();
     const dayOfMonth = 15;
     const startTime = '12:15 PM';
     const endTime = '1:15 PM';
-    await pageManager.headerMenu.Buttons.NewItem.click();
+    await OpenCalendarTabAndClickNewItemButton({pageManager});
     await pageManager.newAppointment.Buttons.StartDatePicker.click();
     await pageManager.newAppointment.DatePickerElements.NextMonth.click();
     const monthAndYear = await pageManager.newAppointment.DatePickerElements.MonthAndYear.textContent();
@@ -177,6 +176,7 @@ test.describe('Calendars tests', async () => {
 
   test('TC334. Create appointment via click on time slot in calendar in "WEEK" view. Appointment is displayed in calendar.', async ({pageManager}) => {
     const numberOfMondayNoonTimeSlotInWeekView = 72;
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await SelectOnlyCalendarAndWeekView({pageManager});
     await pageManager.calendar.Elements.NextDateArrow.click();
     await pageManager.calendar.Elements.TimeSlot.nth(numberOfMondayNoonTimeSlotInWeekView).click({force: true});
@@ -185,7 +185,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC335. Create appointment with "All day" checkbox selected. "All day" string is presented in date in appointment popup.', async ({pageManager}) => {
-    await pageManager.headerMenu.Buttons.NewItem.click();
+    await OpenCalendarTabAndClickNewItemButton({pageManager});
     await pageManager.newAppointment.CheckBoxes.AllDay.click();
     await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
@@ -194,7 +194,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC336. Create appointment with "All day" checkbox selected. Appointment is displayed in "all day" cell in calendar in "WEEK" view.', async ({pageManager}) => {
-    await pageManager.headerMenu.Buttons.NewItem.click();
+    await OpenCalendarTabAndClickNewItemButton({pageManager});
     await pageManager.newAppointment.CheckBoxes.AllDay.click();
     await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
@@ -203,6 +203,7 @@ test.describe('Calendars tests', async () => {
 
   test('TC337. Create appointment via click on "all day" cell in calendar in "WEEK" view. Appointment modal window opens with "All day" checkbox selected.', async ({pageManager}) => {
     const numberOfMondayAllDayCellInMonthView = 1;
+    await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await SelectOnlyCalendarAndWeekView({pageManager});
     await pageManager.calendar.Elements.NextDateArrow.click();
     await pageManager.calendar.Elements.AllDayCell.nth(numberOfMondayAllDayCellInMonthView).click({force: true});
