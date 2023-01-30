@@ -7,6 +7,7 @@ export class AdminHeaderMenu extends BaseAdminPage {
 
   Containers = {
     MainContainer: this.page.locator('_react=[onMobileMenuClick]'),
+    PathContainer: this.page.locator('_react=[mainAlignment="baseline"]'),
   };
 
   Dropdowns = {
