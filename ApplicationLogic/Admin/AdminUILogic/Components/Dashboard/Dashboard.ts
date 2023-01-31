@@ -6,11 +6,20 @@ export class Dashboard extends BaseAdminPage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('_react=[path="/dashboard"]'),
+    MainContainer: this.page.locator('_react=[key="dashboard"]'),
+  };
+
+  Fields = {
+    WelcomeMessage: this.Containers.MainContainer.locator('_react=[userName="Carbonio Admin"]'),
+    QuickAccess: this.Containers.MainContainer.locator('_react=[quickAccessItems]'),
+    YourNotifications: this.Containers.MainContainer.locator('_react=[goToMailNotificationt]'),
+    ServersList: this.Containers.MainContainer.locator('_react=[goToMailStoreServerList]'),
   };
 
   Buttons = {
+    OpenAccounts: this.Fields.QuickAccess.locator('[class*="ActionContainer"]:has-text("Accounts") >> "Open"'),
+    OpenMailingList: this.Fields.QuickAccess.locator('[class*="ActionContainer"]:has-text("Mailing List") >> "Open"'),
     GoToNotification: this.Containers.MainContainer.locator('"GO TO NOTIFICATION"'),
     GoToMailstoresServersList: this.Containers.MainContainer.locator('"GO TO MAILSTORES SERVERS LIST"'),
   };
-}
+};

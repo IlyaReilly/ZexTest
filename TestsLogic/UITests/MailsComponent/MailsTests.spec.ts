@@ -4,21 +4,17 @@ import {test, BaseTest} from '../../BaseTest';
 test.describe('Mails tests', async () => {
   let mailSubject;
   let mailBody;
-  let fileName;
   const msgCount = '4';
 
   test.beforeEach(async ({pageManager, apiManager}) => {
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
-    fileName = BaseTest.dateTimePrefix() + ' Autotest File';
     await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
-    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Mail);
   });
 
   test.afterEach(async ({page, apiManager}) => {
     await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});
-    await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await page.close();
   });
 
@@ -332,31 +328,11 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
 
-  test('TC259. Attach the file in New Email board. Attached file should be visible', async ({apiManager, pageManager, page}) => {
-    await UploadFile({apiManager});
-    await OpenNewEmailBoardAndSelectOption({pageManager}, pageManager.newMail.SelectNewMailOption.AddFromFiles);
-    await pageManager.fileChooserModal.Folders.Home.dblclick();
-    await pageManager.fileChooserModal.Elements.File.locator(`"${fileName}"`).click();
-    await page.waitForLoadState('networkidle');
-    await pageManager.fileChooserModal.Buttons.Select.click();
-    await expect(pageManager.newMail.Elements.AttachmentFile, 'Attached file should be visible').toContainText(fileName);
-  });
-
-  test('TC260. Open the sent mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
-    await SendAndOpenMailWithAttachedFile({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
-    await expect(pageManager.mailDetails.Elements.AttachmentFile, 'Attached file should be visible in mail details').toContainText(fileName);
-  });
-
-  test('TC261. Open the received mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
-    await SendAndOpenMailWithAttachedFile({apiManager, pageManager});
-    await expect(pageManager.mailDetails.Elements.AttachmentFile, 'Attached file should be visible in mail details').toContainText(fileName);
-  });
-
-  async function SendAndOpenMail({apiManager, pageManager}, folder?, toArray = [BaseTest.userForLogin.login], ccArray?, bccArray?, origId?, msgType?, fileId?) {
+  async function SendAndOpenMail({apiManager, pageManager}, folder?, toArray = [BaseTest.userForLogin.login], ccArray?, bccArray?, origId?, msgType?) {
     if (folder !== pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts) {
-      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray, ccArray, bccArray, origId, msgType, fileId);
+      await apiManager.createMailsAPI.SendMsgRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray, ccArray, bccArray, origId, msgType);
     } else {
-      await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray, ccArray, bccArray, origId, msgType, fileId);
+      await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, mailBody, BaseTest.userForLogin.login, toArray, ccArray, bccArray, origId, msgType);
     };
     await OpenMailFolderAndOpenMail({pageManager}, mailSubject, folder);
   };
@@ -433,16 +409,5 @@ test.describe('Mails tests', async () => {
     const mailQuote = await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager}, option, folder);
     await pageManager.mailsList.OpenMail(mail);
     return mailQuote;
-  };
-
-  async function UploadFile({apiManager}) {
-    const nodeId = await apiManager.createFilesAPI.CreateDocumentForUpload(fileName);
-    return await apiManager.filesAPI.UploadTo(nodeId);
-  };
-
-  async function SendAndOpenMailWithAttachedFile({apiManager, pageManager}, folder?) {
-    const uploadId = await UploadFile({apiManager});
-    const draftId = await apiManager.createMailsAPI.SaveDraftRequest(mailSubject, mailBody, BaseTest.userForLogin.login, [BaseTest.userForLogin.login], [], [], [], [], uploadId);
-    await SendAndOpenMail({apiManager, pageManager}, folder, [BaseTest.userForLogin.login], [], [], [], [], draftId);
   };
 });

@@ -40,11 +40,11 @@ test.describe('Tags tests', async () => {
   });
 
   for (const color of Colors) {
-    test('TC1011. Change color in tag in side calendar menu. Tag should be change color' + `${color.ColorSet}`, async ({pageManager, page}) => {
+    test('TC1011. Change color in tag in side calendar menu. Tag should be change color' + `${color.ColorSet}`, async ({pageManager}) => {
       await pageManager.tagModals.ExpandTagsFolder();
       await pageManager.tagModals.OpenTagContextMenu.EditTagModal(tagName);
       await pageManager.editTagModal.ChooseColor(`${color.ColorSet}`);
       await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`${color.ColorCheck}[icon = "Tag"]`)).toBeVisible();
     });
-  }
+  };
 });
