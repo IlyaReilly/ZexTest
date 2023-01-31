@@ -8,8 +8,4 @@ export class ServersList extends BaseAdminPage {
   Containers = {
     MainContainer: this.page.locator('_react=[path="/manage/mailstores"]'),
   };
-
-  Fields = {
-    ServersList: this.Containers.MainContainer.locator('"Servers List"'),
-  };
 }

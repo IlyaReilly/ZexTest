@@ -8,8 +8,4 @@ export class Notifications extends BaseAdminPage {
   Containers = {
     MainContainer: this.page.locator('_react=[path="/logandqueues/notifications"]'),
   };
-
-  Fields = {
-    NotificationList: this.Containers.MainContainer.locator('"Notifications\’ List"'),
-  };
 }
