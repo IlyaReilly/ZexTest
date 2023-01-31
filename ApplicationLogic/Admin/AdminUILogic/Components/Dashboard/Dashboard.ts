@@ -8,4 +8,9 @@ export class Dashboard extends BaseAdminPage {
   Containers = {
     MainContainer: this.page.locator('_react=[path="/dashboard"]'),
   };
+
+  Buttons = {
+    GoToNotification: this.Containers.MainContainer.locator('"GO TO NOTIFICATION"'),
+    GoToMailstoresServersList: this.Containers.MainContainer.locator('"GO TO MAILSTORES SERVERS LIST"'),
+  };
 }
