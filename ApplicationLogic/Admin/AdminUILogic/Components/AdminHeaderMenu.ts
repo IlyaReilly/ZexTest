@@ -21,4 +21,9 @@ export class AdminHeaderMenu extends BaseAdminPage {
   Links = {
     HelpCenter: this.Containers.MainContainer.locator('"Help Center"'),
   };
+
+  Items = {
+    Notifications: this.Containers.PathContainer.locator('"Notifications"'),
+    ServersList: this.Containers.PathContainer.locator('"Servers List"'),
+  };
 }
