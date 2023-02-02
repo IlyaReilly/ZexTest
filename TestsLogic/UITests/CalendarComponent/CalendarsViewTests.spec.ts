@@ -32,26 +32,26 @@ test.describe('Calendars view tests', async () => {
 
   test('TC308. Calendar view: Day', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Day);
-    await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 1 Cell').toHaveCount(1);
+    await expect(pageManager.calendar.Elements.AllDayCell, 'Calendar have to contain 1 Cell').toHaveCount(1);
     await expect(pageManager.calendar.Elements.Column, 'Calendar have to consist of 2 Columns').toHaveCount(2);
   });
 
   test('TC309. Calendar view: Week', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Week);
-    await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 7 Cell').toHaveCount(7);
+    await expect(pageManager.calendar.Elements.AllDayCell, 'Calendar have to contain 7 Cell').toHaveCount(7);
     await expect(pageManager.calendar.Elements.Column, 'Calendar have to consist of 8 Columns').toHaveCount(8);
   });
 
   test('TC310. Calendar view: Work Week', async ({pageManager, page}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.WorkWeek);
     await BaseTest.waitForLoaderSpinnerHidden(page);
-    await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 5 Cell').toHaveCount(5);
+    await expect(pageManager.calendar.Elements.AllDayCell, 'Calendar have to contain 5 Cell').toHaveCount(5);
     await expect(pageManager.calendar.Elements.Column, 'Calendar have to consist of 6 Columns').toHaveCount(6);
   });
 
   test('TC311. Calendar view: Month', async ({pageManager}) => {
     await pageManager.calendar.SelectCalendarView(calendarView.Month);
-    await expect(pageManager.calendar.Elements.Cell, 'Calendar have to contain 35 Cell').toHaveCount(35);
+    await expect(pageManager.calendar.Elements.AllDayCell, 'Calendar have to contain 35 Cell').toHaveCount(35);
   });
 
   test('TC312. Calendar view: Current Day Schedule is displayed by "TODAY" button clicking', async ({pageManager}) => {
