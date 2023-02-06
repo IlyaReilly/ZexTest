@@ -11,7 +11,7 @@ export class SideSecondaryChatsMenu extends BaseApplicationPage {
   };
 
   Buttons = {
-    CreateVirtualRoom: this.Containers.MainContainer.locator('"Create Virtual Room"'),
+    CreateVirtualRoom: this.Containers.MainContainer.locator('"Create Room"'),
     PersonalVirtualRoom: this.Containers.MainContainer.locator('"PERSONAL VIRTUAL ROOM"'),
     CopyLink: this.Containers.MainContainer.locator('"COPY LINK"'),
     OpenDropdown: this.Containers.MainContainer.locator('[data-testid*="ArrowIosDownward"]'),
@@ -20,7 +20,7 @@ export class SideSecondaryChatsMenu extends BaseApplicationPage {
   Tabs = {
     Chats: this.Containers.MainContainer.locator('"Chats"'),
     Spaces: this.Containers.MainContainer.locator('"Spaces"'),
-    VirtualRooms: this.Containers.MainContainer.locator('"Virtual Rooms"'),
+    VirtualRooms: this.Containers.MainContainer.locator('"Rooms"'),
   };
 
   Textboxes = {

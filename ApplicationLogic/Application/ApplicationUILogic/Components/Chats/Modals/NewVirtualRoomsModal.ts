@@ -11,7 +11,7 @@ export class NewVirtualRoomsModal extends ModalWindowBase {
   };
 
   NewVirtualRoomDialog = {
-    NameTextbox: this.Containers.MainContainer.locator(`[name="Virtual Room's name*"]`),
+    NameTextbox: this.Containers.MainContainer.locator(`[name="Room's name*"]`),
   };
 
   async CreateVirtualRoom(title) {
