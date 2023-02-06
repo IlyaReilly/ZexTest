@@ -19,6 +19,12 @@ export class ContactDetails extends BaseApplicationPage {
 
   Fields = {
     FirstName: this.Containers.MainContainer.locator('_react=[label="First Name"]'),
+    LastName: this.Containers.MainContainer.locator('_react=[label="Last Name"]'),
+    Email: this.Containers.MainContainer.locator('_react=[label="E-mail address"]'),
+    PhoneNumber: this.Containers.MainContainer.locator('_react=[label="Phone contact"]'),
+    Website: this.Containers.MainContainer.locator('_react=[label="Website"]'),
+    Address: this.Containers.MainContainer.locator('_react=[label="Street"]'),
+
   };
 
   Chevrons = {
@@ -37,6 +43,12 @@ export class ContactDetails extends BaseApplicationPage {
   EditContactView = {
     Save: this.Containers.EditContainer.locator('"Save"'),
     FirstName: this.Containers.EditContainer.locator('[name="firstName"]'),
+    LastName: this.Containers.EditContainer.locator('[name="lastName"]'),
+    Email: this.Containers.EditContainer.locator('[name="email"]'),
+    PhoneNumber: this.Containers.EditContainer.locator('[name="phone"]'),
+    Website: this.Containers.EditContainer.locator('[name="URL"]'),
+    Address: this.Containers.EditContainer.locator('[name="address"]'),
+
   };
 }
 

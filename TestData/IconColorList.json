@@ -1,11 +1,11 @@
 [
     {
       "ColorSet": "'cyan'",
-      "ColorCheck": "_react=[customColor = '#2196d3']"
+      "ColorCheck": "_react=[customColor = '#29B6F6']"
     },
     {
       "ColorSet": "'green'",
-      "ColorCheck": "_react=[customColor = '#639030']"
+      "ColorCheck": "_react=[customColor = '#66BB6A']"
     },
     {
       "ColorSet": "'black'",
@@ -13,11 +13,11 @@
     },
     {
       "ColorSet": "'purple'",
-      "ColorCheck": "_react=[customColor = '#1a75a7']"
+      "ColorCheck": "_react=[customColor = '#7e57c2']"
     },
     {
       "ColorSet": "'red'",
-      "ColorCheck": "_react=[customColor = '#d74942']"
+      "ColorCheck": "_react=[customColor = '#ef5350']"
     },
     {
       "ColorSet": "'yellow'",
@@ -37,6 +37,6 @@
     },
     {
       "ColorSet": "'orange'",
-      "ColorCheck": "_react=[customColor = '#ba8b00']"
+      "ColorCheck": "_react=[customColor = '#FF7043']"
     }
   ]
