@@ -274,6 +274,44 @@ test.describe('Contacts tests', async () => {
     await expect(pageManager.newContact.Containers.DropdownListContainer.locator(`${pageManager.contactDetails.TypeIcons.Other}[label="${firstInputBox}"]`).first()).toBeVisible();
   });
 
+  test('TC640. Edit First name in Edit panel. New First name should be visible', async ({pageManager}) => {
+    await CreateContactAndOpenEditPanel({pageManager});
+    await FillFieldAndClickSave({pageManager}, pageManager.contactDetails.EditContactView.FirstName);
+    await expect(pageManager.contactDetails.Fields.FirstName).toContainText(newFirstName);
+  });
+
+  test('TC641. Edit Last name in Edit panel. New Last name should be visible', async ({pageManager}) => {
+    await CreateContactAndOpenEditPanel({pageManager});
+    await FillFieldAndClickSave({pageManager}, pageManager.contactDetails.EditContactView.LastName);
+    await expect(pageManager.contactDetails.Fields.LastName).toContainText(newFirstName);
+  });
+
+  test('TC642. Edit Email in Edit panel. New Email should be visible', async ({pageManager}) => {
+    await CreateContactAndOpenEditPanel({pageManager});
+    await FillFieldAndClickSave({pageManager}, pageManager.contactDetails.EditContactView.Email);
+    await expect(pageManager.contactDetails.Fields.Email).toContainText(newFirstName);
+  });
+
+  test('TC643. Edit Phone number in Edit panel. New Phone number should be visible', async ({pageManager}) => {
+    await CreateContactWithExtraFieldAndOpenEditPanel({pageManager}, pageManager.newContact.Inputs.PhoneNumber);
+    await FillFieldAndClickSave({pageManager}, pageManager.contactDetails.EditContactView.PhoneNumber);
+    await expect(pageManager.contactDetails.Fields.PhoneNumber).toContainText(newFirstName);
+  });
+
+  test('TC644. Edit Website in Edit panel. New Website should be visible', async ({pageManager}) => {
+    test.fail(true, 'Issue # 147');
+    await CreateContactWithExtraFieldAndOpenEditPanel({pageManager}, pageManager.newContact.Inputs.Website);
+    await FillFieldAndClickSave({pageManager}, pageManager.contactDetails.EditContactView.Website);
+    await expect(pageManager.contactDetails.Fields.Website).toContainText(newFirstName);
+  });
+
+  test('TC645. Edit Address in Edit panel. New Address should be visible', async ({pageManager}) => {
+    test.fail(true, 'Issue # 148');
+    await CreateContactWithExtraFieldAndOpenEditPanel({pageManager}, pageManager.newContact.Inputs.Address.first());
+    await FillFieldAndClickSave({pageManager}, pageManager.contactDetails.EditContactView.Address.first());
+    await expect(pageManager.contactDetails.Fields.Address.first()).toContainText(newFirstName);
+  });
+
   async function DeleteContactAndOpenTrashFolder({apiManager, pageManager}) {
     const contactId = await CreateContactAndOpenContactsBook({pageManager, apiManager});
     await apiManager.deleteContactsAPI.DeleteContactsById(contactId, BaseTest.userForLogin.login);
@@ -356,5 +394,28 @@ test.describe('Contacts tests', async () => {
   async function ClickContactAndExpandChevron({pageManager}, chevron) {
     await pageManager.contactsList.Elements.ContactByFirstName(firstName).click();
     await chevron.click();
+  };
+
+  async function ClickContactAndClickEdit({pageManager}) {
+    await pageManager.contactsList.Elements.ContactByFirstName(firstName).click();
+    await pageManager.contactDetails.ContactOptions.Edit.click();
+  }
+
+  async function CreateContactAndOpenEditPanel({pageManager}) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newContact.CreateNewContact(firstName, lastName, email);
+    await ClickContactAndClickEdit({pageManager});
+  };
+
+  async function CreateContactWithExtraFieldAndOpenEditPanel({pageManager}, field) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await field.fill(firstName);
+    await pageManager.newContact.CreateNewContact(firstName, lastName, email);
+    await ClickContactAndClickEdit({pageManager});
+  };
+
+  async function FillFieldAndClickSave({pageManager}, field) {
+    await field.fill(newFirstName);
+    await pageManager.contactDetails.EditContactView.Save.click();
   };
 });
