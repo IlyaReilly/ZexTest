@@ -10,14 +10,12 @@ import {allure} from "allure-playwright";
 
 export type TestOptions = {
   domain: string;
-  suite: string;
 };
 
 export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager, adminPage: Page, adminPageManager: AdminPageManager}>({
   domain: ['', {option: true}],
-  suite: ['', {option: true}],
 
-  page: async ({browser, domain, baseURL, suite}, use, workerInfo) => {
+  page: async ({browser, domain, baseURL}, use, workerInfo) => {
     let multiplier;
     switch (workerInfo.project.name) {
     case 'chromium': multiplier = 0; break;
@@ -32,7 +30,6 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
     BaseTest.fourthUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 3, multiplier, domain);
     BaseTest.baseUrl = baseURL;
     BaseTest.domain = domain;
-    BaseTest.suite = suite;
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
@@ -78,7 +75,6 @@ export class BaseTest {
   static baseUrl;
   static baseAdminUrl;
   static domain;
-  static suite;
   static userForLogin;
   static secondUser;
   static thirdUser;

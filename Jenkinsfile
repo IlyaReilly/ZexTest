@@ -17,7 +17,7 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh  """ npx playwright test --project="webkit" $suite """
+                  sh  """ npx playwright test --project="webkit" $SUITE """
                }
                post {
                   failure {
@@ -31,7 +31,7 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh """ npx playwright test --project="chromium" $suite """
+                  sh """ npx playwright test --project="chromium" $SUITE """
                }
                post {
                   failure {
@@ -45,7 +45,7 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh """ npx playwright test --project="firefox" $suite """
+                  sh """ npx playwright test --project="firefox" $SUITE """
                }
                post {
                   failure {
