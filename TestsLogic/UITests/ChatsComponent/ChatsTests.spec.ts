@@ -11,6 +11,7 @@ test.describe('Chats tests', async () => {
   const message = 'Hello! We are great team!';
 
   test.beforeEach(async ({pageManager, apiManager}) => {
+    BaseTest.setFeatureSuite.chats();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     groupTitle = dateTimePrefix + ' Autotest Group Topic';
     firstParticipant = BaseTest.secondUser.login;
@@ -103,13 +104,15 @@ test.describe('Chats tests', async () => {
     };
   };
 
-  test('TC403. Create chat. Conversation should be in Chats Tab.', async ({pageManager, apiManager}) => {
+  test('TC403. Create chat. Conversation should be in Chats Tab. @smoke', async ({pageManager, apiManager}) => {
+    BaseTest.setSuite.smoke();
     BaseTest.doubleTimeout();
     await CreateConversation({pageManager, apiManager}, firstParticipant);
     await expect(pageManager.sideSecondaryChatsMenu.ConversationItemDetails.Name.locator(`"${firstParticipant}"`)).toBeVisible();
   });
 
-  test('TC404. Create group. Group should be in Chats Tab.', async ({pageManager}) => {
+  test('TC404. Create group. Group should be in Chats Tab. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewGroup();
     await pageManager.newChatsModal.CreatedConversations.CreateGroup(BaseTest.secondUser.login, BaseTest.thirdUser.login, groupTitle);
@@ -162,12 +165,14 @@ test.describe('Chats tests', async () => {
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"${secondParticipant}"`)).toHaveCount(0);
   });
 
-  test('TC429. Send a message in chat. Sent message should be visible in Chat field.', async ({pageManager, apiManager}) => {
+  test('TC429. Send a message in chat. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     await CreateConversationAndSendMessage({pageManager, apiManager}, BaseTest.secondUser.login);
     await expect(pageManager.chatField.Elements.MessageBubble.last()).toContainText(message);
   });
 
-  test('TC430. Get a message in chat. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+  test('TC430. Get a message in chat. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, secondPageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
     await SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, BaseTest.secondUser.login, BaseTest.userForLogin.login);
     await expect(secondPageManager.chatField.Elements.MessageBubble.last()).toContainText(message);
@@ -179,12 +184,14 @@ test.describe('Chats tests', async () => {
     await expect(pageManager.chatField.Elements.MessageBubble).not.toBeVisible();
   });
 
-  test('TC439. Send a message in group. Sent message should be visible in Chat field.', async ({pageManager, apiManager}) => {
+  test('TC439. Send a message in group. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     await CreateConversationAndSendMessage({pageManager, apiManager}, groupTitle);
     await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
   });
 
-  test('TC440. Get a message in group. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+  test('TC440. Get a message in group. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, secondPageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
     await SendMessageAndOpenConversationAsSecondUser({pageManager, secondPageManager, apiManager}, groupTitle);
     await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);

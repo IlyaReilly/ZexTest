@@ -14,6 +14,7 @@ test.describe('Files tests', async () => {
   let unicFileName;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.files();
     unicFilePrefix = BaseTest.dateTimePrefix();
     unicFileName = unicFilePrefix + 'testAPI';
     await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
@@ -75,7 +76,8 @@ test.describe('Files tests', async () => {
     await pageManager.fileDetails.Elements.FileVersionNumber(3).waitFor();
   };
 
-  test('TC501. File with JPG extension can be uploaded', async ({pageManager}) => {
+  test('TC501. File with JPG extension can be uploaded. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     await pageManager.headerMenu.UploadNewFile('./TestData/Files/testFile2.jpg');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await expect(pageManager.filesList.Elements.File.locator(`"${jpgFileName}"`)).toBeVisible();
@@ -89,7 +91,8 @@ test.describe('Files tests', async () => {
     await expect((pageManager.fileDetails.Elements.FilePreview)).toBeVisible();
   });
 
-  test('TC503. File can be downloaded', async ({apiManager, pageManager}) => {
+  test('TC503. File can be downloaded. @criticalPath', async ({apiManager, pageManager}) => {
+    BaseTest.setSuite.criticalPath();
     try {
       await apiManager.createFilesAPI.UploadFileViaAPI(pngFile2, unicFilePrefix);
       await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);

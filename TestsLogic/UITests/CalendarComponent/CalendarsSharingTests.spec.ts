@@ -7,6 +7,7 @@ test.describe('Sharing calendar tests', async () => {
   let appointmentBody;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.calendars();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';

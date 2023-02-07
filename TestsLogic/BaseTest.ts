@@ -6,15 +6,17 @@ import {userPool, User} from '../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../ApplicationLogic/Application/ApplicationAPILogic/BaseAPI';
 import {AdminApiLoginMethod} from '../ApplicationLogic/Admin/AdminApiLogic/BaseAdminAPI';
+import {allure} from "allure-playwright";
 
 export type TestOptions = {
   domain: string;
+  suite: string;
 };
 
 export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager, adminPage: Page, adminPageManager: AdminPageManager}>({
   domain: ['', {option: true}],
 
-  page: async ({browser, domain, baseURL}, use, workerInfo) => {
+  page: async ({browser, domain, baseURL, suite}, use, workerInfo) => {
     let multiplier;
     switch (workerInfo.project.name) {
     case 'chromium': multiplier = 0; break;
@@ -29,6 +31,7 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
     BaseTest.fourthUser = BaseTest.GetUserFromPool(workerInfo.workerIndex + 3, multiplier, domain);
     BaseTest.baseUrl = baseURL;
     BaseTest.domain = domain;
+    BaseTest.suite = suite;
     const storagesPath = await BaseTest.ApiLogin(BaseTest.userForLogin, 'userForLoginStorageState');
     const page = await browser.newPage({storageState: storagesPath, strictSelectors: false});
     await page.goto('/');
@@ -74,6 +77,7 @@ export class BaseTest {
   static baseUrl;
   static baseAdminUrl;
   static domain;
+  static suite;
   static userForLogin;
   static secondUser;
   static thirdUser;
@@ -136,5 +140,26 @@ export class BaseTest {
 
   static async doubleTimeout() {
     await test.setTimeout(80000);
+  };
+
+  static setFeatureSuite = {
+    calendars: () => allure.suite('Calendars'),
+    chats: () => allure.suite('Chats'),
+    contacts: () => allure.suite('Contacts'),
+    files: () => allure.suite('Files'),
+    folders: () => allure.suite('Folders'),
+    mails: () => allure.suite('Mails'),
+    search: () => allure.suite('Search'),
+    login: () => allure.suite('Login'),
+  };
+
+  static setAllureSuite(suite) {
+    allure.parentSuite(suite);
+    suite === 'Smoke' ? allure.severity('blocker') : allure.severity('critical');
+  };
+
+  static setSuite = {
+    smoke: () => this.setAllureSuite('Smoke'),
+    criticalPath: () => this.setAllureSuite('Critical path'),
   };
 }

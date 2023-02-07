@@ -6,6 +6,7 @@ test.describe('Documents tests', async () => {
   let newFileName;
 
   test.beforeEach(async ({apiManager, pageManager}) => {
+    BaseTest.setFeatureSuite.files();
     fileName = BaseTest.dateTimePrefix() + ' Autotest File Name';
     newFileName = BaseTest.dateTimePrefix() + ' Autotest New File Name';
     await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
@@ -46,18 +47,21 @@ test.describe('Documents tests', async () => {
     };
   };
 
-  test('TC512. Create document file. Document file should be in Home tab.', async ({pageManager}) => {
+  test('TC512. Create document file. Document file should be in Home tab. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     BaseTest.doubleTimeout();
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewDocument, fileName);
     await expect(pageManager.filesList.Elements.File.locator(`"${fileName}"`)).toBeVisible();
   });
 
-  test('TC513. Create spreadsheet file. Spreadsheet file should be in Home tab.', async ({pageManager}) => {
+  test('TC513. Create spreadsheet file. Spreadsheet file should be in Home tab. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewSpreadsheet, fileName);
     await expect(pageManager.filesList.Elements.File.locator(`"${fileName}"`)).toBeVisible();
   });
 
-  test('TC514. Create presentation file. Presentation file should be in Home tab.', async ({pageManager}) => {
+  test('TC514. Create presentation file. Presentation file should be in Home tab. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     await CreateNewFileAndGiveName({pageManager}, pageManager.headerMenu.NewItemMenu.NewPresentation, fileName);
     await expect(pageManager.filesList.Elements.File.locator(`"${fileName}"`)).toBeVisible();
   });
@@ -139,19 +143,22 @@ test.describe('Documents tests', async () => {
     await expect(documentVersionPage).toHaveURL('https://2150.demo.zextras.io/services/docs/files/open/72620f9e-6e88-4e6d-bf20-abf7b62c9db8?version=1');
   });
 
-  test('TC533. Create Microsoft Word file via header menu. File with docx extension should appear in Home folder.', async ({pageManager, page}) => {
+  test('TC533. Create Microsoft Word file via header menu. File with docx extension should appear in Home folder. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftWordDocx();
     await pageManager.createNewItemModal.CreatedFilesName.CreateDocumentName(fileName);
     await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(fileName)).toHaveText('docx');
   });
 
-  test('TC534. Create Microsoft Excel file via header menu. File with xlsx extension should appear in Home folder.', async ({pageManager, page}) => {
+  test('TC534. Create Microsoft Excel file via header menu. File with xlsx extension should appear in Home folder. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftExcelXlsx();
     await pageManager.createNewItemModal.CreatedFilesName.CreateSpreadsheetName(fileName);
     await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(fileName)).toHaveText('xlsx');
   });
 
-  test('TC535. Create Microsoft PowerPoint file via header menu. File with pptx extension should appear in Home folder.', async ({pageManager, page}) => {
+  test('TC535. Create Microsoft PowerPoint file via header menu. File with pptx extension should appear in Home folder. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     await pageManager.headerMenu.SelectOptionInNewItemMenu.MicrosoftPowerPointPptx();
     await pageManager.createNewItemModal.CreatedFilesName.CreatePresentationName(fileName);
     await expect(pageManager.filesList.Elements.FileExtensionFilteredByFileName(fileName)).toHaveText('pptx');

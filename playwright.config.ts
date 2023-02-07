@@ -36,7 +36,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 2 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['dot'], ['allure-playwright']],
+  reporter: [['dot'], ['allure-playwright', {suiteTitle: false}]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
   // Use global setup for single login
@@ -55,6 +55,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
     // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
     baseURL: process.env.STAGING ? process.env.STAGING : BaseTest.playwrightProjectsData.baseURL.QA,
     domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
+    suite: (process.env.SUITE === 'smoke' || process.env.SUITE === 'criticalPath') ? `--grep "@${process.env.SUITE}"` : '',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     ignoreHTTPSErrors: true,

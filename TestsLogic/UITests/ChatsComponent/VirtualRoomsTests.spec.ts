@@ -1,11 +1,12 @@
 import {expect} from '@playwright/test';
-import {test} from '../../BaseTest';
+import {test, BaseTest} from '../../BaseTest';
 
 test.describe('Virtual Rooms tests', async () => {
   let dateTimePrefix;
   let virtualRoomTitle;
 
   test.beforeEach(async ({pageManager, apiManager}) => {
+    BaseTest.setFeatureSuite.chats();
     await CleanConversationsPanel({apiManager});
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     virtualRoomTitle = dateTimePrefix + ' Autotest Group Topic';
@@ -35,7 +36,8 @@ test.describe('Virtual Rooms tests', async () => {
     await pageManager.sideSecondaryChatsMenu.Elements.VirtualRoomItem.click();
   };
   // Virtual room does not appear in Virtual Rooms Tab,  Virtual room tab does not appear
-  test('TC419. Create virtual room. Virtual room should be visible in Virtual Rooms Tab.', async ({pageManager}) => {
+  test('TC419. Create virtual room. Virtual room should be visible in Virtual Rooms Tab. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     test.fail(true, 'Virtual room does not appear in Virtual Rooms Tab,  Virtual room tab does not appear');
     await CreateVirtualRoom({pageManager}, virtualRoomTitle);
     await pageManager.sideSecondaryChatsMenu.OpenTab.VirtualRooms();

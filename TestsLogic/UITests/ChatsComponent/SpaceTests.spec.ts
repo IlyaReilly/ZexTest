@@ -17,6 +17,7 @@ test.describe('Space tests', async () => {
   const newChannelTopic = "About Zextras Automation";
 
   test.beforeEach(async ({pageManager, apiManager}) => {
+    BaseTest.setFeatureSuite.chats();
     await CleanConversationsPanel({apiManager});
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     spaceTitle = dateTimePrefix + ' Autotest Space Title';
@@ -97,7 +98,8 @@ test.describe('Space tests', async () => {
     await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList(title);
   };
 
-  test('TC401. Create space. Space should appear in spaces list.', async ({pageManager, browserName}) => {
+  test('TC401. Create space. Space should appear in spaces list. @smoke', async ({pageManager, browserName}) => {
+    BaseTest.setSuite.smoke();
     test.slow(browserName === 'webkit', 'This feature is slow on Mac');
     await pageManager.headerMenu.SelectOptionInNewItemMenu.CreateNewSpace();
     await pageManager.newChatsModal.CreatedConversations.CreateSpace(BaseTest.secondUser.login, spaceTitle, spaceTopic);
@@ -149,7 +151,8 @@ test.describe('Space tests', async () => {
     await expect(pageManager.chatsInfo.Items.TopicName.locator(`"${newSpaceTopic}"`).first()).toBeVisible();
   });
 
-  test('TC418. Add channel in space. Channel should be visible in spaces list in space.', async ({pageManager, apiManager}) => {
+  test('TC418. Add channel in space. Channel should be visible in spaces list in space. @criticalPath', async ({pageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
     await CreateSpaceAndOpenDetails({pageManager, apiManager}, spaceTitle);
     await pageManager.chatsInfo.Buttons.AddChannel.click();
@@ -192,12 +195,14 @@ test.describe('Space tests', async () => {
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"#${channelTitle}"`)).not.toBeVisible();
   });
 
-  test('TC434. Send a message in space. Sent message should be visible in Chat field.', async ({pageManager, apiManager}) => {
+  test('TC434. Send a message in space. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     await CreateSpaceAndSendMessage({pageManager, apiManager}, spaceTitle);
     await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
   });
 
-  test('TC435. Get a message in space. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+  test('TC435. Get a message in space. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, secondPageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, spaceTitle);
     await expect(secondPageManager.chatField.Elements.MessageBubble).toContainText(message);
@@ -208,7 +213,8 @@ test.describe('Space tests', async () => {
     await expect(pageManager.chatField.Elements.MessageBubble).toContainText(message);
   });
 
-  test('TC437. Get a message in channel. Sent message should be visible in Chat field.', async ({pageManager, secondPageManager, apiManager}) => {
+  test('TC437. Get a message in channel. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, secondPageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
     test.fail(true, 'Problem with new functionality about channel members');
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, channelTitle);

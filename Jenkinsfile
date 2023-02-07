@@ -3,6 +3,7 @@ pipeline {
    parameters {
       string defaultValue: '', description: 'Environment URL for running tests', name: 'STAGING'
       string defaultValue: '', description: 'Domain for test user accounts', name: 'DOMAIN'
+      string defaultValue: '', description: 'Suite for running tests', name: 'SUITE'
     }
    stages {
       stage('Clear test reports'){
@@ -16,7 +17,7 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh 'npx playwright test --project="webkit"'
+                  sh  """ npx playwright test --project="webkit" $suite """
                }
                post {
                   failure {
@@ -30,7 +31,7 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh 'npx playwright test --project="chromium"'
+                  sh """ npx playwright test --project="chromium" $suite """
                }
                post {
                   failure {
@@ -44,7 +45,7 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh 'npx playwright test --project="firefox"'
+                  sh """ npx playwright test --project="firefox" $suite """
                }
                post {
                   failure {

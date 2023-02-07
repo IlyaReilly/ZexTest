@@ -9,6 +9,7 @@ test.describe('Search tests', async () => {
   let fileNameFull;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.search();
     uniquePrefix = BaseTest.dateTimePrefix();
     mailBody = uniquePrefix + ' Autotest Mail Body';
     subjectWithFile = uniquePrefix + 'File in this mail';
@@ -38,7 +39,8 @@ test.describe('Search tests', async () => {
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${subjectWithFile}"`).first()).toBeVisible();
   });
 
-  test('TC703. Search file', async ({apiManager, pageManager}) => {
+  test('TC703. Search file. @criticalPath', async ({apiManager, pageManager}) => {
+    BaseTest.setSuite.criticalPath();
     await apiManager.createFilesAPI.UploadFileViaAPI(fileNameFull, uniquePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.MakeSearch(uniquePrefix);

@@ -7,6 +7,7 @@ test.describe('Tags tests', async () => {
   const newTagName = 'New zextras tag';
 
   test.beforeEach(async ({pageManager, apiManager}) => {
+    BaseTest.setFeatureSuite.calendars();
     tagName = BaseTest.dateTimePrefix() + ' Autotest Tag';
     await apiManager.tagsAPI.DeleteTagsViaAPI({apiManager});
     await apiManager.createTagsAPI.CreateTagRequest(tagName, BaseTest.userForLogin.login);
@@ -18,7 +19,8 @@ test.describe('Tags tests', async () => {
     await page.close();
   });
 
-  test('TC1002. Create tag in side calendar menu. Tag should be in Tags tab.', async ({pageManager}) => {
+  test('TC1002. Create tag in side calendar menu. Tag should be in Tags tab. @criticalPath', async ({pageManager}) => {
+    await BaseTest.setSuite.criticalPath();
     await pageManager.tagModals.OpenTagContextMenu.CreateTagModal();
     await pageManager.newTagModal.CreateTag(tagName);
     await pageManager.tagModals.ExpandTagsFolder();

@@ -10,6 +10,7 @@ test.describe('Calendars view tests', async () => {
   };
 
   test.beforeEach(async ({apiManager, pageManager}) => {
+    BaseTest.setFeatureSuite.calendars();
     await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
   });
