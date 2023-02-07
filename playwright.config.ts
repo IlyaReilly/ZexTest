@@ -55,7 +55,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
     // baseURL: BaseTest.playwrightProjectsData.baseURL.QA,
     baseURL: process.env.STAGING ? process.env.STAGING : BaseTest.playwrightProjectsData.baseURL.QA,
     domain: process.env.DOMAIN ? process.env.DOMAIN : BaseTest.playwrightProjectsData.domain.QA,
-    suite: (process.env.SUITE === 'smoke' || process.env.SUITE === 'criticalPath') ? `--grep "@${process.env.SUITE}"` : '',
+    suite: process.env.SUITE ? `--grep "@${process.env.SUITE}"`: '',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     ignoreHTTPSErrors: true,

@@ -15,6 +15,7 @@ export type TestOptions = {
 
 export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager, adminPage: Page, adminPageManager: AdminPageManager}>({
   domain: ['', {option: true}],
+  suite: ['', {option: true}],
 
   page: async ({browser, domain, baseURL, suite}, use, workerInfo) => {
     let multiplier;
