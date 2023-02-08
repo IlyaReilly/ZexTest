@@ -94,7 +94,7 @@ test.describe('New address book tests', async () => {
   });
 
   for (const color of Colors) {
-    test('TC908. Edit Address book. New adress book icon color should be visible' + `${color.ColorSet}`, async ({pageManager, apiManager}) => {
+    test(`TC908. Edit Address book. New adress book icon color ${color.ColorSet} should be visible`, async ({pageManager, apiManager}) => {
       await CreateNewAddressBook({pageManager, apiManager});
       await pageManager.sideSecondaryContactsMenu.SelectAddressBookOption.Edit(addressBookName);
       await pageManager.editAddressBookModal.DropDown.ColorList.click();

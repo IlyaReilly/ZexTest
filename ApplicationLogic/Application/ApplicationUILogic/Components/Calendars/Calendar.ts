@@ -55,7 +55,7 @@ export class Calendar extends BaseApplicationPage {
 
   DeletePopups = {
     EditMessageButton: this.Containers.ModalContainer.locator('"Edit Message"'),
-    SendCancellationButton: this.Containers.ModalContainer.locator('"Send Cancellation"'),
+    DeleteButton: this.Containers.ModalContainer.locator('"Delete"'),
     DeletePermanentlyButton: this.Containers.ModalContainer.locator('"Delete permanently"'),
   };
 
@@ -86,7 +86,7 @@ export class Calendar extends BaseApplicationPage {
   async DeleteAppointmentToTrash(appointmentTitle) {
     await this.OpenAppointmentOtherActions(appointmentTitle);
     await this.AppointmentPopup.OtherActionsDelete.click();
-    await this.DeletePopups.SendCancellationButton.click();
+    await this.DeletePopups.DeleteButton.click();
   };
 
   async DeleteAppointmentPermanently(appointmentTitle) {
