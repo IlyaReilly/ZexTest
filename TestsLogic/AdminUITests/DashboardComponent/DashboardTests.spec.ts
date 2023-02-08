@@ -1,8 +1,9 @@
-import {test} from '../../BaseTest';
+import {test, BaseTest} from '../../BaseTest';
 import {expect} from '@playwright/test';
 
 test.describe('Admin. Dashboard tests.', async () => {
   test.beforeEach(async ({adminPageManager}) => {
+    BaseTest.setAdminSuite.dashboard();
     await adminPageManager.adminSideMenu.OpenMenuTab(adminPageManager.adminSideMenu.SideMenuTabs.Dashboard);
   });
 
@@ -10,7 +11,8 @@ test.describe('Admin. Dashboard tests.', async () => {
     await adminPage.close();
   });
 
-  test('ATC201. Open Dashboard Tab. All fields should be visible', async ({adminPageManager}) => {
+  test('ATC201. Open Dashboard Tab. All fields should be visible. @smoke', async ({adminPageManager}) => {
+    BaseTest.setSuite.smoke();
     await expect(adminPageManager.dashboard.Fields.WelcomeMessage).toBeVisible();
     await expect(adminPageManager.dashboard.Fields.QuickAccess).toBeVisible();
     await expect(adminPageManager.dashboard.Fields.YourNotifications).toBeVisible();

@@ -1,4 +1,4 @@
-import {test} from '../BaseTest';
+import {test, BaseTest} from '../BaseTest';
 import {expect} from '@playwright/test';
 
 test.describe('Admin. Help Center.', async () => {
@@ -6,11 +6,13 @@ test.describe('Admin. Help Center.', async () => {
   // https://docs.zextras.com/carbonio-ce/html/management.html
   const helpCenterURL = 'https://docs.zextras.com/carbonio/html/administration.html';
 
-  test.afterAll(async ({page}) => {
-    await page.close();
+  test.afterEach(async ({adminPage}) => {
+    await adminPage.close();
   });
 
-  test(`Open help center. Open URL ${helpCenterURL}`, async ({adminPage, adminPageManager}) => {
+  test(`Open help center. Open URL ${helpCenterURL}. @smoke`, async ({adminPage, adminPageManager}) => {
+    BaseTest.setAdminSuite.helpCenter();
+    BaseTest.setSuite.smoke();
     const [newPage] = await Promise.all([
       adminPage.waitForEvent('popup'),
       adminPageManager.adminHeaderMenu.Links.HelpCenter.click(),

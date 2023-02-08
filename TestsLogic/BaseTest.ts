@@ -150,6 +150,11 @@ export class BaseTest {
     login: () => allure.suite('Login'),
   };
 
+  static setAdminSuite = {
+    dashboard: () => allure.suite('Admin. Dashboard'),
+    helpCenter: () => allure.suite('Admin. Help Center'),
+  };
+
   static setAllureSuite(suite) {
     allure.parentSuite(suite);
     suite === 'Smoke' ? allure.severity('blocker') : allure.severity('critical');

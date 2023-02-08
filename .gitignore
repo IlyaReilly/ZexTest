@@ -3,6 +3,7 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 /allure-results/
+/allure-report/
 /lighthouse/
 /download/*
 *.orig
