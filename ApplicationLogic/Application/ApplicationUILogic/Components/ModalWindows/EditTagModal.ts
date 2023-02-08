@@ -25,7 +25,13 @@ export class EditTagModal extends ModalWindowBase {
 
   async ChooseColor(color) {
     await this.DropdownOptions.SelectColor.click();
-    await this.Containers.DropDownContainer.locator(color).click();
+    if (`${color.ColorSet}` == "'black'") {
+      await this.Containers.DropDownContainer.locator("'cyan'").click();
+      await this.DropdownOptions.SelectColor.click();
+      await this.Containers.DropDownContainer.locator(color).click();
+    } else {
+      await this.Containers.DropDownContainer.locator(color).click();
+    };
     await this.Buttons.Edit.click();
   };
 }

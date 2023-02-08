@@ -98,8 +98,15 @@ test.describe('New address book tests', async () => {
       await CreateNewAddressBook({pageManager, apiManager});
       await pageManager.sideSecondaryContactsMenu.SelectAddressBookOption.Edit(addressBookName);
       await pageManager.editAddressBookModal.DropDown.ColorList.click();
-      await pageManager.editAddressBookModal.Containers.DropDownContainer.locator(`${color.ColorSet}`).click();
-      await pageManager.editAddressBookModal.Buttons.Edit.click();
+      if (`${color.ColorSet}` == "'black'") {
+        await pageManager.editAddressBookModal.Containers.DropDownContainer.locator("'cyan'").click();
+        await pageManager.editAddressBookModal.DropDown.ColorList.click();
+        await pageManager.editAddressBookModal.Containers.DropDownContainer.locator(`${color.ColorSet}`).click();
+        await pageManager.editAddressBookModal.Buttons.Edit.click();
+      } else {
+        await pageManager.editAddressBookModal.Containers.DropDownContainer.locator(`${color.ColorSet}`).click();
+        await pageManager.editAddressBookModal.Buttons.Edit.click();
+      };
       await expect(pageManager.sideSecondaryContactsMenu.Containers.MainContainer.locator(`${color.ColorCheck}`).first(), 'New adress book icon color should be visible').toBeVisible();
     });
   };
