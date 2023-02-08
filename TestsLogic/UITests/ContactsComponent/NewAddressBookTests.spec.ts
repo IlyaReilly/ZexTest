@@ -10,6 +10,7 @@ test.describe('New address book tests', async () => {
   let firstName;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.contacts();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     addressBookName = dateTimePrefix + ' Address book';
     newAddressBookName = dateTimePrefix + ' New Address book';
@@ -33,7 +34,8 @@ test.describe('New address book tests', async () => {
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
   };
 
-  test('TC901. Create new address book. New address book should be visible in Contacts folder.', async ({pageManager}) => {
+  test('TC901. Create new address book. New address book should be visible in Contacts folder. @criticalPath', async ({pageManager}) => {
+    BaseTest.setSuite.criticalPath();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
     await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);

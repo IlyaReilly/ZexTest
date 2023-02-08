@@ -7,6 +7,7 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
   let appointmentBody;
 
   test.beforeEach(async ({apiManager, secondPageManager}) => {
+    BaseTest.setFeatureSuite.calendars();
     BaseTest.doubleTimeout();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
@@ -22,7 +23,8 @@ test.describe('Calendars tests. Receiving invitation.', async () => {
     await page.close();
   });
 
-  test('TC1101. Create new appointment. Attendee receives invitation.', async ({secondPageManager}) => {
+  test('TC1101. Create new appointment. Attendee receives invitation. @smoke', async ({secondPageManager}) => {
+    BaseTest.setSuite.smoke();
     BaseTest.doubleTimeout();
     await expect(secondPageManager.mailsList.Elements.Letter.locator(`"${appointmentTitle}"`), 'User receives invitation mail with appointment title in subject').toBeVisible();
   });

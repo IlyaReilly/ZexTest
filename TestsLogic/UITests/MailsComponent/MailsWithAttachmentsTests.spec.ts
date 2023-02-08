@@ -7,6 +7,7 @@ test.describe('Mails with attachments tests', async () => {
   let fileName;
 
   test.beforeEach(async ({pageManager, apiManager}) => {
+    BaseTest.setFeatureSuite.mails();
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     fileName = BaseTest.dateTimePrefix() + ' Autotest File';
@@ -37,7 +38,8 @@ test.describe('Mails with attachments tests', async () => {
     await expect(pageManager.mailDetails.Elements.AttachmentFile, 'Attached file should be visible in mail details').toContainText(fileName);
   });
 
-  test('TC261. Open the received mail with attached file. Attached file should be visible in mail details.', async ({apiManager, pageManager}) => {
+  test('TC261. Open the received mail with attached file. Attached file should be visible in mail details. @criticalPath', async ({apiManager, pageManager}) => {
+    BaseTest.setSuite.criticalPath();
     await SendAndOpenMailWithAttachedFile({apiManager, pageManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox);
     await expect(pageManager.mailDetails.Elements.AttachmentFile, 'Attached file should be visible in mail details').toContainText(fileName);
   });

@@ -7,6 +7,7 @@ test.describe('Edit Calendars Properties', async () => {
   let calendarNewName;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.calendars();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     calendarName = dateTimePrefix + ' Calendar';
     calendarNewName = 'New' + calendarName;

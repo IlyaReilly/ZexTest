@@ -6,6 +6,7 @@ test.describe('New calendar tests', async () => {
   let calendarName;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.calendars();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     calendarName = dateTimePrefix + ' Calendar';
     await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});
@@ -16,7 +17,8 @@ test.describe('New calendar tests', async () => {
     await page.close();
   });
 
-  test('Create new Calendar. New calendar should be present in the secondary menu list', async ({pageManager}) => {
+  test('Create new Calendar. New calendar should be present in the secondary menu list. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     BaseTest.doubleTimeout();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.NewCalendar();

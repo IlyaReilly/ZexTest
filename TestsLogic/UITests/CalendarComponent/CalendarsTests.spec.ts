@@ -16,6 +16,7 @@ test.describe('Calendars tests', async () => {
   };
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.calendars();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     appointmentTitle = dateTimePrefix + ' Autotest Appointment Title';
     appointmentBody = dateTimePrefix + ' Autotest Appointment Body';
@@ -28,7 +29,8 @@ test.describe('Calendars tests', async () => {
     await page.close();
   });
 
-  test('TC301. Open Calendars tab. All calendars tabs display.', async ({pageManager}) => {
+  test('TC301. Open Calendars tab. All calendars tabs display. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.AllCalendars, 'All calendars tab should be presented').toBeVisible();
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.Calendar, 'Calendar tab should be presented').toBeVisible();
@@ -37,7 +39,8 @@ test.describe('Calendars tests', async () => {
     await expect(pageManager.sideSecondaryCalendarMenu.Tabs.SharedCalendars, 'Shared Calendars tab should be presented').toBeVisible();
   });
 
-  test('TC302. Create new appointment. New appointment is presented in calendar.', async ({page, pageManager}) => {
+  test('TC302. Create new appointment. New appointment is presented in calendar. @smoke', async ({page, pageManager}) => {
+    BaseTest.setSuite.smoke();
     BaseTest.doubleTimeout();
     await CreateAppointmentAndSelectOnlyCalendar({pageManager, page});
     await expect(pageManager.calendar.Elements.Appointment.locator(`"${appointmentTitle}"`)).toHaveCount(1);

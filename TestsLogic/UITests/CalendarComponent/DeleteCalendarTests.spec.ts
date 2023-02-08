@@ -6,7 +6,8 @@ test.describe('Delete Calendar', async () => {
   let calendarName;
   let calendarId;
 
-  test.beforeEach(async ({apiManager, page}) => {
+  test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.calendars();
     dateTimePrefix = new Date().getDate().toString() + new Date().getTime().toString();
     calendarName = dateTimePrefix + ' Calendar';
     await apiManager.calendarAPI.DeleteCalendarsViaAPI({apiManager});

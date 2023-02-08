@@ -10,6 +10,7 @@ test.describe('Folders tests', async () => {
   let folderNameViaAPI;
 
   test.beforeEach(async ({pageManager, apiManager}) => {
+    BaseTest.setFeatureSuite.folders();
     folderName = BaseTest.dateTimePrefix() + ' New Folder';
     folderNameViaAPI = BaseTest.dateTimePrefix() + ' Folder';
     newFolderName = BaseTest.dateTimePrefix() + ' new Folder',
@@ -35,7 +36,8 @@ test.describe('Folders tests', async () => {
     await pageManager.sideSecondaryMailMenu.CreateNewFolder(folderName);
   };
 
-  test('TC801. Create new folder', async ({pageManager}) => {
+  test('TC801. Create new folder. @criticalPath', async ({pageManager}) => {
+    BaseTest.setSuite.criticalPath();
     await pageManager.sideSecondaryMailMenu.ExpandFolders();
     await pageManager.sideSecondaryMailMenu.OpenFolderContextMenu(pageManager.sideSecondaryMailMenu.MailFolders.Sent);
     await ChooseNewFolderOptionAndCreateNewFoler({pageManager});

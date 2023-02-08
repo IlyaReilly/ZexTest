@@ -6,6 +6,7 @@ import {userPool, User} from '../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../ApplicationLogic/Application/ApplicationAPILogic/BaseAPI';
 import {AdminApiLoginMethod} from '../ApplicationLogic/Admin/AdminApiLogic/BaseAdminAPI';
+import {allure} from "allure-playwright";
 
 export type TestOptions = {
   domain: string;
@@ -136,5 +137,31 @@ export class BaseTest {
 
   static async doubleTimeout() {
     await test.setTimeout(80000);
+  };
+
+  static setFeatureSuite = {
+    calendars: () => allure.suite('Calendars'),
+    chats: () => allure.suite('Chats'),
+    contacts: () => allure.suite('Contacts'),
+    files: () => allure.suite('Files'),
+    folders: () => allure.suite('Folders'),
+    mails: () => allure.suite('Mails'),
+    search: () => allure.suite('Search'),
+    login: () => allure.suite('Login'),
+  };
+
+  static setAdminSuite = {
+    dashboard: () => allure.suite('Admin. Dashboard'),
+    helpCenter: () => allure.suite('Admin. Help Center'),
+  };
+
+  static setAllureSuite(suite) {
+    allure.parentSuite(suite);
+    suite === 'Smoke' ? allure.severity('blocker') : allure.severity('critical');
+  };
+
+  static setSuite = {
+    smoke: () => this.setAllureSuite('Smoke'),
+    criticalPath: () => this.setAllureSuite('Critical path'),
   };
 }

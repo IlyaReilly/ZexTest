@@ -11,6 +11,7 @@ test.describe('Search tests', async () => {
   let secondMailSubject;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.search();
     uniquePrefix = BaseTest.dateTimePrefix();
     mailSubject = uniquePrefix + ' Autotest Mail Subject';
     mailBody = uniquePrefix + ' Autotest Mail Body';
@@ -54,7 +55,8 @@ test.describe('Search tests', async () => {
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
   };
 
-  test('TC701. Search sent email', async ({pageManager, apiManager}) => {
+  test('TC701. Search sent email. @criticalPath', async ({pageManager, apiManager}) => {
+    BaseTest.setSuite.criticalPath();
     await CreateMessageAndOpenInbox({pageManager, apiManager});
     await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Search);

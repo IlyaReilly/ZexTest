@@ -13,6 +13,7 @@ test.describe('Contacts tests', async () => {
   let secondInputBox;
 
   test.beforeEach(async ({pageManager, apiManager}) => {
+    BaseTest.setFeatureSuite.contacts();
     firstName = BaseTest.dateTimePrefix();
     newFirstName = BaseTest.dateTimePrefix() + 'New';
     lastName = BaseTest.dateTimePrefix() + 'LName';
@@ -31,13 +32,15 @@ test.describe('Contacts tests', async () => {
     await page.close();
   });
 
-  test('TC601. Open contacts tab. Contacts folder options should be visible', async ({pageManager}) => {
+  test('TC601. Open contacts tab. Contacts folder options should be visible. @smoke', async ({pageManager}) => {
+    BaseTest.setSuite.smoke();
     await expect(pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Contacts, 'Contacts tab should be presented').toBeVisible();
     await expect(pageManager.sideSecondaryContactsMenu.ContactAddressBooks.EmailedContacts, 'Emailed contacts tab should be presented').toBeVisible();
     await expect(pageManager.sideSecondaryContactsMenu.ContactAddressBooks.Trash, 'Trash tab should be presented').toBeVisible();
   });
 
-  test('TC602. Add new contact. New contact appears in Contacts folder', async ({page, pageManager}) => {
+  test('TC602. Add new contact. New contact appears in Contacts folder. @smoke', async ({page, pageManager}) => {
+    BaseTest.setSuite.smoke();
     BaseTest.doubleTimeout();
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newContact.CreateNewContact(firstName, lastName, email);

@@ -8,10 +8,12 @@ import {PageManager} from '../../ApplicationLogic/Application/ApplicationUILogic
 test.describe.skip('Login tests', async () => {
   let userForLogin;
 
-  test.beforeAll(async ({}, workerInfo) => {
+  test.beforeEach(async ({}) => {
+    BaseTest.setFeatureSuite.login();
   });
 
-  test('TC101. Success login.', async ({browser}) => {
+  test('TC101. Success login. @smoke', async ({browser}) => {
+    BaseTest.setSuite.smoke();
     const page = await browser.newPage();
     await page.goto('/');
     const pageManager = new PageManager(page);
@@ -19,7 +21,8 @@ test.describe.skip('Login tests', async () => {
     await expect(pageManager.headerMenu.Logos.MainLogo).toBeVisible();
   });
 
-  test('TC102. Logout.', async ({browser}) => {
+  test('TC102. Logout. @smoke', async ({browser}) => {
+    BaseTest.setSuite.smoke();
     const page = await browser.newPage();
     await page.goto('/');
     const pageManager = new PageManager(page);

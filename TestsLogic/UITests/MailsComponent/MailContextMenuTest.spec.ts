@@ -6,6 +6,7 @@ test.describe('Mails context menu options tests', async () => {
   let mailBody;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.mails();
     mailSubject = BaseTest.dateTimePrefix() + ' Autotest Mail Subject';
     mailBody = BaseTest.dateTimePrefix() + ' Autotest Mail Body';
     await apiManager.mailsAPI.DeleteMailViaAPI({apiManager});

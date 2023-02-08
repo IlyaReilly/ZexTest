@@ -7,6 +7,7 @@ test.describe('Search tests', async () => {
   let tagName;
 
   test.beforeEach(async ({apiManager}) => {
+    BaseTest.setFeatureSuite.search();
     uniquePrefix = BaseTest.dateTimePrefix();
     appointmentName = uniquePrefix + ' AppointmentName Name';
     tagName = uniquePrefix + ' Autotest Tag';
@@ -39,7 +40,8 @@ test.describe('Search tests', async () => {
     await pageManager.calendar.ChooseTagForAppointment(appointmentName, tagName);
   };
 
-  test('TC704. Search appointment while calendar is active', async ({apiManager, pageManager}) => {
+  test('TC704. Search appointment while calendar is active. @criticalPath', async ({apiManager, pageManager}) => {
+    BaseTest.setSuite.criticalPath();
     await apiManager.createCalendarAPI.CreateAppointmentRequest(appointmentName, BaseTest.userForLogin.login, 2, 'appointmentName body');
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await pageManager.sideSecondaryCalendarMenu.CalendarSelecting.Select();
