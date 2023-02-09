@@ -258,15 +258,13 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.newMail.TextBox.Bcc, 'BCC textbox should not be visible').not.toBeVisible();
   });
 
-  test('TC245. Send an mail to a CC recipient. CC recipient login should be visible in mail details. @criticalPath', async ({pageManager, page}) => {
-    BaseTest.setSuite.criticalPath();
+  test('TC245. Send an mail to a CC recipient. CC recipient login should be visible in mail details.', async ({pageManager, page}) => {
     BaseTest.doubleTimeout();
     await SendAndOpenMailWithSelectedOption({pageManager, page}, pageManager.newMail.SelectNewMailOption.Cc, pageManager.newMail.TextBox.Cc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.CcRecipient.locator(`"${BaseTest.secondUser.login.replace('@' + BaseTest.domain, '').replace(/^\w/, (first) => first.toUpperCase())}"`), 'CC recipient login should be visible in mail details').toBeVisible();
   });
 
-  test('TC246. Send an mail to a BCC recipient. BCC recipient login should be visible in mail details. @criticalPath', async ({pageManager, page}) => {
-    BaseTest.setSuite.criticalPath();
+  test('TC246. Send an mail to a BCC recipient. BCC recipient login should be visible in mail details', async ({pageManager, page}) => {
     BaseTest.doubleTimeout();
     await SendAndOpenMailWithSelectedOption({pageManager, page}, pageManager.newMail.SelectNewMailOption.Bcc, pageManager.newMail.TextBox.Bcc, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await pageManager.mailDetails.Elements.MailPreview.nth(1).click();

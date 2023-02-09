@@ -11,7 +11,7 @@ export class SideSecondaryContactsMenu extends BaseApplicationPage {
   };
 
   Buttons = {
-    ExpandAddressBooks: this.Containers.MainContainer.locator('[data-testid*="ChevronDown"]'),
+    ContactsShevronDown: this.Containers.MainContainer.locator('_react=[item.label="Contacts"] >> [data-testid$="ChevronDown"]'),
   };
 
   ContactAddressBooks = {
@@ -65,7 +65,6 @@ export class SideSecondaryContactsMenu extends BaseApplicationPage {
 
   async ExpandContactsFolder() {
     await this.page.waitForLoadState('domcontentloaded');
-    await this.Buttons.ExpandAddressBooks.locator('nth=1').waitFor();
-    await this.Buttons.ExpandAddressBooks.locator('nth=0').click();
+    await this.Buttons.ContactsShevronDown.click();
   };
-}
+};

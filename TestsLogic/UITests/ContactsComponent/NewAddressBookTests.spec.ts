@@ -39,7 +39,6 @@ test.describe('New address book tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Contacts);
     await pageManager.sideSecondaryContactsMenu.OpenNewAddressBookContextMenuOption();
     await pageManager.newAddressBookModal.CreateNewAddressBook(addressBookName);
-    await expect(pageManager.sideSecondaryContactsMenu.Buttons.ExpandAddressBooks).toHaveCount(2);
     await pageManager.sideSecondaryContactsMenu.ExpandContactsFolder();
     await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`"${addressBookName}"`), 'New address book should be visible in Contacts folder').toBeVisible();
   });

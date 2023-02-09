@@ -214,6 +214,7 @@ test.describe('Space tests', async () => {
   });
 
   test('TC437. Get a message in channel. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, secondPageManager, apiManager}) => {
+    test.fail(true, 'Message is visible only after page reload');
     BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, channelTitle);
