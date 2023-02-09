@@ -4,7 +4,7 @@ import {ModalWindowBase} from '../../ModalWindows/ModalWindowBase';
 export class EditCalendarPropertyModal extends ModalWindowBase {
   constructor(page) {
     super(page);
-  }
+  };
 
   SharingThisFolderButtonsText = {
     Edit: "Edit",
@@ -47,16 +47,16 @@ export class EditCalendarPropertyModal extends ModalWindowBase {
 
   async ChangeCalendarName(newName) {
     await this.TextBoxes.CalendarName.fill(newName);
-  }
+  };
 
   async SelectCalendarColor(color) {
     await this.Dropdowns.Color.click();
     await this.Dropdowns.DropdownContainer.locator(`"${color}"`).click();
-  }
+  };
 
   async GetSharingThisFolderActionsButton(user, button) {
     return await this.Containers.MainContainer.
       locator(`${this.Locators.SharingThisFolderRow}`, {hasText: `${user}`}).
       locator(`"${button}"`);
-  }
-}
+  };
+};
