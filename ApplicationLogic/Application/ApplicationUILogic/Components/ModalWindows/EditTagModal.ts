@@ -1,4 +1,5 @@
 import {ModalWindowBase} from './ModalWindowBase';
+import Colors from '../../../../../TestData/IconColorList.json';
 
 export class EditTagModal extends ModalWindowBase {
   constructor(page) {
@@ -23,9 +24,16 @@ export class EditTagModal extends ModalWindowBase {
     await this.Buttons.Edit.click();
   };
 
-  async ChooseColor(color) {
+  async ChooseColor({pageManager}, color, tagName) {
+    await pageManager.tagModals.OpenTagContextMenu.EditTagModal(tagName);
     await this.DropdownOptions.SelectColor.click();
+    if (color === Colors[2].ColorSet) {
+      await this.Containers.DropDownContainer.locator(Colors[0].ColorSet).click();
+      await this.Buttons.Edit.click();
+      await pageManager.tagModals.OpenTagContextMenu.EditTagModal(tagName);
+      await this.DropdownOptions.SelectColor.click();
+    };
     await this.Containers.DropDownContainer.locator(color).click();
     await this.Buttons.Edit.click();
   };
-}
+};
