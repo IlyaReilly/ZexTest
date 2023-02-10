@@ -9,6 +9,7 @@ pipeline {
       stage('Clear test reports'){
          steps {
             sh(""" rm -rf $WORKSPACE/allure-results """)
+            sh(""" rm -rf $WORKSPACE/allure-report """)
          }
       }
       stage('e2e-tests'){
