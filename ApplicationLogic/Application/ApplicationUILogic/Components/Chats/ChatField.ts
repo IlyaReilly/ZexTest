@@ -10,6 +10,7 @@ export class ChatField extends BaseApplicationPage {
     MainContainer: this.page.locator('[class*="InnerConversation"]'),
     NewMessageContainer: this.page.locator('[class^="ConversationCompose"]'),
     HeaderContainer: this.page.locator('[class*="ConversationHeader"]'),
+    ConversationJoinerContainer: this.page.locator('[class*="ConversationJoiner"]'),
   };
 
   TextBoxes = {
@@ -22,6 +23,7 @@ export class ChatField extends BaseApplicationPage {
 
   Buttons = {
     SendMessage: this.Containers.NewMessageContainer.locator('[data-testid*="Navigation2"]'),
+    ReloadHistory: this.Containers.ConversationJoinerContainer.locator('[data-testid$="HistoryOutline"]'),
   };
 
   async SendCurrentMessage(message) {

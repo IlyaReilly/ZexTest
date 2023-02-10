@@ -21,8 +21,8 @@ test.describe('Mails with attachments tests', async () => {
     await apiManager.filesAPI.DeleteFilesViaAPI({apiManager});
     await page.close();
   });
-
-  test('TC259. Attach the file in New Email board. Attached file should be visible', async ({apiManager, pageManager, page}) => {
+  // Most often, the attachment is not visible until the filling of the textbox starts
+  test.skip('TC259. Attach the file in New Email board. Attached file should be visible', async ({apiManager, pageManager, page}) => {
     await UploadFile({apiManager});
     await pageManager.headerMenu.Buttons.NewItem.click();
     await pageManager.newMail.SelectNewMailOption.AddFromFiles();

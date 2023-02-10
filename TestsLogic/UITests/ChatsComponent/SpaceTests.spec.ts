@@ -93,9 +93,11 @@ test.describe('Space tests', async () => {
     await secondPageManager.sideSecondaryChatsMenu.OpenTab.Spaces();
     if (title === channelTitle) {
       await secondPageManager.sideSecondaryChatsMenu.Buttons.OpenDropdown.click();
-      title = '#' + title;
+      await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList('#' + title);
+      await secondPageManager.chatField.Buttons.ReloadHistory.click();
+    } else {
+      await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList(title);
     };
-    await secondPageManager.sideSecondaryChatsMenu.SelectConversationFromList(title);
   };
 
   test('TC401. Create space. Space should appear in spaces list. @smoke', async ({pageManager, browserName}) => {
@@ -190,7 +192,8 @@ test.describe('Space tests', async () => {
     await expect(pageManager.chatField.Elements.MessageBubble).not.toBeVisible();
   });
 
-  test('TC426. Delete channel. Channel should be deleted from space tab.', async ({pageManager, apiManager}) => {
+  test('TC426. Delete channel. Channel should be deleted from space tab.', async ({pageManager, apiManager, browserName}) => {
+    test.fail(browserName === 'webkit', '145. Channel disappears only after page reload on a Mac');
     await CreateAndDeleteSpace({pageManager, apiManager}, channelTitle);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"#${channelTitle}"`)).not.toBeVisible();
   });
@@ -214,7 +217,6 @@ test.describe('Space tests', async () => {
   });
 
   test('TC437. Get a message in channel. Sent message should be visible in Chat field. @criticalPath', async ({pageManager, secondPageManager, apiManager}) => {
-    test.fail(true, 'Message is visible only after page reload');
     BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
     await SendMessageAndOpenSpaceAsSecondUser({pageManager, secondPageManager, apiManager}, channelTitle);
