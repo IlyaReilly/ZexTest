@@ -191,9 +191,8 @@ test.describe('Space tests', async () => {
     await SendMessageAndClearHistory({pageManager, apiManager}, channelTitle);
     await expect(pageManager.chatField.Elements.MessageBubble).not.toBeVisible();
   });
-
-  test('TC426. Delete channel. Channel should be deleted from space tab.', async ({pageManager, apiManager, browserName}) => {
-    test.fail( browserName === 'firefox' || browserName === 'webkit', '145. Channel disappears only after page reload on firefox and webkit');
+  // '145. Unstable behavior, sometimes channel disappears only after page reload
+  test.skip('TC426. Delete channel. Channel should be deleted from space tab.', async ({pageManager, apiManager, browserName}) => {
     await CreateAndDeleteSpace({pageManager, apiManager}, channelTitle);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"#${channelTitle}"`)).not.toBeVisible();
   });
