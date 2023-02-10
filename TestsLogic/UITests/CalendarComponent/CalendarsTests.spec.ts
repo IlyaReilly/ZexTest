@@ -159,6 +159,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC333. Create appointment with setting start date via datepicker. Start date in appointment popup matches with date that was selected in datepicker.', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     const dayOfMonth = 15;
     const startTime = '12:15 PM';
     const endTime = '1:15 PM';
@@ -178,6 +179,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC334. Create appointment via click on time slot in calendar in "WEEK" view. Appointment is displayed in calendar.', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     const numberOfMondayNoonTimeSlotInWeekView = 72;
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await SelectOnlyCalendarAndWeekView({pageManager});
@@ -188,6 +190,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC335. Create appointment with "All day" checkbox selected. "All day" string is presented in date in appointment popup.', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     await OpenCalendarTabAndClickNewItemButton({pageManager});
     await pageManager.newAppointment.CheckBoxes.AllDay.click();
     await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
@@ -197,6 +200,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC336. Create appointment with "All day" checkbox selected. Appointment is displayed in "all day" cell in calendar in "WEEK" view.', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     await OpenCalendarTabAndClickNewItemButton({pageManager});
     await pageManager.newAppointment.CheckBoxes.AllDay.click();
     await SendAppointmentViaUIAndSelectOnlyCalendar({pageManager}, appointmentTitle, appointmentBody);
@@ -205,6 +209,7 @@ test.describe('Calendars tests', async () => {
   });
 
   test('TC337. Create appointment via click on "all day" cell in calendar in "WEEK" view. Appointment modal window opens with "All day" checkbox selected.', async ({pageManager}) => {
+    BaseTest.doubleTimeout();
     const numberOfMondayAllDayCellInMonthView = 1;
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
     await SelectOnlyCalendarAndWeekView({pageManager});

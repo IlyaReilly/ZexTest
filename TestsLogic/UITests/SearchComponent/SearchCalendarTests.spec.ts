@@ -55,8 +55,8 @@ test.describe('Search tests', async () => {
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${appointmentName}"`)).toBeVisible();
   });
 
-  // 141 Bug with tag dropdown
-  test.skip('TC713. Search by tag in advanced option found appointment. The appointment should be found by tag', async ({apiManager, pageManager, page}) => {
+  test('TC713. Search by tag in advanced option found appointment. The appointment should be found by tag', async ({apiManager, pageManager, page}) => {
+    test.fail(true, '145');
     await CreateAppointmentWithTag({pageManager, apiManager, page});
     await OpenSearchTabAndOpenAdvancedFilters({pageManager});
     await pageManager.advancedFiltersModal.ChooseTagInDropdown(tagName);

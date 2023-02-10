@@ -17,15 +17,15 @@ test.describe('Mails context menu options tests', async () => {
     await page.close();
   });
 
-  // The logic of this test is broken by application changes
-  test.skip('TC207. Mark mail as unread. Unread message icon should be visible', async ({secondPageManager, apiManager}) => {
+
+  test('TC207. Mark mail as unread. Unread message icon should be visible', async ({secondPageManager, apiManager}) => {
     await OpenInboxMailInAnotherUser({secondPageManager, apiManager});
     await secondPageManager.mailsList.OpenMail(mailSubject);
     await secondPageManager.mailsList.SelectMailContextMenuOption.MarkAsUnread(mailSubject);
     await expect(secondPageManager.mailsList.Elements.UnreadMessageIcon.first(), 'Unread message icon should be visible').toBeVisible();
   });
-  // The logic of this test is broken by application changes
-  test.skip('TC208. Mark mails as read. Unread message icon should not be visible', async ({secondPageManager, apiManager}) => {
+
+  test('TC208. Mark mails as read. Unread message icon should not be visible', async ({secondPageManager, apiManager}) => {
     await OpenInboxMailInAnotherUser({secondPageManager, apiManager});
     await secondPageManager.mailsList.SelectMailContextMenuOption.MarkAsRead(mailSubject);
     const unreadIcon = secondPageManager.mailsList.Elements.UnreadMessageIcon._selector;

@@ -103,7 +103,7 @@ export class AdvancedFiltersModal extends ModalWindowBase {
 
   async ChooseTagInDropdown(tagName) {
     await this.Fields.Tag.click();
-    await this.DropdownOptions.TagItem.locator(`"${tagName}"`);
+    await this.DropdownOptions.TagItem.locator(`"${tagName}"`).click();
     await this.Buttons.Search.click();
   };
 

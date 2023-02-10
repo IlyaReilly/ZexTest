@@ -15,6 +15,17 @@ export class MailsList extends BaseApplicationPage {
     UnreadMessageIcon: this.Containers.MainContainer.locator('_react=[isRead=false]'),
   };
 
+  MailConversationElements = {
+    Buttons: {
+      ChevronDown: (mail) => this.Elements.Letter.locator(`_react=[item.subject="${mail}"] >> [data-testid="ToggleExpand"]`),
+    },
+    SentMail: this.Elements.Letter.locator('[data-testid="SentIcon"]'),
+    UnreadMail: this.Elements.Letter.locator('[data-testid="UnreadIcon"]'),
+    ReadMail: this.Elements.Letter.locator('[data-testid="ReadIcon"]'),
+    ReplyMail: this.Elements.Letter.locator('[data-testid="RepliedIcon"]'),
+    ForwardedMail: this.Elements.Letter.locator('[data-testid="ForwardedIcon"]'),
+  };
+
   async OpenMail(mailSubject) {
     await this.Elements.Letter.locator(`"${mailSubject}"`).first().click();
   };
