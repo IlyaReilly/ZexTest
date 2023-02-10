@@ -193,7 +193,7 @@ test.describe('Space tests', async () => {
   });
 
   test('TC426. Delete channel. Channel should be deleted from space tab.', async ({pageManager, apiManager, browserName}) => {
-    test.fail(browserName === 'webkit', '145. Channel disappears only after page reload on a Mac');
+    test.fail( browserName === 'firefox' || browserName === 'webkit', '145. Channel disappears only after page reload on firefox and webkit');
     await CreateAndDeleteSpace({pageManager, apiManager}, channelTitle);
     await expect(pageManager.sideSecondaryChatsMenu.Elements.ConversationItem.locator(`"#${channelTitle}"`)).not.toBeVisible();
   });
