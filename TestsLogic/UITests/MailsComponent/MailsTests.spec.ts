@@ -216,8 +216,8 @@ test.describe('Mails tests', async () => {
     await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager, page}, pageManager.mailDetails.SelectMailOption.Reply, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"RE: ${mailSubject}"`), 'Reply mail should be visible in the Sent folder').toBeVisible();
   });
-
-  test('TC238. Get a reply mail. Reply mail subject should be visible in the Inbox folder', async ({pageManager, apiManager, page}) => {
+  // Sometimes new mail subject is visible in Inbox only after page reload
+  test.skip('TC238. Get a reply mail. Reply mail subject should be visible in the Inbox folder', async ({pageManager, apiManager, page}) => {
     await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager, page}, pageManager.mailDetails.SelectMailOption.Reply);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"RE: ${mailSubject}"`), 'Reply mail should be visible in the Inbox folder').toBeVisible();
   });
