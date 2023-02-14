@@ -134,6 +134,7 @@ test.describe('Documents tests', async () => {
   });
 
   test('TC532. Upload and open a new document version. A document version should be opened', async ({pageManager, apiManager, page}) => {
+    BaseTest.doubleTimeout();
     test.fail(true, 'Bug №139. Problem with opening a document via file versions. When you click "Open document version" an http error 500 is thrown');
     await apiManager.createFilesAPI.CreateDocument(fileName);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);

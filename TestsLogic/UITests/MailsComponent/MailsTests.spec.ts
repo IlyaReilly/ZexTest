@@ -358,6 +358,7 @@ test.describe('Mails tests', async () => {
 
   async function OpenMailFolderAndOpenMail({pageManager}, mailSubject, openFolder = pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox) {
     await openFolder();
+    await pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).waitFor();
     if (await pageManager.mailsList.MailConversationElements.Buttons.ChevronDown(mailSubject).isVisible()) {
       await OpenSpecificMailInConversation({pageManager}, mailSubject, openFolder);
     } else {
