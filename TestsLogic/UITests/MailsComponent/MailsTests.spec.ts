@@ -292,24 +292,24 @@ test.describe('Mails tests', async () => {
 
   test('TC251. Reply mail. Reply mail should be visible in the Sent folder', async ({pageManager, apiManager}) => {
     await SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, apiManager.createMailsAPI.MsgType.Reply, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
-    await expect(pageManager.mailsList.Elements.UnreadMessageIcon.locator(`"${msgCount}"`), 'Reply mail should be visible in the Sent folder').toBeVisible();
+    await expect(pageManager.mailsList.MailConversationElements.UnreadMessageIcon(mailSubject).locator(`"${msgCount}"`), 'Reply mail should be visible in the Sent folder').toBeVisible();
   });
 
   test('TC252. Get a reply mail. Reply mail should be visible in the Inbox folder. @criticalPath', async ({pageManager, apiManager}) => {
     BaseTest.setSuite.criticalPath();
     await SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, apiManager.createMailsAPI.MsgType.Reply);
-    await expect(pageManager.mailsList.Elements.UnreadMessageIcon.locator(`"${msgCount}"`), 'Reply mail should be visible in the Inbox folder').toBeVisible();
+    await expect(pageManager.mailsList.MailConversationElements.UnreadMessageIcon(mailSubject).locator(`"${msgCount}"`), 'Reply mail should be visible in the Inbox folder').toBeVisible();
   });
 
   test("TC253. Forward mail. Forwarded mail should be visible in the Sent folder", async ({pageManager, apiManager}) => {
     await SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, apiManager.createMailsAPI.MsgType.Forward, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
-    await expect(pageManager.mailsList.Elements.UnreadMessageIcon.locator(`"${msgCount}"`), 'Forwarded mail should be visible in the Sent folder').toBeVisible();
+    await expect(pageManager.mailsList.MailConversationElements.UnreadMessageIcon(mailSubject).locator(`"${msgCount}"`), 'Forwarded mail should be visible in the Sent folder').toBeVisible();
   });
 
   test('TC254. Get a forwarded mail. Forwarded mail should be visible in the Inbox folder. @criticalPath', async ({pageManager, apiManager}) => {
     BaseTest.setSuite.criticalPath();
     await SendReceivedMailBySelectedMsgTypeViaApiAndOpenFolder({apiManager, pageManager}, apiManager.createMailsAPI.MsgType.Forward);
-    await expect(pageManager.mailsList.Elements.UnreadMessageIcon.locator(`"${msgCount}"`), 'Forwarded mail should be visible in the Inbox folder').toBeVisible();
+    await expect(pageManager.mailsList.MailConversationElements.UnreadMessageIcon(mailSubject).locator(`"${msgCount}"`), 'Forwarded mail should be visible in the Inbox folder').toBeVisible();
   });
 
   test("TC255. Forward mail. Forwarded mail subject should be visible in the Sent folder", async ({pageManager, apiManager, page}) => {

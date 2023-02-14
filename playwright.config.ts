@@ -36,7 +36,7 @@ const config: PlaywrightTestConfig<TestOptions> = {
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 2 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['dot'], ['allure-playwright', {suiteTitle: false}]],
+  reporter: [['dot'], ['allure-playwright', {detail: true, suiteTitle: false}]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
   // Use global setup for single login

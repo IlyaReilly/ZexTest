@@ -12,13 +12,13 @@ export class MailsList extends BaseApplicationPage {
 
   Elements = {
     Letter: this.Containers.MainContainer.locator(this.InheritedFields.ListItemReactLocator),
-    UnreadMessageIcon: this.Containers.MainContainer.locator('_react=[isRead=false]'),
   };
 
   MailConversationElements = {
     Buttons: {
       ChevronDown: (mail) => this.Elements.Letter.locator(`_react=[item.subject="${mail}"] >> [data-testid="ToggleExpand"]`),
     },
+    UnreadMessageIcon: (mail) => this.Containers.MainContainer.locator(`_react=[item.subject="${mail}"] >> _react=[isRead=false]`),
     SentMail: this.Elements.Letter.locator('[data-testid="SentIcon"]'),
     UnreadMail: this.Elements.Letter.locator('[data-testid="UnreadIcon"]'),
     ReadMail: this.Elements.Letter.locator('[data-testid="ReadIcon"]'),
