@@ -6,7 +6,7 @@ async function globalSetup(config: FullConfig) {
   // const {baseURL} = config.projects[0].use;
   const browser = await chromium.launch({headless: false});
   const page = await browser.newPage({ignoreHTTPSErrors: true});
-  await page.goto("https://2150.demo.zextras.io/");
+  await page.goto("https://qa_public1.demo.zextras.io/");
   await page.locator('#input-0').fill(BaseTest.userForLogin.login);
   await page.locator('#password-0').fill("812feee9-c08e-4ec5-9734-07f6e7a6b096");
   await page.locator('[role="button"]').click();
