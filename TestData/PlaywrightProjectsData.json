@@ -1,7 +1,7 @@
 {
   "baseURL":
     {
-      "QA": "https://qa_public1.demo.zextras.io/",
+      "QA": "https://qa_public2.demo.zextras.io/",
       "adminPort": "6071",
       "adminEndpoint": "carbonioAdmin"
     },
@@ -174,13 +174,13 @@
     {
       "Files": 
       {
-      "trashElements": "https://qa_public1.demo.zextras.io/carbonio/files/filter/myTrash",
-      "filtersFlagged": "https://qa_public1.demo.zextras.io/carbonio/files/filter/flagged",
-      "filtersSharedByMe": "https://qa_public1.demo.zextras.io/carbonio/files/filter/sharedByMe",
-      "trashSharedElements": "https://qa_public1.demo.zextras.io/carbonio/files/filter/sharedTrash",
-      "uploads": "https://qa_public1.demo.zextras.io/carbonio/files/uploads",
-      "sharedWithMe": "https://qa_public1.demo.zextras.io/carbonio/files/filter/sharedWithMe",
-      "home": "https://qa_public1.demo.zextras.io/carbonio/files/root/LOCAL_ROOT"
+      "trashElements": "https://qa_public2.demo.zextras.io/carbonio/files/filter/myTrash",
+      "filtersFlagged": "https://qa_public2.demo.zextras.io/carbonio/files/filter/flagged",
+      "filtersSharedByMe": "https://qa_public2.demo.zextras.io/carbonio/files/filter/sharedByMe",
+      "trashSharedElements": "https://qa_public2.demo.zextras.io/carbonio/files/filter/sharedTrash",
+      "uploads": "https://qa_public2.demo.zextras.io/carbonio/files/uploads",
+      "sharedWithMe": "https://qa_public2.demo.zextras.io/carbonio/files/filter/sharedWithMe",
+      "home": "https://qa_public2.demo.zextras.io/carbonio/files/root/LOCAL_ROOT"
       }
     },
   "storageState": "./storageState.json"
