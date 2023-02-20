@@ -152,6 +152,7 @@ export class BaseTest {
 
   static setAdminSuite = {
     dashboard: () => allure.suite('Admin. Dashboard'),
+    domains: () => allure.suite('Admin. Domains'),
     helpCenter: () => allure.suite('Admin. Help Center'),
   };
 
