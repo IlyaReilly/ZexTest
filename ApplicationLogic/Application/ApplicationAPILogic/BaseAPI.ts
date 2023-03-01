@@ -15,8 +15,8 @@ export async function ApiLoginMethod(login: string, password: string) {
       "auth_method": "password", "user": login, "password": password,
     },
   });
-  await expect(response.ok(), 'API login request doesn`t bring success response').toBeTruthy();
-  const headersArray = await response.headersArray();
+  expect(response.ok(), 'API login request doesn`t bring success response').toBeTruthy();
+  const headersArray = response.headersArray();
   const rx = /(ZX_AUTH_TOKEN|ZM_AUTH_TOKEN)=[^;]*/g;
   let token;
   headersArray.forEach((header) => {
@@ -102,4 +102,4 @@ export class BaseAPI {
     const body = await this.GetResponseBody(response);
     return body.Body.BatchResponse.GetFolderResponse[0].folder[0].folder;
   };
-}
+};

@@ -7,11 +7,8 @@ test.describe('Admin. Domains tests.', async () => {
     await adminPageManager.adminSideMenu.OpenMenuTab(adminPageManager.adminSideMenu.SideMenuTabs.Domains);
   });
 
-  test.afterEach(async ({adminPageManager, adminPage}) => {
-    if (await adminPage.locator(adminPageManager.baseAdminPage.InheritedFields.ResetButton).isVisible()) {
-      await adminPage.locator(adminPageManager.baseAdminPage.InheritedFields.ResetButton).click();
-      await adminPageManager.resetModal.Buttons.Yes.click();
-    };
+  test.afterEach(async ({adminApiManager, adminPage}) => {
+    await adminApiManager.resetAPI.ResetDomainTheme();
     await adminPage.close();
   });
 
