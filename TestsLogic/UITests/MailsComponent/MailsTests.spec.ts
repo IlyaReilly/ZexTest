@@ -28,18 +28,13 @@ test.describe('Mails tests', async () => {
   test('TC202. Send mail. Mail should be visible in the Sent folder list. @criticalPath', async ({pageManager}) => {
     BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
-    await pageManager.newMail.SendMail();
+    await ClickNewItemCreateMailAndSendMail({pageManager});
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should be visible in the Sent folder list').toBeVisible();
   });
 
   test('TC203. Mark mail as spam. Mail should be visible in the Junk folder list', async ({page, pageManager, apiManager}) => {
-    await SendAndOpenMail({apiManager, pageManager});
-    await pageManager.mailDetails.SelectMailOption.MarkAsSpam();
-    await WaitForNotificationHiding({pageManager, page});
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Junk();
+    await SendOpenMailMarkAsSpamAndMoveToJunk({pageManager, apiManager, page});
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).first(), 'Mail should be visible in the Junk folder list').toBeVisible();
   });
 
@@ -54,13 +49,7 @@ test.describe('Mails tests', async () => {
   test('TC205. Save mail draft. Mail should be visible in the Drafts folder list. @criticalPath', async ({page, pageManager}) => {
     BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
-    await pageManager.headerMenu.Buttons.NewItem.click();
-    await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
-    await pageManager.newMail.SaveMail();
-    await pageManager.newMail.CloseNewMail();
-    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
-    await elementHandle?.waitForElementState('hidden');
-    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts();
+    await CreateSaveAndCloseMailOpenDrafts({pageManager, page});
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should be visible in the Drafts folder list').toBeVisible();
   });
 
@@ -332,6 +321,38 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
 
+  test("TC261. Click UNDO Button while you sending mail. Mail should be canceled and create page should return", async ({pageManager}) => {
+    await ClickNewItemCreateMailAndSendMail({pageManager});
+    await pageManager.mailDetails.Elements.UndoButton.click();
+    await expect(pageManager.newMail.TextBox.Subject).toHaveValue(mailSubject);
+  });
+
+  test("TC262. Click UNDO Button while deleting mail in inbox tab. Mail should return in folder", async ({pageManager, apiManager}) => {
+    await SendAndOpenMail({pageManager, apiManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox);
+    await DeleteMailAndClickUndo({pageManager});
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
+  });
+
+  test("TC263. Click UNDO Button while deleting mail in Sent tab. Mail should return in folder", async ({pageManager, apiManager}) => {
+    await SendAndOpenMail({pageManager, apiManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
+    await DeleteMailAndClickUndo({pageManager});
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
+  });
+
+  test("TC264. Click UNDO Button while deleting mail in drafts tab. Mail should return in folder", async ({pageManager, page}) => {
+    await CreateSaveAndCloseMailOpenDrafts({pageManager, page});
+    await pageManager.mailsList.OpenMail(mailSubject);
+    await DeleteMailAndClickUndo({pageManager});
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
+  });
+
+  test("TC265. Click UNDO Button while deleting mail in junk tab. Mail should return in folder", async ({pageManager, apiManager, page}) => {
+    await SendOpenMailMarkAsSpamAndMoveToJunk({pageManager, apiManager, page});
+    await pageManager.mailsList.OpenMail(mailSubject);
+    await DeleteMailAndClickUndo({pageManager});
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`)).toBeVisible();
+  });
+
   async function WaitForNotificationHiding({pageManager, page}) {
     await pageManager.mailDetails.Elements.ActionWithMailNotification.waitFor();
     const elementHandle = await page.$(pageManager.mailDetails.Elements.ActionWithMailNotification._selector);
@@ -432,5 +453,33 @@ test.describe('Mails tests', async () => {
     const mailQuote = await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager, page}, option, folder);
     await OpenSpecificMailInConversation({pageManager}, mail, folder);
     return mailQuote;
+  };
+
+  async function DeleteMailAndClickUndo({pageManager}) {
+    await pageManager.mailDetails.SelectMailOption.Delete();
+    await pageManager.mailDetails.Elements.UndoButton.click();
+  };
+
+  async function ClickNewItemCreateMailAndSendMail({pageManager}) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
+    await pageManager.newMail.SendMail();
+  };
+
+  async function SendOpenMailMarkAsSpamAndMoveToJunk({pageManager, apiManager, page}) {
+    await SendAndOpenMail({apiManager, pageManager});
+    await pageManager.mailDetails.SelectMailOption.MarkAsSpam();
+    await WaitForNotificationHiding({pageManager, page});
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Junk();
+  };
+
+  async function CreateSaveAndCloseMailOpenDrafts({pageManager, page}) {
+    await pageManager.headerMenu.Buttons.NewItem.click();
+    await pageManager.newMail.CreateNewMail(BaseTest.secondUser.login, mailSubject, mailBody);
+    await pageManager.newMail.SaveMail();
+    await pageManager.newMail.CloseNewMail();
+    const elementHandle = await page.$(pageManager.baseApplicationPage.InheritedFields.NewItemBoardLocator);
+    await elementHandle?.waitForElementState('hidden');
+    await pageManager.sideSecondaryMailMenu.OpenMailFolder.Drafts();
   };
 });

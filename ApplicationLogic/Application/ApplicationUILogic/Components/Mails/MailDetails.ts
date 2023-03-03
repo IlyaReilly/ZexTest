@@ -21,6 +21,7 @@ export class MailDetails extends BaseApplicationPage {
     Body: this.MailBodyIframe.locator('body'),
     FlagIcon: this.Containers.MainContainer.locator('[data-testid="FlagIcon"]'),
     ActionWithMailNotification: this.page.locator(this.InheritedFields.NotificationLocator),
+    UndoButton: this.page.locator(this.InheritedFields.NotificationLocator).locator('"Undo"'),
     AttachmentFile: this.Containers.MainContainer.locator('_react=[att]'),
   };
 
