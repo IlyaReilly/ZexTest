@@ -140,7 +140,6 @@ test.describe('Documents tests', async () => {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.filesList.Elements.File.click();
     await pageManager.fileDetails.Tabs.Versioning.click();
-    await pageManager.fileDetails.ClickVersioningDropdownOption.OpenDocumentVersion(1);
     const [documentVersionPage] = await Promise.all([
       page.waitForEvent('popup'),
       pageManager.fileDetails.ClickVersioningDropdownOption.OpenDocumentVersion(1),

@@ -2,6 +2,7 @@ import {test as base, Page} from '@playwright/test';
 import {PageManager} from '../ApplicationLogic/Application/ApplicationUILogic/Pages/PageManager';
 import {APIManager} from '../ApplicationLogic/Application/ApplicationAPILogic/APIManager';
 import {AdminPageManager} from '../ApplicationLogic/Admin/AdminUILogic/Pages/AdminPageManager';
+import {AdminAPIManager} from '../ApplicationLogic/Admin/AdminApiLogic/AdminAPIManager';
 import {userPool, User} from '../TestData/UserPool';
 import {promises as fs} from 'fs';
 import {ApiLoginMethod} from '../ApplicationLogic/Application/ApplicationAPILogic/BaseAPI';
@@ -12,7 +13,7 @@ export type TestOptions = {
   domain: string;
 };
 
-export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager, adminPage: Page, adminPageManager: AdminPageManager}>({
+export const test = base.extend<TestOptions & {pageManager: PageManager, secondPageManager: PageManager, apiManager: APIManager, adminPage: Page, adminPageManager: AdminPageManager, adminApiManager: AdminAPIManager}>({
   domain: ['', {option: true}],
 
   page: async ({browser, domain, baseURL}, use, workerInfo) => {
@@ -64,8 +65,13 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
   },
 
   adminPageManager: async ({adminPage}, use) => {
-    const adminPpageManager = new AdminPageManager(adminPage);
-    await use(adminPpageManager);
+    const adminPageManager = new AdminPageManager(adminPage);
+    await use(adminPageManager);
+  },
+
+  adminApiManager: async ({adminPage}, use) => {
+    const adminApiManager = new AdminAPIManager(adminPage);
+    await use(adminApiManager);
   },
 });
 
@@ -152,6 +158,7 @@ export class BaseTest {
 
   static setAdminSuite = {
     dashboard: () => allure.suite('Admin. Dashboard'),
+    domains: () => allure.suite('Admin. Domains'),
     helpCenter: () => allure.suite('Admin. Help Center'),
   };
 

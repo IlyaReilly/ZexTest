@@ -35,4 +35,4 @@ export class ChatsAPI extends BaseAPI {
       return membersIds;
     };
   };
-}
+};

@@ -24,7 +24,6 @@ import {TagsAPI} from './Tags/TagsAPI';
 import {CreateTagsAPI} from './Tags/CreateTagsAPI';
 import {FoldersAPI} from './Folders/FoldersAPI';
 
-
 export class APIManager {
   page: Page;
   mailsAPI;
@@ -79,4 +78,4 @@ export class APIManager {
     this.createTagsAPI = new CreateTagsAPI(this.page);
     this.foldersAPI = new FoldersAPI(this.page);
   };
-}
+};
