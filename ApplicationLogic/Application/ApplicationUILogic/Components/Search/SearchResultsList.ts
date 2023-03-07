@@ -15,7 +15,6 @@ export class SearchResultsList extends BaseApplicationPage {
   };
 
   Elements = {
-    SearchResult: this.Containers.ListContainer.locator(this.InheritedFields.ListItemReactLocator),
-    FileSearchResult: this.Containers.ListContainer.locator(this.InheritedFields.ListFileReactLocator),
+    SearchResult: this.Containers.ListContainer.locator(this.InheritedFields.ListItemLocator),
   };
-}
+};

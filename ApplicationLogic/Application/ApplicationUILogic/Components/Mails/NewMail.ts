@@ -8,7 +8,7 @@ export class NewMail extends BaseApplicationPage {
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.NewItemBoardLocator),
     BeforeYouLeaveContainer: this.page.locator('[data-testid="modal"]'),
-    DropdownContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   bodyIframe = this.page.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
@@ -85,7 +85,6 @@ export class NewMail extends BaseApplicationPage {
   };
 
   async CreateNewMail(to, subject, body) {
-    await this.TextBox.To.click();
     await this.TextBox.To.fill(to);
     await this.TextBox.Subject.click();
     await this.TextBox.Subject.fill(subject);

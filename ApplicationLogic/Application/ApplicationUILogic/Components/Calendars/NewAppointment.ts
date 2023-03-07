@@ -9,10 +9,10 @@ export class NewAppointment extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.NewItemBoardLocator),
-    AttendeesDropdown: this.page.locator(this.InheritedFields.DropdownListLocator),
+    AttendeesDropdown: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
-  DropdownContainer = this.Containers.MainContainer.locator(this.InheritedFields.DropdownListLocator);
+  DropdownContainer = this.Containers.MainContainer.locator(this.InheritedFields.DropdownLocator);
   DatePickerContainer = this.Containers.MainContainer.locator('[class="react-datepicker"]');
 
   bodyIframe = this.page.frameLocator(this.InheritedFields.NewItemBodyIframeLocator);
@@ -68,7 +68,6 @@ export class NewAppointment extends BaseApplicationPage {
     await this.TextBox.EventTitle.scrollIntoViewIfNeeded();
     await this.TextBox.EventTitle.click();
     await this.TextBox.EventTitle.fill(title);
-    await this.TextBox.Attendees.click();
     await this.TextBox.Attendees.fill(attendees);
     if (privateApp) {
       await this.CheckBoxes.Private.click();

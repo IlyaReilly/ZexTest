@@ -7,11 +7,11 @@ export class MailsList extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.ListContainerLocator),
-    MailContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    MailContextMenuContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   Elements = {
-    Letter: this.Containers.MainContainer.locator(this.InheritedFields.ListItemReactLocator),
+    Letter: this.Containers.MainContainer.locator(this.InheritedFields.ListItemLocator),
   };
 
   MailConversationElements = {

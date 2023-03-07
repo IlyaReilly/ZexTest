@@ -6,7 +6,7 @@ export class SideMenu extends BaseApplicationPage {
   };
 
   Containers = {
-    MainContainer: this.page.locator('[class*="ContainerWithDivider"]'),
+    MainContainer: this.page.locator('[data-testid="SideMenuContainer"]'),
   };
 
   Buttons = {
@@ -26,5 +26,8 @@ export class SideMenu extends BaseApplicationPage {
 
   async OpenMenuTab(tab) {
     await tab.click();
+    if (tab === this.SideMenuTabs.Calendar) {
+      await this.page.locator(this.InheritedFields.ExpandFoldersLocator).click();
+    };
   };
-}
+};

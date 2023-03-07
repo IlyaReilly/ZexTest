@@ -8,7 +8,7 @@ export class Calendar extends BaseApplicationPage {
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.WorkspaceContainerLocator),
     AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
-    OtherActionsContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    OtherActionsContainer: this.page.locator(this.InheritedFields.DropdownLocator),
     ModalContainer: this.page.locator(this.InheritedFields.ModalWindowLocator),
     CalendarView: this.page.locator('div:has([class^="custom-toolbar"])'),
   };
@@ -56,6 +56,7 @@ export class Calendar extends BaseApplicationPage {
   DeletePopups = {
     EditMessageButton: this.Containers.ModalContainer.locator('"Edit Message"'),
     DeleteButton: this.Containers.ModalContainer.locator('"Delete"'),
+    SendCancellation: this.Containers.ModalContainer.locator('"Send Cancellation"'),
     DeletePermanentlyButton: this.Containers.ModalContainer.locator('"Delete permanently"'),
   };
 
@@ -86,7 +87,7 @@ export class Calendar extends BaseApplicationPage {
   async DeleteAppointmentToTrash(appointmentTitle) {
     await this.OpenAppointmentOtherActions(appointmentTitle);
     await this.AppointmentPopup.OtherActionsDelete.click();
-    await this.DeletePopups.DeleteButton.click();
+    await this.DeletePopups.SendCancellation.click();
   };
 
   async DeleteAppointmentPermanently(appointmentTitle) {

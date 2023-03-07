@@ -15,7 +15,7 @@ export class FileDetails extends BaseApplicationPage {
     TabDetailsContainer: this.page.locator('[data-testid="node-details"]'),
     TabSharingContainer: this.page.locator('[data-testid="node-sharing-collaborators"]'),
     TabVersioningContainer: this.page.locator('[class*="Versioning"]'),
-    DropDownPopperListContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   Elements = {
@@ -54,12 +54,12 @@ export class FileDetails extends BaseApplicationPage {
     SendViaMail: this.Containers.FileOptionsContainer.locator('[data-testid*="EmailOutline"]'),
     Edit: this.Containers.FileOptionsContainer.locator('[data-testid*="Edit2Outline"]'),
     MoreOptions: this.Containers.FileOptionsContainer.locator('[data-testid*="MoreVertical"]'),
-    Flag: this.Containers.DropDownPopperListContainer.locator('"Flag"'),
-    UnFlag: this.Containers.DropDownPopperListContainer.locator('"Unflag"'),
-    MoveToTrash: this.Containers.DropDownPopperListContainer.locator('"Delete"'),
+    Flag: this.Containers.DropdownContainer.locator('"Flag"'),
+    UnFlag: this.Containers.DropdownContainer.locator('"Unflag"'),
+    MoveToTrash: this.Containers.DropdownContainer.locator('"Delete"'),
     DeletePermanently: this.Containers.FileOptionsContainer.locator('[data-testid*="DeletePermanentlyOutline"]'),
     RestoreButton: this.Containers.FileOptionsContainer.locator('[data-testid*="RestoreOutline"]'),
-    Rename: this.Containers.DropDownPopperListContainer.locator('"Rename"'),
+    Rename: this.Containers.DropdownContainer.locator('"Rename"'),
   };
 
   Tabs = {
@@ -73,7 +73,7 @@ export class FileDetails extends BaseApplicationPage {
   };
 
   AddNewPeopleDropDown = {
-    Item: (userMail) => this.Containers.DropDownPopperListContainer.locator(`"${userMail}"`),
+    Item: (userMail) => this.Containers.DropdownContainer.locator(`"${userMail}"`),
   };
 
   ShareFile = {
@@ -82,18 +82,18 @@ export class FileDetails extends BaseApplicationPage {
   };
 
   ClickDropdownOption = {
-    MoveToTrash: async () => await this.OpenDropdown(this.Containers.DropDownPopperListContainer.locator('"Delete"')),
-    Flag: async () => await this.OpenDropdown(this.Containers.DropDownPopperListContainer.locator('"Flag"')),
-    UnFlag: async () => await this.OpenDropdown(this.Containers.DropDownPopperListContainer.locator('"Unflag"')),
+    MoveToTrash: async () => await this.OpenDropdown(this.Containers.DropdownContainer.locator('"Delete"')),
+    Flag: async () => await this.OpenDropdown(this.Containers.DropdownContainer.locator('"Flag"')),
+    UnFlag: async () => await this.OpenDropdown(this.Containers.DropdownContainer.locator('"Unflag"')),
     Rename: async () => await this.OpenDropdown(this.FileOptions.Rename),
   };
 
   ClickVersioningDropdownOption = {
-    OpenDocumentVersion: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Open document version"'), versionNumber),
-    KeepVersionForever: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Keep this version forever"'), versionNumber),
-    RemoveKeepForever: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Remove keep forever"'), versionNumber),
-    CloneAsCurrent: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Clone as current"'), versionNumber),
-    DeleteVersion: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropDownPopperListContainer.locator('"Delete version"'), versionNumber),
+    OpenDocumentVersion: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropdownContainer.locator('"Open document version"'), versionNumber),
+    KeepVersionForever: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropdownContainer.locator('"Keep this version forever"'), versionNumber),
+    RemoveKeepForever: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropdownContainer.locator('"Remove keep forever"'), versionNumber),
+    CloneAsCurrent: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropdownContainer.locator('"Clone as current"'), versionNumber),
+    DeleteVersion: async (versionNumber) => await this.OpenVersioningDropdown(this.Containers.DropdownContainer.locator('"Delete version"'), versionNumber),
   };
 
   async DownloadFile() {

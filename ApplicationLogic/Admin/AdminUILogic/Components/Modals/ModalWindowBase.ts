@@ -7,6 +7,6 @@ export class ModalWindowBase extends BaseAdminPage {
 
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.ModalWindowLocator),
-    DropDownContainer: this.page.locator(this.InheritedFields.DropdownContainerLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownContainerLocator),
   };
 };

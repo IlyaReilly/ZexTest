@@ -7,7 +7,7 @@ export class HeaderMenu extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator('[class*="Background"] >> [class*="Container"]'),
-    DropdownList: this.page.locator(this.InheritedFields.DropdownListLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   Buttons = {
@@ -18,30 +18,30 @@ export class HeaderMenu extends BaseApplicationPage {
   };
 
   UserMenu = {
-    Feedback: this.Containers.DropdownList.locator('"Feedback"'),
-    UpdateView: this.Containers.DropdownList.locator('"Update view"'),
-    Documentation: this.Containers.DropdownList.locator('"Documentation"'),
-    Logout: this.Containers.DropdownList.locator('"Logout"'),
+    Feedback: this.Containers.DropdownContainer.locator('"Feedback"'),
+    UpdateView: this.Containers.DropdownContainer.locator('"Update view"'),
+    Documentation: this.Containers.DropdownContainer.locator('"Documentation"'),
+    Logout: this.Containers.DropdownContainer.locator('"Logout"'),
   };
 
   NewItemMenu = {
-    NewEmail: this.Containers.DropdownList.locator('"New E-mail"'),
-    NewAppointment: this.Containers.DropdownList.locator('"New appointment"'),
-    NewContact: this.Containers.DropdownList.locator('"New contact"'),
-    Upload: this.Containers.DropdownList.locator('"Upload"'),
-    NewFolder: this.Containers.DropdownList.locator(`:nth-match(:text('New Folder'), 1)`),
-    NewDocument: this.Containers.DropdownList.locator('"New Document"'),
-    NewSpreadsheet: this.Containers.DropdownList.locator('"New Spreadsheet"'),
-    NewPresentation: this.Containers.DropdownList.locator('"New Presentation"'),
-    CreateChat: this.Containers.DropdownList.locator('"Create Chat"'),
-    CreateGroup: this.Containers.DropdownList.locator('"Create Group"'),
-    CreateSpace: this.Containers.DropdownList.locator('"Create Space"'),
-    OpenDocumentOdt: this.Containers.DropdownList.locator('"OpenDocument (.odt)"'),
-    OpenDocumentOds: this.Containers.DropdownList.locator('"OpenDocument (.ods)"'),
-    OpenDocumentOdp: this.Containers.DropdownList.locator('"OpenDocument (.odp)"'),
-    MicrosoftWordDocx: this.Containers.DropdownList.locator('"Microsoft Word (.docx)"'),
-    MicrosoftExcelXlsx: this.Containers.DropdownList.locator('"Microsoft Excel (.xlsx)"'),
-    MicrosoftPointPptx: this.Containers.DropdownList.locator('"Microsoft PowerPoint (.pptx)"'),
+    NewEmail: this.Containers.DropdownContainer.locator('"New E-mail"'),
+    NewAppointment: this.Containers.DropdownContainer.locator('"New appointment"'),
+    NewContact: this.Containers.DropdownContainer.locator('"New contact"'),
+    Upload: this.Containers.DropdownContainer.locator('"Upload"'),
+    NewFolder: this.Containers.DropdownContainer.locator(`:nth-match(:text('New Folder'), 1)`),
+    NewDocument: this.Containers.DropdownContainer.locator('"New Document"'),
+    NewSpreadsheet: this.Containers.DropdownContainer.locator('"New Spreadsheet"'),
+    NewPresentation: this.Containers.DropdownContainer.locator('"New Presentation"'),
+    CreateChat: this.Containers.DropdownContainer.locator('"Create Chat"'),
+    CreateGroup: this.Containers.DropdownContainer.locator('"Create Group"'),
+    CreateSpace: this.Containers.DropdownContainer.locator('"Create Space"'),
+    OpenDocumentOdt: this.Containers.DropdownContainer.locator('"OpenDocument (.odt)"'),
+    OpenDocumentOds: this.Containers.DropdownContainer.locator('"OpenDocument (.ods)"'),
+    OpenDocumentOdp: this.Containers.DropdownContainer.locator('"OpenDocument (.odp)"'),
+    MicrosoftWordDocx: this.Containers.DropdownContainer.locator('"Microsoft Word (.docx)"'),
+    MicrosoftExcelXlsx: this.Containers.DropdownContainer.locator('"Microsoft Excel (.xlsx)"'),
+    MicrosoftPointPptx: this.Containers.DropdownContainer.locator('"Microsoft PowerPoint (.pptx)"'),
   };
 
   Logos = {
@@ -73,7 +73,7 @@ export class HeaderMenu extends BaseApplicationPage {
 
   async OpenNewItemMenu(option, item?) {
     await this.Buttons.NewItemMenu.click();
-    await this.Containers.DropdownList.waitFor({state: 'visible'});
+    await this.Containers.DropdownContainer.waitFor({state: 'visible'});
     await option.waitFor();
     await option.hover();
     if (item) {

@@ -11,7 +11,7 @@ export class FileChooserModal extends ModalWindowBase {
   };
 
   Elements = {
-    File: this.Containers.MainContainer.locator(this.InheritedFields.ListFileReactLocator),
+    File: this.Containers.MainContainer.locator(this.InheritedFields.DropdownItemReactLocator),
   };
 
   Buttons = {

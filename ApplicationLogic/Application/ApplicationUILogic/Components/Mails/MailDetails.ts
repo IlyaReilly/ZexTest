@@ -7,7 +7,7 @@ export class MailDetails extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator('[data-testid="third-panel"]'),
-    OptionsContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    OptionsContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   MailBodyIframe = this.Containers.MainContainer.frameLocator('iframe[title]');

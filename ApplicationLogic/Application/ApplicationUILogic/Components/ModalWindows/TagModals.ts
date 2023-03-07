@@ -7,7 +7,7 @@ export class TagModals extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.SideSecondaryBarLocator),
-    TagContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    TagContextMenuContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   Elements = {

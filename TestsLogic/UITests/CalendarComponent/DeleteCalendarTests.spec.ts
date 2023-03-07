@@ -21,7 +21,7 @@ test.describe('Delete Calendar', async () => {
 
   test('TC318. Delete calendar. Calendar should be moved to Trash', async ({pageManager, page}) => {
     BaseTest.doubleTimeout();
-    await OpenCalendarTab({pageManager, page});
+    await OpenCalendarTab({pageManager});
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.DeleteCalendar(calendarName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();
     await pageManager.sideSecondaryCalendarMenu.OpenTrashChevron();
@@ -31,7 +31,7 @@ test.describe('Delete Calendar', async () => {
 
   test('TC319. Delete calendar permanently. Calendar should be disappear from Trash', async ({pageManager, apiManager, page}) => {
     await apiManager.deleteCalendarAPI.MoveToTrashCalendarFolderRequest(calendarId, BaseTest.userForLogin.login);
-    await OpenCalendarTab({pageManager, page});
+    await OpenCalendarTab({pageManager});
     await pageManager.sideSecondaryCalendarMenu.OpenTrashChevron();
     await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.DeleteCalendar(calendarName);
     await pageManager.deleteCalendarModal.Buttons.Delete.click();
@@ -39,8 +39,8 @@ test.describe('Delete Calendar', async () => {
       `Calendar ${calendarName} should be delete permanently`).toHaveCount(0);
   });
 
-  async function OpenCalendarTab({pageManager, page}) {
+  async function OpenCalendarTab({pageManager}) {
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Calendar);
-    await page.waitForLoadState('domcontentloaded');
+    await pageManager.sideSecondaryCalendarMenu.Tabs.AllCalendars.waitFor();
   };
 });
