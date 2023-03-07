@@ -7,7 +7,7 @@ export class FilesList extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.ListContainerLocator),
-    DropdownContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownLocator),
     EmptyListContainer: this.page.locator('[data-testid="emptyFolder"]'),
   };
 

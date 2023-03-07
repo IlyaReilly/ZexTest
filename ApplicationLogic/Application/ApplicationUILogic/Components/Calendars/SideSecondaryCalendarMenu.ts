@@ -9,7 +9,7 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator(this.SideSecondaryBarLocator),
-    ContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    ContextMenuContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   ContextMenu = {

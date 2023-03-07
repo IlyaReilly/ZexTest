@@ -23,7 +23,7 @@ export class EditCalendarPropertyModal extends ModalWindowBase {
 
   Dropdowns = {
     Color: this.Containers.MainContainer.locator('"Calendar color"'),
-    DropdownContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   TextBoxes = {

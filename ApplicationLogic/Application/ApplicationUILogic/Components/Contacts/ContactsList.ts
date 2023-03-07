@@ -8,14 +8,14 @@ export class ContactsList extends BaseApplicationPage {
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.WorkspaceContainerLocator),
     ListContainer: this.page.locator(this.InheritedFields.ListContainerLocator),
-    ContactContextMenu: this.page.locator(this.InheritedFields.DropdownListLocator),
+    ContactContextMenu: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   Elements = {
     Count: this.Containers.MainContainer.locator('[data-testid*="BreadcrumbCount"]'),
-    Contact: this.Containers.ListContainer.locator(this.InheritedFields.ListItemReactLocator),
+    Contact: this.Containers.ListContainer.locator(this.InheritedFields.ListItemLocator),
     ContactTag: this.Containers.ListContainer.locator('[data-testid="TagIcon"]'),
-    ContactByFirstName: (firstName) => this.Containers.ListContainer.locator(`${this.InheritedFields.ListItemReactLocator}[item.firstName="${firstName}"]`),
+    ContactByFirstName: (firstName) => this.Containers.ListContainer.locator(`${this.InheritedFields.ListItemLocator} >> _react=[key][item.firstName="${firstName}"]`),
   };
 
   ContactContextMenuOptions = {

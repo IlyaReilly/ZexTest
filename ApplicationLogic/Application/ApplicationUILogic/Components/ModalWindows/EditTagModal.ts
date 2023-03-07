@@ -28,12 +28,12 @@ export class EditTagModal extends ModalWindowBase {
     await pageManager.tagModals.OpenTagContextMenu.EditTagModal(tagName);
     await this.DropdownOptions.SelectColor.click();
     if (color === Colors[2].ColorSet) {
-      await this.Containers.DropDownContainer.locator(Colors[0].ColorSet).click();
+      await this.Containers.DropdownContainer.locator(Colors[0].ColorSet).click();
       await this.Buttons.Edit.click();
       await pageManager.tagModals.OpenTagContextMenu.EditTagModal(tagName);
       await this.DropdownOptions.SelectColor.click();
     };
-    await this.Containers.DropDownContainer.locator(color).click();
+    await this.Containers.DropdownContainer.locator(color).click();
     await this.Buttons.Edit.click();
   };
 };

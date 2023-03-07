@@ -6,17 +6,17 @@ export class BaseApplicationPage extends BasePage {
   };
 
   InheritedFields = {
-    SideSecondaryBarLocator: '[class*="SidebarContainer"]',
+    SideSecondaryBarLocator: '[data-testid="SideSecondaryBarContainer"]',
     WorkspaceContainerLocator: '[class*="BoardsRouterContainer"]',
-    ListContainerLocator: '[class*="List"][class*="Container"]',
-    ListItemReactLocator: '_react=[key][item]',
-    ListFileReactLocator: '_react=[node]',
+    ListContainerLocator: '[class*="List"][orientation="column"]',
+    ListItemLocator: '[class*="List"]:has([class^="Avatar"])',
+    DropdownLocator: '[data-testid="dropdown-popper-list"]',
+    DropdownItemReactLocator: '_react=[key]',
     NewItemBoardLocator: '[class*="BoardContainer"] >> [class*="Board"] >> nth=0',
     NewItemBodyIframeLocator: '.tox-edit-area__iframe',
     NewItemBodyLocator: '.mce-content-body',
     ModalWindowLocator: '[data-testid="modal"]',
     ExpandFoldersLocator: '[data-testid="ExpandMoreIcon"]',
-    DropdownListLocator: '[data-testid="dropdown-popper-list"]',
     ChatInfoContainerLocator: '[class*="InfoPanelContainer"]',
     ChatMembersContainerLocator: '[class*="ParticipantsListWidget"]',
     NotificationLocator: '[data-testid="snackbar"]',

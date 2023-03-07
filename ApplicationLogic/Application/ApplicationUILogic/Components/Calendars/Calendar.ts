@@ -8,7 +8,7 @@ export class Calendar extends BaseApplicationPage {
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.WorkspaceContainerLocator),
     AppointmentPopupContainer: this.page.locator('[data-testid="popper"]'),
-    OtherActionsContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    OtherActionsContainer: this.page.locator(this.InheritedFields.DropdownLocator),
     ModalContainer: this.page.locator(this.InheritedFields.ModalWindowLocator),
     CalendarView: this.page.locator('div:has([class^="custom-toolbar"])'),
   };

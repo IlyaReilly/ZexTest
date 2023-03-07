@@ -7,14 +7,14 @@ export class NewContact extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.NewItemBoardLocator),
-    DropdownListContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    DropdownContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   TypeOptions = {
-    MobileType: this.Containers.DropdownListContainer.locator('"mobile"'),
-    WorkType: this.Containers.DropdownListContainer.locator('"work"'),
-    HomeType: this.Containers.DropdownListContainer.locator('"home"'),
-    OtherType: this.Containers.DropdownListContainer.locator('"other"'),
+    MobileType: this.Containers.DropdownContainer.locator('"mobile"'),
+    WorkType: this.Containers.DropdownContainer.locator('"work"'),
+    HomeType: this.Containers.DropdownContainer.locator('"home"'),
+    OtherType: this.Containers.DropdownContainer.locator('"other"'),
   };
 
   Buttons = {

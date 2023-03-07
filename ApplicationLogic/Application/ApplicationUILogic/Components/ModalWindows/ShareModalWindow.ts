@@ -11,7 +11,7 @@ export class ShareModalWindow extends ModalWindowBase {
 
   ShareWithDropdown = {
     OpenClose: this.Containers.MainContainer.locator('"Share with"'),
-    UsersDropdown: this.page.locator(this.InheritedFields.DropdownListLocator),
+    UsersDropdown: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   TextBoxes = {

@@ -7,9 +7,9 @@ export class SideSecondaryMailMenu extends BaseApplicationPage {
 
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.SideSecondaryBarLocator),
-    MailOptionsContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    MailOptionsContainer: this.page.locator(this.InheritedFields.DropdownLocator),
     CreateNewFolderPopupContainer: this.page.locator('[data-testid="modal"]'),
-    ContextMenuContainer: this.page.locator(this.InheritedFields.DropdownListLocator),
+    ContextMenuContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
   Buttons = {

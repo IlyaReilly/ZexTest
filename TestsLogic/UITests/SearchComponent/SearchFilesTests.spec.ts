@@ -44,6 +44,6 @@ test.describe('Search tests', async () => {
     await apiManager.createFilesAPI.UploadFileViaAPI(fileNameFull, uniquePrefix);
     await pageManager.sideMenu.OpenMenuTab(pageManager.sideMenu.SideMenuTabs.Files);
     await pageManager.headerMenu.MakeSearch(uniquePrefix);
-    await expect(pageManager.searchResultsList.Elements.FileSearchResult.locator(`"${uniquePrefix}testAPI"`)).toBeVisible();
+    await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${uniquePrefix}testAPI"`)).toBeVisible();
   });
 });

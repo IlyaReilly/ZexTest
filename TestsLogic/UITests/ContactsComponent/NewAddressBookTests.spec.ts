@@ -98,12 +98,12 @@ test.describe('New address book tests', async () => {
       await pageManager.sideSecondaryContactsMenu.SelectAddressBookOption.Edit(addressBookName);
       await pageManager.editAddressBookModal.DropDown.ColorList.click();
       if (color === Colors[2]) {
-        await pageManager.editAddressBookModal.Containers.DropDownContainer.locator(Colors[0].ColorSet).click();
+        await pageManager.editAddressBookModal.Containers.DropdownContainer.locator(Colors[0].ColorSet).click();
         await pageManager.editAddressBookModal.Buttons.Edit.click();
         await pageManager.sideSecondaryContactsMenu.SelectAddressBookOption.Edit(addressBookName);
         await pageManager.editAddressBookModal.DropDown.ColorList.click();
       };
-      await pageManager.editAddressBookModal.Containers.DropDownContainer.locator(color.ColorSet).click();
+      await pageManager.editAddressBookModal.Containers.DropdownContainer.locator(color.ColorSet).click();
       await pageManager.editAddressBookModal.Buttons.Edit.click();
       await expect(pageManager.sideSecondaryContactsMenu.Containers.MainContainer.locator(color.ColorCheck).first(), 'New adress book icon color should be visible').toBeVisible();
     });

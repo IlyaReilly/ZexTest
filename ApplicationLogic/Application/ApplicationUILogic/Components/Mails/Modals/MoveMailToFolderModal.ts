@@ -6,7 +6,7 @@ export class MoveMailToFolderModal extends ModalWindowBase {
   };
 
   Folders = {
-    FoldersListItem: this.Containers.MainContainer.locator(this.InheritedFields.ListItemReactLocator),
+    FoldersListItem: this.Containers.MainContainer.locator(this.InheritedFields.DropdownItemReactLocator),
   };
 
   Buttons = {
