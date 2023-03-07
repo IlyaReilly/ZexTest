@@ -18,7 +18,7 @@ export class AdvancedFiltersModal extends ModalWindowBase {
     SizeSmallerThan: this.Containers.MainContainer.locator('[name="Size smaller than (MB)"]'),
     Subject: this.Containers.MainContainer.locator('[name="Subject"]'),
     SentToAddress: this.Containers.MainContainer.locator('[name="Sent to (address)"]'),
-    StatusOfEmailItem: this.Containers.MainContainer.locator('[name="Status of e-mail item"]'),
+    StatusOfEmailItem: this.Containers.MainContainer.locator('"Status of e-mail item"'),
     SizeLargerThan: this.Containers.MainContainer.locator('[name="Size larger than (MB)"]'),
     Tag: this.Containers.MainContainer.locator('_react=[compProps.tag] >> nth=0 >> [class*="Container__ContainerEl"] >> nth=0'),
   };
