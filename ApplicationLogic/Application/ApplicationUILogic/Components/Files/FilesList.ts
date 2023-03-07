@@ -19,7 +19,7 @@ export class FilesList extends BaseApplicationPage {
     FileExtension: this.Containers.MainContainer.locator(this.InheritedFields.ListItemLocator).locator('[class^="Container__ContainerEl"] > [class*="NodeListItem"]'),
     FileSize: this.Containers.MainContainer.locator(`${this.InheritedFields.ListItemLocator} >> [class^=Padding__Comp] [class*=NodeListItem]`),
     FlagIcon: this.Containers.MainContainer.locator('[data-testid="icon: Flag"]'),
-    DefinedByNameFile: (unicFileName) => this.page.locator(this.InheritedFields.ListItemLocator, {hasText: `${unicFileName}`}),
+    DefinedByNameFile: (unicFileName) => this.Containers.MainContainer.locator(this.InheritedFields.ListItemLocator, {hasText: `${unicFileName}`}),
     SelectOrder: this.Containers.MainContainer.locator('button:has(>[data-testid$="ListOutline"])'),
     CleanCompletedUploads: this.page.locator('button:has-text("Clean completed uploads")'),
     FileExtensionFilteredByFileName: (fileName) => this.Containers.MainContainer.locator(this.InheritedFields.ListItemLocator).filter({hasText: `${fileName}`}).locator('[class^="Container__ContainerEl"] > [class*="NodeListItem"]'),
