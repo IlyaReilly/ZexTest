@@ -47,13 +47,12 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
   };
 
   Elements = {
-    TrashChevronDown: this.Containers.MainContainer.locator('_react=[item.name="Trash"] >> [data-testid*="ChevronDown"]'),
-    TrashChevronUp: this.Containers.MainContainer.locator('_react=[item.name="Trash"] >> [data-testid*="ChevronUp"]'),
+    TrashChevron: this.Containers.MainContainer.locator(`id=3 >> ${this.InheritedFields.ExpandFoldersLocator}`),
     Item: this.Containers.MainContainer.locator('[class*="Text__Comp"]'),
   };
 
   async OpenTrashChevron() {
-    await this.Elements.TrashChevronDown.click();
+    await this.Elements.TrashChevron.click();
   };
 
   async GetCalendarColorByName(name: string) {

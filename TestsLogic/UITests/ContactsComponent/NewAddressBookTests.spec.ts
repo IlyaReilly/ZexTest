@@ -105,7 +105,7 @@ test.describe('New address book tests', async () => {
       };
       await pageManager.editAddressBookModal.Containers.DropdownContainer.locator(color.ColorSet).click();
       await pageManager.editAddressBookModal.Buttons.Edit.click();
-      await expect(pageManager.sideSecondaryContactsMenu.Containers.MainContainer.locator(color.ColorCheck).first(), 'New adress book icon color should be visible').toBeVisible();
+      await expect(pageManager.sideSecondaryContactsMenu.Containers.MainContainer.locator(`${color.AddressBookColorCheck}[icon^="Folder"]`), 'New adress book icon color should be visible').toBeVisible();
     });
   };
 });
