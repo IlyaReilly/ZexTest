@@ -68,6 +68,7 @@ export class NewAppointment extends BaseApplicationPage {
     await this.TextBox.EventTitle.scrollIntoViewIfNeeded();
     await this.TextBox.EventTitle.click();
     await this.TextBox.EventTitle.fill(title);
+    await this.row.locator(`"${title}"`).waitFor();
     await this.TextBox.Attendees.fill(attendees);
     if (privateApp) {
       await this.CheckBoxes.Private.click();

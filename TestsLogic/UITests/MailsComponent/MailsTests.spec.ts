@@ -327,29 +327,29 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.newMail.TextBox.Subject, 'Mail should be canceled and create page should return').toHaveValue(mailSubject);
   });
 
-  test("TC262. Click UNDO Button while deleting mail in inbox tab. Mail should return in folder", async ({pageManager, apiManager}) => {
+  test("TC262. Click UNDO Button while deleting mail in inbox tab. Mail should return in folder", async ({pageManager, apiManager, page}) => {
     await SendAndOpenMail({pageManager, apiManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox);
-    await DeleteMailAndClickUndo({pageManager});
+    await DeleteMailAndClickUndo({pageManager, page});
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should return in folder').toBeVisible();
   });
 
-  test("TC263. Click UNDO Button while deleting mail in Sent tab. Mail should return in folder", async ({pageManager, apiManager}) => {
+  test("TC263. Click UNDO Button while deleting mail in Sent tab. Mail should return in folder", async ({pageManager, apiManager, page}) => {
     await SendAndOpenMail({pageManager, apiManager}, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
-    await DeleteMailAndClickUndo({pageManager});
+    await DeleteMailAndClickUndo({pageManager, page});
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should return in folder').toBeVisible();
   });
 
   test("TC264. Click UNDO Button while deleting mail in drafts tab. Mail should return in folder", async ({pageManager, page}) => {
     await CreateSaveAndCloseMailOpenDrafts({pageManager, page});
     await pageManager.mailsList.OpenMail(mailSubject);
-    await DeleteMailAndClickUndo({pageManager});
+    await DeleteMailAndClickUndo({pageManager, page});
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should return in folder').toBeVisible();
   });
 
   test("TC265. Click UNDO Button while deleting mail in junk tab. Mail should return in folder", async ({pageManager, apiManager, page}) => {
     await SendOpenMailMarkAsSpamAndMoveToJunk({pageManager, apiManager, page});
     await pageManager.mailsList.OpenMail(mailSubject);
-    await DeleteMailAndClickUndo({pageManager});
+    await DeleteMailAndClickUndo({pageManager, page});
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should return in folder').toBeVisible();
   });
 
@@ -454,9 +454,10 @@ test.describe('Mails tests', async () => {
     return mailQuote;
   };
 
-  async function DeleteMailAndClickUndo({pageManager}) {
+  async function DeleteMailAndClickUndo({pageManager, page}) {
     await pageManager.mailDetails.SelectMailOption.Delete();
     await pageManager.mailDetails.Elements.UndoButton.click();
+    await WaitForNotificationHiding({pageManager, page});
   };
 
   async function ClickNewItemCreateMailAndSendMail({pageManager}) {

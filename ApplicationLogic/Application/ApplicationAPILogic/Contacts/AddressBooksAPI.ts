@@ -1,4 +1,5 @@
 import {BaseAPI} from "../BaseAPI";
+import {BaseTest} from '../../../../TestsLogic/BaseTest';
 
 export class AddressBookAPI extends BaseAPI {
   constructor(page) {
@@ -40,26 +41,6 @@ export class AddressBookAPI extends BaseAPI {
     return folderId;
   };
 
-  async GetAddressBookIdByName(user: string, addressBookName: string) {
-    const addressBooksList = await super.GetFolders(user, 'contact');
-    let addressBookId;
-    const addressBook = function findAddressBook(addressBooksList) {
-      addressBooksList.forEach((addressBookElement) => {
-        if (addressBookElement.name == addressBookName) {
-          addressBookId = addressBookElement.id;
-        }
-        if (!addressBookId && addressBookElement.folder) {
-          findAddressBook(addressBookElement.folder);
-        }
-        if (!addressBookId && !addressBookElement.folder) {
-          addressBookId = null;
-        }
-      });
-      return addressBookId;
-    };
-    return addressBook(addressBooksList);
-  };
-
   async DeleteAddressBookById(id, user) {
     await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
       data: {
@@ -72,40 +53,32 @@ export class AddressBookAPI extends BaseAPI {
         Header: {
           context: {
             _jsns: "urn:zimbra",
-            notify: {seq: 2},
-            session: {id: "13024", _content: "13024"},
             account: {by: "name", _content: user},
-            userAgent: {
-              name: "CarbonioWebClient - Chrome 104.0.0.0 (Windows)",
-              version: "22.7.2_ZEXTRAS_202207 agent 20220726-0959 FOSS",
-            },
           },
         },
       },
     });
   };
 
-  async DeleteAddressBookPermanentlyById(id, user) {
-    await this.page.request.post(`${this.soapServiceUrl}${this.folderActionRequest}`, {
+  async GetAddressBooks(user: string) {
+    const response = await this.page.request.post(`${this.soapServiceUrl}${this.getFolderRequest}`, {
+      headers: {['content-type']: 'application/soap+xml'},
+      data: `<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"><soap:Header><context xmlns="urn:zimbra"><account by="name">${user}</account><format type="js"/></context></soap:Header><soap:Body><BatchRequest xmlns="urn:zimbra" onerror="stop"> <GetFolderRequest xmlns="urn:zimbraMail" visible="1"></GetFolderRequest></BatchRequest></soap:Body></soap:Envelope>`,
+    });
+    const body = await this.GetResponseBody(response);
+    return ((body.Body.BatchResponse.GetFolderResponse[0].folder[0].folder).filter((folder) => folder.folder)).flatMap((folder) => folder.folder);
+  };
+
+  async EmptyTrashRequest(user: string) {
+    await this.page.request.post(`${this.soapServiceUrl}${this.searchRequest}`, {
       data: {
-        Body: {
-          FolderActionRequest: {
-            action: {id: id, op: "delete", l: "3"},
-            _jsns: "urn:zimbraMail",
-          },
-        },
-        Header: {
-          context: {
-            _jsns: "urn:zimbra",
-            session: {id: "119", _content: "119"},
-            account: {by: "name", _content: user},
-            userAgent: {
-              name: "CarbonioWebClient - Chrome 104.0.0.0 (Windows)",
-              version: "22.7.2_ZEXTRAS_202207 agent 20220726-0959 FOSS",
-            },
-          },
-        },
+        "Body": {"FolderActionRequest": {"action": {"id": "3", "op": "empty", "recursive": true, "f": ""}, "_jsns": "urn:zimbraMail"}}, "Header": {"context": {"_jsns": "urn:zimbra", "account": {"by": "name", "_content": user}}},
       },
     });
-  }
+  };
+
+  async DeleteAddressBooksViaAPI() {
+    await Promise.all((await this.GetAddressBooks(BaseTest.userForLogin.login)).map(async (addressBook) => await this.DeleteAddressBookById(addressBook.id, BaseTest.userForLogin.login)));
+    await this.EmptyTrashRequest(BaseTest.userForLogin.login);
+  };
 };

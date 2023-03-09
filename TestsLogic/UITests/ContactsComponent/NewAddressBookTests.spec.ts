@@ -5,7 +5,6 @@ import Colors from '../../../TestData/IconColorList.json';
 test.describe('New address book tests', async () => {
   let dateTimePrefix;
   let addressBookName;
-  let addressBookId;
   let newAddressBookName;
   let firstName;
 
@@ -16,15 +15,12 @@ test.describe('New address book tests', async () => {
     newAddressBookName = dateTimePrefix + ' New Address book';
     firstName = dateTimePrefix + ' Contact';
     await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
+    await apiManager.addressBookAPI.DeleteAddressBooksViaAPI({apiManager});
   });
 
   test.afterEach(async ({page, apiManager}) => {
     await apiManager.contactsAPI.DeleteContactsViaAPI({apiManager});
-    addressBookId = await apiManager.addressBookAPI.GetAddressBookIdByName(BaseTest.userForLogin.login, addressBookName);
-    if (!addressBookId) {
-      addressBookId = await apiManager.addressBookAPI.GetAddressBookIdByName(BaseTest.userForLogin.login, newAddressBookName);
-    }
-    await apiManager.addressBookAPI.DeleteAddressBookPermanentlyById(addressBookId, BaseTest.userForLogin.login);
+    await apiManager.addressBookAPI.DeleteAddressBooksViaAPI({apiManager});
     await page.close();
   });
 
