@@ -144,7 +144,7 @@ test.describe('Documents tests', async () => {
       page.waitForEvent('popup'),
       pageManager.fileDetails.ClickVersioningDropdownOption.OpenDocumentVersion(1),
     ]);
-    await expect(documentVersionPage).toHaveURL('https://qa_public2.demo.zextras.io/services/docs/files/open/72620f9e-6e88-4e6d-bf20-abf7b62c9db8?version=1');
+    await expect(documentVersionPage).toHaveURL('https://qa_public1.demo.zextras.io/services/docs/files/open/72620f9e-6e88-4e6d-bf20-abf7b62c9db8?version=1');
   });
 
   test('TC533. Create Microsoft Word file via header menu. File with docx extension should appear in Home folder. @smoke', async ({pageManager}) => {
