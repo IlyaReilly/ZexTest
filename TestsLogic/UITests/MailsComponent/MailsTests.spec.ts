@@ -432,7 +432,6 @@ test.describe('Mails tests', async () => {
   async function SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager, page}, option, openFolder = pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox) {
     await OpenMailAndSelectOption({apiManager, pageManager}, option);
     if (option === pageManager.mailDetails.SelectMailOption.Forward) {
-      await pageManager.newMail.TextBox.To.click();
       await pageManager.newMail.TextBox.To.fill(BaseTest.userForLogin.login);
     };
     await pageManager.newMail.TextBox.Body.click();
