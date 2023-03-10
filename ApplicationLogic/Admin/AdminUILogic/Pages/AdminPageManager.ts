@@ -7,6 +7,7 @@ import {Notifications} from '../Components/Notifications/Notifications';
 import {ServersList} from '../Components/Mailstores/ServersList';
 import {DomainsSideMenu} from '../Components/Domains/DomainsSideMenu';
 import {DomainsDetailsTheme} from '../Components/Domains/DomainsDetailsTheme';
+import {DomainsGlobalTheme} from '../Components/Domains/DomainsGlobalTheme';
 import {ResetModal} from '../Components/Modals/ResetModal';
 
 export class AdminPageManager {
@@ -19,6 +20,7 @@ export class AdminPageManager {
   serversList;
   domainsSideMenu;
   domainsDetailsTheme;
+  domainsGlobalTheme;
   resetModal;
 
   constructor(page) {
@@ -32,5 +34,6 @@ export class AdminPageManager {
     this.domainsSideMenu = new DomainsSideMenu(page);
     this.domainsDetailsTheme = new DomainsDetailsTheme(page);
     this.resetModal = new ResetModal(page);
+    this.domainsGlobalTheme = new DomainsGlobalTheme(page);
   };
-}
+};

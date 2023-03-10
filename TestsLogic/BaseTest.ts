@@ -39,6 +39,7 @@ export const test = base.extend<TestOptions & {pageManager: PageManager, secondP
 
   adminPage: async ({browser, baseURL, domain}, use) => {
     BaseTest.baseUrl = baseURL;
+    BaseTest.domain = domain;
     BaseTest.baseAdminUrl = baseURL?.slice(0, -1) + ":" + BaseTest.playwrightProjectsData.baseURL.adminPort;
     const user = new User(BaseTest.playwrightProjectsData.adminUsers.zextras.login + '@' + domain,
       BaseTest.playwrightProjectsData.adminUsers.zextras.password);

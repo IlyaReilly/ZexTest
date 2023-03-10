@@ -160,11 +160,11 @@ test.describe('Search tests', async () => {
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).toBeVisible();
   });
 
-  test('TC721. Search by "not forwarded" in Search status found mail. The email should not be found in Search Tab', async ({apiManager, pageManager, page}) => {
+  test('TC721. Search by "not forwarded" in Search status found mail. The email should not be found in Search Tab', async ({apiManager, pageManager}) => {
     test.fail(true, '144, Not Forwarded option does not working');
     await SendMailBySelectedMethodAndOpenFiltersInSearch({pageManager, apiManager}, apiManager.createMailsAPI.MsgType.Forward);
     await pageManager.advancedFiltersModal.StatusMailItems.NotForwardedOption();
-    await page.waitForLoadState();
+    await pageManager.searchStatisticsHeader.Elements.SearchSnippet.waitFor();
     await expect(pageManager.searchResultsList.Elements.SearchResult.locator(`"${mailSubject}"`).first()).not.toBeVisible();
   });
 

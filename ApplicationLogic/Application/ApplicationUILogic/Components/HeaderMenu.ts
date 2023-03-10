@@ -45,7 +45,7 @@ export class HeaderMenu extends BaseApplicationPage {
   };
 
   Logos = {
-    MainLogo: this.Containers.MainContainer.locator('[class*="Background"] >> _react=l'),
+    MainLogo: this.Containers.MainContainer.locator('_react=l'),
   };
 
   TextBoxes = {
@@ -98,4 +98,4 @@ export class HeaderMenu extends BaseApplicationPage {
     CreateNewGroup: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateGroup),
     CreateNewSpace: async () => await this.OpenNewItemMenu(this.NewItemMenu.CreateSpace),
   };
-}
+};

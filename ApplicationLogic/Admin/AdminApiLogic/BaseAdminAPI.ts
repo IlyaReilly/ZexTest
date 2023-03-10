@@ -18,6 +18,7 @@ export class BaseAdminAPI {
   readonly baseAdminUrl = BaseTest.baseAdminUrl;
   readonly soapServiceUrl = '/service/admin/soap/';
   // endpoints
+  readonly ModifyConfigRequest = 'ModifyConfigRequest';
   readonly ModifyDomainRequest = 'ModifyDomainRequest';
 
   readonly domainIds = {

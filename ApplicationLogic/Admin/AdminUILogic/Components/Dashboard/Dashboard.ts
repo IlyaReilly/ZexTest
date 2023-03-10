@@ -19,8 +19,8 @@ export class Dashboard extends BaseAdminPage {
   Buttons = {
     OpenAccounts: this.Fields.QuickAccess.locator('[class*="ActionContainer"]:has-text("Accounts") >> "Open"'),
     OpenMailingList: this.Fields.QuickAccess.locator('[class*="ActionContainer"]:has-text("Mailing List") >> "Open"'),
-    GoToNotification: this.Containers.MainContainer.locator('"GO TO NOTIFICATION"'),
-    GoToMailstoresServersList: this.Containers.MainContainer.locator('"GO TO MAILSTORES SERVERS LIST"'),
+    GoToNotification: this.Containers.MainContainer.locator('"Go to notification"'),
+    GoToMailstoresServersList: this.Containers.MainContainer.locator('"Go to mailstores servers list"'),
     Information: this.Fields.YourNotifications.locator('_react=[item.id="Information"]'),
     SelectedInformation: this.Fields.YourNotifications.locator('_react=[item.id="Information"][selected=true]'),
     Warning: this.Fields.YourNotifications.locator('_react=[item.id="Warning"]'),

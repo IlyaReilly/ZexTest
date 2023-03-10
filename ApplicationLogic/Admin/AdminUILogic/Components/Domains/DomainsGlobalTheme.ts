@@ -1,6 +1,6 @@
 import {BaseAdminPage} from '../../Pages/BaseAdminPage';
 
-export class DomainsDetailsTheme extends BaseAdminPage {
+export class DomainsGlobalTheme extends BaseAdminPage {
   constructor(page) {
     super(page);
   };
@@ -8,6 +8,20 @@ export class DomainsDetailsTheme extends BaseAdminPage {
   Containers = {
     MainContainer: this.page.locator(this.InheritedFields.DetailViewContainerLocator),
     DropdownContainer: this.page.locator(this.InheritedFields.DropdownContainerLocator),
+  };
+
+  Tabs = {
+    EndUser: this.Containers.MainContainer.locator('_react=[key="end_user"]'),
+    AdminPanel: this.Containers.MainContainer.locator('_react=[key="admin_panel"]'),
+  };
+
+  Textboxes = {
+    Title: this.Containers.MainContainer.locator('[name="carbonioWebUiTitle"]'),
+    CopyrightsInformation: this.Containers.MainContainer.locator('[name="carbonioWebUiDescription"]'),
+    LightLoginLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiLoginLogo"]'),
+    LightWebAppLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiAppLogo"]'),
+    DarkLoginLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiDarkLoginLogo"]'),
+    DarkWebAppLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiDarkAppLogo"]'),
   };
 
   Buttons = {

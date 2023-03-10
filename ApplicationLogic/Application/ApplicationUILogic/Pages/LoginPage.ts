@@ -8,15 +8,19 @@ export class LoginPage extends BasePage {
     super(page, locator);
   };
 
+  Containers = {
+    MainContainer: this.page.locator(pageLocator),
+  };
+
   readonly searchTextBox;
 
   TextBox = {
-    Login: this.page.locator('#input-0'),
-    Password: this.page.locator('#password-0'),
+    Login: this.Containers.MainContainer.locator('#input-0'),
+    Password: this.Containers.MainContainer.locator('#password-0'),
   };
 
   Buttons = {
-    Login: this.page.locator('[role="button"]:has-text("Login")'),
+    Login: this.Containers.MainContainer.locator('[role="button"]:has-text("Login")'),
   };
 
   async Login(login, password) {
@@ -36,4 +40,4 @@ export class LoginPage extends BasePage {
     await this.Logout();
     await this.Login(login, password);
   };
-}
+};
