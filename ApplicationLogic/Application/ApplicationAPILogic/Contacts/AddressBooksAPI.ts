@@ -60,13 +60,17 @@ export class AddressBookAPI extends BaseAPI {
     });
   };
 
-  async GetAddressBooks(user: string) {
+  async GetDeletableAddressBooks(user: string) {
+    const deletableAddressBooks: any [] = [];
     const response = await this.page.request.post(`${this.soapServiceUrl}${this.getFolderRequest}`, {
       headers: {['content-type']: 'application/soap+xml'},
       data: `<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"><soap:Header><context xmlns="urn:zimbra"><account by="name">${user}</account><format type="js"/></context></soap:Header><soap:Body><BatchRequest xmlns="urn:zimbra" onerror="stop"> <GetFolderRequest xmlns="urn:zimbraMail" visible="1"></GetFolderRequest></BatchRequest></soap:Body></soap:Envelope>`,
     });
     const body = await this.GetResponseBody(response);
-    return ((body.Body.BatchResponse.GetFolderResponse[0].folder[0].folder).filter((folder) => folder.folder)).flatMap((folder) => folder.folder);
+    const addressBooks = body.Body.BatchResponse.GetFolderResponse[0].folder[0].folder;
+    deletableAddressBooks.push(...(addressBooks.filter((folder) => folder.deletable)));
+    deletableAddressBooks.push(...((addressBooks.filter((folder) => folder.folder))).flatMap((folder) => folder.folder));
+    return deletableAddressBooks;
   };
 
   async EmptyTrashRequest(user: string) {
@@ -78,7 +82,7 @@ export class AddressBookAPI extends BaseAPI {
   };
 
   async DeleteAddressBooksViaAPI() {
-    await Promise.all((await this.GetAddressBooks(BaseTest.userForLogin.login)).map(async (addressBook) => await this.DeleteAddressBookById(addressBook.id, BaseTest.userForLogin.login)));
+    await Promise.all((await this.GetDeletableAddressBooks(BaseTest.userForLogin.login)).map(async (addressBook) => await this.DeleteAddressBookById(addressBook.id, BaseTest.userForLogin.login)));
     await this.EmptyTrashRequest(BaseTest.userForLogin.login);
   };
 };
