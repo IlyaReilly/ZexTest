@@ -56,7 +56,7 @@ pipeline {
                   }
                }
             }
-            stage('Admin tests') {
+            stage('admin-tests') {
                stages {
                  stage('webkit') {
                      steps {
