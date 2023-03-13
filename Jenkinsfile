@@ -18,7 +18,6 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh  """ npx playwright test --workers=1 --project="webkit" ./TestsLogic/AdminUITests $SUITE """
                   sh  """ npx playwright test --project="webkit" ./TestsLogic/UITests $SUITE """
                }
                post {
@@ -33,7 +32,6 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh  """ npx playwright test --workers=1 --project="chromium" ./TestsLogic/AdminUITests $SUITE """
                   sh  """ npx playwright test --project="chromium" ./TestsLogic/UITests $SUITE """
                }
                post {
@@ -48,7 +46,6 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
                   sh  """ npx playwright test --project="firefox" ./TestsLogic/UITests $SUITE """
                }
                post {
@@ -56,6 +53,52 @@ pipeline {
                      sh 'tar -czvf index-firefox.tar.gz playwright-report/index.html'
                      archiveArtifacts 'index-firefox.tar.gz'
                      emailext attachmentsPattern: 'index-firefox.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Firefox tests", to: "autotests.reports@zextras.com"                     
+                  }
+               }
+            }
+            stage('Admin tests') {
+               stages {
+                 stage('webkit') {
+                     steps {
+                        sh 'npm install'
+                        sh 'npx playwright install'
+                        sh  """ npx playwright test --workers=1 --project="webkit" ./TestsLogic/AdminUITests $SUITE """
+                     }
+                     post {
+                        failure {
+                        sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
+                        archiveArtifacts 'index-webkit.tar.gz'
+                        emailext attachmentsPattern: 'index-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Webkit admin tests", to: "autotests.reports@zextras.com"                     
+                        }
+                     }
+                  }
+                 stage('chromium') {
+                     steps {
+                        sh 'npm install'
+                        sh 'npx playwright install'
+                        sh  """ npx playwright test --workers=1 --project="chromium" ./TestsLogic/AdminUITests $SUITE """
+                     }
+                     post {
+                        failure {
+                        sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
+                        archiveArtifacts 'index-webkit.tar.gz'
+                        emailext attachmentsPattern: 'index-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Chromium admin tests", to: "autotests.reports@zextras.com"                     
+                        }
+                     }
+                  }
+                 stage('firefox') {
+                     steps {
+                        sh 'npm install'
+                        sh 'npx playwright install'
+                        sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
+                     }
+                     post {
+                        failure {
+                        sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
+                        archiveArtifacts 'index-webkit.tar.gz'
+                        emailext attachmentsPattern: 'index-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Firefox admin tests", to: "autotests.reports@zextras.com"                     
+                        }
+                     }
                   }
                }
             }
