@@ -60,7 +60,9 @@ pipeline {
                stages {
                  stage('webkit') {
                      steps {
-                        sh  """ npx playwright test --workers=1 --project="webkit" ./TestsLogic/AdminUITests $SUITE """
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                           sh  """ npx playwright test --workers=1 --project="webkit" ./TestsLogic/AdminUITests $SUITE """
+                        }
                      }
                      post {
                         failure {
@@ -72,8 +74,9 @@ pipeline {
                   }
                  stage('chromium') {
                      steps {
-                        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE')
-                        sh  """ npx playwright test --workers=1 --project="chromium" ./TestsLogic/AdminUITests $SUITE """
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                           sh  """ npx playwright test --workers=1 --project="chromium" ./TestsLogic/AdminUITests $SUITE """
+                        }
                      }
                      post {
                         failure {
@@ -85,7 +88,6 @@ pipeline {
                   }
                  stage('firefox') {
                      steps {
-                        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE')
                         sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
                      }
                      post {
@@ -96,11 +98,6 @@ pipeline {
                         }
                      }
                   }
-               }
-            }
-            stage('Workaround') {
-               steps {
-                  sh  "echo workaround"
                }
             }
          }
