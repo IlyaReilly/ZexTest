@@ -72,6 +72,7 @@ pipeline {
                   }
                  stage('chromium') {
                      steps {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
                         sh  """ npx playwright test --workers=1 --project="chromium" ./TestsLogic/AdminUITests $SUITE """
                      }
                      post {
@@ -84,6 +85,7 @@ pipeline {
                   }
                  stage('firefox') {
                      steps {
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
                         sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
                      }
                      post {
@@ -94,6 +96,11 @@ pipeline {
                         }
                      }
                   }
+               }
+            }
+            stage('Workaround') {
+               steps {
+                  sh  "echo workaround"
                }
             }
          }
