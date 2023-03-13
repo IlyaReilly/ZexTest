@@ -31,24 +31,21 @@ test.describe('Admin. Domains tests.', async () => {
     await expect(adminPageManager.domainsSideMenu.List.Manage.Header, 'Manage list header should be visible').toBeVisible();
   });
 
-  test('ATC302. Enable a domain dark mode. Dark mode should be visible', async ({adminPageManager, page, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'Skipped due to affecting on parallel run');
+  test('ATC302. Enable a domain dark mode. Dark mode should be visible', async ({adminPageManager, page}) => {
     await SetDomainDarkMode({adminPageManager}, adminPageManager.domainsDetailsTheme.SetDarkModeOption.Enabled);
     await page.reload();
     await expect(page.locator('[data-darkreader-mode]'), 'Dark mode should be visible').toBeVisible();
     await page.close();
   });
 
-  test('ATC303. Disable a domain dark mode. Dark mode should not be visible', async ({adminPageManager, page, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'Skipped due to affecting on parallel run');
+  test('ATC303. Disable a domain dark mode. Dark mode should not be visible', async ({adminPageManager, page}) => {
     await SetDomainDarkMode({adminPageManager}, adminPageManager.domainsDetailsTheme.SetDarkModeOption.Disabled);
     await page.reload();
     await expect(page.locator('[data-darkreader-mode]'), 'Dark mode should not be visible').not.toBeVisible();
     await page.close();
   });
 
-  test('ATC304. Add browser tab title for end-user. New title should be visible on web browser tab', async ({adminPageManager, page, pageManager, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'Skipped due to affecting on parallel run');
+  test('ATC304. Add browser tab title for end-user. New title should be visible on web browser tab', async ({adminPageManager, page, pageManager}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.Title);
     await page.reload();
     await pageManager.headerMenu.Logos.MainLogo.waitFor();
@@ -56,34 +53,29 @@ test.describe('Admin. Domains tests.', async () => {
     await page.close();
   });
 
-  test('ATC305. Add copyright information text for end-user. New text should be visible at the bottom of login form', async ({adminPageManager, browser, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'Skipped due to affecting on parallel run');
+  test('ATC305. Add copyright information text for end-user. New text should be visible at the bottom of login form', async ({adminPageManager, browser}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.CopyrightsInformation);
     await OpenEndUserLoginPageAndExpect({browser}, `"${text}"`);
   });
 
-  test('ATC306. Add light mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'Skipped due to affecting on parallel run');
+  test('ATC306. Add light mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.LightLoginLogo, logoUrl);
     await OpenEndUserLoginPageAndExpect({browser}, `[src="${logoUrl}"]`);
   });
 
-  test('ATC307. Add light mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'Skipped due to affecting on parallel run');
+  test('ATC307. Add light mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.LightWebAppLogo, logoUrl);
     await page.reload();
     await expect(pageManager.headerMenu.Containers.MainContainer.locator(`[src="${logoUrl}"]`), 'New logo should be visible').toBeVisible();
     await page.close();
   });
 
-  test('ATC308. Add dark mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'Skipped due to affecting on parallel run');
+  test('ATC308. Add dark mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser}) => {
     await SetGlobalThemeAndEnableDomainDarkMode({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.DarkLoginLogo, logoUrl);
     await OpenEndUserLoginPageAndExpect({browser}, `[src="${logoUrl}"]`);
   });
 
-  test('ATC309. Add dark mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager, browserName}) => {
-    test.skip(browserName === 'webkit' || browserName === 'firefox', 'Skipped due to affecting on parallel run');
+  test('ATC309. Add dark mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager}) => {
     await SetGlobalThemeAndEnableDomainDarkMode({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.DarkWebAppLogo, logoUrl);
     await page.reload();
     await expect(pageManager.headerMenu.Containers.MainContainer.locator(`[src="${logoUrl}"]`), 'New logo should be visible').toBeVisible();

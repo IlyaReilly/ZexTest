@@ -18,7 +18,8 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh  """ npx playwright test --project="webkit" $SUITE """
+                  sh  """ npx playwright test --workers=1 --project="webkit" ./TestsLogic/AdminUITests $SUITE """
+                  sh  """ npx playwright test --project="webkit" ./TestsLogic/UITests $SUITE """
                }
                post {
                   failure {
@@ -32,7 +33,8 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh """ npx playwright test --project="chromium" $SUITE """
+                  sh  """ npx playwright test --workers=1 --project="chromium" ./TestsLogic/AdminUITests $SUITE """
+                  sh  """ npx playwright test --project="chromium" ./TestsLogic/UITests $SUITE """
                }
                post {
                   failure {
@@ -46,7 +48,8 @@ pipeline {
                steps {
                   sh 'npm install'
                   sh 'npx playwright install'
-                  sh """ npx playwright test --project="firefox" $SUITE """
+                  sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
+                  sh  """ npx playwright test --project="firefox" ./TestsLogic/UITests $SUITE """
                }
                post {
                   failure {
