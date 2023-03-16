@@ -350,7 +350,7 @@ test.describe('Mails tests', async () => {
     await SendOpenMailMarkAsSpamAndMoveToJunk({pageManager, apiManager, page});
     await pageManager.mailsList.OpenMail(mailSubject);
     await DeleteMailAndClickUndo({pageManager, page});
-    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should return in folder').toBeVisible();
+    await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`).first(), 'Mail should return in folder').toBeVisible();
   });
 
   async function WaitForNotificationHiding({pageManager, page}) {
