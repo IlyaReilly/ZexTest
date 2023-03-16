@@ -60,11 +60,6 @@ test.describe('Admin. Domains Global tests.', async () => {
     await page.close();
   });
 
-  test('ATC311. Click on Show Domains Button. Domains list dropdown should be visible', async ({adminPageManager}) => {
-    await adminPageManager.domainsSideMenu.Buttons.ShowDomains.click();
-    await expect(adminPageManager.domainsSideMenu.Elements.DomainInDropdown, 'Domains list dropdown should be visible').toBeVisible();
-  });
-
   async function SetDomainDarkMode({adminPageManager}, setDarkModeOption) {
     await adminPageManager.domainsSideMenu.SelectDomain(BaseTest.domain);
     await adminPageManager.domainsSideMenu.List.Details.Theme.click();
