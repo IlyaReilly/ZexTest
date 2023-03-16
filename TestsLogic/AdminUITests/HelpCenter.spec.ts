@@ -13,11 +13,11 @@ test.describe('Admin. Help Center.', async () => {
   test(`Open help center. Open URL ${helpCenterURL}. @smoke`, async ({adminPage, adminPageManager}) => {
     BaseTest.setAdminSuite.helpCenter();
     BaseTest.setSuite.smoke();
+    await adminPage.waitForLoadState('networkidle');
     const [newPage] = await Promise.all([
       adminPage.waitForEvent('popup'),
       adminPageManager.adminHeaderMenu.Links.HelpCenter.click(),
     ]);
-    await newPage.waitForLoadState();
-    await expect(newPage.url()).toEqual(helpCenterURL);
+    expect(newPage.url()).toBe(helpCenterURL);
   });
 });
