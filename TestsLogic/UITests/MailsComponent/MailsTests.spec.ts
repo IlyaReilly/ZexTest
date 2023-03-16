@@ -25,10 +25,10 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.sideSecondaryMailMenu.Containers.MainContainer.locator(`"${BaseTest.userForLogin.login}"`), 'User`s login should be visible in the secondary sidebar').toBeVisible();
   });
 
-  test('TC202. Send mail. Mail should be visible in the Sent folder list. @criticalPath', async ({pageManager}) => {
+  test('TC202. Send mail. Mail should be visible in the Sent folder list. @criticalPath', async ({pageManager, page}) => {
     BaseTest.setSuite.criticalPath();
     BaseTest.doubleTimeout();
-    await ClickNewItemCreateMailAndSendMail({pageManager});
+    await ClickNewItemCreateMailAndSendMail({pageManager, page});
     await pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent();
     await expect(pageManager.mailsList.Elements.Letter.locator(`"${mailSubject}"`), 'Mail should be visible in the Sent folder list').toBeVisible();
   });
@@ -302,6 +302,7 @@ test.describe('Mails tests', async () => {
   });
 
   test("TC255. Forward mail. Forwarded mail subject should be visible in the Sent folder", async ({pageManager, apiManager, page}) => {
+    BaseTest.doubleTimeout();
     await SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager, page}, pageManager.mailDetails.SelectMailOption.Forward, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailsList.Elements.Letter.locator(`"FWD: ${mailSubject}"`), 'Forwarded mail subject should be visible in the Sent folder').toBeVisible();
   });
@@ -312,6 +313,7 @@ test.describe('Mails tests', async () => {
   });
 
   test("TC257. Open the sent forwarded mail. Quote should be visible in mail details", async ({pageManager, apiManager, page}) => {
+    BaseTest.doubleTimeout();
     const mailQuote = await SendReceivedMailBySelectedOptionAndOpenMail({apiManager, pageManager, page}, pageManager.mailDetails.SelectMailOption.Forward, `FWD: ${mailSubject}`, pageManager.sideSecondaryMailMenu.OpenMailFolder.Sent);
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
@@ -321,8 +323,8 @@ test.describe('Mails tests', async () => {
     await expect(pageManager.mailDetails.Elements.Body, 'Quote should be visible in mail details').toHaveText(mailQuote);
   });
 
-  test("TC261. Click UNDO Button while you sending mail. Mail should be canceled and create page should return", async ({pageManager}) => {
-    await ClickNewItemCreateMailAndSendMail({pageManager});
+  test("TC261. Click UNDO Button while you sending mail. Mail should be canceled and create page should return", async ({pageManager, page}) => {
+    await ClickNewItemCreateMailAndSendMail({pageManager, page});
     await pageManager.mailDetails.Elements.UndoButton.click();
     await expect(pageManager.newMail.TextBox.Subject, 'Mail should be canceled and create page should return').toHaveValue(mailSubject);
   });
@@ -431,6 +433,7 @@ test.describe('Mails tests', async () => {
 
   async function SendReceivedMailBySelectedOptionAndOpenFolder({apiManager, pageManager, page}, option, openFolder = pageManager.sideSecondaryMailMenu.OpenMailFolder.Inbox) {
     await OpenMailAndSelectOption({apiManager, pageManager}, option);
+    await page.waitForLoadState('networkidle');
     if (option === pageManager.mailDetails.SelectMailOption.Forward) {
       await pageManager.newMail.TextBox.To.fill(BaseTest.userForLogin.login);
     };
@@ -460,8 +463,9 @@ test.describe('Mails tests', async () => {
     await WaitForNotificationHiding({pageManager, page});
   };
 
-  async function ClickNewItemCreateMailAndSendMail({pageManager}) {
+  async function ClickNewItemCreateMailAndSendMail({pageManager, page}) {
     await pageManager.headerMenu.Buttons.NewItem.click();
+    await page.waitForLoadState('networkidle');
     await pageManager.newMail.CreateNewMail(BaseTest.userForLogin.login, mailSubject, mailBody);
     await pageManager.newMail.SendMail();
   };

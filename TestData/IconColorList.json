@@ -2,51 +2,51 @@
     {
       "ColorSet": "'cyan'",
       "AddressBookColorCheck": "_react=[customColor = '#29B6F6']",
-      "TagColorCheck": "_react=[color = '#29B6F6']"
+      "ColorCheck": "_react=[color = '#29B6F6']"
     },
     {
       "ColorSet": "'green'",
       "AddressBookColorCheck": "_react=[customColor = '#66BB6A']",
-      "TagColorCheck": "_react=[color = '#66BB6A']"
+      "ColorCheck": "_react=[color = '#66BB6A']"
     },
     {
       "ColorSet": "'black'",
       "AddressBookColorCheck": "_react=[customColor = '#000000']",
-      "TagColorCheck": "_react=[color = '#000000']"
+      "ColorCheck": "_react=[color = '#000000']"
     },
     {
       "ColorSet": "'purple'",
       "AddressBookColorCheck": "_react=[customColor = '#7e57c2']",
-      "TagColorCheck": "_react=[color = '#7e57c2']"
+      "ColorCheck": "_react=[color = '#7e57c2']"
     },
     {
       "ColorSet": "'red'",
       "AddressBookColorCheck": "_react=[customColor = '#ef5350']",
-      "TagColorCheck": "_react=[color = '#ef5350']"
+      "ColorCheck": "_react=[color = '#ef5350']"
     },
     {
       "ColorSet": "'yellow'",
       "AddressBookColorCheck": "_react=[customColor = '#ffc107']",
-      "TagColorCheck": "_react=[color = '#ffc107']"
+      "ColorCheck": "_react=[color = '#ffc107']"
     },
     {
       "ColorSet": "'pink'",
       "AddressBookColorCheck": "_react=[customColor = '#edaeab']",
-      "TagColorCheck": "_react=[color = '#edaeab']"
+      "ColorCheck": "_react=[color = '#edaeab']"
     },
     {
       "ColorSet": "'gray'",
       "AddressBookColorCheck": "_react=[customColor = '#828282']",
-      "TagColorCheck": "_react=[color = '#828282']"
+      "ColorCheck": "_react=[color = '#828282']"
     },
     {
       "ColorSet": "'blue'",
       "AddressBookColorCheck": "_react=[customColor = '#2b73d2']",
-      "TagColorCheck": "_react=[color = '#2b73d2']"
+      "ColorCheck": "_react=[color = '#2b73d2']"
     },
     {
       "ColorSet": "'orange'",
       "AddressBookColorCheck": "_react=[customColor = '#FF7043']",
-      "TagColorCheck": "_react=[color = '#FF7043']"
+      "ColorCheck": "_react=[color = '#FF7043']"
     }
   ]

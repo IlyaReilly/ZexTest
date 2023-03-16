@@ -5,10 +5,8 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
     super(page);
   };
 
-  readonly SideSecondaryBarLocator = this.InheritedFields.SideSecondaryBarLocator;
-
   Containers = {
-    MainContainer: this.page.locator(this.SideSecondaryBarLocator),
+    MainContainer: this.page.locator(this.InheritedFields.SideSecondaryBarLocator),
     ContextMenuContainer: this.page.locator(this.InheritedFields.DropdownLocator),
   };
 
@@ -27,6 +25,7 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
     Trash: this.Containers.MainContainer.locator('"Trash"'),
     Tags: this.Containers.MainContainer.locator('"Tags"'),
     SharedCalendars: this.Containers.MainContainer.locator('"Shared Calendars"'),
+    CalendarByName: (name) => this.Containers.MainContainer.locator(`[class^="MuiButton"]:has-text("${name}")`),
   };
 
   Icons = {
@@ -55,20 +54,12 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
     await this.Elements.TrashChevron.click();
   };
 
-  async GetCalendarColorByName(name: string) {
-    const calendarIconElement = await this.page.waitForSelector(`text=${name} >> xpath=preceding-sibling::* >> svg`);
-    const color = await calendarIconElement.evaluate((el) => {
-      return window.getComputedStyle(el).getPropertyValue('color');
-    });
-    return color;
-  };
-
   async OpenContextMenuForCalendar(name = '') {
     let calendar;
     if (name) {
-      calendar = await this.Containers.MainContainer.locator(`"${name}"`);
+      calendar = this.Tabs.CalendarByName(name);
     } else {
-      calendar = await this.Tabs.Calendar;
+      calendar = this.Tabs.Calendar;
     }
     await calendar.click({button: 'right'});
   };

@@ -44,7 +44,7 @@ test.describe('Tags tests', async () => {
     test(`TC1011. Change tag color in side calendar menu. Tag color should change to ${color.ColorSet}`, async ({apiManager, pageManager}) => {
       await CreateTagViaApiAndOpenCalendarTab({apiManager, pageManager});
       await pageManager.editTagModal.ChooseColor({pageManager}, color.ColorSet, tagName);
-      await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`${color.TagColorCheck}[icon="Tag"]`)).toBeVisible();
+      await expect(pageManager.sideSecondaryCalendarMenu.Containers.MainContainer.locator(`${color.ColorCheck}[icon="Tag"]`)).toBeVisible();
     });
   };
 

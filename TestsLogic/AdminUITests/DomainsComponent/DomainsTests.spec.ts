@@ -19,7 +19,7 @@ test.describe('Admin. Domains tests.', async () => {
     await expect(adminPageManager.domainsSideMenu.List.Manage.Header, 'Manage list header should be visible').toBeVisible();
   });
 
-  test('ATC311. Click on Show Domains Button. Domains list dropdown should be visible', async ({adminPageManager}) => {
+  test('ATC312. Click on Show Domains Button. Domains list dropdown should be visible', async ({adminPageManager}) => {
     await adminPageManager.domainsSideMenu.Buttons.ShowDomains.click();
     await expect(adminPageManager.domainsSideMenu.Elements.DomainInDropdown, 'Domains list dropdown should be visible').toBeVisible();
   });
