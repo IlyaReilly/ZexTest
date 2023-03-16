@@ -27,6 +27,10 @@ test.describe('Edit Calendars Properties', async () => {
   };
 
   for (const color of Colors) {
+    if (color.CalendarColorSet) {
+      color.ColorSet = color.CalendarColorSet;
+      color.ColorCheck = color.CalendarColorCheck;
+    };
     test(`TC315. Edit calendar color. Calendar icon color ${color.ColorSet} should be visible`, async ({pageManager, apiManager}) => {
       await CreateCalendarAndOpenEditProperties({pageManager, apiManager});
       if (color === Colors[2]) {
