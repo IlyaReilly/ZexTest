@@ -22,7 +22,9 @@ pipeline {
          parallel {
             stage('webkit') {
                steps {
-                  sh  """ npx playwright test --project="webkit" ./TestsLogic/UITests $SUITE """
+                  catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                     sh  """ npx playwright test --project="webkit" ./TestsLogic/UITests $SUITE """
+                  }
                }
                post {
                   failure {
@@ -34,7 +36,9 @@ pipeline {
             }
             stage('chromium') {
                steps {
-                  sh  """ npx playwright test --project="chromium" ./TestsLogic/UITests $SUITE """
+                  catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                     sh  """ npx playwright test --project="chromium" ./TestsLogic/UITests $SUITE """
+                  }
                }
                post {
                   failure {
@@ -46,7 +50,9 @@ pipeline {
             }
             stage('firefox') {
                steps {
-                  sh  """ npx playwright test --project="firefox" ./TestsLogic/UITests $SUITE """
+                  catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                     sh  """ npx playwright test --project="firefox" ./TestsLogic/UITests $SUITE """
+                  }
                }
                post {
                   failure {
@@ -88,7 +94,9 @@ pipeline {
                   }
                  stage('firefox') {
                      steps {
-                        sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                           sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
+                        }
                      }
                      post {
                         failure {
@@ -104,9 +112,7 @@ pipeline {
       }
       stage('Test reports') {
          steps {
-            always {
-               allure([includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]])
-            }
+            allure([includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]])
          }
       }
    }
