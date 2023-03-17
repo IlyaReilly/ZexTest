@@ -27,20 +27,22 @@ test.describe('Edit Calendars Properties', async () => {
   };
 
   for (const color of Colors) {
+    let colorSet = color.ColorSet;
+    let colorCheck = color.ColorCheck;
     if (color.CalendarColorSet) {
-      color.ColorSet = color.CalendarColorSet;
-      color.ColorCheck = color.CalendarColorCheck;
+      colorSet = color.CalendarColorSet;
+      colorCheck = color.CalendarColorCheck;
     };
-    test(`TC315. Edit calendar color. Calendar icon color ${color.ColorSet} should be visible`, async ({pageManager, apiManager}) => {
+    test(`TC315. Edit calendar color. Calendar icon color ${colorSet} should be visible`, async ({pageManager, apiManager}) => {
       await CreateCalendarAndOpenEditProperties({pageManager, apiManager});
       if (color === Colors[2]) {
         await pageManager.editCalendarPropertyModal.SelectCalendarColor(Colors[0].ColorSet);
         await pageManager.editCalendarPropertyModal.Buttons.Ok.click();
         await pageManager.sideSecondaryCalendarMenu.OpenCalendarContextMenuOption.EditCalendarProperties(calendarName);
       };
-      await pageManager.editCalendarPropertyModal.SelectCalendarColor(color.ColorSet);
+      await pageManager.editCalendarPropertyModal.SelectCalendarColor(colorSet);
       await pageManager.editCalendarPropertyModal.Buttons.Ok.click();
-      await expect((pageManager.sideSecondaryCalendarMenu.Tabs.CalendarByName(calendarName)).locator(`${color.ColorCheck}`), 'Calendar icon color should be visible').toBeVisible();
+      await expect((pageManager.sideSecondaryCalendarMenu.Tabs.CalendarByName(calendarName)).locator(`${colorCheck}`), 'Calendar icon color should be visible').toBeVisible();
     });
   };
 

@@ -56,6 +56,7 @@ export class SideSecondaryCalendarMenu extends BaseApplicationPage {
 
   async OpenContextMenuForCalendar(name = '') {
     let calendar;
+    await this.Tabs.AllCalendars.waitFor();
     if (name) {
       calendar = this.Tabs.CalendarByName(name);
     } else {
