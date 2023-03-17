@@ -104,7 +104,9 @@ pipeline {
       }
       stage('Test reports') {
          steps {
-            allure([includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]])
+            always {
+               allure([includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]])
+            }
          }
       }
    }
