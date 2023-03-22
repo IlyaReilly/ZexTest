@@ -76,7 +76,7 @@ pipeline {
    }
    post {
       failure {
-         emailext body: """<p>Check report at <a href='${env.BUILD_URL}'>${env.JOB_NAME} #${env.BUILD_NUMBER}</a></p>""", recipientProviders: [requestor()], subject: "Allure Report", to: "autotests.reports@zextras.com"
+         emailext body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Allure Report", to: "autotests.reports@zextras.com"
       }
    }
 }
