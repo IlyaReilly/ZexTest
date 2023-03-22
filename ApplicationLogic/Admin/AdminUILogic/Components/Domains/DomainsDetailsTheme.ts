@@ -10,6 +10,20 @@ export class DomainsDetailsTheme extends BaseAdminPage {
     DropdownContainer: this.page.locator(this.InheritedFields.DropdownContainerLocator),
   };
 
+  Tabs = {
+    EndUser: this.Containers.MainContainer.locator('_react=[key="end_user"]'),
+    AdminPanel: this.Containers.MainContainer.locator('_react=[key="admin_panel"]'),
+  };
+
+  Textboxes = {
+    Title: this.Containers.MainContainer.locator('[name="carbonioWebUiTitle"]'),
+    CopyrightsInformation: this.Containers.MainContainer.locator('[name="carbonioWebUiDescription"]'),
+    LightLoginLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiLoginLogo"]'),
+    LightWebAppLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiAppLogo"]'),
+    DarkLoginLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiDarkLoginLogo"]'),
+    DarkWebAppLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiDarkAppLogo"]'),
+  };
+
   Buttons = {
     Save: this.Containers.MainContainer.locator('"Save"'),
   };
