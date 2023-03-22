@@ -22,43 +22,22 @@ pipeline {
          parallel {
             stage('webkit') {
                steps {
-                  catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                  catchError(stageResult: 'FAILURE') {
                      sh  """ npx playwright test --project="webkit" ./TestsLogic/UITests $SUITE """
-                  }
-               }
-               post {
-                  failure {
-                     sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
-                     archiveArtifacts 'index-webkit.tar.gz'
-                     emailext attachmentsPattern: 'index-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Webkit tests", to: "autotests.reports@zextras.com"                     
                   }
                }
             }
             stage('chromium') {
                steps {
-                  catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                  catchError(stageResult: 'FAILURE') {
                      sh  """ npx playwright test --project="chromium" ./TestsLogic/UITests $SUITE """
-                  }
-               }
-               post {
-                  failure {
-                     sh 'tar -czvf index-chromium.tar.gz playwright-report/index.html'
-                     archiveArtifacts 'index-chromium.tar.gz'
-                     emailext attachmentsPattern: 'index-chromium.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Chromium tests", to: "autotests.reports@zextras.com"
                   }
                }
             }
             stage('firefox') {
                steps {
-                  catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                  catchError(stageResult: 'FAILURE') {
                      sh  """ npx playwright test --project="firefox" ./TestsLogic/UITests $SUITE """
-                  }
-               }
-               post {
-                  failure {
-                     sh 'tar -czvf index-firefox.tar.gz playwright-report/index.html'
-                     archiveArtifacts 'index-firefox.tar.gz'
-                     emailext attachmentsPattern: 'index-firefox.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Firefox tests", to: "autotests.reports@zextras.com"                     
                   }
                }
             }
@@ -66,43 +45,22 @@ pipeline {
                stages {
                  stage('webkit') {
                      steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        catchError(stageResult: 'FAILURE') {
                            sh  """ npx playwright test --workers=1 --project="webkit" ./TestsLogic/AdminUITests $SUITE """
-                        }
-                     }
-                     post {
-                        failure {
-                           sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
-                           archiveArtifacts 'index-webkit.tar.gz'
-                           emailext attachmentsPattern: 'index-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Webkit admin tests", to: "autotests.reports@zextras.com"                     
                         }
                      }
                   }
                  stage('chromium') {
                      steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        catchError(stageResult: 'FAILURE') {
                            sh  """ npx playwright test --workers=1 --project="chromium" ./TestsLogic/AdminUITests $SUITE """
-                        }
-                     }
-                     post {
-                        failure {
-                           sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
-                           archiveArtifacts 'index-webkit.tar.gz'
-                           emailext attachmentsPattern: 'index-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Chromium admin tests", to: "autotests.reports@zextras.com"                     
                         }
                      }
                   }
                  stage('firefox') {
                      steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                        catchError(stageResult: 'FAILURE') {
                            sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
-                        }
-                     }
-                     post {
-                        failure {
-                           sh 'tar -czvf index-webkit.tar.gz playwright-report/index.html'
-                           archiveArtifacts 'index-webkit.tar.gz'
-                           emailext attachmentsPattern: 'index-webkit.tar.gz', body: '$DEFAULT_CONTENT', recipientProviders: [requestor()], subject: "Firefox admin tests", to: "autotests.reports@zextras.com"                     
                         }
                      }
                   }
@@ -114,6 +72,11 @@ pipeline {
          steps {
             allure([includeProperties: false, jdk: '', reportBuildPolicy: 'ALWAYS', results: [[path: 'allure-results']]])
          }
+      }
+   }
+   post {
+      failure {
+         emailext body: """<p>Check report at <a href='${env.BUILD_URL}'>${env.JOB_NAME} #${env.BUILD_NUMBER}</a></p>""", recipientProviders: [requestor()], subject: "Allure Report", to: "autotests.reports@zextras.com"
       }
    }
 }
