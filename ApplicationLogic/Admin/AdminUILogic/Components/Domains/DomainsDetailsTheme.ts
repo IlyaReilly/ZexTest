@@ -22,6 +22,8 @@ export class DomainsDetailsTheme extends BaseAdminPage {
     LightWebAppLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiAppLogo"]'),
     DarkLoginLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiDarkLoginLogo"]'),
     DarkWebAppLogo: this.Containers.MainContainer.locator('[name="carbonioWebUiDarkAppLogo"]'),
+    LightLoginBackground: this.Containers.MainContainer.locator('[name="carbonioWebUiLoginBackground"]'),
+    DarkLoginBackground: this.Containers.MainContainer.locator('[name="carbonioWebUiDarkLoginBackground"]'),
   };
 
   Buttons = {

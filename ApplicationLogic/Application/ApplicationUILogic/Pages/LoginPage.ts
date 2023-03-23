@@ -9,18 +9,19 @@ export class LoginPage extends BasePage {
   };
 
   Containers = {
-    MainContainer: this.page.locator(pageLocator),
+    MainContainer: this.page.locator('[class*="LoginContainer"]'),
+    FormContainer: this.page.locator(pageLocator),
   };
 
   readonly searchTextBox;
 
   TextBox = {
-    Login: this.Containers.MainContainer.locator('#input-0'),
-    Password: this.Containers.MainContainer.locator('#password-0'),
+    Login: this.Containers.FormContainer.locator('#input-0'),
+    Password: this.Containers.FormContainer.locator('#password-0'),
   };
 
   Buttons = {
-    Login: this.Containers.MainContainer.locator('[role="button"]:has-text("Login")'),
+    Login: this.Containers.FormContainer.locator('[role="button"]:has-text("Login")'),
   };
 
   async Login(login, password) {
@@ -39,5 +40,9 @@ export class LoginPage extends BasePage {
   async Relogin(login, password) {
     await this.Logout();
     await this.Login(login, password);
+  };
+
+  async GetBackgroundImagePath() {
+    return await this.Containers.MainContainer.evaluate((el) => window.getComputedStyle(el).backgroundImage.slice(4, -1).replace(/"/g, ""));
   };
 };
