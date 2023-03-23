@@ -44,12 +44,16 @@ test.describe('Admin. Domains Details tests.', async () => {
 
   test('ATC314. Details: Add copyright information text for end-user. New text should be visible at the bottom of login form', async ({adminPageManager, browser}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.CopyrightsInformation);
-    await OpenEndUserLoginPageAndExpect({browser}, `"${text}"`);
+    const pageManager = await OpenEndUserLoginPage({browser});
+    await expect(pageManager.loginPage.Containers.FormContainer.locator(`"${text}"`), 'New logo should be visible').toBeVisible();
+    await pageManager.page.close();
   });
 
   test('ATC315. Details: Add light mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.LightLoginLogo, FilePath.AdminLogo);
-    await OpenEndUserLoginPageAndExpect({browser}, `[src="${FilePath.AdminLogo}"]`);
+    const pageManager = await OpenEndUserLoginPage({browser});
+    await expect(pageManager.loginPage.Containers.FormContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
+    await pageManager.page.close();
   });
 
   test('ATC316. Details: Add light mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager}) => {
@@ -61,7 +65,9 @@ test.describe('Admin. Domains Details tests.', async () => {
 
   test('ATC317. Details: Add dark mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.DarkLoginLogo, FilePath.AdminLogo);
-    await OpenEndUserLoginPageAndExpect({browser}, `[src="${FilePath.AdminLogo}"]`);
+    const pageManager = await OpenEndUserLoginPage({browser});
+    await expect(pageManager.loginPage.Containers.FormContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
+    await pageManager.page.close();
   });
 
   test('ATC318. Details: Add dark mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager}) => {
@@ -69,6 +75,20 @@ test.describe('Admin. Domains Details tests.', async () => {
     await page.reload();
     await expect(pageManager.headerMenu.Containers.MainContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await page.close();
+  });
+
+  test('ATC319. Details: Add light mode background for end-user Login Page. New background should be visible', async ({adminPageManager, browser}) => {
+    await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.LightLoginBackground, FilePath.AdminBackground);
+    const pageManager = await OpenEndUserLoginPage({browser});
+    expect(await pageManager.loginPage.GetBackgroundImagePath(), 'New background should be visible').toBe(FilePath.AdminBackground);
+    await pageManager.page.close();
+  });
+
+  test('ATC320. Details: Add dark mode background for end-user Login Page. New background should be visible', async ({adminPageManager, browser}) => {
+    await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.DarkLoginBackground, FilePath.AdminBackground);
+    const pageManager = await OpenEndUserLoginPage({browser});
+    expect(await pageManager.loginPage.GetBackgroundImagePath(), 'New background should be visible').toBe(FilePath.AdminBackground);
+    await pageManager.page.close();
   });
 
   async function SelectDomainAndOpenThemeTab({adminPageManager}) {
@@ -81,7 +101,9 @@ test.describe('Admin. Domains Details tests.', async () => {
     await adminPageManager.domainsSideMenu.List.Details.Theme.click();
     await adminPageManager.domainsDetailsTheme.Tabs.EndUser.click();
     await textbox.fill(value);
-    if (textbox === adminPageManager.domainsDetailsTheme.Textboxes.DarkWebAppLogo || textbox === adminPageManager.domainsDetailsTheme.Textboxes.DarkLoginLogo) {
+    if (textbox === adminPageManager.domainsDetailsTheme.Textboxes.DarkWebAppLogo ||
+        textbox === adminPageManager.domainsDetailsTheme.Textboxes.DarkLoginLogo ||
+        textbox === adminPageManager.domainsDetailsTheme.Textboxes.DarkLoginBackground) {
       await adminPageManager.domainsDetailsTheme.SetDarkModeOption.Enabled();
     } else {
       await adminPageManager.domainsDetailsTheme.Buttons.Save.click();
@@ -89,11 +111,9 @@ test.describe('Admin. Domains Details tests.', async () => {
     };
   };
 
-  async function OpenEndUserLoginPageAndExpect({browser}, selector) {
+  async function OpenEndUserLoginPage({browser}) {
     const page = await browser.newPage();
     await page.goto('/');
-    const pageManager = new PageManager(page);
-    await expect(pageManager.loginPage.Containers.MainContainer.locator(selector), 'New setting should be visible').toBeVisible();
-    await page.close();
+    return new PageManager(page);
   };
 });
