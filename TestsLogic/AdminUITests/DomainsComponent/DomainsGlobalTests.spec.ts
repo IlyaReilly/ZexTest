@@ -23,7 +23,7 @@ test.describe('Admin. Domains Global tests.', async () => {
     await adminApiManager.resetAPI.ResetDomainTheme();
   };
 
-  test('ATC304. Global: Add browser tab title for end-user. New title should be visible on web browser tab', async ({adminPageManager, page, pageManager}) => {
+  test('ATC304. Global: Add browser tab title for end-user. New title should be visible on web browser tab. @serial', async ({adminPageManager, page, pageManager}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.Title);
     await page.reload();
     await pageManager.headerMenu.Logos.MainLogo.waitFor();
@@ -31,49 +31,49 @@ test.describe('Admin. Domains Global tests.', async () => {
     await page.close();
   });
 
-  test('ATC305. Global: Add copyright information text for end-user. New text should be visible at the bottom of login form', async ({adminPageManager, browser}) => {
+  test('ATC305. Global: Add copyright information text for end-user. New text should be visible at the bottom of login form. @serial', async ({adminPageManager, browser}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.CopyrightsInformation);
     const pageManager = await OpenEndUserLoginPage({browser});
     await expect(pageManager.loginPage.Containers.FormContainer.locator(`"${text}"`), 'New logo should be visible').toBeVisible();
     await pageManager.page.close();
   });
 
-  test('ATC306. Global: Add light mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser}) => {
+  test('ATC306. Global: Add light mode logo for end-user Login Page. New logo should be visible. @serial', async ({adminPageManager, browser}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.LightLoginLogo, FilePath.AdminLogo);
     const pageManager = await OpenEndUserLoginPage({browser});
     await expect(pageManager.loginPage.Containers.FormContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await pageManager.page.close();
   });
 
-  test('ATC307. Global: Add light mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager}) => {
+  test('ATC307. Global: Add light mode logo for end-user WebApp. New logo should be visible. @serial', async ({adminPageManager, page, pageManager}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.LightWebAppLogo, FilePath.AdminLogo);
     await page.reload();
     await expect(pageManager.headerMenu.Containers.MainContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await page.close();
   });
 
-  test('ATC308. Global: Add dark mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser}) => {
+  test('ATC308. Global: Add dark mode logo for end-user Login Page. New logo should be visible. @serial', async ({adminPageManager, browser}) => {
     await SetGlobalThemeAndEnableDomainDarkMode({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.DarkLoginLogo, FilePath.AdminLogo);
     const pageManager = await OpenEndUserLoginPage({browser});
     await expect(pageManager.loginPage.Containers.FormContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await pageManager.page.close();
   });
 
-  test('ATC309. Global: Add dark mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager}) => {
+  test('ATC309. Global: Add dark mode logo for end-user WebApp. New logo should be visible. @serial', async ({adminPageManager, page, pageManager}) => {
     await SetGlobalThemeAndEnableDomainDarkMode({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.DarkWebAppLogo, FilePath.AdminLogo);
     await page.reload();
     await expect(pageManager.headerMenu.Containers.MainContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await page.close();
   });
 
-  test('ATC310. Global: Add light mode background for end-user Login Page. New background should be visible', async ({adminPageManager, browser}) => {
+  test('ATC310. Global: Add light mode background for end-user Login Page. New background should be visible. @serial', async ({adminPageManager, browser}) => {
     await SetGlobalTheme({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.LightLoginBackground, FilePath.AdminBackground);
     const pageManager = await OpenEndUserLoginPage({browser});
     expect(await pageManager.loginPage.GetBackgroundImagePath(), 'New background should be visible').toBe(FilePath.AdminBackground);
     await pageManager.page.close();
   });
 
-  test('ATC311. Global: Add dark mode background for end-user Login Page. New background should be visible', async ({adminPageManager, browser}) => {
+  test('ATC311. Global: Add dark mode background for end-user Login Page. New background should be visible. @serial', async ({adminPageManager, browser}) => {
     await SetGlobalThemeAndEnableDomainDarkMode({adminPageManager}, adminPageManager.domainsGlobalTheme.Textboxes.DarkLoginBackground, FilePath.AdminBackground);
     const pageManager = await OpenEndUserLoginPage({browser});
     expect(await pageManager.loginPage.GetBackgroundImagePath(), 'New background should be visible').toBe(FilePath.AdminBackground);

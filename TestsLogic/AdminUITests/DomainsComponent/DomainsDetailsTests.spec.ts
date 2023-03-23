@@ -18,7 +18,7 @@ test.describe('Admin. Domains Details tests.', async () => {
     await adminPage.close();
   });
 
-  test('ATC302. Details: Enable a domain dark mode. Dark mode should be visible', async ({adminPageManager, page}) => {
+  test('ATC302. Details: Enable a domain dark mode. Dark mode should be visible. @serial', async ({adminPageManager, page}) => {
     await SelectDomainAndOpenThemeTab({adminPageManager});
     await adminPageManager.domainsDetailsTheme.SetDarkModeOption.Enabled();
     await page.reload();
@@ -26,7 +26,7 @@ test.describe('Admin. Domains Details tests.', async () => {
     await page.close();
   });
 
-  test('ATC303. Details: Disable a domain dark mode. Dark mode should not be visible', async ({adminPageManager, page}) => {
+  test('ATC303. Details: Disable a domain dark mode. Dark mode should not be visible. @serial', async ({adminPageManager, page}) => {
     await SelectDomainAndOpenThemeTab({adminPageManager});
     await adminPageManager.domainsDetailsTheme.SetDarkModeOption.Disabled();
     await page.reload();
@@ -34,7 +34,7 @@ test.describe('Admin. Domains Details tests.', async () => {
     await page.close();
   });
 
-  test('ATC313. Details: Add browser tab title for end-user. New title should be visible on web browser tab', async ({adminPageManager, page, pageManager}) => {
+  test('ATC313. Details: Add browser tab title for end-user. New title should be visible on web browser tab. @serial', async ({adminPageManager, page, pageManager}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.Title);
     await page.reload();
     await pageManager.headerMenu.Logos.MainLogo.waitFor();
@@ -42,49 +42,49 @@ test.describe('Admin. Domains Details tests.', async () => {
     await page.close();
   });
 
-  test('ATC314. Details: Add copyright information text for end-user. New text should be visible at the bottom of login form', async ({adminPageManager, browser}) => {
+  test('ATC314. Details: Add copyright information text for end-user. New text should be visible at the bottom of login form. @serial', async ({adminPageManager, browser}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.CopyrightsInformation);
     const pageManager = await OpenEndUserLoginPage({browser});
     await expect(pageManager.loginPage.Containers.FormContainer.locator(`"${text}"`), 'New logo should be visible').toBeVisible();
     await pageManager.page.close();
   });
 
-  test('ATC315. Details: Add light mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser}) => {
+  test('ATC315. Details: Add light mode logo for end-user Login Page. New logo should be visible. @serial', async ({adminPageManager, browser}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.LightLoginLogo, FilePath.AdminLogo);
     const pageManager = await OpenEndUserLoginPage({browser});
     await expect(pageManager.loginPage.Containers.FormContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await pageManager.page.close();
   });
 
-  test('ATC316. Details: Add light mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager}) => {
+  test('ATC316. Details: Add light mode logo for end-user WebApp. New logo should be visible. @serial', async ({adminPageManager, page, pageManager}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.LightWebAppLogo, FilePath.AdminLogo);
     await page.reload();
     await expect(pageManager.headerMenu.Containers.MainContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await page.close();
   });
 
-  test('ATC317. Details: Add dark mode logo for end-user Login Page. New logo should be visible', async ({adminPageManager, browser}) => {
+  test('ATC317. Details: Add dark mode logo for end-user Login Page. New logo should be visible. @serial', async ({adminPageManager, browser}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.DarkLoginLogo, FilePath.AdminLogo);
     const pageManager = await OpenEndUserLoginPage({browser});
     await expect(pageManager.loginPage.Containers.FormContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await pageManager.page.close();
   });
 
-  test('ATC318. Details: Add dark mode logo for end-user WebApp. New logo should be visible', async ({adminPageManager, page, pageManager}) => {
+  test('ATC318. Details: Add dark mode logo for end-user WebApp. New logo should be visible. @serial', async ({adminPageManager, page, pageManager}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.DarkWebAppLogo, FilePath.AdminLogo);
     await page.reload();
     await expect(pageManager.headerMenu.Containers.MainContainer.locator(`[src="${FilePath.AdminLogo}"]`), 'New logo should be visible').toBeVisible();
     await page.close();
   });
 
-  test('ATC319. Details: Add light mode background for end-user Login Page. New background should be visible', async ({adminPageManager, browser}) => {
+  test('ATC319. Details: Add light mode background for end-user Login Page. New background should be visible. @serial', async ({adminPageManager, browser}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.LightLoginBackground, FilePath.AdminBackground);
     const pageManager = await OpenEndUserLoginPage({browser});
     expect(await pageManager.loginPage.GetBackgroundImagePath(), 'New background should be visible').toBe(FilePath.AdminBackground);
     await pageManager.page.close();
   });
 
-  test('ATC320. Details: Add dark mode background for end-user Login Page. New background should be visible', async ({adminPageManager, browser}) => {
+  test('ATC320. Details: Add dark mode background for end-user Login Page. New background should be visible. @serial', async ({adminPageManager, browser}) => {
     await SetDomainTheme({adminPageManager}, adminPageManager.domainsDetailsTheme.Textboxes.DarkLoginBackground, FilePath.AdminBackground);
     const pageManager = await OpenEndUserLoginPage({browser});
     expect(await pageManager.loginPage.GetBackgroundImagePath(), 'New background should be visible').toBe(FilePath.AdminBackground);

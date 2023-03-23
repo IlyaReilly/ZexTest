@@ -23,44 +23,45 @@ pipeline {
             stage('webkit') {
                steps {
                   catchError(stageResult: 'FAILURE') {
-                     sh  """ npx playwright test --project="webkit" ./TestsLogic/UITests $SUITE """
+                     sh  """ npx playwright test --project="webkit" --grep-invert='@serial' $SUITE """
                   }
                }
             }
             stage('chromium') {
                steps {
                   catchError(stageResult: 'FAILURE') {
-                     sh  """ npx playwright test --project="chromium" ./TestsLogic/UITests $SUITE """
+                     sh  """ npx playwright test --project="chromium" --grep-invert='@serial' $SUITE """
                   }
                }
             }
             stage('firefox') {
                steps {
                   catchError(stageResult: 'FAILURE') {
-                     sh  """ npx playwright test --project="firefox" ./TestsLogic/UITests $SUITE """
+                     sh  """ npx playwright test --project="firefox" --grep-invert='@serial' $SUITE """
+                     
                   }
                }
             }
-            stage('admin-tests') {
+            stage('serial') {
                stages {
                  stage('webkit') {
                      steps {
                         catchError(stageResult: 'FAILURE') {
-                           sh  """ npx playwright test --workers=1 --project="webkit" ./TestsLogic/AdminUITests $SUITE """
+                           sh  """ npx playwright test --workers=1 --project="webkit" --grep='@serial' $SUITE """
                         }
                      }
                   }
                  stage('chromium') {
                      steps {
                         catchError(stageResult: 'FAILURE') {
-                           sh  """ npx playwright test --workers=1 --project="chromium" ./TestsLogic/AdminUITests $SUITE """
+                           sh  """ npx playwright test --workers=1 --project="chromium" --grep='@serial' $SUITE """
                         }
                      }
                   }
                  stage('firefox') {
                      steps {
                         catchError(stageResult: 'FAILURE') {
-                           sh  """ npx playwright test --workers=1 --project="firefox" ./TestsLogic/AdminUITests $SUITE """
+                           sh  """ npx playwright test --workers=1 --project="firefox" --grep='@serial' $SUITE """
                         }
                      }
                   }
